@@ -1,0 +1,181 @@
+<template>
+  <div class="container-login-principal">
+    <div class="container-component-login">
+      <img src="../assets/LogoKurierConsult.png" alt="logo da kurier consult" />
+      <a-form :layout="formLayout">
+        <div class="login">
+          <a-form-item
+            :label-col="formItemLayout.labelCol"
+            :wrapper-col="formItemLayout.wrapperCol"
+          ></a-form-item>
+          <div class="login-label">
+            <label>Usuário:</label>
+          </div>
+          <a-form-item
+            :label-col="formItemLayout.labelCol"
+            :wrapper-col="formItemLayout.wrapperCol"
+          >
+            <a-input placeholder />
+          </a-form-item>
+          <div class="login-grupo-label">
+            <div class="login-label">
+              <label>Senha:</label>
+            </div>
+            <div>
+              <a class="login-esqueci-senha">Esqueci minha senha</a>
+              <img
+                @click="mostrarSenha=!mostrarSenha"
+                class="login-olho-senha"
+                src="../assets/olhosenha.png"
+                alt="visualizar senha"
+              />
+            </div>
+          </div>
+          <a-form-item
+            :label-col="formItemLayout.labelCol"
+            :wrapper-col="formItemLayout.wrapperCol"
+          >
+            <a-input :type="mostrarSenha ? 'text': 'password'" placeholder />
+          </a-form-item>
+
+          <a-form-item :wrapper-col="buttonItemLayout.wrapperCol">
+            <div class="btn-login">
+              <a-button type="primary">Entrar</a-button>
+            </div>
+          </a-form-item>
+        </div>
+      </a-form>
+    </div>
+    <div class="login-footer">
+      <p>A Kurier</p>
+      <p>Ajuda</p>
+    </div>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      formLayout: "vertical",
+      mostrarSenha: false
+    };
+  },
+  computed: {
+    formItemLayout() {
+      const { formLayout } = this;
+      return formLayout === "horizontal"
+        ? {
+            labelCol: { span: 4 },
+            wrapperCol: { span: 14 }
+          }
+        : {};
+    },
+    buttonItemLayout() {
+      const { formLayout } = this;
+      return formLayout === "horizontal"
+        ? {
+            wrapperCol: { span: 14, offset: 4 }
+          }
+        : {};
+    }
+  },
+  methods: {
+    handleFormLayoutChange(e) {
+      this.formLayout = e.target.value;
+    }
+  }
+};
+</script>
+<style scoped>
+body {
+  background-color: #f5f5f5;
+}
+.container-login-principal {
+  background-color: #f5f5f5;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+}
+img {
+  text-align: center;
+  margin-top: 35px;
+  max-width: 50%;
+}
+.container-component-login {
+  margin: 174px auto auto auto;
+  background-color: #ffffff;
+  max-width: 373px;
+}
+.container-component-login > img {
+  margin-left: 94px;
+}
+.login {
+  padding: 20px;
+}
+.ant-form-item {
+  margin-bottom: 0px;
+}
+/* .container-component-login .ant-input:focus {
+  border-color: red;
+}
+.container-component-login .ant-input:hover {
+  border-color: yellow;
+} */
+.ant-input {
+  height: 32px;
+  max-width: 340px;
+}
+.login-olho-senha {
+  cursor: pointer;
+  position: absolute;
+  width: 30px;
+  margin-left: -31px;
+  z-index: 1;
+}
+.login-grupo-label {
+  max-width: 340px;
+  display: flex;
+  justify-content: space-between;
+}
+.btn-login {
+  max-width: 340px;
+  margin-top: 5px;
+  display: flex;
+  justify-content: flex-end;
+}
+.ant-btn {
+  width: 74px;
+  height: 34px;
+}
+.btn-login > .ant-btn:active {
+  background-color: #001a3f81;
+}
+.btn-login > .ant-btn {
+  background-color: #001a3f;
+  color: #edf0f2;
+}
+
+.login-label {
+  margin-bottom: 5px;
+  color: #525252;
+  margin-left: 0px;
+  display: flex;
+  justify-content: flex-start;
+}
+.login-esqueci-senha {
+  font-size: 0.8em;
+}
+.login-footer {
+  margin: 0 auto auto auto;
+  max-width: 400px;
+  padding-left: 20px;
+  font-size: 0.8em;
+  display: flex;
+  justify-content: flex-start;
+}
+.login-footer p {
+  margin: 10px;
+  color: #525252;
+}
+</style>
