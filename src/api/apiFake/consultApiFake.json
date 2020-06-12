@@ -1,0 +1,11 @@
+{
+  "auth": {
+    "access_token": "JBtMKJ5hHebIltz4lBjptpt-KXR_IlqqiG0A0IDUUaIoU8MGmli60vnWZvZwkU_68OyOKe3jcFSjVxG6N5itXYhBSZMOSG0EG9Y9-qzebBS9PBaLtnALB_lsMxvUGlSRlxPfn721W2c6wy4QBWGR3AwIZqAwj7Xn7SGMsqwlL-f3EktFQEKEj9wJlYaXCXjuuRzRXA5jFyPvuS4nqs6tNUOa5FXVPGISvdWKh4LKbEM18HFvhG5R3-RufaxO74wa",
+    "token_type": "bearer",
+    "expires_in": 28799,
+    "usuario": "ipiranga",
+    "perfil": "CLIENTE",
+    ".issued": "Fri, 12 Jun 2020 12:59:14 GMT",
+    ".expires": "Fri, 12 Jun 2020 20:59:14 GMT"
+  }
+}

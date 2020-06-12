@@ -1,6 +1,6 @@
-import store from "../store/index";
+import store from "../../store/index";
 import { DO_LOGOUT } from "@/store/actions";
-import router from "../router/index";
+import router from "../../router/index";
 // import Vue from 'vue'
 
 export default function(error) {

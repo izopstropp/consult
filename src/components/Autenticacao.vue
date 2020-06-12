@@ -8,6 +8,7 @@
             :label-col="formItemLayout.labelCol"
             :wrapper-col="formItemLayout.wrapperCol"
           ></a-form-item>
+
           <div class="login-label">
             <label>Usuário:</label>
           </div>
@@ -24,7 +25,7 @@
             <div>
               <a class="login-esqueci-senha">Esqueci minha senha</a>
               <img
-                @click="mostrarSenha=!mostrarSenha"
+                @click="mostrarSenha = !mostrarSenha"
                 class="login-olho-senha"
                 src="../assets/olhosenha.png"
                 alt="visualizar senha"
@@ -35,12 +36,12 @@
             :label-col="formItemLayout.labelCol"
             :wrapper-col="formItemLayout.wrapperCol"
           >
-            <a-input :type="mostrarSenha ? 'text': 'password'" placeholder />
+            <a-input :type="mostrarSenha ? 'text' : 'password'" placeholder />
           </a-form-item>
 
           <a-form-item :wrapper-col="buttonItemLayout.wrapperCol">
             <div class="btn-login">
-              <a-button type="primary">Entrar</a-button>
+              <a-button @click="autenticar">Entrar</a-button>
             </div>
           </a-form-item>
         </div>
@@ -54,11 +55,12 @@
 </template>
 
 <script>
+import autenticacaoApi from "../api/consultAutenticacaoApi";
 export default {
   data() {
     return {
       formLayout: "vertical",
-      mostrarSenha: false
+      mostrarSenha: false,
     };
   },
   computed: {
@@ -67,7 +69,7 @@ export default {
       return formLayout === "horizontal"
         ? {
             labelCol: { span: 4 },
-            wrapperCol: { span: 14 }
+            wrapperCol: { span: 14 },
           }
         : {};
     },
@@ -75,16 +77,18 @@ export default {
       const { formLayout } = this;
       return formLayout === "horizontal"
         ? {
-            wrapperCol: { span: 14, offset: 4 }
+            wrapperCol: { span: 14, offset: 4 },
           }
         : {};
-    }
+    },
   },
   methods: {
-    handleFormLayoutChange(e) {
-      this.formLayout = e.target.value;
-    }
-  }
+    autenticar() {
+      autenticacaoApi.autenticar("felipe", "test").then((response) => {
+        console.log(response);
+      });
+    },
+  },
 };
 </script>
 <style scoped>
