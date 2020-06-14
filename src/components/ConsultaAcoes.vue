@@ -1,26 +1,26 @@
 <template>
-  <div class="container-pesquisa">
+  <div class="container-Consulta">
     <div class="container-titulo">
-      <p>PESQUISAR AÇÕES</p>
+      <p>CONSULTAR AÇÕES</p>
     </div>
-    <div class="pesquisa-formulario-line">
-      <div class="pesquisa-form-input">
+    <div class="Consulta-formulario-line">
+      <div class="Consulta-form-input">
         <p>Nome</p>
         <a-input />
       </div>
-      <div class="pesquisa-form-input">
+      <div class="Consulta-form-input">
         <p>CPF/CNPJ</p>
         <a-input />
       </div>
     </div>
-    <div class="pesquisa-formulario-line">
-      <div class="pesquisa-form-input">
-        <a-checkbox class="pesquisa-form-checkbox"
+    <div class="Consulta-formulario-line">
+      <div class="Consulta-form-input">
+        <a-checkbox class="Consulta-form-checkbox"
           >O nome possui sigla?</a-checkbox
         >
         <a-input />
       </div>
-      <div class="pesquisa-form-input">
+      <div class="Consulta-form-input">
         <p style="margin-bottom:8px">UF</p>
         <a-select mode="tags" style="width: 320px">
           <a-select-option value=" Todas">Todas</a-select-option>
@@ -54,42 +54,42 @@
         </a-select>
       </div>
     </div>
-    <!-- <div class="pesquisa-formulario-line">
-      <div class="pesquisa-form-input">
+    <!-- <div class="Consulta-formulario-line">
+      
+    </div> -->
+    <div class="Consulta-formulario-line">
+      <!-- <div class="Consulta-form-input"></div> -->
+      <div class="Consulta-form-select">
         <a-radio-group name="radioGroup" :default-value="1">
           <a-radio :value="1">PF</a-radio>
           <a-radio :value="2">PJ</a-radio>
         </a-radio-group>
-      </div>
-    </div>-->
-    <div class="pesquisa-formulario-line">
-      <div class="pesquisa-form-select">
-        <a-select style="width: 150px" default-value="Justiça">
+        <a-select style="width: 100px" default-value="Justiça">
           <a-select-option value="ESTADUAL">Estadual</a-select-option>
           <a-select-option value="FEDERAL">Federal</a-select-option>
           <a-select-option value="TRABALHISTA">Trabalhista</a-select-option>
         </a-select>
-        <a-select default-value="Partes" style="width: 150px">
+        <a-select default-value="Partes" style="width: 100px">
           <a-select-option value="REU">Estadual</a-select-option>
           <a-select-option value="AUTOR">Federal</a-select-option>
         </a-select>
-        <div style="width:322px">
+        <div style="width:312px">
           <p>Data de distribuição</p>
-          <div class="pesquisa-form-calender">
+          <div class="Consulta-form-calender">
             <a-month-picker
               format="MM/YYYY"
-              class="pesquisa-form-calender-item"
+              class="Consulta-form-calender-item"
               placeholder="Mês / Ano"
             />
             <a-month-picker
               format="MM/YYYY"
-              class="pesquisa-form-calender-item"
+              class="Consulta-form-calender-item"
               placeholder="Mês / Ano"
             />
           </div>
         </div>
       </div>
-      <a-button class="pesquisa-form-btn">pesquisar</a-button>
+      <a-button class="Consulta-form-btn">Consultar</a-button>
     </div>
   </div>
 </template>
@@ -103,7 +103,7 @@ export default {
 };
 </script>
 <style scoped>
-.container-pesquisa {
+.container-Consulta {
   margin-top: 104px;
 }
 
@@ -116,7 +116,7 @@ export default {
   font-size: 1.5em;
   font-weight: bold;
 }
-.pesquisa-formulario-line {
+.Consulta-formulario-line {
   display: flex;
   align-items: center;
   align-content: center;
@@ -125,35 +125,36 @@ export default {
   max-width: 674px;
   justify-content: space-between;
 }
-.pesquisa-formulario-line .pesquisa-form-input {
+.Consulta-formulario-line .Consulta-form-input {
   width: 323px;
   padding: 0;
   margin: 0;
 }
-.pesquisa-formulario-line .pesquisa-form-input p {
+.Consulta-formulario-line .Consulta-form-input p {
   margin-bottom: 5px;
 }
-.pesquisa-form-checkbox {
+.Consulta-form-checkbox {
   margin-bottom: 8px;
 }
-.pesquisa-form-select {
+.Consulta-form-select {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
   width: 674px;
 }
-.pesquisa-form-calender {
+.Consulta-form-calender {
   display: flex;
   max-width: 490px;
   justify-content: space-between;
 }
-.pesquisa-form-calender-item {
+.Consulta-form-calender-item {
   /* margin-right: 50px; */
   max-width: 150px;
 }
-.pesquisa-form-btn {
+.Consulta-form-btn {
   margin: 67px auto auto auto;
+  font-size: 0.9em;
 }
 .ant-btn {
   background-color: #001a3f;

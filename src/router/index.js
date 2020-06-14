@@ -3,7 +3,7 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import DashBoard from "../views/DashBoard.vue";
-import PesquisaAcoes from "../components/PesquisaAcoes";
+import ConsultaAcoes from "../components/ConsultaAcoes";
 
 Vue.use(VueRouter);
 
@@ -19,9 +19,9 @@ const routes = [
         component: DashBoard,
       },
       {
-        path: "/pesquisa-acoes",
-        name: "pesquisa-acoes",
-        component: PesquisaAcoes,
+        path: "/Consulta-acoes",
+        name: "consulta-acoes",
+        component: ConsultaAcoes,
       },
     ],
   },
