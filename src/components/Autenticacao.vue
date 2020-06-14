@@ -19,7 +19,7 @@
             <a-input
               v-model="usuario"
               @click="usuarioValidado = true"
-              :class="[!usuarioValidado ? 'erroInput' : 'resetInput']"
+              :class="[!usuarioValidado ? 'erroInput' : 'resetErroInput']"
             />
             <p style="color:red" v-if="!usuarioValidado">
               Preencha o campo corretamente.
@@ -44,7 +44,7 @@
             :wrapper-col="formItemLayout.wrapperCol"
           >
             <a-input
-              :class="[!senhaValidado ? 'erroInput' : 'resetInput']"
+              :class="[!senhaValidado ? 'erroInput' : 'resetErroInput']"
               @click="senhaValidado = true"
               v-model="senha"
               :type="mostrarSenha ? 'text' : 'password'"
@@ -223,11 +223,5 @@ img {
 .login-footer p {
   margin: 10px;
   color: #525252;
-}
-.erroInput {
-  border-color: red !important;
-}
-resetInput {
-  border-color: none !important;
 }
 </style>

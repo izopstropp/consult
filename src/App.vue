@@ -57,4 +57,10 @@ list-style {
   margin-top: -10px;
   font-size: 0.9em;
 }
+.erroInput {
+  border-color: red !important;
+}
+resetErroInput {
+  border-color: none !important;
+}
 </style>

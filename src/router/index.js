@@ -19,7 +19,7 @@ const routes = [
         component: DashBoard,
       },
       {
-        path: "/Consulta-acoes",
+        path: "/consulta-acoes",
         name: "consulta-acoes",
         component: ConsultaAcoes,
       },

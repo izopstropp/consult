@@ -3,24 +3,31 @@
     <div class="container-titulo">
       <p>CONSULTAR AÇÕES</p>
     </div>
-    <div class="Consulta-formulario-line">
-      <div class="Consulta-form-input">
+    <div class="consulta-formulario-line">
+      <div class="consulta-form-input">
         <p>Nome</p>
-        <a-input />
+        <a-input
+          v-model="parametrosConsulta.nome"
+          @click="nomeValidado = true"
+          :class="[!nomeValidado ? 'erroInput' : 'erroResetInput']"
+        />
+        <p v-if="!nomeValidado" style="color:red">
+          Preencha o campo corretamente
+        </p>
       </div>
-      <div class="Consulta-form-input">
+      <div class="consulta-form-input">
         <p>CPF/CNPJ</p>
         <a-input />
       </div>
     </div>
-    <div class="Consulta-formulario-line">
-      <div class="Consulta-form-input">
+    <div class="consulta-formulario-line">
+      <div class="consulta-form-input">
         <a-checkbox class="Consulta-form-checkbox"
           >O nome possui sigla?</a-checkbox
         >
         <a-input />
       </div>
-      <div class="Consulta-form-input">
+      <div class="consulta-form-input">
         <p style="margin-bottom:8px">UF</p>
         <a-select mode="tags" style="width: 320px">
           <a-select-option value=" Todas">Todas</a-select-option>
@@ -54,12 +61,12 @@
         </a-select>
       </div>
     </div>
-    <!-- <div class="Consulta-formulario-line">
+    <!-- <div class="consulta-formulario-line">
       
     </div> -->
-    <div class="Consulta-formulario-line">
-      <!-- <div class="Consulta-form-input"></div> -->
-      <div class="Consulta-form-select">
+    <div class="consulta-formulario-line">
+      <!-- <div class="consulta-form-input"></div> -->
+      <div class="consulta-form-select">
         <a-radio-group name="radioGroup" :default-value="1">
           <a-radio :value="1">PF</a-radio>
           <a-radio :value="2">PJ</a-radio>
@@ -89,17 +96,43 @@
           </div>
         </div>
       </div>
-      <a-button class="Consulta-form-btn">Consultar</a-button>
+      <a-button @click="consulta" class="Consulta-form-btn">Consultar</a-button>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  name: "consulta-acoes",
   data() {
-    return {};
+    return {
+      parametrosConsulta: {
+        nome: "",
+        documento: "",
+        possuiSigla: "",
+        uf: "",
+        tipoPessoa: "",
+        justica: "",
+        partes: "",
+        dataDistribuicaoInicial: "",
+        dataDistribuicaoFinal: "",
+      },
+      nomeValidado: true,
+    };
   },
-  methods: {},
+  methods: {
+    consulta() {
+      this.validar();
+    },
+    validar() {
+      let validado = false;
+      if (!this.parametrosConsulta.nome) {
+        this.nomeValidado = false;
+        validado = false;
+      }
+      return validado;
+    },
+  },
 };
 </script>
 <style scoped>
@@ -116,27 +149,27 @@ export default {
   font-size: 1.5em;
   font-weight: bold;
 }
-.Consulta-formulario-line {
+.consulta-formulario-line {
   display: flex;
-  align-items: center;
+  align-items: unset;
   align-content: center;
   flex-wrap: wrap;
   margin: 0 auto 21px auto;
   max-width: 674px;
   justify-content: space-between;
 }
-.Consulta-formulario-line .Consulta-form-input {
+.consulta-formulario-line .consulta-form-input {
   width: 323px;
   padding: 0;
   margin: 0;
 }
-.Consulta-formulario-line .Consulta-form-input p {
-  margin-bottom: 5px;
+.consulta-formulario-line .consulta-form-input p {
+  margin-bottom: 2px;
 }
 .Consulta-form-checkbox {
   margin-bottom: 8px;
 }
-.Consulta-form-select {
+.consulta-form-select {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
