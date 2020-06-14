@@ -9,37 +9,11 @@ export default {
   },
   actions: {
     [DO_LOGIN]({ commit }, payload) {
-      return new Promise((resolve, reject) => {
-        var usuario = {
-          usuario: payload.username,
-          access_token: btoa(payload.username + ":" + payload.password),
-          perfil: "ADMINISTRADOR",
-        };
-        commit(SET_AUTH, usuario);
-
-        resolve(true);
-        // kurierAcoesTratamentoApi.doLogin(payload.username, payload.password)
-        //     .then(response => {
-        //         if (response.status === 200) {
-        //             console.log('perfil',response.data.perfil)
-        //             commit(SET_AUTH, response.data)
-        //             resolve(response)
-        //         } else {
-        //             console.log(response.data.status)
-        //             reject(response.data)
-        //         }
-        //     })
-        //     .catch(error => {
-        //         reject(error)
-        //     })
-      });
+      commit(SET_AUTH, payload);
     },
-    [DO_LOGOUT]({ commit }, payload) {
-      return new Promise((resolve, reject) => {
-        let obj = { usuario: null, access_token: null, perfil: null };
-        commit(SET_AUTH, obj);
-        resolve(obj);
-      });
+    [DO_LOGOUT]({ commit }) {
+      let obj = { usuario: null, access_token: null, perfil: null };
+      commit(SET_AUTH, obj);
     },
   },
   mutations: {

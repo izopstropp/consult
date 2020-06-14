@@ -26,18 +26,18 @@ list-style {
   padding: 0;
 }
 .ant-calendar-picker-container {
-  /* top: 430px !important; */
+  margin-top: 480px !important;
   position: absolute !important;
 }
 .ant-calendar-month .ant-calendar-month-header-wrap {
   position: relative !important;
-  height: 80px !important;
+  height: 150px !important;
 }
 .ant-calendar {
   max-width: 200px !important;
 }
 .ant-calendar-month-panel-cell {
-  width: 0px !important;
+  /* width: 0px !important; */
 }
 .ant-calendar-header {
   line-height: 0px !important;

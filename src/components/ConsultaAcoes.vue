@@ -1,4 +1,3 @@
-
 <template>
   <div class="container-consulta">
     <div class="container-titulo">
@@ -16,7 +15,9 @@
     </div>
     <div class="consulta-formulario-line">
       <div class="consulta-form-input">
-        <a-checkbox class="consulta-form-checkbox">O nome possui sigla?</a-checkbox>
+        <a-checkbox class="consulta-form-checkbox"
+          >O nome possui sigla?</a-checkbox
+        >
         <a-input />
       </div>
       <div class="consulta-form-input">
@@ -98,7 +99,7 @@ export default {
   data() {
     return {};
   },
-  methods: {}
+  methods: {},
 };
 </script>
 <style scoped>

@@ -16,7 +16,14 @@
             :label-col="formItemLayout.labelCol"
             :wrapper-col="formItemLayout.wrapperCol"
           >
-            <a-input placeholder />
+            <a-input
+              v-model="usuario"
+              @click="usuarioValidado = true"
+              :class="[!usuarioValidado ? 'erroInput' : 'resetInput']"
+            />
+            <p style="color:red" v-if="!usuarioValidado">
+              Preencha o campo corretamente.
+            </p>
           </a-form-item>
           <div class="login-grupo-label">
             <div class="login-label">
@@ -36,8 +43,17 @@
             :label-col="formItemLayout.labelCol"
             :wrapper-col="formItemLayout.wrapperCol"
           >
-            <a-input :type="mostrarSenha ? 'text' : 'password'" placeholder />
-          </a-form-item>
+            <a-input
+              :class="[!senhaValidado ? 'erroInput' : 'resetInput']"
+              @click="senhaValidado = true"
+              v-model="senha"
+              :type="mostrarSenha ? 'text' : 'password'"
+              placeholder/>
+            <p style="color:red" v-if="!senhaValidado">
+              Preencha o campo corretamente.
+            </p>
+            <p></p
+          ></a-form-item>
 
           <a-form-item :wrapper-col="buttonItemLayout.wrapperCol">
             <div class="btn-login">
@@ -56,11 +72,16 @@
 
 <script>
 import autenticacaoApi from "../api/consultAutenticacaoApi";
+import { DO_LOGIN } from "@/store/actions";
 export default {
   data() {
     return {
       formLayout: "vertical",
       mostrarSenha: false,
+      usuarioValidado: true,
+      senhaValidado: true,
+      usuario: "",
+      senha: "",
     };
   },
   computed: {
@@ -84,9 +105,18 @@ export default {
   },
   methods: {
     autenticar() {
+      this.validar();
       autenticacaoApi.autenticar("felipe", "test").then((response) => {
-        console.log(response);
+        this.$store.dispatch(DO_LOGIN, response.data);
       });
+    },
+    validar() {
+      if (!this.usuario) {
+        this.usuarioValidado = false;
+      }
+      if (!this.senha) {
+        this.senhaValidado = false;
+      }
     },
   },
 };
@@ -181,5 +211,11 @@ img {
 .login-footer p {
   margin: 10px;
   color: #525252;
+}
+.erroInput {
+  border-color: red !important;
+}
+resetInput {
+  border-color: none !important;
 }
 </style>
