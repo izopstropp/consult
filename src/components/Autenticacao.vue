@@ -106,8 +106,13 @@ export default {
   methods: {
     autenticar() {
       this.validar();
+      this.$notibar.add("Usuário inválido");
       autenticacaoApi.autenticar("felipe", "test").then((response) => {
-        this.$store.dispatch(DO_LOGIN, response.data);
+        if (response.Status == 200) {
+          this.$store.dispatch(DO_LOGIN, response.data);
+        } else {
+          this.$notibar.add("Usuário inválido");
+        }
       });
     },
     validar() {

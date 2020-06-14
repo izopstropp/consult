@@ -14,8 +14,8 @@ export default {
   name: "Home",
   components: {
     Header,
-    ConsultaAcoes
-  }
+    ConsultaAcoes,
+  },
 };
 </script>
 <style>

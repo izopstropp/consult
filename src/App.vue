@@ -53,4 +53,10 @@ list-style {
   height: 35px !important;
   border-color: #c1c1c1 !important;
 }
+/* .notibar {
+  height: 30px;
+}
+.notibar .text {
+  margin-top: -10px;
+} */
 </style>
