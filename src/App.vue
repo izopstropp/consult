@@ -36,9 +36,6 @@ list-style {
 .ant-calendar {
   max-width: 200px !important;
 }
-.ant-calendar-month-panel-cell {
-  /* width: 0px !important; */
-}
 .ant-calendar-header {
   line-height: 0px !important;
 }
@@ -53,10 +50,11 @@ list-style {
   height: 35px !important;
   border-color: #c1c1c1 !important;
 }
-/* .notibar {
+.notibar {
   height: 30px;
 }
 .notibar .text {
   margin-top: -10px;
-} */
+  font-size: 0.9em;
+}
 </style>

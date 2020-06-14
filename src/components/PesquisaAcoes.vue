@@ -1,26 +1,26 @@
 <template>
-  <div class="container-consulta">
+  <div class="container-pesquisa">
     <div class="container-titulo">
-      <p>CONSULTAR AÇÕES</p>
+      <p>PESQUISAR AÇÕES</p>
     </div>
-    <div class="consulta-formulario-line">
-      <div class="consulta-form-input">
+    <div class="pesquisa-formulario-line">
+      <div class="pesquisa-form-input">
         <p>Nome</p>
         <a-input />
       </div>
-      <div class="consulta-form-input">
+      <div class="pesquisa-form-input">
         <p>CPF/CNPJ</p>
         <a-input />
       </div>
     </div>
-    <div class="consulta-formulario-line">
-      <div class="consulta-form-input">
-        <a-checkbox class="consulta-form-checkbox"
+    <div class="pesquisa-formulario-line">
+      <div class="pesquisa-form-input">
+        <a-checkbox class="pesquisa-form-checkbox"
           >O nome possui sigla?</a-checkbox
         >
         <a-input />
       </div>
-      <div class="consulta-form-input">
+      <div class="pesquisa-form-input">
         <p style="margin-bottom:8px">UF</p>
         <a-select mode="tags" style="width: 320px">
           <a-select-option value=" Todas">Todas</a-select-option>
@@ -54,16 +54,16 @@
         </a-select>
       </div>
     </div>
-    <!-- <div class="consulta-formulario-line">
-      <div class="consulta-form-input">
+    <!-- <div class="pesquisa-formulario-line">
+      <div class="pesquisa-form-input">
         <a-radio-group name="radioGroup" :default-value="1">
           <a-radio :value="1">PF</a-radio>
           <a-radio :value="2">PJ</a-radio>
         </a-radio-group>
       </div>
     </div>-->
-    <div class="consulta-formulario-line">
-      <div class="consulta-form-select">
+    <div class="pesquisa-formulario-line">
+      <div class="pesquisa-form-select">
         <a-select style="width: 150px" default-value="Justiça">
           <a-select-option value="ESTADUAL">Estadual</a-select-option>
           <a-select-option value="FEDERAL">Federal</a-select-option>
@@ -75,21 +75,21 @@
         </a-select>
         <div style="width:322px">
           <p>Data de distribuição</p>
-          <div class="consulta-form-calender">
+          <div class="pesquisa-form-calender">
             <a-month-picker
               format="MM/YYYY"
-              class="consulta-form-calender-item"
+              class="pesquisa-form-calender-item"
               placeholder="Mês / Ano"
             />
             <a-month-picker
               format="MM/YYYY"
-              class="consulta-form-calender-item"
+              class="pesquisa-form-calender-item"
               placeholder="Mês / Ano"
             />
           </div>
         </div>
       </div>
-      <a-button class="consulta-form-btn">Consultar</a-button>
+      <a-button class="pesquisa-form-btn">pesquisar</a-button>
     </div>
   </div>
 </template>
@@ -103,7 +103,7 @@ export default {
 };
 </script>
 <style scoped>
-.container-consulta {
+.container-pesquisa {
   margin-top: 104px;
 }
 
@@ -116,7 +116,7 @@ export default {
   font-size: 1.5em;
   font-weight: bold;
 }
-.consulta-formulario-line {
+.pesquisa-formulario-line {
   display: flex;
   align-items: center;
   align-content: center;
@@ -125,34 +125,34 @@ export default {
   max-width: 674px;
   justify-content: space-between;
 }
-.consulta-formulario-line .consulta-form-input {
+.pesquisa-formulario-line .pesquisa-form-input {
   width: 323px;
   padding: 0;
   margin: 0;
 }
-.consulta-formulario-line .consulta-form-input p {
+.pesquisa-formulario-line .pesquisa-form-input p {
   margin-bottom: 5px;
 }
-.consulta-form-checkbox {
+.pesquisa-form-checkbox {
   margin-bottom: 8px;
 }
-.consulta-form-select {
+.pesquisa-form-select {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
   width: 674px;
 }
-.consulta-form-calender {
+.pesquisa-form-calender {
   display: flex;
   max-width: 490px;
   justify-content: space-between;
 }
-.consulta-form-calender-item {
+.pesquisa-form-calender-item {
   /* margin-right: 50px; */
   max-width: 150px;
 }
-.consulta-form-btn {
+.pesquisa-form-btn {
   margin: 67px auto auto auto;
 }
 .ant-btn {

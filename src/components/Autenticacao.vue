@@ -105,23 +105,30 @@ export default {
   },
   methods: {
     autenticar() {
-      this.validar();
-      this.$notibar.add("Usuário inválido");
-      autenticacaoApi.autenticar("felipe", "test").then((response) => {
-        if (response.Status == 200) {
-          this.$store.dispatch(DO_LOGIN, response.data);
-        } else {
-          this.$notibar.add("Usuário inválido");
-        }
-      });
+      if (this.validar()) {
+        autenticacaoApi.autenticar("felipe", "test").then((response) => {
+          if (response.status == 200) {
+            this.$store.dispatch(DO_LOGIN, response.data);
+            this.$router.push("/dashboard");
+          } else {
+            this.usuario = "";
+            this.senha = "";
+            this.$notibar.add("Usuário inválido");
+          }
+        });
+      }
     },
     validar() {
+      let validado = true;
       if (!this.usuario) {
         this.usuarioValidado = false;
+        validado = false;
       }
       if (!this.senha) {
         this.senhaValidado = false;
+        validado = false;
       }
+      return validado;
     },
   },
 };
