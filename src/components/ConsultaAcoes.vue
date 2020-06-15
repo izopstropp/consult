@@ -23,12 +23,19 @@
         <a-checkbox
           v-model="parametrosConsulta.possuiSigla"
           class="Consulta-form-checkbox"
+          @click="resetarInputSigla"
         >O nome possui sigla?</a-checkbox>
-        <a-input />
+        <a-input
+          @click="resetarInputSigla"
+          :class="[!siglaValidado ? 'erroInput' : 'erroResetInput']"
+          v-model="parametrosConsulta.sigla"
+          :disabled="!parametrosConsulta.possuiSigla"
+        />
+        <p v-if="!siglaValidado" style="color:red">Preencha o campo corretamente</p>
       </div>
       <div class="consulta-form-input">
         <p style="margin-bottom:8px">UF</p>
-        <a-select mode="tags" style="width: 320px">
+        <a-select v-model="parametrosConsulta.uf" mode="multiple" style="width: 320px">
           <a-select-option value=" Todas">Todas</a-select-option>
           <a-select-option value="AC">AC</a-select-option>
           <a-select-option value="AL">AL</a-select-option>
@@ -64,33 +71,44 @@
       
     </div>-->
     <div class="consulta-formulario-line">
-      <!-- <div class="consulta-form-input"></div> -->
       <div class="consulta-form-select">
         <a-radio-group v-model="parametrosConsulta.tipoPessoa" name="radioGroup">
-          <a-radio :value="1">PF</a-radio>
-          <a-radio :value="2">PJ</a-radio>
+          <a-radio :value="PF">PF</a-radio>
+          <a-radio :value="PJ">PJ</a-radio>
         </a-radio-group>
-        <a-select style="width: 100px" default-value="Justiça">
+        <a-select
+          v-model="parametrosConsulta.justica"
+          mode="tags"
+          style="width: 150px"
+          placeholder="Justiça"
+        >
           <a-select-option value="ESTADUAL">Estadual</a-select-option>
           <a-select-option value="FEDERAL">Federal</a-select-option>
           <a-select-option value="TRABALHISTA">Trabalhista</a-select-option>
         </a-select>
-        <a-select default-value="Partes" style="width: 100px">
-          <a-select-option value="REU">Estadual</a-select-option>
-          <a-select-option value="AUTOR">Federal</a-select-option>
+        <a-select
+          v-model="parametrosConsulta.partes"
+          mode="tags"
+          placeholder="Partes"
+          style="width: 140px"
+        >
+          <a-select-option value="REU">Réu</a-select-option>
+          <a-select-option value="AUTOR">Autor</a-select-option>
         </a-select>
-        <div style="width:312px">
+        <div style="width:252px">
           <p>Data de distribuição</p>
           <div class="Consulta-form-calender">
             <a-month-picker
               format="MM/YYYY"
               class="Consulta-form-calender-item"
               placeholder="Mês / Ano"
+              v-model="parametrosConsulta.dataDistribuicaoInicial"
             />
             <a-month-picker
               format="MM/YYYY"
               class="Consulta-form-calender-item"
               placeholder="Mês / Ano"
+              v-model="parametrosConsulta.dataDistribuicaoFinal"
             />
           </div>
         </div>
@@ -109,14 +127,16 @@ export default {
         nome: "",
         documento: "",
         possuiSigla: false,
-        uf: "",
+        sigla: "",
+        uf: [],
         tipoPessoa: "",
-        justica: "",
-        partes: "",
+        justica: [],
+        partes: [],
         dataDistribuicaoInicial: "",
         dataDistribuicaoFinal: ""
       },
-      nomeValidado: true
+      nomeValidado: true,
+      siglaValidado: true
     };
   },
   methods: {
@@ -129,7 +149,19 @@ export default {
         this.nomeValidado = false;
         validado = false;
       }
+
+      if (
+        this.parametrosConsulta.possuiSigla &&
+        !this.parametrosConsulta.sigla
+      ) {
+        this.siglaValidado = false;
+        validado = false;
+      }
       return validado;
+    },
+    resetarInputSigla() {
+      this.parametrosConsulta.sigla = "";
+      this.siglaValidado = true;
     }
   }
 };
@@ -182,7 +214,7 @@ export default {
 }
 .Consulta-form-calender-item {
   /* margin-right: 50px; */
-  max-width: 150px;
+  max-width: 121px;
 }
 .Consulta-form-btn {
   margin: 67px auto auto auto;
