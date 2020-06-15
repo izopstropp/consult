@@ -11,20 +11,19 @@
           @click="nomeValidado = true"
           :class="[!nomeValidado ? 'erroInput' : 'erroResetInput']"
         />
-        <p v-if="!nomeValidado" style="color:red">
-          Preencha o campo corretamente
-        </p>
+        <p v-if="!nomeValidado" style="color:red">Preencha o campo corretamente</p>
       </div>
       <div class="consulta-form-input">
         <p>CPF/CNPJ</p>
-        <a-input />
+        <a-input v-model="parametrosConsulta.documento" />
       </div>
     </div>
     <div class="consulta-formulario-line">
       <div class="consulta-form-input">
-        <a-checkbox class="Consulta-form-checkbox"
-          >O nome possui sigla?</a-checkbox
-        >
+        <a-checkbox
+          v-model="parametrosConsulta.possuiSigla"
+          class="Consulta-form-checkbox"
+        >O nome possui sigla?</a-checkbox>
         <a-input />
       </div>
       <div class="consulta-form-input">
@@ -63,11 +62,11 @@
     </div>
     <!-- <div class="consulta-formulario-line">
       
-    </div> -->
+    </div>-->
     <div class="consulta-formulario-line">
       <!-- <div class="consulta-form-input"></div> -->
       <div class="consulta-form-select">
-        <a-radio-group name="radioGroup" :default-value="1">
+        <a-radio-group v-model="parametrosConsulta.tipoPessoa" name="radioGroup">
           <a-radio :value="1">PF</a-radio>
           <a-radio :value="2">PJ</a-radio>
         </a-radio-group>
@@ -109,15 +108,15 @@ export default {
       parametrosConsulta: {
         nome: "",
         documento: "",
-        possuiSigla: "",
+        possuiSigla: false,
         uf: "",
         tipoPessoa: "",
         justica: "",
         partes: "",
         dataDistribuicaoInicial: "",
-        dataDistribuicaoFinal: "",
+        dataDistribuicaoFinal: ""
       },
-      nomeValidado: true,
+      nomeValidado: true
     };
   },
   methods: {
@@ -131,8 +130,8 @@ export default {
         validado = false;
       }
       return validado;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

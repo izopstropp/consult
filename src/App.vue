@@ -60,7 +60,13 @@ list-style {
 .erroInput {
   border-color: red !important;
 }
-resetErroInput {
+.resetErroInput {
   border-color: none !important;
+}
+.ant-checkbox-checked .ant-checkbox-inner {
+  background-color: #001a3f !important;
+}
+.ant-radio-inner::after {
+  background-color: #001a3f !important;
 }
 </style>
