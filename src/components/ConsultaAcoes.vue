@@ -10,6 +10,7 @@
           v-model="parametrosConsulta.nome"
           @click="nomeValidado = true"
           :class="[!nomeValidado ? 'erroInput' : 'erroResetInput']"
+          style="width: 340px"
         />
         <p v-if="!nomeValidado" style="color:red">
           Preencha o campo corretamente
@@ -20,6 +21,7 @@
         <a-input
           v-mask="['###.###.###-##', '##.###.###/####-##']"
           v-model="parametrosConsulta.documento"
+          style="width: 340px"
         />
       </div>
     </div>
@@ -46,7 +48,7 @@
         <a-select
           v-model="parametrosConsulta.uf"
           mode="multiple"
-          style="width: 320px"
+          style="width: 340px"
         >
           <a-select-option value=" Todas">Todas</a-select-option>
           <a-select-option value="AC">AC</a-select-option>
@@ -83,18 +85,15 @@
       
     </div>-->
     <div class="consulta-formulario-line">
+      <a-radio-group v-model="parametrosConsulta.tipoPessoa" name="radioGroup">
+        <a-radio :value="1">PF</a-radio>
+        <a-radio :value="2">PJ</a-radio>
+      </a-radio-group>
       <div class="consulta-form-select">
-        <a-radio-group
-          v-model="parametrosConsulta.tipoPessoa"
-          name="radioGroup"
-        >
-          <a-radio :value="PF">PF</a-radio>
-          <a-radio :value="PJ">PJ</a-radio>
-        </a-radio-group>
         <a-select
           v-model="parametrosConsulta.justica"
           mode="tags"
-          style="width: 150px"
+          style="max-width: 300px; min-width:200px"
           placeholder="Justiça"
         >
           <a-select-option value="ESTADUAL">Estadual</a-select-option>
@@ -105,12 +104,12 @@
           v-model="parametrosConsulta.partes"
           mode="tags"
           placeholder="Partes"
-          style="width: 140px"
+          style="width: 160px"
         >
           <a-select-option value="REU">Réu</a-select-option>
           <a-select-option value="AUTOR">Autor</a-select-option>
         </a-select>
-        <div style="width:252px">
+        <div style="width:222px">
           <p>Data de distribuição</p>
           <div class="consulta-form-calender">
             <a-month-picker
@@ -203,11 +202,11 @@ export default {
   align-content: center;
   flex-wrap: wrap;
   margin: 0 auto 21px auto;
-  max-width: 674px;
+  max-width: 694px;
   justify-content: space-between;
 }
 .consulta-formulario-line .consulta-form-input {
-  width: 323px;
+  max-width: 340px;
   padding: 0;
   margin: 0;
 }
@@ -222,7 +221,7 @@ export default {
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
-  width: 674px;
+  width: 694px;
 }
 .consulta-form-calender {
   display: flex;
@@ -231,7 +230,7 @@ export default {
 }
 .consulta-form-calender-item {
   /* margin-right: 50px; */
-  max-width: 121px;
+  max-width: 100px;
 }
 .consulta-form-btn {
   margin: 67px auto auto auto;
@@ -245,5 +244,8 @@ export default {
 }
 .ant-btn:active {
   background-color: #001a3f81;
+}
+p {
+  color: #676767;
 }
 </style>

@@ -50,6 +50,12 @@ list-style {
   height: 35px !important;
   border-color: #c1c1c1 !important;
 }
+.ant-radio-inner {
+  border-color: #c1c1c1 !important;
+}
+.ant-checkbox-inner {
+  border-color: #c1c1c1 !important;
+}
 .notibar {
   height: 30px;
 }
