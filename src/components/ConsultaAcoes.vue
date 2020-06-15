@@ -11,31 +11,43 @@
           @click="nomeValidado = true"
           :class="[!nomeValidado ? 'erroInput' : 'erroResetInput']"
         />
-        <p v-if="!nomeValidado" style="color:red">Preencha o campo corretamente</p>
+        <p v-if="!nomeValidado" style="color:red">
+          Preencha o campo corretamente
+        </p>
       </div>
       <div class="consulta-form-input">
         <p>CPF/CNPJ</p>
-        <a-input v-model="parametrosConsulta.documento" />
+        <a-input
+          v-mask="['###.###.###-##', '##.###.###/####-##']"
+          v-model="parametrosConsulta.documento"
+        />
       </div>
     </div>
     <div class="consulta-formulario-line">
       <div class="consulta-form-input">
         <a-checkbox
           v-model="parametrosConsulta.possuiSigla"
-          class="Consulta-form-checkbox"
+          class="consulta-form-checkbox"
           @click="resetarInputSigla"
-        >O nome possui sigla?</a-checkbox>
+          >O nome possui sigla?</a-checkbox
+        >
         <a-input
           @click="resetarInputSigla"
           :class="[!siglaValidado ? 'erroInput' : 'erroResetInput']"
           v-model="parametrosConsulta.sigla"
           :disabled="!parametrosConsulta.possuiSigla"
         />
-        <p v-if="!siglaValidado" style="color:red">Preencha o campo corretamente</p>
+        <p v-if="!siglaValidado" style="color:red">
+          Preencha o campo corretamente
+        </p>
       </div>
       <div class="consulta-form-input">
         <p style="margin-bottom:8px">UF</p>
-        <a-select v-model="parametrosConsulta.uf" mode="multiple" style="width: 320px">
+        <a-select
+          v-model="parametrosConsulta.uf"
+          mode="multiple"
+          style="width: 320px"
+        >
           <a-select-option value=" Todas">Todas</a-select-option>
           <a-select-option value="AC">AC</a-select-option>
           <a-select-option value="AL">AL</a-select-option>
@@ -72,7 +84,10 @@
     </div>-->
     <div class="consulta-formulario-line">
       <div class="consulta-form-select">
-        <a-radio-group v-model="parametrosConsulta.tipoPessoa" name="radioGroup">
+        <a-radio-group
+          v-model="parametrosConsulta.tipoPessoa"
+          name="radioGroup"
+        >
           <a-radio :value="PF">PF</a-radio>
           <a-radio :value="PJ">PJ</a-radio>
         </a-radio-group>
@@ -97,30 +112,32 @@
         </a-select>
         <div style="width:252px">
           <p>Data de distribuição</p>
-          <div class="Consulta-form-calender">
+          <div class="consulta-form-calender">
             <a-month-picker
               format="MM/YYYY"
-              class="Consulta-form-calender-item"
+              class="consulta-form-calender-item"
               placeholder="Mês / Ano"
               v-model="parametrosConsulta.dataDistribuicaoInicial"
             />
             <a-month-picker
               format="MM/YYYY"
-              class="Consulta-form-calender-item"
+              class="consulta-form-calender-item"
               placeholder="Mês / Ano"
               v-model="parametrosConsulta.dataDistribuicaoFinal"
             />
           </div>
         </div>
       </div>
-      <a-button @click="consulta" class="Consulta-form-btn">Consultar</a-button>
+      <a-button @click="consulta" class="consulta-form-btn">Consultar</a-button>
     </div>
   </div>
 </template>
 
 <script>
+import { mask } from "vue-the-mask";
 export default {
   name: "consulta-acoes",
+  directives: { mask },
   data() {
     return {
       parametrosConsulta: {
@@ -133,10 +150,10 @@ export default {
         justica: [],
         partes: [],
         dataDistribuicaoInicial: "",
-        dataDistribuicaoFinal: ""
+        dataDistribuicaoFinal: "",
       },
       nomeValidado: true,
-      siglaValidado: true
+      siglaValidado: true,
     };
   },
   methods: {
@@ -162,8 +179,8 @@ export default {
     resetarInputSigla() {
       this.parametrosConsulta.sigla = "";
       this.siglaValidado = true;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -197,7 +214,7 @@ export default {
 .consulta-formulario-line .consulta-form-input p {
   margin-bottom: 2px;
 }
-.Consulta-form-checkbox {
+.consulta-form-checkbox {
   margin-bottom: 8px;
 }
 .consulta-form-select {
@@ -207,16 +224,16 @@ export default {
   justify-content: space-between;
   width: 674px;
 }
-.Consulta-form-calender {
+.consulta-form-calender {
   display: flex;
   max-width: 490px;
   justify-content: space-between;
 }
-.Consulta-form-calender-item {
+.consulta-form-calender-item {
   /* margin-right: 50px; */
   max-width: 121px;
 }
-.Consulta-form-btn {
+.consulta-form-btn {
   margin: 67px auto auto auto;
   font-size: 0.9em;
 }

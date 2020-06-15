@@ -5,8 +5,10 @@ import "ant-design-vue/dist/antd.css";
 import router from "./router";
 import store from "./store";
 import VueNotibar from "vue-notibar";
+import VueTheMask from "vue-the-mask";
 
 Vue.config.productionTip = false;
+Vue.use(VueTheMask);
 
 Vue.use(VueNotibar, {
   position: "right",
