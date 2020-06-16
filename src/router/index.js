@@ -4,6 +4,7 @@ import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import DashBoard from "../views/DashBoard.vue";
 import ConsultaAcoes from "../components/ConsultaAcoes";
+import ResultadoConsultaAcoes from "../views/ResultadoConsultaAcoes.vue";
 
 Vue.use(VueRouter);
 
@@ -19,9 +20,14 @@ const routes = [
         component: DashBoard,
       },
       {
-        path: "/consulta-acoes",
+        path: "/consulta-acoes/",
         name: "consulta-acoes",
         component: ConsultaAcoes,
+      },
+      {
+        path: "/acoes",
+        name: "ResultadoConsultaAcoes",
+        component: ResultadoConsultaAcoes,
       },
     ],
   },

@@ -7,5 +7,49 @@
     "perfil": "CLIENTE",
     ".issued": "Fri, 12 Jun 2020 12:59:14 GMT",
     ".expires": "Fri, 12 Jun 2020 20:59:14 GMT"
-  }
+  },
+  "processosResumido": [
+    {
+      "nome": "americanas",
+      "npu": "12334.123123.123.123.213",
+      "uf": "SP",
+      "justica": "estadual",
+      "parte": "autor"
+    },
+    {
+      "nome": "americanas",
+      "npu": "12334.123123.123.123.213",
+      "uf": "AL",
+      "justica": "estadual",
+      "parte": "autor"
+    },
+    {
+      "nome": "americanas",
+      "npu": "12334.123123.123.123.213",
+      "uf": "AL",
+      "justica": "estadual",
+      "parte": "autor"
+    },
+    {
+      "nome": "americanas",
+      "npu": "12334.123123.123.123.213",
+      "uf": "SP",
+      "justica": "trabalhista",
+      "parte": "autor"
+    },
+    {
+      "nome": "americanas",
+      "npu": "12334.123123.123.123.213",
+      "uf": "AL",
+      "justica": "federal",
+      "parte": "autor"
+    },
+    {
+      "nome": "americanas",
+      "npu": "12334.123123.123.123.213",
+      "uf": "AL",
+      "justica": "federal",
+      "parte": "autor"
+    }
+  ]
 }

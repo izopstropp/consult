@@ -157,7 +157,9 @@ export default {
   },
   methods: {
     consulta() {
-      this.validar();
+      if (this.validar()) {
+        this.$router.push("ResultadoConsultaAcoes");
+      }
     },
     validar() {
       let validado = false;
