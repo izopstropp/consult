@@ -84,7 +84,7 @@ p {
 .container-resultado-consulta div {
   margin-right: 20px;
 }
-.container-resultado-consulta div:hover {
+.container-resultado-consulta div:active {
   background: red;
   order: -1 !important;
   -webkit-transition: order 2s ease-in-out;
