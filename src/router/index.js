@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
-import DashBoard from "../views/DashBoard.vue";
+import SelecaoTipoConsulta from "../views/SelecaoTipoConsulta.vue";
 import ConsultaAcoes from "../components/ConsultaAcoes";
 import ResultadoConsultaAcoes from "../views/ResultadoConsultaAcoes.vue";
 
@@ -15,9 +15,9 @@ const routes = [
     component: Home,
     children: [
       {
-        path: "/dashboard",
-        name: "dashboard",
-        component: DashBoard,
+        path: "/selecao",
+        name: "selecao-tipo-consulta",
+        component: SelecaoTipoConsulta,
       },
       {
         path: "/consulta-acoes/",

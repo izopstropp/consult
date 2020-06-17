@@ -21,9 +21,7 @@
               @click="usuarioValidado = true"
               :class="[!usuarioValidado ? 'erroInput' : 'resetErroInput']"
             />
-            <p style="color:red" v-if="!usuarioValidado">
-              Preencha o campo corretamente.
-            </p>
+            <p style="color:red" v-if="!usuarioValidado">Preencha o campo corretamente.</p>
           </a-form-item>
           <div class="login-grupo-label">
             <div class="login-label">
@@ -48,12 +46,11 @@
               @click="senhaValidado = true"
               v-model="senha"
               :type="mostrarSenha ? 'text' : 'password'"
-              placeholder/>
-            <p style="color:red" v-if="!senhaValidado">
-              Preencha o campo corretamente.
-            </p>
-            <p></p
-          ></a-form-item>
+              placeholder
+            />
+            <p style="color:red" v-if="!senhaValidado">Preencha o campo corretamente.</p>
+            <p></p>
+          </a-form-item>
 
           <a-form-item :wrapper-col="buttonItemLayout.wrapperCol">
             <div class="btn-login">
@@ -81,7 +78,7 @@ export default {
       usuarioValidado: true,
       senhaValidado: true,
       usuario: "",
-      senha: "",
+      senha: ""
     };
   },
   computed: {
@@ -90,7 +87,7 @@ export default {
       return formLayout === "horizontal"
         ? {
             labelCol: { span: 4 },
-            wrapperCol: { span: 14 },
+            wrapperCol: { span: 14 }
           }
         : {};
     },
@@ -98,18 +95,18 @@ export default {
       const { formLayout } = this;
       return formLayout === "horizontal"
         ? {
-            wrapperCol: { span: 14, offset: 4 },
+            wrapperCol: { span: 14, offset: 4 }
           }
         : {};
-    },
+    }
   },
   methods: {
     autenticar() {
       if (this.validar()) {
-        autenticacaoApi.autenticar("felipe", "test").then((response) => {
+        autenticacaoApi.autenticar("felipe", "test").then(response => {
           if (response.status == 200) {
             this.$store.dispatch(DO_LOGIN, response.data);
-            this.$router.push("/dashboard");
+            this.$router.push("/selecao");
           } else {
             this.usuario = "";
             this.senha = "";
@@ -129,8 +126,8 @@ export default {
         validado = false;
       }
       return validado;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

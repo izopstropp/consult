@@ -1,24 +1,5 @@
 <template>
-  <div class="container-resultado-consulta">
-    <div>
-      <p>Estado</p>
-      <div v-for="(item, index) in agrupamentoUf" :key="index">
-        <div>
-          <a-checkbox :name="index" @change="filtrarUf" />
-          {{index}} - {{item}}
-        </div>
-      </div>
-    </div>
-    <div>
-      <p>Justiça</p>
-      <div v-for="(item, index) in agrupamentoJustica" :key="index">
-        <div>
-          <a-checkbox :name="index" @change="filtrarJustica" />
-          {{index}} - {{item}}
-        </div>
-      </div>
-    </div>
-  </div>
+  <div class="container-resultado-consulta"></div>
 </template>
 <script>
 import consultProcessosApi from "../api/consultProcessosApi";
@@ -36,12 +17,6 @@ export default {
     this.buscarProcessosResumo();
   },
   methods: {
-    filtrarUf(e) {
-      console.log(e);
-    },
-    filtrarJustica(e) {
-      console.log(e);
-    },
     buscarProcessosResumo() {
       consultProcessosApi.buscarProcessosResumo().then(response => {
         if (response.status === 200) {
