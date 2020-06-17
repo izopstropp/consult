@@ -10,11 +10,13 @@
   "dependencies": {
     "ant-design-vue": "^1.6.2",
     "axios": "^0.19.2",
+    "chart.js": "^2.9.3",
     "core-js": "^3.6.5",
     "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
     "vue": "^2.6.11",
     "vue-axios": "^2.1.5",
+    "vue-chartjs": "^3.5.0",
     "vue-notibar": "^0.3.1",
     "vue-router": "^3.2.0",
     "vue-the-mask": "^0.11.1",
