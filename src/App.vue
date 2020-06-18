@@ -75,4 +75,8 @@ list-style {
 .ant-radio-inner::after {
   background-color: #001a3f !important;
 }
+.ant-select-selection__placeholder {
+  text-align: center !important;
+  color: #757575 !important;
+}
 </style>
