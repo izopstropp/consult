@@ -1,15 +1,15 @@
 <template>
   <div class="container-page-login">
-    <!--  <Autenticacao /> -->
+     <Autenticacao />
     test
   </div>
 </template>
 <script>
-// import Autenticacao from "@/components/Autenticacao.vue";
+import Autenticacao from "@/components/Autenticacao.vue";
 export default {
   components: {
-    //  Autenticacao :Autenticacao,
-  }
+    Autenticacao: Autenticacao,
+  },
 };
 </script>
 
