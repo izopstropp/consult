@@ -7,22 +7,31 @@
       </p>
     </div>
     <div class="container-chart">
-      <!-- <div class="container-chart-item">
+      <div class="container-chart-item-justica">
         <LineChart
           class="chart-justica"
+          tituloChart="Justiça"
           :chart-data="datacollectionJustica"
         ></LineChart>
       </div>
-      <div class="container-chart-item">
+      <div class="container-chart-item-parte">
         <LineChart
           class="chart-parte"
+          tituloChart="Partes"
           :chart-data="datacollectionParte"
         ></LineChart>
-      </div> -->
-
-      <div class="container-chart-item">
-        <LineChart class="chart-uf" :chart-data="datacollectionUf"></LineChart>
       </div>
+
+      <div class="container-chart-item-uf">
+        <LineChart
+          class="chart-uf"
+          tituloChart="UF"
+          :chart-data="datacollectionUf"
+        ></LineChart>
+      </div>
+    </div>
+    <div class="titulo-filtro">
+      <p>Selecionar Volumetria</p>
     </div>
   </div>
 </template>
@@ -84,7 +93,7 @@ export default {
 
         datasets: [
           {
-            label: "Data One",
+            // label: "Qtd",
             backgroundColor: "#FFFFFF",
             barThickness: 6,
             data: [
@@ -128,7 +137,7 @@ export default {
 
         datasets: [
           {
-            label: "Data One",
+            // label: "Data One",
             backgroundColor: "#FFFFFF",
             barThickness: 6,
             data: [
@@ -168,7 +177,7 @@ export default {
 
         datasets: [
           {
-            label: "Data One",
+            // label: "Data One",
             backgroundColor: "#FFFFFF",
             barThickness: 6,
             data: [this.getRandomInt(), this.getRandomInt()],
@@ -191,6 +200,7 @@ p {
 }
 .titulo p {
   margin-bottom: 10px;
+  margin-left: 8px;
 }
 .titulo p span:nth-child(2) {
   color: #525252;
@@ -203,14 +213,27 @@ p {
 }
 .container-chart {
   max-width: 100vw;
-  /* display: flex; */
-  /* flex-wrap: wrap; */
+  display: flex;
+  flex-wrap: wrap;
   /* justify-content: space-around; */
 }
-.container-chart-item {
+.container-chart-item-justica {
+  margin-right: 0px;
+  max-width: 100vw;
+  flex-grow: 0.8;
+  /* float: left; */
+}
+.container-chart-item-parte {
   margin-right: 11px;
   max-width: 100vw;
-  float: left;
+  flex-grow: 0;
+  /* float: left; */
+}
+.container-chart-item-uf {
+  margin-right: 11px;
+  max-width: 100vw;
+  flex-grow: 2;
+  /* float: left; */
 }
 .chart-justica {
   background-color: #1d375c;
@@ -226,9 +249,12 @@ p {
 }
 .chart-uf {
   background-color: #1d375c;
-  max-width: 880px;
+  max-width: 890px;
   height: 160px;
   border-radius: 10px;
   min-width: 0;
+}
+.titulo-filtro {
+  margin: 65px auto;
 }
 </style>

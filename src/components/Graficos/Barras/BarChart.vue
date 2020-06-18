@@ -5,6 +5,7 @@ const { reactiveProp } = mixins;
 export default {
   extends: Bar,
   mixins: [reactiveProp],
+  props: ["tituloChart"],
   mounted() {
     this.renderChart(this.chartData, this.options);
   },
@@ -53,7 +54,7 @@ export default {
         scaleBeginAtZero: true,
         title: {
           display: true,
-          text: "Justiça",
+          text: this.tituloChart,
           position: "top",
           fontColor: "#FFFFFF",
           fontSize: 14,
