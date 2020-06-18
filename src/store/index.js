@@ -8,7 +8,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   plugins: [createPersistedState()],
   modules: {
-    auth,
+    auth: auth,
   },
   strict: process.env.NODE_ENV !== "production",
 });

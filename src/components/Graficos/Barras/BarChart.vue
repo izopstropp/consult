@@ -14,7 +14,9 @@ export default {
         scales: {
           yAxes: [
             {
+              barPercentage: 0,
               stacked: false,
+
               ticks: {
                 display: false,
                 beginAtZero: true,
@@ -34,10 +36,10 @@ export default {
                 display: false,
                 color: "#85CFE2",
               },
-              // scaleFontSize: 10,
-              // stacked: false,
-              // categoryPercentage: 0.5,
-              // barPercentage: 1,
+              scaleFontSize: 10,
+              stacked: false,
+              categoryPercentage: 0.5,
+              barPercentage: 1,
             },
           ],
         },
@@ -83,10 +85,3 @@ export default {
   methods: {},
 };
 </script>
-
-<style>
-.small {
-  max-width: 600px;
-  margin: 150px auto;
-}
-</style>
