@@ -3,8 +3,8 @@
     <div class="resultado-consulta-indicador">
       <div class="titulo">
         <p>
-          <span>Volumetria</span
-          ><span> - Total de 530 Processos encontrados</span>
+          <span>Volumetria</span>
+          <span>- Total de 530 Processos encontrados</span>
         </p>
       </div>
       <div class="container-chart">
@@ -16,19 +16,11 @@
           ></LineChart>
         </div>
         <div class="container-chart-item-parte">
-          <LineChart
-            class="chart-parte"
-            tituloChart="Partes"
-            :chart-data="datacollectionParte"
-          ></LineChart>
+          <LineChart class="chart-parte" tituloChart="Partes" :chart-data="datacollectionParte"></LineChart>
         </div>
 
         <div class="container-chart-item-uf">
-          <LineChart
-            class="chart-uf"
-            tituloChart="UF"
-            :chart-data="datacollectionUf"
-          ></LineChart>
+          <LineChart class="chart-uf" tituloChart="UF" :chart-data="datacollectionUf"></LineChart>
         </div>
       </div>
     </div>
@@ -100,7 +92,27 @@
       </div>
     </div>
     <div class="consulta-form-filtro-btn">
-      <div>
+      <div class="consulta-tabela-preco">
+        <div class="consulta-tabela-preco-item">
+          <p>Desc.</p>
+          <p>RS;SP</p>
+          <p>Preditivo</p>
+          <p>Total de Consumo</p>
+        </div>
+        <div class="consulta-tabela-preco-item">
+          <p>Qt. de processos</p>
+          <p>500</p>
+          <p>500</p>
+          <p>1000</p>
+        </div>
+        <div class="consulta-tabela-preco-item">
+          <p>R$</p>
+          <p>500,00</p>
+          <p>500,00</p>
+          <p>1000,00</p>
+        </div>
+      </div>
+      <div class="consulta-form-filtro-btn-block-item">
         <div class="consulta-form-filtro-btn-item">
           <a>ADIQUERIR TODA VOLUMETRIA</a>
         </div>
@@ -118,7 +130,7 @@ import LineChart from "../components/Graficos/Barras/BarChart.vue";
 export default {
   name: "resultado-consulta",
   components: {
-    LineChart,
+    LineChart
   },
   data() {
     return {
@@ -130,8 +142,8 @@ export default {
       parametrosConsulta: {
         justica: [],
         partes: [],
-        uf: [],
-      },
+        uf: []
+      }
     };
   },
 
@@ -141,7 +153,7 @@ export default {
   },
   methods: {
     buscarProcessosResumo() {
-      consultProcessosApi.buscarProcessosResumo().then((response) => {
+      consultProcessosApi.buscarProcessosResumo().then(response => {
         if (response.status === 200) {
           this.criarEstruturaFiltroProcessosResumido(response.data);
         }
@@ -180,10 +192,10 @@ export default {
             data: [
               this.getRandomInt(),
               this.getRandomInt(),
-              this.getRandomInt(),
-            ],
-          },
-        ],
+              this.getRandomInt()
+            ]
+          }
+        ]
       };
       this.datacollectionUf = {
         labels: [
@@ -213,7 +225,7 @@ export default {
           "SC",
           "SE",
           "SP",
-          "TO",
+          "TO"
         ],
 
         datasets: [
@@ -248,10 +260,10 @@ export default {
               this.getRandomInt(),
               this.getRandomInt(),
               this.getRandomInt(),
-              this.getRandomInt(),
-            ],
-          },
-        ],
+              this.getRandomInt()
+            ]
+          }
+        ]
       };
       this.datacollectionParte = {
         labels: ["Réu", "Autor"],
@@ -261,15 +273,15 @@ export default {
             // label: "Data One",
             backgroundColor: "#FFFFFF",
             barThickness: 6,
-            data: [this.getRandomInt(), this.getRandomInt()],
-          },
-        ],
+            data: [this.getRandomInt(), this.getRandomInt()]
+          }
+        ]
       };
     },
     getRandomInt() {
       return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
@@ -279,7 +291,6 @@ p {
 .container-resultado-consulta {
   padding: 10px 20px 0px 20px;
   /* width: 100vw; */
-  height: 110vh;
 }
 .resultado-consulta-indicador {
   background-color: #f2f4f5;
@@ -338,7 +349,7 @@ p {
 }
 .consulta-filtro {
   max-width: 100vw;
-  height: 247px;
+  height: 147px;
 }
 .consulta-filtro-titulo {
   margin-top: 37px;
@@ -359,15 +370,16 @@ p {
 .consulta-filtro-form-item {
 }
 .consulta-form-filtro-btn {
-  max-width: 100vw;
-  /*  position: relative; */
-  /* margin-top: 144px; */
-}
-.consulta-form-filtro-btn > div {
   display: flex;
-  margin: 0 auto;
-  max-width: 522px;
+  max-width: 100vw;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+.consulta-form-filtro-btn .consulta-form-filtro-btn-block-item {
+  display: flex;
+  max-width: 510px;
   justify-content: space-between;
+  margin-left: 160px;
 }
 a {
   text-decoration: none;
@@ -382,12 +394,16 @@ a {
   padding-top: 7px;
 }
 .consulta-form-filtro-btn-item:nth-child(2) {
-  background-color: #648362;
   height: 34px;
   width: 249px;
   font-size: 0.9em;
   background-color: #001a3f;
   text-align: center;
   padding-top: 7px;
+}
+.consulta-tabela-preco {
+  display: flex;
+  max-width: 253px;
+  border: 1px solid red;
 }
 </style>
