@@ -119,6 +119,6 @@ p {
   border-radius: 0px;
 }
 .btn-selecao-confirmar:active {
-  background-color: #001a3f81;
+  background-color: #052f6b;
 }
 </style>

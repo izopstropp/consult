@@ -192,7 +192,7 @@ img {
   height: 34px;
 }
 .btn-login > .ant-btn:active {
-  background-color: #001a3f81;
+  background-color: #052f6b;
 }
 .btn-login > .ant-btn {
   background-color: #001a3f;
