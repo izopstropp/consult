@@ -114,12 +114,17 @@
           <td class="colorTableCell colorTableCellValorTotal">845,00</td>
         </tr>
       </table>
-      <div class="consulta-form-filtro-btn-block-item">
-        <div class="consulta-form-filtro-btn-item">
-          <a style="width:100%">ADIQUERIR TODA VOLUMETRIA</a>
+      <div class="consulta-form-pesquisa">
+        <div class="pesquisa-preditivo">
+          <a-checkbox>Adicionar o Preditivo</a-checkbox>
         </div>
-        <div class="consulta-form-filtro-btn-item">
-          <a style="width:100%">ADIQUERIR VOLUMETRIA SELECIONADA</a>
+        <div class="consulta-form-filtro-btn-block-item">
+          <div class="consulta-form-filtro-btn-item">
+            <a style="user-select:none">ADIQUERIR TODA VOLUMETRIA</a>
+          </div>
+          <div class="consulta-form-filtro-btn-item">
+            <a style="user-select:none">ADIQUERIR VOLUMETRIA SELECIONADA</a>
+          </div>
         </div>
       </div>
     </div>
@@ -291,11 +296,12 @@ p {
   margin: 0;
 }
 .container-resultado-consulta {
-  padding: 10px 20px 0px 20px;
+  padding: 4px 20px 0px 20px;
 }
 .resultado-consulta-indicador {
   background-color: #f2f4f5;
-  height: 233px;
+  height: 228px;
+  display: block;
 }
 .titulo p {
   margin-bottom: 10px;
@@ -354,7 +360,7 @@ p {
   height: 147px;
 }
 .consulta-filtro-titulo {
-  margin-top: 37px;
+  margin-top: 28px;
 }
 .consulta-filtro-titulo > p {
   text-align: center;
@@ -372,21 +378,38 @@ p {
 }
 .consulta-filtro-form-item {
 }
+.consulta-form-pesquisa {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 660px;
+}
+.pesquisa-preditivo {
+  max-width: 200px;
+  margin-top: 30px;
+  margin-left: 320px;
+  flex-wrap: wrap;
+}
 .consulta-form-filtro-btn {
   display: flex;
   max-width: 100vw;
-  align-items: flex-end;
+  /* align-items: flex-end; */
   flex-wrap: wrap;
-  margin-left: 20px;
+  margin-left: 13px;
   margin-top: 35px;
 }
 .consulta-form-filtro-btn .consulta-form-filtro-btn-block-item {
   display: flex;
-  width: 510px;
+  max-width: 510px;
   justify-content: space-between;
   flex-wrap: wrap;
   margin-left: 150px;
 }
+/* .consulta-form-pesquisa > div {
+  width: 510px;
+  display: flex;  
+} */
 a {
   text-decoration: none;
   color: #caced4;

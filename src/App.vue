@@ -54,7 +54,7 @@ list-style {
   border-color: #c1c1c1 !important;
 }
 .ant-checkbox-inner {
-  border-color: #c1c1c1 !important;
+  border-color: #a8a6a6 !important;
 }
 .notibar {
   height: 30px;
