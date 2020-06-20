@@ -11,16 +11,9 @@
             <p>Nome do usuário</p>
           </div>
           <div>
-            <img
-              class="menu-esquerdo-seta"
-              src="../assets/setaMenuLateral.png"
-              alt="seta"
-            />
+            <img class="menu-esquerdo-seta" src="../assets/setaMenuLateral.png" alt="seta" />
           </div>
-          <div
-            class="menu-itens-esquerdo-usuario"
-            :class="nomeClassAbrirMenuUsuario"
-          >
+          <div class="menu-itens-esquerdo-usuario" :class="nomeClassAbrirMenuUsuario">
             <ul>
               <li class="menu-itens-esquerdo-usuario-configuracao">
                 Configuração
@@ -39,7 +32,7 @@ import { DO_LOGOUT } from "../store/actions";
 export default {
   data() {
     return {
-      nomeClassAbrirMenuUsuario: "",
+      nomeClassAbrirMenuUsuario: ""
     };
   },
   methods: {
@@ -52,8 +45,8 @@ export default {
     sair() {
       this.$store.dispatch(DO_LOGOUT);
       this.$router.push("/login");
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

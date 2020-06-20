@@ -32,9 +32,9 @@
         <div class="consulta-filtro-form-item">
           <a-select
             v-model="parametrosConsulta.justica"
-            mode="tags"
             style="max-width: 180px; min-width:180px;"
             placeholder="Justiça"
+            mode="multiple"
           >
             <a-select-option value="ESTADUAL">Estadual</a-select-option>
             <a-select-option value="FEDERAL">Federal</a-select-option>
@@ -44,7 +44,7 @@
         <div class="consulta-filtro-form-item">
           <a-select
             v-model="parametrosConsulta.partes"
-            mode="tags"
+            mode="multiple"
             placeholder="Partes"
             style="width: 100px"
           >
@@ -56,7 +56,7 @@
           <a-select
             v-model="parametrosConsulta.uf"
             mode="multiple"
-            style="max-width: 340px;min-width:340px "
+            style="max-width: 340px;min-width:340px"
             placeholder="UF"
           >
             <a-select-option value=" Todas">Todas</a-select-option>
@@ -317,9 +317,10 @@ p {
   font-weight: bold;
 }
 .container-chart {
-  max-width: 100vw;
+  max-width: 1480px;
   display: flex;
   flex-wrap: wrap;
+  margin: 0 auto;
 }
 .container-chart-item-justica {
   margin-right: 0px;
@@ -393,11 +394,11 @@ p {
 }
 .consulta-form-filtro-btn {
   display: flex;
-  max-width: 100vw;
-  /* align-items: flex-end; */
+  max-width: 1480px;
+  padding-left: 10px;
   flex-wrap: wrap;
-  margin-left: 13px;
-  margin-top: 35px;
+
+  margin: 35px auto;
 }
 .consulta-form-filtro-btn .consulta-form-filtro-btn-block-item {
   display: flex;
@@ -461,12 +462,12 @@ a {
 }
 .consulta-tabela-preco-item td:nth-child(2) {
   font-size: 0.8em;
-  padding-bottom: 8px;
+  padding-bottom: 7px;
   text-align: center;
 }
 .consulta-tabela-preco-item td:nth-child(3) {
   font-size: 0.8em;
-  padding-bottom: 8px;
+  padding-bottom: 7px;
   text-align: center;
 }
 .preco-item-titulo {
