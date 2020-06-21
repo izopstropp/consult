@@ -5,6 +5,7 @@ import Login from "../views/Login.vue";
 import SelecaoTipoConsulta from "../views/SelecaoTipoConsulta.vue";
 import ConsultaAcoes from "../components/ConsultaAcoes";
 import ResultadoConsultaAcoes from "../views/ResultadoConsultaAcoes.vue";
+import RelatorioConsultaAcoes from "../views/RelatorioConsultaAcoes.vue";
 
 Vue.use(VueRouter);
 
@@ -20,14 +21,26 @@ const routes = [
         component: SelecaoTipoConsulta,
       },
       {
-        path: "/consulta-acoes/",
-        name: "consulta-acoes",
+        path: "/consulta",
+        name: "consulta",
         component: ConsultaAcoes,
       },
       {
-        path: "/acoes",
+        path: "/volumetria",
         name: "ResultadoConsultaAcoes",
         component: ResultadoConsultaAcoes,
+      },
+      {
+        path: "/volumetria/:id",
+        name: "RelatorioConsultaAcoes",
+        component: RelatorioConsultaAcoes,
+        props: true,
+      },
+      {
+        path: "/volumetria/:id/:pag",
+        name: "RelatorioConsultaAcoes",
+        component: RelatorioConsultaAcoes,
+        props: true,
       },
     ],
   },

@@ -122,7 +122,7 @@
           <div class="consulta-form-filtro-btn-item">
             <a style="user-select:none">ADIQUERIR TODA VOLUMETRIA</a>
           </div>
-          <div class="consulta-form-filtro-btn-item">
+          <div @click="relatorio" class="consulta-form-filtro-btn-item">
             <a style="user-select:none">ADIQUERIR VOLUMETRIA SELECIONADA</a>
           </div>
         </div>
@@ -159,6 +159,9 @@ export default {
     this.fillData();
   },
   methods: {
+    relatorio() {
+      this.$router.push();
+    },
     buscarProcessosResumo() {
       consultProcessosApi.buscarProcessosResumo().then(response => {
         if (response.status === 200) {
@@ -297,6 +300,7 @@ p {
 }
 .container-resultado-consulta {
   padding: 4px 20px 0px 20px;
+  max-width: 1480px;
 }
 .resultado-consulta-indicador {
   background-color: #f2f4f5;
@@ -377,8 +381,7 @@ p {
   justify-content: space-between;
   margin-top: 23px;
 }
-.consulta-filtro-form-item {
-}
+
 .consulta-form-pesquisa {
   display: flex;
   flex-direction: column;

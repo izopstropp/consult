@@ -30,7 +30,7 @@ export default {
     return {
       btnAcaoAtivado: true,
       btnPreditivoAtivado: false,
-      nameRouterLink: "consulta-acoes"
+      nameRouterLink: "consulta"
     };
   },
   methods: {
@@ -51,11 +51,6 @@ export default {
 <style scoped>
 p {
   margin: 0;
-}
-.container-selecao {
-  /* position: absolute; */
-  /* margin: 100%; */
-  /* height: 100vh; */
 }
 .container-selecao-item {
   margin: 230px auto auto auto;

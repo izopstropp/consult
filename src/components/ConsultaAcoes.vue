@@ -12,9 +12,7 @@
           :class="[!nomeValidado ? 'erroInput' : 'erroResetInput']"
           style="width: 340px"
         />
-        <p v-if="!nomeValidado" style="color:red">
-          Preencha o campo corretamente
-        </p>
+        <p v-if="!nomeValidado" style="color:red">Preencha o campo corretamente</p>
       </div>
       <div class="consulta-form-input">
         <p>CPF/CNPJ</p>
@@ -31,25 +29,18 @@
           v-model="parametrosConsulta.possuiSigla"
           class="consulta-form-checkbox"
           @click="resetarInputSigla"
-          >O nome possui sigla?</a-checkbox
-        >
+        >O nome possui sigla?</a-checkbox>
         <a-input
           @click="resetarInputSigla"
           :class="[!siglaValidado ? 'erroInput' : 'erroResetInput']"
           v-model="parametrosConsulta.sigla"
           :disabled="!parametrosConsulta.possuiSigla"
         />
-        <p v-if="!siglaValidado" style="color:red">
-          Preencha o campo corretamente
-        </p>
+        <p v-if="!siglaValidado" style="color:red">Preencha o campo corretamente</p>
       </div>
       <div class="consulta-form-input">
         <p style="margin-bottom:8px">UF</p>
-        <a-select
-          v-model="parametrosConsulta.uf"
-          mode="multiple"
-          style="width: 340px"
-        >
+        <a-select v-model="parametrosConsulta.uf" mode="multiple" style="width: 340px">
           <a-select-option value=" Todas">Todas</a-select-option>
           <a-select-option value="AC">AC</a-select-option>
           <a-select-option value="AL">AL</a-select-option>
@@ -149,10 +140,10 @@ export default {
         justica: [],
         partes: [],
         dataDistribuicaoInicial: "",
-        dataDistribuicaoFinal: "",
+        dataDistribuicaoFinal: ""
       },
       nomeValidado: true,
-      siglaValidado: true,
+      siglaValidado: true
     };
   },
   methods: {
@@ -180,8 +171,8 @@ export default {
     resetarInputSigla() {
       this.parametrosConsulta.sigla = "";
       this.siglaValidado = true;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
