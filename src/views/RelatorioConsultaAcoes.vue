@@ -9,22 +9,39 @@
         <div class="rel-bl1-filtro-input">
           <div class="rel-col-input">
             <label for="nomeParte">Réu/Autor</label>
-            <a-input class="wtam294" name="nomeParte" placeholder="Basic usage" />
+            <a-input class="wtam294" name="nomeParte" />
           </div>
           <div class="rel-col-input">
-            <label for="nomeParte">Tipo Réu</label>
-            <a-input class="wtam294" placeholder="Basic usage" />
+            <label for="nomeParte">Tipo Ação</label>
+            <a-input class="wtam294" />
           </div>
           <a-button class="rel-bl1-filtro-btn">FILTRAR RESULTADO</a-button>
         </div>
         <div class="rel-bl1-page">
-          <a-input placeholder="Pag" />
+          <div class="rel-bl1-page-selec">
+            <a-input class="rel-bl1-page-selec-input" :value="this.$route.params.pag " />
+            <p>/{{totalPage}}</p>
+          </div>
+          <div class="rel-bl1-page-direc">
+            <div
+              @click="navegacaoPagina('a')"
+              :class="[this.$route.params.pag <= '1' ? 'page-direct-disable' :'','rel-bl1-page-direc-a']"
+            >
+              <p>&lt;</p>
+            </div>
+            <div
+              @click="navegacaoPagina('p')"
+              :class="[this.$route.params.pag >= totalPage ? 'page-direct-disable' :'','rel-bl1-page-direc-p']"
+            >
+              <p>&gt;</p>
+            </div>
+          </div>
         </div>
       </div>
       <!-- <div class="rel-bl1-num-pag"></div> -->
     </div>
     <div class="rel-bl2">
-      <div>Nº de identificação 0006721</div>
+      <div class="rel-bl2-titulo">Nº de identificação 0006721</div>
       <div clas="rel-bl2-table">
         <table class="rel-bl2-tabela">
           <tr>
@@ -60,12 +77,26 @@
             </tr>
           </template>
         </table>
-        {{$route.params}}
-        <a
-          v-if="this.$route.params.pag > '1'"
-          @click="navegacaoPagina('v')"
-        >voltar pagina</a>
-        <a v-if="this.$route.params.pag < totalPage" @click="navegacaoPagina('p')">passa pagina</a>
+        <div class="rel-bl1-page-direc-bottom">
+          <div class="rel-bl1-page-direc-bottom-selec">
+            <a-input class="rel-bl1-page-selec-input" :value="this.$route.params.pag " />
+            <p>/{{totalPage}}</p>
+          </div>
+          <div class="rel-bl1-page-direc-bottom-itens">
+            <div
+              @click="navegacaoPagina('a')"
+              :class="[this.$route.params.pag <= '1' ? 'page-direct-disable' :'','rel-bl1-page-direc-a']"
+            >
+              <p>&lt;</p>
+            </div>
+            <div
+              @click="navegacaoPagina('p')"
+              :class="[this.$route.params.pag >= totalPage ? 'page-direct-disable' :'','rel-bl1-page-direc-p']"
+            >
+              <p>&gt;</p>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -152,6 +183,7 @@ p {
 .rel-bl1 {
   margin: 0 auto;
   max-width: 1162px;
+  margin-bottom: 29px;
 }
 .rel-bl1-titulo {
   margin-bottom: 15px;
@@ -160,11 +192,13 @@ p {
 }
 .rel-bl1-filtro {
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
 }
 .rel-bl1-filtro-input {
   max-width: 900px;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
   align-items: flex-end;
   flex: 3;
@@ -181,14 +215,93 @@ p {
 }
 .rel-bl1-page {
   display: flex;
+  justify-content: space-between;
   align-items: flex-end;
-  max-width: 100px;
+  max-width: 200px;
   flex: 1;
-  border: 1px solid yellow;
+}
+.rel-bl1-page-selec {
+  display: flex;
+  align-items: center;
+}
+.rel-bl1-page-selec-input {
+  width: 51px;
+  height: 31px;
+  font-size: 1.2em;
+  text-align: center;
+}
+.rel-bl1-page-selec > p {
+  font-size: 1.2em;
+  margin-left: 10px;
+}
+.rel-bl1-page-direc-bottom p {
+  font-size: 1.2em;
+  margin-left: 10px;
+}
+
+.page-direct-disable {
+  background-color: #edf0f2 !important;
+  pointer-events: none;
+  cursor: default;
+}
+.rel-bl1-page-direc {
+  display: flex;
+  width: 86px;
+  justify-content: space-between;
+}
+.rel-bl1-page-direc-bottom {
+  display: flex;
+  margin-top: 34px;
+  max-width: 1480px;
+  justify-content: flex-end;
+}
+.rel-bl1-page-direc-bottom-itens {
+  display: flex;
+  justify-content: space-between;
+  width: 86px;
+}
+.rel-bl1-page-direc-bottom-selec {
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+}
+.rel-bl1-page-direc-a {
+  height: 33px;
+  width: 33px;
+  background-color: #1d375c;
+  border-radius: 20px 0px 0px 20px;
+  cursor: pointer;
+}
+.rel-bl1-page-direc-a p {
+  color: #cacdcf;
+  font-weight: bold;
+  margin-top: 4px;
+  margin-left: 13px;
+}
+.rel-bl1-page-direc-p {
+  height: 33px;
+  width: 33px;
+  background-color: #1d375c;
+  border-radius: 0px 20px 20px 0px;
+  cursor: pointer;
+}
+.rel-bl1-page-direc-p p {
+  color: #cacdcf;
+  font-weight: bold;
+  margin-top: 4px;
+  margin-left: 13px;
+}
+.rel-bl2-page-selec > p {
+  font-size: 1.2em;
+  margin-left: 10px;
 }
 .rel-bl2 {
   margin: 0 auto;
   max-width: 1162px;
+}
+.rel-bl2-titulo {
+  font-size: 1.5em;
+  margin-bottom: 13px;
 }
 .rel-bl2-tabela {
   width: 1162px;

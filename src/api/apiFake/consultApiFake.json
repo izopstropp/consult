@@ -51,5 +51,50 @@
       "justica": "federal",
       "parte": "autor"
     }
+  ],
+
+  "agrupamentoVolu": {
+    "justica": {
+      "estadual": "110",
+      "federal": "100",
+      "trabalhista": "0"
+    },
+    "partes": {
+      "reu": "500",
+      "autor": "10"
+    },
+    "uf": {
+      "ac": "10",
+      "pe": "2",
+      "rj": "1",
+      "sc": "0",
+      "ba": "4"
+    }
+  },
+  "PostagrupamentoVolu": {
+    "consultaId": "123",
+    "justica": ["estadual", "federal", "trabalhista"],
+    "partes": ["reu", "autor"],
+    "uf": {
+      "ac": "10",
+      "pe": "2",
+      "rj": "1",
+      "sc": "0",
+      "ba": "4"
+    }
+  },
+  "hsitorico": [
+    {
+      "consultaId": "123",
+      "data": "",
+      "tipoConsulta": "preditivo",
+      "valor": "23434"
+    },
+    {
+      "consultaId": "123",
+      "data": "",
+      "tipoConsulta": "preditivo",
+      "valor": "23434"
+    }
   ]
 }
