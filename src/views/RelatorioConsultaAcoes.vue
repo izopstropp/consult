@@ -19,19 +19,30 @@
         </div>
         <div class="rel-bl1-page">
           <div class="rel-bl1-page-selec">
-            <a-input class="rel-bl1-page-selec-input" :value="this.$route.params.pag " />
-            <p>/{{totalPage}}</p>
+            <a-input
+              class="rel-bl1-page-selec-input"
+              :value="this.$route.params.pag"
+            />
+            <p>/{{ totalPage }}</p>
           </div>
           <div class="rel-bl1-page-direc">
             <div
               @click="navegacaoPagina('a')"
-              :class="[this.$route.params.pag <= '1' ? 'page-direct-disable' :'','rel-bl1-page-direc-a']"
+              :class="[
+                this.$route.params.pag <= '1' ? 'page-direct-disable' : '',
+                'rel-bl1-page-direc-a',
+              ]"
             >
               <p>&lt;</p>
             </div>
             <div
               @click="navegacaoPagina('p')"
-              :class="[this.$route.params.pag >= totalPage ? 'page-direct-disable' :'','rel-bl1-page-direc-p']"
+              :class="[
+                this.$route.params.pag >= totalPage
+                  ? 'page-direct-disable'
+                  : '',
+                'rel-bl1-page-direc-p',
+              ]"
             >
               <p>&gt;</p>
             </div>
@@ -59,39 +70,51 @@
             <th>Adv. Réu</th>
           </tr>
 
-          <template v-for=" (reg,index) in gerarRegistroPorPagina">
+          <template v-for="(reg, index) in gerarRegistroPorPagina">
             <!-- <tr v-for="(item,index) in reg" :key="index"> -->
             <tr :key="index">
-              <td>{{reg.uf}}</td>
-              <td>{{reg.npu}}</td>
-              <td>{{reg.forum}}</td>
-              <td>{{reg.cidade}}</td>
-              <td>{{reg.vara}}</td>
-              <td>{{reg.reu}}</td>
-              <td>{{reg.autor}}</td>
-              <td>{{reg.tipoAcao}}</td>
-              <td>{{reg.valorAcao}}</td>
-              <td>{{reg.dataDistri}}</td>
-              <td>{{reg.advAutor}}</td>
-              <td>{{reg.advRéu}}</td>
+              <td>{{ reg.uf }}</td>
+              <td>{{ reg.npu }}</td>
+              <td>{{ reg.forum }}</td>
+              <td>{{ reg.cidade }}</td>
+              <td>{{ reg.vara }}</td>
+              <td>{{ reg.reu }}</td>
+              <td>{{ reg.autor }}</td>
+              <td>{{ reg.tipoAcao }}</td>
+              <td>{{ reg.valorAcao }}</td>
+              <td>{{ reg.dataDistri }}</td>
+              <td>{{ reg.advAutor }}</td>
+              <td>{{ reg.advRéu }}</td>
             </tr>
           </template>
         </table>
+
         <div class="rel-bl1-page-direc-bottom">
           <div class="rel-bl1-page-direc-bottom-selec">
-            <a-input class="rel-bl1-page-selec-input" :value="this.$route.params.pag " />
-            <p>/{{totalPage}}&lt;/p></p>
+            <a-input
+              class="rel-bl1-page-selec-input"
+              :value="this.$route.params.pag"
+            />
+            <p>/{{ totalPage }}</p>
           </div>
           <div class="rel-bl1-page-direc-bottom-itens">
             <div
               @click="navegacaoPagina('a')"
-              :class="[this.$route.params.pag <= '1' ? 'page-direct-disable' :'','rel-bl1-page-direc-a']"
+              :class="[
+                this.$route.params.pag <= '1' ? 'page-direct-disable' : '',
+                'rel-bl1-page-direc-a',
+              ]"
             >
               <p>&lt;</p>
             </div>
             <div
               @click="navegacaoPagina('p')"
-              :class="[this.$route.params.pag >= totalPage ? 'page-direct-disable' :'','rel-bl1-page-direc-p']"
+              :class="[
+                this.$route.params.pag >= totalPage
+                  ? 'page-direct-disable'
+                  : '',
+                'rel-bl1-page-direc-p',
+              ]"
             >
               <p>&gt;</p>
             </div>
@@ -104,14 +127,15 @@
 <script>
 import { resultaConsulta } from "../../dadosFake/resultadoConsulta";
 export default {
+  name: "RelatorioConsultaAcoes",
   props: ["id", "pag"],
   data() {
     return {
       registrosVelumetria: resultaConsulta,
       qtdrefres: 0,
       paginacao: {
-        limiteItensPagina: 2
-      }
+        limiteItensPagina: 2,
+      },
     };
   },
 
@@ -139,7 +163,7 @@ export default {
         }
       }
       return registrosPorPagina;
-    }
+    },
   },
   methods: {
     navegacaoPagina(tipo) {
@@ -148,10 +172,10 @@ export default {
           ? parseInt(this.$route.params.pag) + 1
           : parseInt(this.$route.params.pag) - 1;
       this.$router.push({
-        path: `/volumetria/${this.id}/${direcao}`
+        path: `/volumetria/${this.id}/${direcao}`,
       });
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -168,6 +192,7 @@ p {
 .rel-col-input {
   display: flex;
   flex-direction: column;
+  margin-right: 20px;
 }
 .rel-col-input > label {
   margin-bottom: 9px;
@@ -200,9 +225,9 @@ p {
   max-width: 900px;
   display: flex;
   flex-wrap: wrap;
-  /* justify-content: space-between; */
+  justify-content: space-between;
   align-items: flex-end;
-  /* flex: 3; */
+  /* flex: 1; */
 }
 .rel-bl1-filtro-btn {
   width: 251px;
@@ -221,7 +246,7 @@ p {
   /* max-width: 200px;  */
   width: 200px;
   /* width: 50px; */
-  /* flex: 1; */
+  /* flex: 2; */
 }
 .rel-bl1-page-selec {
   display: flex;
@@ -323,6 +348,7 @@ th {
   height: 73px;
   background-color: #1d375c;
   color: white;
+  font-size: 1.3em;
 }
 td:first-child + td {
   width: 170px;

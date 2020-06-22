@@ -6,6 +6,7 @@ import SelecaoTipoConsulta from "../views/SelecaoTipoConsulta.vue";
 import ConsultaAcoes from "../components/ConsultaAcoes";
 import ResultadoConsultaAcoes from "../views/ResultadoConsultaAcoes.vue";
 import RelatorioConsultaAcoes from "../views/RelatorioConsultaAcoes.vue";
+import HistoricoConsulta from "../views/HistoricoConsulta";
 
 Vue.use(VueRouter);
 
@@ -30,7 +31,7 @@ const routes = [
       },
       {
         path: "/consulta",
-        name: "consulta",
+        name: "consulta-acoes",
         component: ConsultaAcoes,
       },
       {
@@ -43,6 +44,11 @@ const routes = [
         name: "RelatorioConsultaAcoes",
         component: RelatorioConsultaAcoes,
         props: true,
+      },
+      {
+        path: "/historico",
+        name: "historico",
+        component: HistoricoConsulta,
       },
     ],
   },

@@ -8,18 +8,30 @@
         <div class="btn-acao">
           <a-button
             @click="ativarBotao(1)"
-            :class="[btnAcaoAtivado? 'color-backgroud-azul':'','esconder-bordar-direita']"
-          >Ações</a-button>
+            :class="[
+              btnAcaoAtivado ? 'color-backgroud-azul' : '',
+              'esconder-bordar-direita',
+            ]"
+            >Ações</a-button
+          >
         </div>
         <div class="btn-acao">
           <a-button
             @click="ativarBotao(2)"
-            :class="[btnPreditivoAtivado? 'color-backgroud-azul':'','esconder-bordar-esquerda']"
-          >Preditivo</a-button>
+            :class="[
+              btnPreditivoAtivado ? 'color-backgroud-azul' : '',
+              'esconder-bordar-esquerda',
+            ]"
+            >Preditivo</a-button
+          >
         </div>
       </div>
       <div class="selecao-confirma">
-        <router-link class="btn-selecao-confirmar" :to="{ name: nameRouterLink }">Confirmar</router-link>
+        <router-link
+          class="btn-selecao-confirmar"
+          :to="{ name: nameRouterLink }"
+          >Confirmar</router-link
+        >
       </div>
     </div>
   </div>
@@ -30,7 +42,7 @@ export default {
     return {
       btnAcaoAtivado: true,
       btnPreditivoAtivado: false,
-      nameRouterLink: "consulta"
+      nameRouterLink: "consulta-acoes",
     };
   },
   methods: {
@@ -44,8 +56,8 @@ export default {
         this.btnPreditivoAtivado = true;
         this.nameRouterLink = "test";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
