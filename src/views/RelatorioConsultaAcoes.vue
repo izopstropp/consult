@@ -27,13 +27,13 @@
               @click="navegacaoPagina('a')"
               :class="[this.$route.params.pag <= '1' ? 'page-direct-disable' :'','rel-bl1-page-direc-a']"
             >
-              <p>></p>
+              <p>&lt;</p>
             </div>
             <div
               @click="navegacaoPagina('p')"
               :class="[this.$route.params.pag >= totalPage ? 'page-direct-disable' :'','rel-bl1-page-direc-p']"
             >
-              <p>></p>
+              <p>&gt;</p>
             </div>
           </div>
         </div>
@@ -80,20 +80,20 @@
         <div class="rel-bl1-page-direc-bottom">
           <div class="rel-bl1-page-direc-bottom-selec">
             <a-input class="rel-bl1-page-selec-input" :value="this.$route.params.pag " />
-            <p>/{{totalPage}}</p>
+            <p>/{{totalPage}}&lt;/p></p>
           </div>
           <div class="rel-bl1-page-direc-bottom-itens">
             <div
               @click="navegacaoPagina('a')"
               :class="[this.$route.params.pag <= '1' ? 'page-direct-disable' :'','rel-bl1-page-direc-a']"
             >
-              <p>></p>
+              <p>&lt;</p>
             </div>
             <div
               @click="navegacaoPagina('p')"
               :class="[this.$route.params.pag >= totalPage ? 'page-direct-disable' :'','rel-bl1-page-direc-p']"
             >
-              <p>></p>
+              <p>&gt;</p>
             </div>
           </div>
         </div>
@@ -200,9 +200,9 @@ p {
   max-width: 900px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  /* justify-content: space-between; */
   align-items: flex-end;
-  flex: 3;
+  /* flex: 3; */
 }
 .rel-bl1-filtro-btn {
   width: 251px;
@@ -218,9 +218,10 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  /* max-width: 200px;  */
   width: 200px;
-  /* margin-left: 20px; */
-  flex: 1;
+  /* width: 50px; */
+  /* flex: 1; */
 }
 .rel-bl1-page-selec {
   display: flex;
