@@ -12,7 +12,7 @@
             <a-input class="wtam294" name="nomeParte" />
           </div>
           <div class="rel-col-input">
-            <label for="nomeParte">Tipo Ação</label>
+            <label for="nomeParte">Tipo A</label>
             <a-input class="wtam294" />
           </div>
           <a-button class="rel-bl1-filtro-btn">FILTRAR RESULTADO</a-button>
@@ -27,13 +27,13 @@
               @click="navegacaoPagina('a')"
               :class="[this.$route.params.pag <= '1' ? 'page-direct-disable' :'','rel-bl1-page-direc-a']"
             >
-              <p>&lt;</p>
+              <p>></p>
             </div>
             <div
               @click="navegacaoPagina('p')"
               :class="[this.$route.params.pag >= totalPage ? 'page-direct-disable' :'','rel-bl1-page-direc-p']"
             >
-              <p>&gt;</p>
+              <p>></p>
             </div>
           </div>
         </div>
@@ -87,13 +87,13 @@
               @click="navegacaoPagina('a')"
               :class="[this.$route.params.pag <= '1' ? 'page-direct-disable' :'','rel-bl1-page-direc-a']"
             >
-              <p>&lt;</p>
+              <p>></p>
             </div>
             <div
               @click="navegacaoPagina('p')"
               :class="[this.$route.params.pag >= totalPage ? 'page-direct-disable' :'','rel-bl1-page-direc-p']"
             >
-              <p>&gt;</p>
+              <p>></p>
             </div>
           </div>
         </div>
@@ -192,6 +192,7 @@ p {
 }
 .rel-bl1-filtro {
   display: flex;
+  max-width: 1480px;
   flex-wrap: wrap;
   justify-content: space-between;
 }
@@ -217,7 +218,8 @@ p {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  max-width: 200px;
+  width: 200px;
+  /* margin-left: 20px; */
   flex: 1;
 }
 .rel-bl1-page-selec {

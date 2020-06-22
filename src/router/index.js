@@ -39,12 +39,6 @@ const routes = [
         component: ResultadoConsultaAcoes,
       },
       {
-        path: "/volumetria/:id",
-        name: "RelatorioConsultaAcoes",
-        component: RelatorioConsultaAcoes,
-        props: true,
-      },
-      {
         path: "/volumetria/:id/:pag",
         name: "RelatorioConsultaAcoes",
         component: RelatorioConsultaAcoes,
