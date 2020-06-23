@@ -11,10 +11,29 @@
             <p>Nome do usuário</p>
           </div>
           <div>
-            <img class="menu-esquerdo-seta" src="../assets/setaMenuLateral.png" alt="seta" />
+            <img
+              class="menu-esquerdo-seta"
+              src="../assets/setaMenuLateral.png"
+              alt="seta"
+            />
           </div>
-          <div class="menu-itens-esquerdo-usuario" :class="nomeClassAbrirMenuUsuario">
+          <div
+            class="menu-itens-esquerdo-usuario"
+            :class="nomeClassAbrirMenuUsuario"
+          >
             <ul>
+              <router-link
+                class="menu-itens-esquerdo-usuario-configuracao"
+                to="/selecao"
+                tag="li"
+                >Inicio</router-link
+              >
+              <router-link
+                class="menu-itens-esquerdo-usuario-configuracao"
+                to="/historico"
+                tag="li"
+                >Histórico de pesquisa</router-link
+              >
               <li class="menu-itens-esquerdo-usuario-configuracao">
                 Configuração
                 <!-- <img src="../assets/miniEngrenagem.png" alt="mini engrenagem" /> -->
@@ -32,7 +51,7 @@ import { DO_LOGOUT } from "../store/actions";
 export default {
   data() {
     return {
-      nomeClassAbrirMenuUsuario: ""
+      nomeClassAbrirMenuUsuario: "",
     };
   },
   methods: {
@@ -45,8 +64,8 @@ export default {
     sair() {
       this.$store.dispatch(DO_LOGOUT);
       this.$router.push("/login");
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -78,7 +97,7 @@ export default {
   animation-fill-mode: forwards;
   position: absolute;
   width: 179px;
-  height: 77px;
+  height: 130px;
   top: 50px;
   right: 90px;
   list-style-type: none;
@@ -105,9 +124,13 @@ export default {
   color: white;
 }
 .menu-itens-esquerdo-usuario > ul li {
-  text-align: center;
-  border-bottom: 1px solid #0415203b;
+  text-align: right;
+  /* border-bottom: 1px solid #0415203b; */
   padding-bottom: 7px;
+  padding-right: 5px;
+}
+.menu-itens-esquerdo-usuario > ul li:nth-child(3) {
+  border-bottom: 1px solid #0415203b;
 }
 .menu-itens-esquerdo-usuario-configuracao > img {
   margin-top: -5px;

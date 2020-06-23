@@ -12,7 +12,7 @@
             <a-input class="wtam294" name="nomeParte" />
           </div>
           <div class="rel-col-input">
-            <label for="nomeParte">Tipo A</label>
+            <label for="nomeParte">Tipo Ação</label>
             <a-input class="wtam294" />
           </div>
           <a-button class="rel-bl1-filtro-btn">FILTRAR RESULTADO</a-button>

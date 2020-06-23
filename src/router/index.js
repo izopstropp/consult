@@ -3,10 +3,11 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import SelecaoTipoConsulta from "../views/SelecaoTipoConsulta.vue";
-import ConsultaAcoes from "../components/ConsultaAcoes";
+import ConsultaAcoes from "../views/ConsultaAcoes";
 import ResultadoConsultaAcoes from "../views/ResultadoConsultaAcoes.vue";
 import RelatorioConsultaAcoes from "../views/RelatorioConsultaAcoes.vue";
 import HistoricoConsulta from "../views/HistoricoConsulta";
+import ConsultaPreditivo from "../views/ConsultaPreditivo";
 
 Vue.use(VueRouter);
 
@@ -26,7 +27,7 @@ const routes = [
     children: [
       {
         path: "/selecao",
-        name: "selecao-tipo-consulta",
+        name: "selecaoTipoConsulta",
         component: SelecaoTipoConsulta,
       },
       {
@@ -49,6 +50,11 @@ const routes = [
         path: "/historico",
         name: "historico",
         component: HistoricoConsulta,
+      },
+      {
+        path: "/consulta",
+        name: "consulta-preditivo",
+        component: ConsultaPreditivo,
       },
     ],
   },

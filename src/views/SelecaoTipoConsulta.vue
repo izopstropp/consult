@@ -54,7 +54,7 @@ export default {
       } else {
         this.btnAcaoAtivado = false;
         this.btnPreditivoAtivado = true;
-        this.nameRouterLink = "test";
+        this.nameRouterLink = "consulta-preditivo";
       }
     },
   },
