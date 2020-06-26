@@ -8,6 +8,7 @@ import ResultadoConsultaAcoes from "../views/ResultadoConsultaAcoes.vue";
 import RelatorioConsultaAcoes from "../views/RelatorioConsultaAcoes.vue";
 import HistoricoConsulta from "../views/HistoricoConsulta";
 import ConsultaPreditivo from "../views/ConsultaPreditivo";
+import MultiConsult from "../components/input/select/multiSelect/MultiConsult.vue";
 
 Vue.use(VueRouter);
 
@@ -58,7 +59,11 @@ const routes = [
       },
     ],
   },
-
+  {
+    path: "/multi",
+    MultiConsult: "multi",
+    component: MultiConsult,
+  },
   {
     path: "/login",
     name: "login",

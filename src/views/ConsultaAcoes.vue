@@ -12,7 +12,9 @@
           :class="[!nomeValidado ? 'erroInput' : 'erroResetInput']"
           style="width: 340px"
         />
-        <p v-if="!nomeValidado" style="color:red">Preencha o campo corretamente</p>
+        <p v-if="!nomeValidado" style="color:red">
+          Preencha o campo corretamente
+        </p>
       </div>
       <div class="consulta-form-input">
         <p>CPF/CNPJ</p>
@@ -23,111 +25,122 @@
         />
       </div>
     </div>
-    <div class="consulta-formulario-line">
+    <div class="consulta-formulario-line align-items-end">
       <div class="consulta-form-input">
         <a-checkbox
           v-model="parametrosConsulta.possuiSigla"
           class="consulta-form-checkbox"
           @click="resetarInputSigla"
-        >O nome possui sigla?</a-checkbox>
+          >O nome possui sigla?</a-checkbox
+        >
         <a-input
           @click="resetarInputSigla"
-          :class="[!siglaValidado ? 'erroInput' : 'erroResetInput']"
+          :class="[
+            !siglaValidado ? 'erroInput' : 'erroResetInput',
+            'tam-input-340',
+          ]"
           v-model="parametrosConsulta.sigla"
           :disabled="!parametrosConsulta.possuiSigla"
         />
-        <p v-if="!siglaValidado" style="color:red">Preencha o campo corretamente</p>
+        <p v-if="!siglaValidado" style="color:red">
+          Preencha o campo corretamente
+        </p>
       </div>
       <div class="consulta-form-input">
-        <p style="margin-bottom:8px">UF</p>
-        <a-select v-model="parametrosConsulta.uf" mode="multiple" style="width: 340px">
-          <a-select-option value=" Todas">Todas</a-select-option>
-          <a-select-option value="AC">AC</a-select-option>
-          <a-select-option value="AL">AL</a-select-option>
-          <a-select-option value="AP">AP</a-select-option>
-          <a-select-option value="AM">AM</a-select-option>
-          <a-select-option value="BA">BA</a-select-option>
-          <a-select-option value="CE">CE</a-select-option>
-          <a-select-option value="DF">DF</a-select-option>
-          <a-select-option value="ES">ES</a-select-option>
-          <a-select-option value="GO">GO</a-select-option>
-          <a-select-option value="MA">MA</a-select-option>
-          <a-select-option value="MT">MT</a-select-option>
-          <a-select-option value="MS">MS</a-select-option>
-          <a-select-option value="MG">MG</a-select-option>
-          <a-select-option value="PA">PA</a-select-option>
-          <a-select-option value="PB">PB</a-select-option>
-          <a-select-option value="PR">PR</a-select-option>
-          <a-select-option value="PE">PE</a-select-option>
-          <a-select-option value="PI">PI</a-select-option>
-          <a-select-option value="RJ">RJ</a-select-option>
-          <a-select-option value="RN">RN</a-select-option>
-          <a-select-option value="RS">RS</a-select-option>
-          <a-select-option value="RO">RO</a-select-option>
-          <a-select-option value="RR">RR</a-select-option>
-          <a-select-option value="SC">SC</a-select-option>
-          <a-select-option value="SP">SP</a-select-option>
-          <a-select-option value="SE">SE</a-select-option>
-          <a-select-option value="TO">TO</a-select-option>
+        <a-select style="width:117px" v-model="parametrosConsulta.tipoPessoa">
+          <a-select-option value="pf">Pessoa física</a-select-option>
+          <a-select-option value="pj">Pessoa jurídica</a-select-option>
         </a-select>
       </div>
+      <div style="width:213px">
+        <p>Data de distribuição</p>
+        <div class="consulta-form-calender">
+          <a-month-picker
+            format="MM/YYYY"
+            class="consulta-form-calender-item"
+            placeholder="Mês / Ano"
+            v-model="parametrosConsulta.dataDistribuicaoInicial"
+          />
+          <a-month-picker
+            format="MM/YYYY"
+            class="consulta-form-calender-item"
+            placeholder="Mês / Ano"
+            v-model="parametrosConsulta.dataDistribuicaoFinal"
+          />
+        </div>
+      </div>
     </div>
+
     <!-- <div class="consulta-formulario-line">
       
     </div>-->
-    <div class="consulta-formulario-line">
-      <a-radio-group v-model="parametrosConsulta.tipoPessoa" name="radioGroup">
-        <a-radio :value="1">PF</a-radio>
-        <a-radio :value="2">PJ</a-radio>
-      </a-radio-group>
-      <div class="consulta-form-select">
-        <a-select
-          v-model="parametrosConsulta.justica"
-          mode="tags"
-          style="max-width: 300px; min-width:200px"
-          placeholder="Justiça"
-        >
-          <a-select-option value="ESTADUAL">Estadual</a-select-option>
-          <a-select-option value="FEDERAL">Federal</a-select-option>
-          <a-select-option value="TRABALHISTA">Trabalhista</a-select-option>
-        </a-select>
-        <a-select
-          v-model="parametrosConsulta.partes"
-          mode="tags"
-          placeholder="Partes"
-          style="width: 160px"
-        >
-          <a-select-option value="REU">Réu</a-select-option>
-          <a-select-option value="AUTOR">Autor</a-select-option>
-        </a-select>
-        <div style="width:222px">
-          <p>Data de distribuição</p>
-          <div class="consulta-form-calender">
-            <a-month-picker
-              format="MM/YYYY"
-              class="consulta-form-calender-item"
-              placeholder="Mês / Ano"
-              v-model="parametrosConsulta.dataDistribuicaoInicial"
-            />
-            <a-month-picker
-              format="MM/YYYY"
-              class="consulta-form-calender-item"
-              placeholder="Mês / Ano"
-              v-model="parametrosConsulta.dataDistribuicaoFinal"
-            />
+    <div class="consulta-formulario-line consulta-form-top-33">
+      <div class="consulta-form-input">
+        <multiSelect
+          style="max-width: 225px"
+          nomeCampo="Justiça"
+          v-model="dataSetJustica"
+        />
+        <div class="result alt-input-100">
+          <div v-for="(item, index) in dataSetJusticaSelecinado" :key="index">
+            <span>{{ item.nome }}</span>
+            <span @click="desmarcarItemJustica(item)">
+              <small><img src="../assets/minix.png" alt="fechar"/></small>
+            </span>
           </div>
         </div>
       </div>
-      <a-button @click="consulta" class="consulta-form-btn">Consultar</a-button>
+      <div class="consulta-form-input">
+        <multiSelect
+          style="max-width: 225px;"
+          nomeCampo="Partes"
+          v-model="dataSetParte"
+        />
+        <div class="result">
+          <div v-for="(item, index) in dataSetParteSelecinado" :key="index">
+            <span>{{ item.nome }}</span>
+            <span @click="desmarcarItemParte(item)">
+              <small><img src="../assets/minix.png" alt="fechar"/></small>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="consulta-form-input">
+        <multiSelect
+          style="max-width: 225px;"
+          nomeCampo="UF"
+          v-model="dataSetUf"
+        />
+        <div class="result">
+          <div v-for="(item, index) in dataSetUfSelecinado" :key="index">
+            <span>{{ item.nome }}</span>
+            <span @click="desmarcarItemUf(item)"
+              ><small><img src="../assets/minix.png" alt="fechar"/></small
+            ></span>
+          </div>
+        </div>
+      </div>
+      <div class="btn-consulta">
+        <a-button @click="consulta" class="consulta-form-btn"
+          >Consultar</a-button
+        >
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mask } from "vue-the-mask";
+import multiSelect from "@/components/input/select/multiSelect/MultiConsult.vue";
+import { dataSetUf } from "../valuesInput/dataSetUf.js";
+import { dataSetJustica } from "../valuesInput/dataSetJustica.js";
+import { dataSetParte } from "../valuesInput/dataSetParte.js";
 export default {
   name: "consulta-acoes",
   directives: { mask },
+  components: {
+    multiSelect,
+  },
   data() {
     return {
       parametrosConsulta: {
@@ -136,17 +149,61 @@ export default {
         possuiSigla: false,
         sigla: "",
         uf: [],
-        tipoPessoa: "",
+        tipoPessoa: "pf",
         justica: [],
         partes: [],
         dataDistribuicaoInicial: "",
-        dataDistribuicaoFinal: ""
+        dataDistribuicaoFinal: "",
       },
       nomeValidado: true,
-      siglaValidado: true
+      siglaValidado: true,
+      dataSetUf: dataSetUf,
+      dataSetJustica: dataSetJustica,
+      dataSetParte: dataSetParte,
     };
   },
+  computed: {
+    dataSetJusticaSelecinado() {
+      let result = this.dataSetJustica.filter((item) => {
+        return item.marcado == true;
+      });
+      return result;
+    },
+    dataSetParteSelecinado() {
+      let result = this.dataSetParte.filter((item) => {
+        return item.marcado == true;
+      });
+      return result;
+    },
+    dataSetUfSelecinado() {
+      let result = this.dataSetUf.filter((item) => {
+        return item.marcado == true;
+      });
+      return result;
+    },
+  },
   methods: {
+    desmarcarItemJustica(index) {
+      this.dataSetJustica.map(function(item) {
+        if (item.nome == index.nome) {
+          item.marcado = false;
+        }
+      });
+    },
+    desmarcarItemParte(index) {
+      this.dataSetParte.map(function(item) {
+        if (item.nome == index.nome) {
+          item.marcado = false;
+        }
+      });
+    },
+    desmarcarItemUf(index) {
+      this.dataSetUf.map(function(item) {
+        if (item.nome == index.nome) {
+          item.marcado = false;
+        }
+      });
+    },
     consulta() {
       if (this.validar()) {
         this.$router.push("ResultadoConsultaAcoes");
@@ -171,11 +228,15 @@ export default {
     resetarInputSigla() {
       this.parametrosConsulta.sigla = "";
       this.siglaValidado = true;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
+p {
+  margin: 0;
+  font-size: 0.8em;
+}
 .container-Consulta {
   margin-top: 104px;
 }
@@ -194,8 +255,8 @@ export default {
   align-items: unset;
   align-content: center;
   flex-wrap: wrap;
-  margin: 0 auto 21px auto;
-  max-width: 694px;
+  margin: 0 auto 7px auto;
+  max-width: 690px;
   justify-content: space-between;
 }
 .consulta-formulario-line .consulta-form-input {
@@ -206,15 +267,28 @@ export default {
 .consulta-formulario-line .consulta-form-input p {
   margin-bottom: 2px;
 }
+.consulta-form-top-33 {
+  margin-top: 33px;
+}
 .consulta-form-checkbox {
   margin-bottom: 8px;
+  font-size: 0.8em;
+}
+.tam-input-340 {
+  width: 340px;
+}
+.alt-input-100 {
+  max-height: 147px;
 }
 .consulta-form-select {
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
   justify-content: space-between;
   width: 694px;
+  max-height: 100px;
+}
+.align-items-end {
+  align-items: flex-end;
 }
 .consulta-form-calender {
   display: flex;
@@ -240,5 +314,63 @@ export default {
 }
 p {
   color: #676767;
+}
+.result {
+  display: flex;
+  max-width: 225px;
+  flex-wrap: wrap;
+  margin-top: 6px;
+}
+.result div {
+  height: 23px;
+  margin-right: 5px;
+  border-radius: 100px;
+  background-color: #e8ebed;
+  font-size: 0.9em;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 5px 5px 8px;
+  flex-grow: 0.1;
+  font-size: 0.8em;
+  margin-top: 3px;
+}
+.result div span:nth-child(2) {
+  margin-top: -2px;
+}
+.result div span img {
+  width: 14px;
+  border-radius: 50%;
+  margin-left: 2px;
+}
+.btn-consulta {
+  margin: 0 auto;
+  width: 100px;
+  position: absolute;
+  display: flex;
+  top: 470px;
+  left: 610px;
+}
+@media only screen and (max-width: 1200px) {
+  .btn-consulta {
+    left: 510px;
+  }
+}
+@media only screen and (max-width: 889px) {
+  .btn-consulta {
+    left: 410px;
+  }
+}
+@media only screen and (max-width: 736px) {
+  .btn-consulta {
+    left: 310px;
+  }
+}
+@media only screen and (max-width: 462px) {
+  .btn-consulta {
+    left: 110px;
+    top: 570px;
+  }
 }
 </style>

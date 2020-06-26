@@ -200,7 +200,7 @@ export default {
     transform: translateY(0);
   }
   100% {
-    transform: translateY(-20px);
+    transform: transla teY(-20px);
     opacity: 0;
   }
 }

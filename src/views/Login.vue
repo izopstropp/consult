@@ -1,7 +1,6 @@
 <template>
   <div class="container-page-login">
-     <Autenticacao />
-    test
+    <Autenticacao />
   </div>
 </template>
 <script>
