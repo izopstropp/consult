@@ -5,7 +5,7 @@
     </div>
     <div class="consulta-formulario-line">
       <div class="consulta-form-input">
-        <p>Nome</p>
+        <p>Nome*:</p>
         <a-input
           v-model="parametrosConsulta.nome"
           @click="nomeValidado = true"
@@ -53,7 +53,7 @@
         </a-select>
       </div>
       <div style="width:213px">
-        <p>Data de distribuição</p>
+        <p style="margin-bottom:4px">Data de distribuição</p>
         <div class="consulta-form-calender">
           <a-month-picker
             format="MM/YYYY"
@@ -121,9 +121,12 @@
         </div>
       </div>
       <div class="btn-consulta">
-        <a-button @click="consulta" class="consulta-form-btn"
-          >Consultar</a-button
-        >
+        <div>
+          <a-button @click="consulta" class="consulta-form-btn"
+            >Consultar</a-button
+          >
+        </div>
+        <p>Essa primeira Consulta tem um valor de R$10,00</p>
       </div>
     </div>
   </div>
@@ -238,11 +241,11 @@ p {
   font-size: 0.8em;
 }
 .container-Consulta {
-  margin-top: 104px;
+  margin-top: 65px;
 }
 
 .container-titulo {
-  margin-bottom: 30px;
+  margin-bottom: 59px;
 }
 .container-titulo > p {
   margin: 0px;
@@ -265,7 +268,7 @@ p {
   margin: 0;
 }
 .consulta-formulario-line .consulta-form-input p {
-  margin-bottom: 2px;
+  margin-bottom: 11px;
 }
 .consulta-form-top-33 {
   margin-top: 33px;
@@ -306,20 +309,23 @@ p {
 .ant-btn {
   background-color: #001a3f;
   width: 148px;
-  height: 33px;
-  color: #edf0f2;
+  height: 35px;
+  color: #c1c8d1;
 }
 .ant-btn:active {
   background-color: #001a3f81;
 }
 p {
-  color: #676767;
+  color: #837878;
 }
 .result {
   display: flex;
   max-width: 225px;
   flex-wrap: wrap;
+
   margin-top: 6px;
+  /* border: 1px solid red; */
+  height: 1px;
 }
 .result div {
   height: 23px;
@@ -345,32 +351,52 @@ p {
   margin-left: 2px;
 }
 .btn-consulta {
-  margin: 0 auto;
-  width: 100px;
-  position: absolute;
-  display: flex;
-  top: 470px;
-  left: 610px;
+  margin: 56px auto;
+  /* width: 200px; */
+  /* position: absolute; */
+  /* padding: 0 auto; */
+  /* display: flex; */
+  /* top: 470px;
+  left: 580px; */
 }
-@media only screen and (max-width: 1200px) {
+.btn-consulta div {
+  margin: 0 auto;
+  width: 149px;
+}
+.btn-consulta p {
+  margin-top: 3px;
+  font-size: 0.7em;
+  color: #888888;
+}
+/* @media only screen and (max-width: 1200px) {
   .btn-consulta {
-    left: 510px;
+    left: 470px;
+  }
+}
+@media only screen and (max-width: 969px) {
+  .btn-consulta {
+    left: 390px;
   }
 }
 @media only screen and (max-width: 889px) {
   .btn-consulta {
-    left: 410px;
+    left: 350px;
+  }
+}
+@media only screen and (max-width: 783px) {
+  .btn-consulta {
+    left: 280px;
   }
 }
 @media only screen and (max-width: 736px) {
   .btn-consulta {
-    left: 310px;
+    left: 260px;
   }
 }
 @media only screen and (max-width: 462px) {
   .btn-consulta {
-    left: 110px;
+    left: 70px;
     top: 570px;
   }
-}
+} */
 </style>
