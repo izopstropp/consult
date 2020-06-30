@@ -1,15 +1,6 @@
 <template>
   <div class="container-login-principal">
-    <div class="classTest">
-      <multiSelect v-model="dataSettes" />
-    </div>
-    <div class="result">
-      <p v-for="(item, index) in dataSetSelecionado" :key="index">
-        <span>{{ item.nome }}</span>
-        <span @click="desmarcarItem(item)"><small>x</small></span>
-      </p>
-    </div>
-    <div class="container-component-login" @click="exibirMulti = false">
+    <div class="container-component-login">
       <img src="../assets/LogoKurierConsult.png" alt="logo da kurier consult" />
       <a-form :layout="formLayout">
         <div class="login">
@@ -30,9 +21,7 @@
               @click="usuarioValidado = true"
               :class="[!usuarioValidado ? 'erroInput' : 'resetErroInput']"
             />
-            <p style="color:red" v-if="!usuarioValidado">
-              Preencha o campo corretamente.
-            </p>
+            <p style="color:red" v-if="!usuarioValidado">Preencha o campo corretamente.</p>
           </a-form-item>
           <div class="login-grupo-label">
             <div class="login-label">
@@ -59,9 +48,7 @@
               :type="mostrarSenha ? 'text' : 'password'"
               placeholder
             />
-            <p style="color:red" v-if="!senhaValidado">
-              Preencha o campo corretamente.
-            </p>
+            <p style="color:red" v-if="!senhaValidado">Preencha o campo corretamente.</p>
             <p></p>
           </a-form-item>
 
@@ -83,12 +70,9 @@
 <script>
 import autenticacaoApi from "../api/consultAutenticacaoApi";
 import { DO_LOGIN } from "@/store/actions";
-import multiSelect from "@/components/input/select/multiSelect/MultiConsult.vue";
 export default {
   name: "autenticacao",
-  components: {
-    multiSelect,
-  },
+  components: {},
   data() {
     return {
       formLayout: "vertical",
@@ -96,35 +80,7 @@ export default {
       usuarioValidado: true,
       senhaValidado: true,
       usuario: "",
-      senha: "",
-      dataSettes: [
-        {
-          nome: "SP",
-          marcado: false,
-        },
-        {
-          nome: "PE",
-          marcado: false,
-        },
-        {
-          nome: "SG",
-          marcado: false,
-        },
-        {
-          nome: "GO",
-          marcado: false,
-        },
-        {
-          nome: "PA",
-          marcado: false,
-        },
-        {
-          nome: "AC",
-          marcado: false,
-        },
-      ],
-      // exibirMulti: false,
-      // ufsSelecionados: [],
+      senha: ""
     };
   },
   computed: {
@@ -133,7 +89,7 @@ export default {
       return formLayout === "horizontal"
         ? {
             labelCol: { span: 4 },
-            wrapperCol: { span: 14 },
+            wrapperCol: { span: 14 }
           }
         : {};
     },
@@ -141,16 +97,16 @@ export default {
       const { formLayout } = this;
       return formLayout === "horizontal"
         ? {
-            wrapperCol: { span: 14, offset: 4 },
+            wrapperCol: { span: 14, offset: 4 }
           }
         : {};
     },
     dataSetSelecionado() {
-      let result = this.dataSettes.filter((item) => {
+      let result = this.dataSettes.filter(item => {
         return item.marcado == true;
       });
       return result;
-    },
+    }
   },
   methods: {
     desmarcarItem(index) {
@@ -162,7 +118,7 @@ export default {
     },
     autenticar() {
       if (this.validar()) {
-        autenticacaoApi.autenticar("felipe", "test").then((response) => {
+        autenticacaoApi.autenticar("felipe", "test").then(response => {
           if (response.status == 200) {
             this.$store.dispatch(DO_LOGIN, response.data);
             this.$router.push("/selecao");
@@ -185,37 +141,11 @@ export default {
         validado = false;
       }
       return validado;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
-.classTest {
-  max-width: 216px;
-}
-.result {
-  display: flex;
-  flex-wrap: wrap;
-}
-.result p {
-  width: 47px;
-  height: 23px;
-  margin-right: 10px;
-  border-radius: 100px;
-  margin-top: 3px;
-  background-color: #e8ebed;
-
-  font-size: 0.9em;
-  cursor: pointer;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 5px;
-}
-
-.result p span:nth-child(2) {
-  margin-top: -2px;
-}
 body {
   background-color: #f5f5f5;
 }

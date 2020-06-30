@@ -3,6 +3,22 @@
     <div class="container-titulo">
       <p>CONSULTAR AÇÕES</p>
     </div>
+    <div class="tooltip-extendido">
+      <tooltip :class="[exibicaoTooltip ? 'tootip-exibir':'','tooltip']">
+        <div @click="exibirTooltip = false" class="fechar-tooltip">
+          <img src="../assets/btn-fecha-tootip.png" alt="fechar" />
+        </div>
+        <div style="width:220px">
+          <p>
+            Este campo não é obrigatório, porém sua pesquisa
+            será ainda mais assertiva caso seja preenchido corretamente.
+          </p>
+        </div>
+        <div class="conf-exib-msg">
+          <p @click="exibirTooltip = false">Não exibir essa mensagem novamente</p>
+        </div>
+      </tooltip>
+    </div>
     <div class="consulta-formulario-line">
       <div class="consulta-form-input">
         <p>Nome*:</p>
@@ -12,13 +28,12 @@
           :class="[!nomeValidado ? 'erroInput' : 'erroResetInput']"
           style="width: 340px"
         />
-        <p v-if="!nomeValidado" style="color:red">
-          Preencha o campo corretamente
-        </p>
+        <p v-if="!nomeValidado" style="color:red">Preencha o campo corretamente</p>
       </div>
       <div class="consulta-form-input">
-        <p>CPF/CNPJ</p>
+        <p style="z-index:-99">CPF/CNPJ</p>
         <a-input
+          @click.once="exibirTooltip = true"
           v-mask="['###.###.###-##', '##.###.###/####-##']"
           v-model="parametrosConsulta.documento"
           style="width: 340px"
@@ -31,8 +46,7 @@
           v-model="parametrosConsulta.possuiSigla"
           class="consulta-form-checkbox"
           @click="resetarInputSigla"
-          >O nome possui sigla?</a-checkbox
-        >
+        >O nome possui sigla?</a-checkbox>
         <a-input
           @click="resetarInputSigla"
           :class="[
@@ -42,9 +56,7 @@
           v-model="parametrosConsulta.sigla"
           :disabled="!parametrosConsulta.possuiSigla"
         />
-        <p v-if="!siglaValidado" style="color:red">
-          Preencha o campo corretamente
-        </p>
+        <p v-if="!siglaValidado" style="color:red">Preencha o campo corretamente</p>
       </div>
       <div class="consulta-form-input">
         <a-select style="width:117px" v-model="parametrosConsulta.tipoPessoa">
@@ -76,56 +88,52 @@
     </div>-->
     <div class="consulta-formulario-line consulta-form-top-33">
       <div class="consulta-form-input">
-        <multiSelect
-          style="max-width: 225px"
-          nomeCampo="Justiça"
-          v-model="dataSetJustica"
-        />
+        <multiSelect style="max-width: 225px" nomeCampo="Justiça" v-model="dataSetJustica" />
         <div class="result alt-input-100">
           <div v-for="(item, index) in dataSetJusticaSelecinado" :key="index">
             <span>{{ item.nome }}</span>
             <span @click="desmarcarItemJustica(item)">
-              <small><img src="../assets/minix.png" alt="fechar"/></small>
+              <small>
+                <img src="../assets/minix.png" alt="fechar" />
+              </small>
             </span>
           </div>
         </div>
       </div>
       <div class="consulta-form-input">
-        <multiSelect
-          style="max-width: 225px;"
-          nomeCampo="Partes"
-          v-model="dataSetParte"
-        />
+        <multiSelect style="max-width: 225px;" nomeCampo="Partes" v-model="dataSetParte" />
         <div class="result">
           <div v-for="(item, index) in dataSetParteSelecinado" :key="index">
             <span>{{ item.nome }}</span>
             <span @click="desmarcarItemParte(item)">
-              <small><img src="../assets/minix.png" alt="fechar"/></small>
+              <small>
+                <img src="../assets/minix.png" alt="fechar" />
+              </small>
             </span>
           </div>
         </div>
       </div>
       <div class="consulta-form-input">
-        <multiSelect
-          style="max-width: 225px;"
-          nomeCampo="UF"
-          v-model="dataSetUf"
-        />
-        <div class="result">
-          <div v-for="(item, index) in dataSetUfSelecinado" :key="index">
-            <span>{{ item.nome }}</span>
-            <span @click="desmarcarItemUf(item)"
-              ><small><img src="../assets/minix.png" alt="fechar"/></small
-            ></span>
-          </div>
+        <multiSelect style="max-width: 225px;" nomeCampo="UF" v-model="dataSetUf" />
+      </div>
+    </div>
+    <div class="form-input-extendido">
+      <div class="result result-expandido">
+        <div v-for="(item, index) in dataSetUfSelecinado" :key="index">
+          <span>{{ item.nome }}</span>
+          <span @click="desmarcarItemUf(item)">
+            <small>
+              <img src="../assets/minix.png" alt="fechar" />
+            </small>
+          </span>
         </div>
       </div>
-      <div class="btn-consulta">
-        <div>
-          <a-button @click="consulta" class="consulta-form-btn"
-            >Consultar</a-button
-          >
-        </div>
+    </div>
+    <div class="btn-consulta">
+      <div>
+        <a-button @click="consulta" class="consulta-form-btn">Consultar</a-button>
+      </div>
+      <div>
         <p>Essa primeira Consulta tem um valor de R$10,00</p>
       </div>
     </div>
@@ -138,11 +146,13 @@ import multiSelect from "@/components/input/select/multiSelect/MultiConsult.vue"
 import { dataSetUf } from "../valuesInput/dataSetUf.js";
 import { dataSetJustica } from "../valuesInput/dataSetJustica.js";
 import { dataSetParte } from "../valuesInput/dataSetParte.js";
+import tooltip from "@/components/ToolTip.vue";
 export default {
   name: "consulta-acoes",
   directives: { mask },
   components: {
-    multiSelect,
+    tooltip,
+    multiSelect
   },
   data() {
     return {
@@ -156,34 +166,41 @@ export default {
         justica: [],
         partes: [],
         dataDistribuicaoInicial: "",
-        dataDistribuicaoFinal: "",
+        dataDistribuicaoFinal: ""
       },
       nomeValidado: true,
       siglaValidado: true,
+      exibirTooltip: false,
       dataSetUf: dataSetUf,
       dataSetJustica: dataSetJustica,
-      dataSetParte: dataSetParte,
+      dataSetParte: dataSetParte
     };
   },
   computed: {
     dataSetJusticaSelecinado() {
-      let result = this.dataSetJustica.filter((item) => {
+      let result = this.dataSetJustica.filter(item => {
         return item.marcado == true;
       });
       return result;
     },
     dataSetParteSelecinado() {
-      let result = this.dataSetParte.filter((item) => {
+      let result = this.dataSetParte.filter(item => {
         return item.marcado == true;
       });
       return result;
     },
     dataSetUfSelecinado() {
-      let result = this.dataSetUf.filter((item) => {
+      let result = this.dataSetUf.filter(item => {
         return item.marcado == true;
       });
       return result;
     },
+    exibicaoTooltip() {
+      if (this.exibirTooltip === true) {
+        return true;
+      }
+      return false;
+    }
   },
   methods: {
     desmarcarItemJustica(index) {
@@ -231,8 +248,8 @@ export default {
     resetarInputSigla() {
       this.parametrosConsulta.sigla = "";
       this.siglaValidado = true;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
@@ -245,13 +262,14 @@ p {
 }
 
 .container-titulo {
-  margin-bottom: 59px;
+  height: 1px;
 }
 .container-titulo > p {
   margin: 0px;
   text-align: center;
   font-size: 1.5em;
   font-weight: bold;
+  color: #525252;
 }
 .consulta-formulario-line {
   display: flex;
@@ -262,6 +280,48 @@ p {
   max-width: 690px;
   justify-content: space-between;
 }
+.tooltip-extendido {
+  max-width: 890px;
+  margin: 5px auto;
+  display: flex;
+  justify-content: flex-end;
+}
+.tooltip {
+  transition: all 0.3s;
+  /* z-index: 9999; */
+  opacity: 0;
+  width: 264px;
+  height: 95px;
+  background-color: #edf0f2;
+  color: #676868;
+  text-align: initial;
+  font-size: 1.1em !important;
+  padding: 3px 5px 3px 13px;
+}
+.tootip-exibir {
+  opacity: 1;
+}
+
+.conf-exib-msg {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+  margin-right: 10px;
+}
+.conf-exib-msg p {
+  font-size: 0.6em;
+  color: #406bd1;
+  cursor: pointer;
+}
+.fechar-tooltip {
+  display: flex;
+  justify-content: flex-end;
+}
+.fechar-tooltip img {
+  width: 13px;
+  cursor: pointer;
+}
+
 .consulta-formulario-line .consulta-form-input {
   max-width: 340px;
   padding: 0;
@@ -320,12 +380,23 @@ p {
 }
 .result {
   display: flex;
-  max-width: 225px;
+  max-width: 235px;
   flex-wrap: wrap;
 
   margin-top: 6px;
-  /* border: 1px solid red; */
   height: 1px;
+}
+.result-expandido {
+  max-width: 325px;
+  margin-left: 64%;
+
+  height: 1px;
+}
+.form-input-extendido {
+  max-width: 890px;
+  padding: 0;
+  margin: 0 auto;
+  margin-top: -7px;
 }
 .result div {
   height: 23px;
@@ -352,51 +423,18 @@ p {
 }
 .btn-consulta {
   margin: 56px auto;
-  /* width: 200px; */
-  /* position: absolute; */
-  /* padding: 0 auto; */
-  /* display: flex; */
-  /* top: 470px;
-  left: 580px; */
 }
-.btn-consulta div {
+.btn-consulta div:nth-child(1) {
   margin: 0 auto;
   width: 149px;
+}
+.btn-consulta div:nth-child(2) {
+  margin: 0 auto;
+  width: 209px;
 }
 .btn-consulta p {
   margin-top: 3px;
   font-size: 0.7em;
   color: #888888;
 }
-/* @media only screen and (max-width: 1200px) {
-  .btn-consulta {
-    left: 470px;
-  }
-}
-@media only screen and (max-width: 969px) {
-  .btn-consulta {
-    left: 390px;
-  }
-}
-@media only screen and (max-width: 889px) {
-  .btn-consulta {
-    left: 350px;
-  }
-}
-@media only screen and (max-width: 783px) {
-  .btn-consulta {
-    left: 280px;
-  }
-}
-@media only screen and (max-width: 736px) {
-  .btn-consulta {
-    left: 260px;
-  }
-}
-@media only screen and (max-width: 462px) {
-  .btn-consulta {
-    left: 70px;
-    top: 570px;
-  }
-} */
 </style>
