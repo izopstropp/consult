@@ -5,18 +5,10 @@
       <div class="his-bl-table">
         <table>
           <thead>
-            <th>
-              Nº Identificação
-            </th>
-            <th>
-              Data
-            </th>
-            <th>
-              Tipo de consulta
-            </th>
-            <th>
-              Valor
-            </th>
+            <th>Nº Identificação</th>
+            <th>Data</th>
+            <th>Tipo de consulta</th>
+            <th>Valor</th>
           </thead>
           <tbody>
             <template v-for="(item, index) in dadosHistorico">
@@ -43,23 +35,23 @@ export default {
           identificacao: "123",
           data: "19/06/2020",
           tipoConsulta: "açõe",
-          valor: "R$ 110,00",
+          valor: "R$ 110,00"
         },
         {
           identificacao: "123",
           data: "19/06/2020",
           tipoConsulta: "açõe",
-          valor: "R$ 110,00",
+          valor: "R$ 110,00"
         },
         {
           identificacao: "123",
           data: "19/06/2020",
           tipoConsulta: "açõe",
-          valor: "R$ 110,00",
-        },
-      ],
+          valor: "R$ 110,00"
+        }
+      ]
     };
-  },
+  }
 };
 </script>
 <style scoped>
@@ -70,6 +62,9 @@ export default {
   font-weight: bold;
   margin-top: 65px;
   margin-bottom: 68px;
+}
+.his-bl-table {
+  display: flex;
 }
 table {
   width: 1162px;

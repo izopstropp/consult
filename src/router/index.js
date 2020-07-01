@@ -9,6 +9,7 @@ import RelatorioConsultaAcoes from "../views/RelatorioConsultaAcoes.vue";
 import HistoricoConsulta from "../views/HistoricoConsulta";
 import ConsultaPreditivo from "../views/ConsultaPreditivo";
 import MultiConsult from "../components/input/select/multiSelect/MultiConsult.vue";
+import Volumetria from "../views/Volumetria";
 
 Vue.use(VueRouter);
 
@@ -39,6 +40,11 @@ const routes = [
       {
         path: "/volumetria",
         name: "ResultadoConsultaAcoes",
+        component: Volumetria,
+      },
+      {
+        path: "/volumetria1",
+        name: "ResultadoConsultaAcoes1",
         component: ResultadoConsultaAcoes,
       },
       {
