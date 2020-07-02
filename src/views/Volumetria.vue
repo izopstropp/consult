@@ -1,6 +1,13 @@
 <template>
   <div class="container-resultado-volumetria">
-    <div class="container-filtro"></div>
+    <div class="container-filtro">
+      <div class="filtro-resumo"></div>
+      <div class="filtro-selecao">
+        <div class="selecao-filtro">
+          <p>Selecionar Volumetria</p>
+        </div>
+      </div>
+    </div>
     <div class="container-volumetria">
       <div class="valor-consumo">
         <p>R$ 10,00</p>
@@ -48,14 +55,16 @@
             <tbody>
               <!-- <template v-show="versaoDetalhada"> -->
               <tr :class="[versaoDetalhada ? 'active': '','background-blue']">
-                <td :class="[versaoDetalhada ? 'background-blue':'']">
+                <td
+                  :class="[versaoDetalhada ? 'background-blue ajust-height-uf ajust-width-uf':'ajust-width-uf']"
+                >
                   <div>
-                    <p>RS;SP</p>
+                    <p>RS;SPRS;SPRS;SPRS;SPRS;SPRS;SPRS;SPRS;SPRS;SPRS;SPRS; SPRS;SPRS;SPRS;SPRS;SPRS;SPRS;SPRS;SPRS ;SPRS;SPRS;SPRS; SPRS;SPRS;SPRS;SPRS;SP</p>
                   </div>
                 </td>
                 <td :class="[versaoDetalhada ? 'background-blue':'']">
                   <div>
-                    <p>447</p>
+                    <div>447</div>
                   </div>
                 </td>
                 <td :class="[versaoDetalhada ? 'background-blue':'']">
@@ -123,7 +132,6 @@
               </tr>
             </tbody>
           </table>
-          <a @click="versaoDetalhada = !versaoDetalhada">click</a>
         </div>
       </div>
     </div>
@@ -139,7 +147,7 @@ export default {
       datacollectionJustica: {},
       datacollectionParte: {},
       datacollectionUf: {},
-      versaoDetalhada: true
+      versaoDetalhada: false
     };
   },
   mounted() {
@@ -252,6 +260,13 @@ export default {
 };
 </script>
 <style scoped>
+.ajust-height-uf {
+  height: 80px !important;
+}
+.ajust-width-uf {
+  width: 1px;
+}
+
 p {
   margin: 0;
 }
@@ -263,7 +278,7 @@ p {
 .container-filtro {
   border: 1px solid #c3c3c3;
   border-left: none;
-  width: 472px;
+  width: 486px;
   height: 571px;
 }
 /* --- fim container filtro --- */
@@ -288,7 +303,7 @@ p {
   margin: auto auto auto 21px;
 }
 .volumetria-titulo {
-  margin-bottom: 10px;
+  margin-bottom: 16px;
 }
 .volumetria-titulo span:nth-child(1) {
   color: #525252;
@@ -375,9 +390,9 @@ table {
 }
 td div {
   height: 123px;
-  /* border: 1px solid red; */
-  /* text-align: center; */
-  /* width: 100%; */
+}
+tr {
+  width: 200px !important;
 }
 /* tr,
 td {
@@ -415,13 +430,13 @@ tr td div {
   max-height: 0px;
   opacity: 0;
   box-sizing: border-box;
-  transition: max-height 0.2s, opacity 0s;
+  transition: max-height 0.2s;
   text-align: center;
 }
 tr.active td div {
   max-height: 30px;
   opacity: 1;
-  transition: max-height 0.2s, opacity 0s;
+  transition: max-height 0.2s;
   margin-top: 10px;
 }
 
@@ -463,7 +478,7 @@ tbody > tr > td:nth-of-type(3) {
 tbody > tr {
   font-weight: bold;
   font-size: 0.9em;
-  min-height: 86px !important;
+  /* min-height: 86px !important; */
 }
 .volumetria-grid-resultado {
   max-width: 940px;
