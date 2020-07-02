@@ -36,27 +36,94 @@
           </div>
         </div>
         <div class="volumetria-grid-resultado">
+          <!-- <table :class="[!versaoDetalhada ? 'height-animation-table':'']"> -->
           <table>
-            <thead>
+            <thead style="border-bottom: 1px solid #9494949c !important;">
               <tr>
-                <th>Descrição</th>
-                <th>Quantidade de processos</th>
-                <th>Valor</th>
+                <th :class="[versaoDetalhada ? 'background-blue':'']">Descrição</th>
+                <th :class="[versaoDetalhada ? 'background-blue':'']">Quantidade de processos</th>
+                <th :class="[versaoDetalhada ? 'background-blue':'']">Valor</th>
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Total Consumido</td>
-                <td>50</td>
-                <td>R$ 10,00</td>
+              <!-- <template v-show="versaoDetalhada"> -->
+              <tr :class="[versaoDetalhada ? 'active': '','background-blue']">
+                <td :class="[versaoDetalhada ? 'background-blue':'']">
+                  <div>
+                    <p>RS;SP</p>
+                  </div>
+                </td>
+                <td :class="[versaoDetalhada ? 'background-blue':'']">
+                  <div>
+                    <p>447</p>
+                  </div>
+                </td>
+                <td :class="[versaoDetalhada ? 'background-blue':'']">
+                  <div>
+                    <p>R$570,00</p>
+                  </div>
+                </td>
               </tr>
-              <tr>
-                <td>Total de Consumo</td>
-                <td>447</td>
-                <td>R$ 10,00</td>
+              <tr :class="[versaoDetalhada ? 'active': '','background-blue']">
+                <td :class="[versaoDetalhada ? 'background-blue':'']">
+                  <div>
+                    <p>Preditivo</p>
+                  </div>
+                </td>
+                <td :class="[versaoDetalhada ? 'background-blue':'']">
+                  <div>
+                    <p>447</p>
+                  </div>
+                </td>
+                <td :class="[versaoDetalhada ? 'background-blue':'']">
+                  <div>
+                    <p>R$275,00</p>
+                  </div>
+                </td>
+              </tr>
+              <!-- </template> -->
+              <!-- <template v-show="!versaoDetalhada"> -->
+              <tr :class="[!versaoDetalhada ? 'active': 'change-color-bg']">
+                <td>
+                  <div>
+                    <p>Total consumido</p>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <p>50</p>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    <p>R$10,00</p>
+                  </div>
+                </td>
+              </tr>
+              <!-- </template> -->
+              <!-- <template v-if="!versaoDetalhada">
+                <tr>
+                  <td :class="[!versaoDetalhada ? '': 'hide']">Total Consumido</td>
+                  <td :class="[!versaoDetalhada ? '': 'hide']">50</td>
+                  <td :class="[!versaoDetalhada ? '': 'hide']">R$ 10,00</td>
+                </tr>
+              </template>-->
+              <tr :class="[versaoDetalhada ? 'border-blue':'', 'active']">
+                <td :class="[versaoDetalhada ? 'background-blue background-dark-blue':'bg-grey']">
+                  <div class="font-weight-bold">Total de Consumo</div>
+                </td>
+                <td :class="[versaoDetalhada ? 'background-blue background-dark-blue':'bg-grey']">
+                  <div class="font-weight-bold">447</div>
+                </td>
+                <td
+                  :class="[versaoDetalhada ? 'background-blue background-dark-blue':'bg-grey','valor-total']"
+                >
+                  <div class="font-weight-bold">R$ 845,00</div>
+                </td>
               </tr>
             </tbody>
           </table>
+          <a @click="versaoDetalhada = !versaoDetalhada">click</a>
         </div>
       </div>
     </div>
@@ -71,7 +138,8 @@ export default {
     return {
       datacollectionJustica: {},
       datacollectionParte: {},
-      datacollectionUf: {}
+      datacollectionUf: {},
+      versaoDetalhada: true
     };
   },
   mounted() {
@@ -234,13 +302,13 @@ p {
 }
 
 .container-chart {
-  max-width: 940px;
+  max-width: 949px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
 .container-chart-item-justica {
-  max-width: 542px;
+  max-width: 541px;
   flex-grow: 0.8;
 }
 .chart-justica {
@@ -250,7 +318,7 @@ p {
   border: 1px solid #c9c9c9;
 }
 .container-chart-item-parte {
-  max-width: 386px;
+  max-width: 390px;
   flex-grow: 0;
 }
 .chart-parte {
@@ -263,7 +331,7 @@ p {
 .container-chart-item-uf {
   margin-right: 11px;
   margin-top: 10px;
-  max-width: 940px;
+  max-width: 949px;
 }
 .chart-uf {
   background-color: #ffffff;
@@ -275,50 +343,160 @@ p {
 /* --- fim  volumetria --- */
 
 /* --- inicio grid --- */
-.volumetria-grid-resultado {
+/* .volumetria-grid-resultado { */
+/* margin-top: 12px; */
+/* display: flex; */
+/* } */
+/* table {
+  width: 949px;
+  max-height: 10px !important;
+  transition: height 0.2s ease-in-out !important;
+} */
+/* .height-animation-table {
+  height: 137px !important;
+} */
+/* td {
+  opacity: 1;
+  line-height: 20px !important;
+  transition: all 0.2s ease-in-out;
+}
+.hide {
+  opacity: 0;
+  line-height: 0px !important;
+  position: absolute;
+  visibility: hidden;
+  right: 40000px;
+} */
+
+table {
+  border-collapse: collapse;
+  margin-top: 14px;
+  width: 949px;
+}
+td div {
+  height: 123px;
+  /* border: 1px solid red; */
+  /* text-align: center; */
+  /* width: 100%; */
+}
+/* tr,
+td {
+  padding: 0;
+  background-color: #1d375c;
+} */
+tr,
+td {
+  padding: 0;
+}
+tr .background-blue {
+  background-color: #1d375c;
+  color: #edf0f2;
+  font-weight: normal !important;
+}
+
+.font-weight-bold {
+  font-weight: bold !important;
+}
+.background-dark-blue {
+  background-color: #0f2a50 !important;
+}
+tr .background-white {
+  background-color: #edf0f2;
+}
+
+.change-color-bg {
+  background-color: #1d375c;
+}
+tr.active td div p {
+  margin-top: 10px;
+  text-align: center;
+}
+tr td div {
+  max-height: 0px;
+  opacity: 0;
+  box-sizing: border-box;
+  transition: max-height 0.2s, opacity 0s;
+  text-align: center;
+}
+tr.active td div {
+  max-height: 30px;
+  opacity: 1;
+  transition: max-height 0.2s, opacity 0s;
   margin-top: 10px;
 }
-table,
-th,
-td {
-  border: 1px solid black;
+
+thead tr th {
+  border: 1px solid #9494949c;
   border-left: none;
   border-bottom: none;
   background-color: #edf0f2;
-  border-collapse: collapse;
-  border-color: #a8b2c0;
-  padding: 10px;
+  height: 43px;
   font-size: 1em;
   text-align: center;
-  color: #78797a;
+  color: #59595a;
 }
+thead tr th.background-blue {
+  background-color: #1d375c;
+  color: #edf0f2;
+}
+
 table thead tr th {
   font-weight: normal;
   font-size: 1.1em;
 }
 thead > tr > th {
-  border-top: 2px solid #ffffff;
+  border-top: 1px solid #edf0f2;
 }
 thead > tr > th:nth-child(3) {
-  border-right: 2px solid #ffffff;
+  border-right: 1px solid #edf0f2;
 }
-tbody > tr:nth-child(2) {
-  border-top: 2px solid #ffffff;
-}
-tbody > tr > td:nth-child(3) {
-  border-right: 2px solid #ffffff;
+tbody > tr:nth-of-type(n + 2).border-blue {
+  border-top: 1px solid #1d375c !important;
 }
 
+tbody > tr > td:nth-child(n + 1) {
+  border-right: 1px solid #9494949c;
+}
+tbody > tr > td:nth-of-type(3) {
+  border-right: 1px solid #edf0f2;
+}
 tbody > tr {
   font-weight: bold;
+  font-size: 0.9em;
+  min-height: 86px !important;
 }
 .volumetria-grid-resultado {
-  /* max-width: 940px; */
+  max-width: 940px;
   display: flex;
 }
-table {
-  width: 940px;
+
+/* .valor-total {
+  font-size: 1.2em;
+  font-weight: bold;
+} */
+
+/* .group1-enter-active,
+.group1-leave-active {
+  transition: all 0.4s ease-in-out;
 }
+.group1-enter, .group1-leave-to {
+  opacity: 0;
+}
+.group2-enter-active,
+.group2-leave-active {
+  transition: all 0.4s ease-in-out;
+}
+.group2-enter, .group2-leave-to {
+  opacity: 0;
+}
+
+.group3-enter-active,
+.group3-leave-active {
+  transition: all 0.4s ease-in-out;
+}
+.group3-enter, .group3-leave-to {
+  opacity: 0;
+} */
 
 /* --- fim grid --- */
 </style>

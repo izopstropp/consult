@@ -12,7 +12,7 @@
         class="lista-itens-excluir"
       >
         <span>{{ item.nome }}</span>
-        <span v-if="item.marcado"> &#10003; </span>
+        <span v-if="item.marcado">&#10003;</span>
       </li>
     </transition-group>
   </div>
@@ -22,32 +22,32 @@ export default {
   name: "multiSelectConsult",
   props: {
     nomeExibicao: {
-      type: String,
+      type: String
     },
     dataSet: {
       type: Array,
-      required: true,
+      required: true
     },
     nomeCampo: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
   model: {
     prop: "dataSet",
-    event: "change",
+    event: "change"
   },
   computed: {
     dataSetSelecionado() {
-      let result = this.dataSet.filter((item) => {
+      let result = this.dataSet.filter(item => {
         return item.marcado == true;
       });
       return result;
-    },
+    }
   },
   data() {
     return {
-      exibirMulti: false,
+      exibirMulti: false
     };
   },
 
@@ -65,8 +65,8 @@ export default {
     handleFocusOut(e) {
       console.log(e);
       this.exibirMulti = false;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
@@ -112,20 +112,6 @@ p {
   border-radius: 5px;
   scrollbar-width: 0px;
   -webkit-scrollbar: 0px;
-  /* /
-  -moz-animation-duration: 0.3s;
-  -webkit-animation-duration: 0.3s;
-  -moz-animation-fill-mode: forwards;
-  -webkit-animation-fill-mode: forwards;
-  z-index: -1;
-  opacity: 1;
-  animation-duration: 0.3s;
-  animation-fill-mode: forwards;
-  position: relative;
-  border-radius: 5px;
-  -webkit-box-shadow: 10px 14px 23px -15px rgba(0, 0, 0, 0.75);
-  -moz-box-shadow: 10px 14px 23px -15px rgba(0, 0, 0, 0.75);
-  box-shadow: 10px 14px 23px -15px rgba(0, 0, 0, 0.75); */
 }
 span {
   color: #8d8e8f;
