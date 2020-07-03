@@ -1,9 +1,24 @@
 <template>
   <div tabindex="-1" @blur="handleFocusOut" class="container">
-    <div @click="exibirMulti = !exibirMulti" class="btn-item">
-      <p>{{ nomeCampo }}</p>
+    <div
+      :style="{textAlign:textAlignTextButtom, paddingLeft:paddingLeftTextButtom, backgroundColor:colorButtomActive, borderColor:borderColorButtom}"
+      @click="exibirMulti = !exibirMulti"
+      class="btn-item"
+    >
+      <div
+        :style="{fontSize:fonteSizeTextButtom}"
+        style="display:flex;justify-content: flex-end; margin-top:3px"
+      >
+        <div style="flex:1;width:50px;">{{ nomeCampo }}</div>
+        <div style="width:50px">&#8681;</div>
+      </div>
     </div>
-    <transition-group tag="ul" class="lista-itens">
+    <transition-group
+      tag="ul"
+      class="lista-itens"
+      :class="[exibirMulti ? 'animation-height' : '']"
+      :style="{paddingLeft:paddingLeftList}"
+    >
       <li
         v-show="exibirMulti"
         v-for="item in dataSet"
@@ -11,7 +26,7 @@
         @click="item.marcado = !item.marcado"
         class="lista-itens-excluir"
       >
-        <span>{{ item.nome }}</span>
+        <span>&#8680;{{ item.nome }}</span>
         <span v-if="item.marcado">&#10003;</span>
       </li>
     </transition-group>
@@ -31,6 +46,35 @@ export default {
     nomeCampo: {
       type: String,
       required: true
+    },
+
+    paddingLeftList: {
+      type: String,
+      default: "10px"
+    },
+    textAlignTextButtom: {
+      type: String,
+      default: "left"
+    },
+    paddingLeftTextButtom: {
+      type: String,
+      default: ""
+    },
+    backgroudColorButtom: {
+      type: String,
+      default: "#EDF0F2"
+    },
+    fonteSizeTextButtom: {
+      type: String,
+      default: "1em"
+    },
+    borderColorButtom: {
+      type: String,
+      default: "#c5c5c5"
+    },
+    blurCloseList: {
+      type: Boolean,
+      default: true
     }
   },
   model: {
@@ -43,6 +87,12 @@ export default {
         return item.marcado == true;
       });
       return result;
+    },
+    colorButtomActive() {
+      if (this.exibirMulti) {
+        return this.backgroudColorButtom;
+      }
+      return "";
     }
   },
   data() {
@@ -62,36 +112,36 @@ export default {
     handleFocus() {
       this.exibirMulti = true;
     },
-    handleFocusOut(e) {
-      console.log(e);
-      this.exibirMulti = false;
+    handleFocusOut() {
+      if (this.blurCloseList) {
+        this.exibirMulti = false;
+      }
     }
   }
 };
 </script>
 <style scoped>
-p {
+p,
+ul {
   margin: 0;
 }
 .container {
-  width: 100vw;
+  width: 100%;
   position: relative;
-  height: 32px;
-  text-align: center;
+  height: 100%;
   border-radius: 2px;
   cursor: pointer;
 }
 .btn-item {
-  border: 1px solid #c5c5c5;
   background-color: #ffffff;
+  border: 1px solid #d11515;
   max-width: 100vw;
   height: 32px;
   position: relative;
 }
 
 .btn-item p {
-  text-align: center;
-  margin-top: 3px;
+  margin-top: 2px;
   color: #78797a;
 }
 
@@ -102,8 +152,8 @@ p {
 .lista-itens {
   padding: 0px 10px 0px 10px;
   background-color: #ffffff;
-  /* background-color: red; */
-  max-height: 200px;
+  transition: max-height 0.3s;
+  max-height: 0px;
   overflow-y: scroll;
   max-width: 100vw;
   -webkit-box-shadow: 10px 14px 23px -15px rgba(0, 0, 0, 0.75);
@@ -112,6 +162,9 @@ p {
   border-radius: 5px;
   scrollbar-width: 0px;
   -webkit-scrollbar: 0px;
+}
+.animation-height {
+  max-height: 176px;
 }
 span {
   color: #8d8e8f;
@@ -135,9 +188,12 @@ li {
 }
 
 .v-enter {
-  opacity: 0;
+  min-height: 0;
 }
 .v-enter-active {
-  transition: opacity 0.4s;
+  transition: opacity 0.2s;
+}
+.v-leave-active {
+  transition: opacity 0.2s;
 }
 </style>

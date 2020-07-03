@@ -11,29 +11,20 @@
             <p>Nome do usuário</p>
           </div>
           <div>
-            <img
-              class="menu-esquerdo-seta"
-              src="../assets/setaMenuLateral.png"
-              alt="seta"
-            />
+            <img class="menu-esquerdo-seta" src="../assets/setaMenuLateral.png" alt="seta" />
           </div>
-          <div
-            class="menu-itens-esquerdo-usuario"
-            :class="nomeClassAbrirMenuUsuario"
-          >
+          <div class="menu-itens-esquerdo-usuario" :class="nomeClassAbrirMenuUsuario">
             <ul>
               <router-link
                 class="menu-itens-esquerdo-usuario-configuracao"
                 to="/selecao"
                 tag="li"
-                >Inicio</router-link
-              >
+              >Inicio</router-link>
               <router-link
                 class="menu-itens-esquerdo-usuario-configuracao"
                 to="/historico"
                 tag="li"
-                >Histórico de pesquisa</router-link
-              >
+              >Histórico de pesquisa</router-link>
               <li class="menu-itens-esquerdo-usuario-configuracao">
                 Configuração
                 <!-- <img src="../assets/miniEngrenagem.png" alt="mini engrenagem" /> -->
@@ -51,7 +42,7 @@ import { DO_LOGOUT } from "../store/actions";
 export default {
   data() {
     return {
-      nomeClassAbrirMenuUsuario: "",
+      nomeClassAbrirMenuUsuario: ""
     };
   },
   methods: {
@@ -64,8 +55,8 @@ export default {
     sair() {
       this.$store.dispatch(DO_LOGOUT);
       this.$router.push("/login");
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
@@ -78,8 +69,7 @@ export default {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  /* display: flex; */
-  max-width: 1174px;
+  max-width: 1274px;
   margin: 0 auto;
 }
 
@@ -99,7 +89,7 @@ export default {
   width: 179px;
   height: 130px;
   top: 50px;
-  right: 90px;
+  right: 50px;
   list-style-type: none;
   background-color: #ffffff;
   padding: 10px;

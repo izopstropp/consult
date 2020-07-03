@@ -82,13 +82,14 @@
         </div>
       </div>
     </div>
-
-    <!-- <div class="consulta-formulario-line">
-      
-    </div>-->
     <div class="consulta-formulario-line consulta-form-top-33">
-      <div class="consulta-form-input">
-        <multiSelect style="max-width: 225px" nomeCampo="Justiça" v-model="dataSetJustica" />
+      <div class="consulta-form-input" style="min-width: 225px;height: 32px;">
+        <multiSelect
+          textAlignTextButtom="center"
+          nomeCampo="Justiça"
+          paddingLeftTextButtom="45px"
+          v-model="dataSetJustica"
+        />
         <div class="result alt-input-100">
           <div v-for="(item, index) in dataSetJusticaSelecinado" :key="index">
             <span>{{ item.nome }}</span>
@@ -100,8 +101,13 @@
           </div>
         </div>
       </div>
-      <div class="consulta-form-input">
-        <multiSelect style="max-width: 225px;" nomeCampo="Partes" v-model="dataSetParte" />
+      <div class="consulta-form-input" style="min-width: 225px;height: 32px;">
+        <multiSelect
+          textAlignTextButtom="center"
+          nomeCampo="Partes"
+          paddingLeftTextButtom="45px"
+          v-model="dataSetParte"
+        />
         <div class="result">
           <div v-for="(item, index) in dataSetParteSelecinado" :key="index">
             <span>{{ item.nome }}</span>
@@ -113,8 +119,13 @@
           </div>
         </div>
       </div>
-      <div class="consulta-form-input">
-        <multiSelect style="max-width: 225px;" nomeCampo="UF" v-model="dataSetUf" />
+      <div class="consulta-form-input" style="min-width: 225px;height: 32px;">
+        <multiSelect
+          textAlignTextButtom="center"
+          nomeCampo="UF"
+          paddingLeftTextButtom="45px"
+          v-model="dataSetUf"
+        />
       </div>
     </div>
     <div class="form-input-extendido">
@@ -409,7 +420,7 @@ p {
   justify-content: space-between;
   align-items: center;
   padding: 5px 5px 5px 8px;
-  flex-grow: 0.1;
+  flex-grow: 0.02;
   font-size: 0.8em;
   margin-top: 3px;
 }

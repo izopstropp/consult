@@ -22,19 +22,11 @@
           ></LineChart>
         </div>
         <div class="container-chart-item-parte">
-          <LineChart
-            class="chart-parte"
-            tituloChart="Partes"
-            :chart-data="datacollectionParte"
-          ></LineChart>
+          <LineChart class="chart-parte" tituloChart="Partes" :chart-data="datacollectionParte"></LineChart>
         </div>
 
         <div class="container-chart-item-uf">
-          <LineChart
-            class="chart-uf"
-            tituloChart="UF"
-            :chart-data="datacollectionUf"
-          ></LineChart>
+          <LineChart class="chart-uf" tituloChart="UF" :chart-data="datacollectionUf"></LineChart>
         </div>
       </div>
     </div>
@@ -137,10 +129,7 @@
           <div class="consulta-form-filtro-btn-item">
             <a style="user-select:none">ADIQUERIR TODA VOLUMETRIA</a>
           </div>
-          <div
-            @click="solicitarVolumetria('selecionada')"
-            class="consulta-form-filtro-btn-item"
-          >
+          <div @click="solicitarVolumetria('selecionada')" class="consulta-form-filtro-btn-item">
             <a style="user-select:none">ADIQUERIR VOLUMETRIA SELECIONADA</a>
           </div>
         </div>
@@ -157,7 +146,7 @@ export default {
   name: "resultado-consulta",
   components: {
     LineChart,
-    modal,
+    modal
   },
   data() {
     return {
@@ -169,9 +158,9 @@ export default {
       parametrosConsulta: {
         justica: [],
         partes: [],
-        uf: [],
+        uf: []
       },
-      solicitarVolume: false,
+      solicitarVolume: false
     };
   },
 
@@ -186,7 +175,7 @@ export default {
       }
     },
     buscarProcessosResumo() {
-      consultProcessosApi.buscarProcessosResumo().then((response) => {
+      consultProcessosApi.buscarProcessosResumo().then(response => {
         if (response.status === 200) {
           this.criarEstruturaFiltroProcessosResumido(response.data);
         }
@@ -225,10 +214,10 @@ export default {
             data: [
               this.getRandomInt(),
               this.getRandomInt(),
-              this.getRandomInt(),
-            ],
-          },
-        ],
+              this.getRandomInt()
+            ]
+          }
+        ]
       };
       this.datacollectionUf = {
         labels: [
@@ -258,7 +247,7 @@ export default {
           "SC",
           "SE",
           "SP",
-          "TO",
+          "TO"
         ],
 
         datasets: [
@@ -293,10 +282,10 @@ export default {
               this.getRandomInt(),
               this.getRandomInt(),
               this.getRandomInt(),
-              this.getRandomInt(),
-            ],
-          },
-        ],
+              this.getRandomInt()
+            ]
+          }
+        ]
       };
       this.datacollectionParte = {
         labels: ["Réu", "Autor"],
@@ -306,15 +295,15 @@ export default {
             // label: "Data One",
             backgroundColor: "#FFFFFF",
             barThickness: 6,
-            data: [this.getRandomInt(), this.getRandomInt()],
-          },
-        ],
+            data: [this.getRandomInt(), this.getRandomInt()]
+          }
+        ]
       };
     },
     getRandomInt() {
       return Math.floor(Math.random() * (50 - 5 + 1)) + 5;
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
