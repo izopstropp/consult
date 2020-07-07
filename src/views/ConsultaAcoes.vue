@@ -158,6 +158,8 @@ import { dataSetUf } from "../valuesInput/dataSetUf.js";
 import { dataSetJustica } from "../valuesInput/dataSetJustica.js";
 import { dataSetParte } from "../valuesInput/dataSetParte.js";
 import tooltip from "@/components/ToolTip.vue";
+import { SET_RESULT_VOLUMETRIA } from "../store/actions";
+import { SET_PARAMETROS_CONSULT_VOLUMETRIA } from "../store/actions";
 export default {
   name: "consulta-acoes",
   directives: { mask },
@@ -236,12 +238,160 @@ export default {
       });
     },
     consulta() {
+      // let dadosFake = "test";
+      let parametrosPesquisa = {
+        nome: "americanas",
+        documento: "234556",
+        sigla: "sgo",
+        tipoPessoa: "fisica",
+        dataDistribuicaoInicio: "10/03/2020",
+        dataDistribuicaoFim: "10/03/2020",
+        justica: ["trabalhista", "estadual", "federal"],
+        parte: ["autor", "reu"],
+        uf: ["pe", "rj", "sg"]
+      };
+      let dadosFakeResul = {
+        Key: "nomeamericanasltda;documento072479707656678413ufperj",
+        ResultPesq: {
+          QtdEstadual: "1",
+          QtdFederal: "1",
+          QtdTrabalhista: "34",
+          QtdReu: "2",
+          QtdAutor: "20",
+          QtdUF: [
+            {
+              Nome: "AC",
+              Qtd: "1"
+            },
+            {
+              Nome: "AL",
+              Qtd: "10"
+            },
+            {
+              Nome: "AM",
+              Qtd: "20"
+            },
+            {
+              Nome: "AP",
+              Qtd: "10"
+            },
+            {
+              Nome: "BA",
+              Qtd: "50"
+            },
+            {
+              Nome: "PE",
+              Qtd: "11"
+            },
+            {
+              Nome: "CE",
+              Qtd: "0"
+            },
+            {
+              Nome: "DF",
+              Qtd: "11"
+            },
+            {
+              Nome: "ES",
+              Qtd: "11"
+            },
+            {
+              Nome: "ES",
+              Qtd: "11"
+            },
+            {
+              Nome: "GO",
+              Qtd: "11"
+            },
+
+            {
+              Nome: "MA",
+              Qtd: "11"
+            },
+            {
+              Nome: "MG",
+              Qtd: "11"
+            },
+            {
+              Nome: "MS",
+              Qtd: "11"
+            },
+            {
+              Nome: "MT",
+              Qtd: "11"
+            },
+            {
+              Nome: "PA",
+              Qtd: "11"
+            },
+            {
+              Nome: "PB",
+              Qtd: "11"
+            },
+            {
+              Nome: "PE",
+              Qtd: "11"
+            },
+            {
+              Nome: "PI",
+              Qtd: "11"
+            },
+            {
+              Nome: "PR",
+              Qtd: "11"
+            },
+            {
+              Nome: "RJ",
+              Qtd: "11"
+            },
+            {
+              Nome: "RN",
+              Qtd: "11"
+            },
+            {
+              Nome: "RO",
+              Qtd: "11"
+            },
+            {
+              Nome: "RR",
+              Qtd: "11"
+            },
+            {
+              Nome: "RS",
+              Qtd: "11"
+            },
+            {
+              Nome: "SC",
+              Qtd: "11"
+            },
+            {
+              Nome: "SE",
+              Qtd: "11"
+            },
+            {
+              Nome: "SP",
+              Qtd: "11"
+            },
+            {
+              Nome: "TO",
+              Qtd: "11"
+            }
+          ]
+        }
+      };
+
       if (this.validar()) {
-        this.$router.push("ResultadoConsultaAcoes");
+        // console.log("entrei aqui");
+        this.$store.dispatch(
+          SET_PARAMETROS_CONSULT_VOLUMETRIA,
+          parametrosPesquisa
+        );
+        this.$store.dispatch(SET_RESULT_VOLUMETRIA, dadosFakeResul);
+        this.$router.push({ name: "ResultadoConsultaAcoes" });
       }
     },
     validar() {
-      let validado = false;
+      let validado = true;
       if (!this.parametrosConsulta.nome) {
         this.nomeValidado = false;
         validado = false;

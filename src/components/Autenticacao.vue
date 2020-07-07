@@ -125,7 +125,7 @@ export default {
           } else {
             this.usuario = "";
             this.senha = "";
-            this.$notibar.add("Usuário inválido");
+            // this.$notibar.add("Usuário inválido");
           }
         });
       }

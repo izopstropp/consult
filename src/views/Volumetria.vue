@@ -1,5 +1,19 @@
 <template>
   <div class="container-resultado-volumetria">
+    <div v-if="solicitarVolume" @click="solicitarVolume = false" class="modal">
+      <div class="modal-container">
+        <img src="../assets/confir-envio.png" alt="imagem de confirmação" />
+        <p>Sua pesquisa</p>
+        <p>0006721</p>
+        <p>foi enviada para seu e-email</p>
+        <router-link
+          :to="{ name: 'RelatorioConsultaAcoes', params: { id: 123, pag: 1 } }"
+          tag="p"
+          >Pré-Visualizar</router-link
+        >
+      </div>
+    </div>
+
     <div class="container-filtro">
       <div class="filtro-resumo">
         <div class="resumo-justica">
@@ -7,7 +21,7 @@
             <div v-for="(item, index) in dataSetJusticaSelecinado" :key="index">
               Justiça
               <span>{{ item.nome }}</span>
-              <span @click="desmarcarItemJustica(item)">
+              <span @click="desmarcarItem(item, dataSetJustica)">
                 <small>
                   <img src="../assets/minix.png" alt="fechar" />
                 </small>
@@ -20,7 +34,7 @@
             <div v-for="(item, index) in dataSetParteSelecinado" :key="index">
               Parte
               <span>{{ item.nome }}</span>
-              <span @click="desmarcarItemParte(item)">
+              <span @click="desmarcarItem(item, dataSetParte)">
                 <small>
                   <img src="../assets/minix.png" alt="fechar" />
                 </small>
@@ -33,7 +47,7 @@
             <div v-for="(item, index) in dataSetUfSelecinado" :key="index">
               UF
               <span>{{ item.nome }}</span>
-              <span @click="desmarcarItemUf(item)">
+              <span @click="desmarcarItem(item, dataSetUf)">
                 <small>
                   <img src="../assets/minix.png" alt="fechar" />
                 </small>
@@ -53,7 +67,7 @@
               textAlignTextButtom="48px"
               fonteSizeTextButtom="1.2em"
               v-model="dataSetJustica"
-              borderColorButtom="#fbf3f3e7"
+              borderColorButtom="#ededed"
               paddingLeftTextButtom="48px"
               :blurCloseList="false"
             />
@@ -66,7 +80,7 @@
               fonteSizeTextButtom="1.2em"
               v-model="dataSetParte"
               paddingLeftTextButtom="51px"
-              borderColorButtom="#fbf3f3e7"
+              borderColorButtom="#ededed"
               :blurCloseList="false"
             />
           </div>
@@ -78,28 +92,34 @@
               fonteSizeTextButtom="1.2em"
               v-model="dataSetUf"
               paddingLeftTextButtom="51px"
-              borderColorButtom="#fbf3f3af"
+              borderColorButtom="#ededed"
               :blurCloseList="false"
             />
           </div>
         </div>
       </div>
+      <div class="pesquisa-preditivo">
+        <a-checkbox>Adicionar o Preditivo</a-checkbox>
+      </div>
       <div class="filtro-acao">
-        <div class="pesquisa-preditivo">
-          <a-checkbox>Adicionar o Preditivo</a-checkbox>
-        </div>
         <div class="consulta-form-filtro-btn-block-item">
-          <div class="consulta-form-filtro-btn-item">
+          <div
+            @click="solicitarVolumetria(1)"
+            class="consulta-form-filtro-btn-item"
+          >
             <a style="user-select:none">ADIQUERIR TODA VOLUMETRIA</a>
           </div>
-          <div @click="solicitarVolumetria('selecionada')" class="consulta-form-filtro-btn-item">
+          <div
+            @click="solicitarVolumetria(2)"
+            class="consulta-form-filtro-btn-item"
+          >
             <a style="user-select:none">ADIQUERIR VOLUMETRIA SELECIONADA</a>
           </div>
         </div>
       </div>
     </div>
     <div class="container-volumetria">
-      <div class="valor-consumo">
+      <div @click="versaoDetalhada = !versaoDetalhada" class="valor-consumo">
         <p>R$ 10,00</p>
       </div>
       <div class="container-volumetria-principal">
@@ -128,7 +148,11 @@
           </div>
           <div>
             <div class="container-chart-item-uf">
-              <LineChart class="chart-uf" tituloChart="UF" :chart-data="datacollectionUf"></LineChart>
+              <LineChart
+                class="chart-uf"
+                tituloChart="UF"
+                :chart-data="datacollectionUf"
+              ></LineChart>
             </div>
           </div>
         </div>
@@ -136,49 +160,67 @@
           <table>
             <thead style="border-bottom: 1px solid #9494949c !important;">
               <tr>
-                <th :class="[versaoDetalhada ? 'background-blue':'']">Descrição</th>
-                <th :class="[versaoDetalhada ? 'background-blue':'']">Quantidade de processos</th>
-                <th :class="[versaoDetalhada ? 'background-blue':'']">Valor</th>
+                <th :class="[versaoDetalhada ? 'background-blue' : '']">
+                  Descrição
+                </th>
+                <th :class="[versaoDetalhada ? 'background-blue' : '']">
+                  Quantidade de processos
+                </th>
+                <th :class="[versaoDetalhada ? 'background-blue' : '']">
+                  Valor
+                </th>
               </tr>
             </thead>
             <tbody>
-              <tr :class="[versaoDetalhada ? 'active': '','background-blue']">
-                <td
+              <tr
+                :class="[
+                  versaoDetalhada ? 'active ajust-height-uf' : '',
+                  'background-blue',
+                ]"
+              >
+                <!-- <td
                   :class="[versaoDetalhada ? 'background-blue ajust-height-uf ajust-width-uf':'ajust-width-uf']"
-                >
-                  <div>
-                    <p>RS;SPRS;SPRS;SPRS;SPRS;SPRS;SPRS;SPRS;SPRS;SPRS;SPRS; SPRS;SPRS;SPRS;SPRS;SPRS;SPRS;SPRS;SPRS ;SPRS;SPRS;SPRS; SPRS;SPRS;SPRS;SPRS;SP</p>
+                >-->
+                <td :class="[versaoDetalhada ? 'background-blue' : '']">
+                  <div class="ajust-height-uf">
+                    <p>
+                      <span
+                        v-for="(item, index) in this.dataSetUfSelecinado"
+                        :key="index"
+                        >{{ item.nome + "; " }}</span
+                      >
+                    </p>
                   </div>
                 </td>
-                <td :class="[versaoDetalhada ? 'background-blue':'']">
+                <td :class="[versaoDetalhada ? 'background-blue' : '']">
                   <div>
                     <div>447</div>
                   </div>
                 </td>
-                <td :class="[versaoDetalhada ? 'background-blue':'']">
+                <td :class="[versaoDetalhada ? 'background-blue' : '']">
                   <div>
                     <p>R$570,00</p>
                   </div>
                 </td>
               </tr>
-              <tr :class="[versaoDetalhada ? 'active': '','background-blue']">
-                <td :class="[versaoDetalhada ? 'background-blue':'']">
+              <tr :class="[versaoDetalhada ? 'active' : '', 'background-blue']">
+                <td :class="[versaoDetalhada ? 'background-blue' : '']">
                   <div>
                     <p>Preditivo</p>
                   </div>
                 </td>
-                <td :class="[versaoDetalhada ? 'background-blue':'']">
+                <td :class="[versaoDetalhada ? 'background-blue' : '']">
                   <div>
                     <p>447</p>
                   </div>
                 </td>
-                <td :class="[versaoDetalhada ? 'background-blue':'']">
+                <td :class="[versaoDetalhada ? 'background-blue' : '']">
                   <div>
                     <p>R$275,00</p>
                   </div>
                 </td>
               </tr>
-              <tr :class="[!versaoDetalhada ? 'active': 'change-color-bg']">
+              <tr :class="[!versaoDetalhada ? 'active' : 'change-color-bg']">
                 <td>
                   <div>
                     <p>Total consumido</p>
@@ -196,17 +238,40 @@
                 </td>
               </tr>
 
-              <tr :class="[versaoDetalhada ? 'border-blue':'', 'active']">
-                <td :class="[versaoDetalhada ? 'background-blue background-dark-blue':'bg-grey']">
-                  <div class="font-weight-bold">Total de Consumo</div>
-                </td>
-                <td :class="[versaoDetalhada ? 'background-blue background-dark-blue':'bg-grey']">
-                  <div class="font-weight-bold">447</div>
+              <tr :class="[versaoDetalhada ? 'border-blue' : '', 'active']">
+                <td
+                  :class="[
+                    versaoDetalhada
+                      ? 'background-blue background-dark-blue'
+                      : 'bg-grey',
+                  ]"
+                >
+                  <div class="font-weight-bold">
+                    <p>Total de Consumo</p>
+                  </div>
                 </td>
                 <td
-                  :class="[versaoDetalhada ? 'background-blue background-dark-blue':'bg-grey','valor-total']"
+                  :class="[
+                    versaoDetalhada
+                      ? 'background-blue background-dark-blue'
+                      : 'bg-grey',
+                  ]"
                 >
-                  <div class="font-weight-bold">R$ 845,00</div>
+                  <div class="font-weight-bold">
+                    <p>447</p>
+                  </div>
+                </td>
+                <td
+                  :class="[
+                    versaoDetalhada
+                      ? 'background-blue background-dark-blue'
+                      : 'bg-grey',
+                    'valor-total',
+                  ]"
+                >
+                  <div class="font-weight-bold">
+                    <p>R$ 845,00</p>
+                  </div>
                 </td>
               </tr>
             </tbody>
@@ -222,6 +287,8 @@ import MultiSelect from "../components/input/select/multiSelect/MultiConsult.vue
 import { dataSetUf } from "../valuesInput/dataSetUf.js";
 import { dataSetJustica } from "../valuesInput/dataSetJustica.js";
 import { dataSetParte } from "../valuesInput/dataSetParte.js";
+import _ from "lodash";
+// import { debounce } from "../helpers/debounce.js";
 
 export default {
   name: "volumetria",
@@ -232,63 +299,116 @@ export default {
       datacollectionParte: {},
       datacollectionUf: {},
       versaoDetalhada: true,
+      parametrosConsulta: {
+        dataSetJustica: dataSetJustica,
+        dataSetParte: dataSetParte,
+        dataSetUf: dataSetUf,
+      },
       dataSetJustica: dataSetJustica,
       dataSetParte: dataSetParte,
       dataSetUf: dataSetUf,
-      solicitarVolume: false
+      solicitarVolume: false,
+      pesquisaSecundaria: {},
     };
+  },
+  created() {
+    this.realizarRequicaoFiltro = _.debounce(this.realizarRequicaoFiltro, 5000);
   },
   computed: {
     dataSetParteSelecinado() {
-      let result = this.dataSetParte.filter(item => {
+      let result = this.dataSetParte.filter((item) => {
         return item.marcado == true;
       });
       return result;
     },
     dataSetJusticaSelecinado() {
-      let result = this.dataSetJustica.filter(item => {
+      let result = this.dataSetJustica.filter((item) => {
         return item.marcado == true;
       });
       return result;
     },
     dataSetUfSelecinado() {
-      let result = this.dataSetUf.filter(item => {
+      let result = this.dataSetUf.filter((item) => {
         return item.marcado == true;
       });
       return result;
-    }
+    },
+  },
+  watch: {
+    parametrosConsulta: {
+      handler() {
+        this.realizarRequicaoFiltro();
+      },
+      deep: true,
+    },
+
+    // dataSetParte: lodash.debounce(function() {
+    //   alert("funcionou");
+    // }, 2000),
   },
   mounted() {
     this.fillData();
+    // this.carregarPesquisaSecundaria();
   },
   methods: {
-    desmarcarItemParte(index) {
-      this.dataSetParte.map(function(item) {
+    realizarRequicaoFiltro() {
+      alert("oi");
+      // _.debounce(console.log("entrei aqui"), 5000);
+      // return true;
+      // debounce(function() {
+      // }, 3000);
+      console.log("entrei aqui");
+    },
+    desmarcarItem(index, dataset) {
+      dataset.map(function(item) {
         if (item.nome == index.nome) {
           item.marcado = false;
         }
       });
     },
-    desmarcarItemJustica(index) {
-      this.dataSetJustica.map(function(item) {
-        if (item.nome == index.nome) {
-          item.marcado = false;
-        }
-      });
-    },
-    desmarcarItemUf(index) {
-      this.dataSetUf.map(function(item) {
-        if (item.nome == index.nome) {
-          item.marcado = false;
-        }
-      });
+    getOpcoesSelecionadas(dataSet) {
+      let arrItem = dataSet
+        .map((arr) => arr.nome)
+        .reduce(function(arr, item) {
+          arr.push(item);
+          return arr;
+        }, []);
+      return arrItem;
     },
     solicitarVolumetria(tipoSolicitacao) {
-      if (tipoSolicitacao === "selecionada") {
+      // FAZER REQUISIÇÃO
+      if (tipoSolicitacao === 2) {
+        let pesquisaPrincipal = JSON.parse(
+          JSON.stringify(this.$store.getters.getParametrosPesquisa)
+        );
+
+        let filtroJustica = this.getOpcoesSelecionadas(
+          this.dataSetJusticaSelecinado
+        );
+        if (filtroJustica.length > 0) {
+          pesquisaPrincipal.justica = pesquisaPrincipal.parte = filtroJustica;
+        }
+        let filtroParte = this.getOpcoesSelecionadas(
+          this.dataSetParteSelecinado
+        );
+        if (filtroParte.length > 0) {
+          pesquisaPrincipal.parte = filtroParte;
+        }
+
+        let filtroUf = this.getOpcoesSelecionadas(this.dataSetUfSelecinado);
+        if (filtroUf.length > 0) {
+          pesquisaPrincipal.uf = filtroUf;
+        }
+
+        console.log(pesquisaPrincipal);
         this.solicitarVolume = true;
+      } else if (tipoSolicitacao === 1) {
+        console.log(this.$store.getters.getParametrosPesquisa);
       }
     },
     fillData() {
+      let resultadoPesquisa = this.$store.getters
+        .getResultadoPesquisaVolumetria;
       this.datacollectionParte = {
         labels: ["Réu", "Autor"],
 
@@ -297,9 +417,9 @@ export default {
             // label: "Data One",
             backgroundColor: "#1d375c",
             barThickness: 6,
-            data: [this.getRandomInt(), this.getRandomInt()]
-          }
-        ]
+            data: [resultadoPesquisa.QtdReu, resultadoPesquisa.QtdAutor],
+          },
+        ],
       };
       this.datacollectionJustica = {
         labels: ["Estadual", "Federal", "Trabalhista"],
@@ -310,96 +430,32 @@ export default {
             backgroundColor: "#1d375c",
             barThickness: 6,
             data: [
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt()
-            ]
-          }
-        ]
-      };
-      this.datacollectionUf = {
-        labels: [
-          "AC",
-          "AL",
-          "AM",
-          "AP",
-          "BA",
-          "CE",
-          "DF",
-          "ES",
-          "GO",
-          "MA",
-          "MG",
-          "MS",
-          "MT",
-          "PA",
-          "PB",
-          "PE",
-          "PI",
-          "PR",
-          "RJ",
-          "RN",
-          "RO",
-          "RR",
-          "RS",
-          "SC",
-          "SE",
-          "SP",
-          "TO"
+              resultadoPesquisa.QtdEstadual,
+              resultadoPesquisa.QtdFederal,
+              resultadoPesquisa.QtdTrabalhista,
+            ],
+          },
         ],
+      };
 
+      console.log(resultadoPesquisa.QtdUF.map((x) => x.Nome));
+      this.datacollectionUf = {
+        labels: resultadoPesquisa.QtdUF.map((x) => x.Nome),
+        // labels: [resu~],
         datasets: [
           {
             // label: "Data One",
             backgroundColor: "#1d375c",
             barThickness: 6,
-            data: [
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt(),
-              this.getRandomInt()
-            ]
-          }
-        ]
+            data: resultadoPesquisa.QtdUF.map((x) => x.Qtd),
+          },
+        ],
       };
     },
-
-    getRandomInt() {
-      return Math.floor(Math.random() * (10000000 - 5 + 1)) + 5;
-    }
-  }
+  },
 };
 </script>
 <style scoped>
-.ajust-height-uf {
-  height: 80px !important;
-}
-.ajust-width-uf {
-  width: 1px;
-}
 hr {
   border-color: #fbf3f34b;
 }
@@ -415,6 +471,63 @@ a {
   max-width: 1349px;
   margin: 0 auto;
 }
+
+/* --- modal --- */
+.modal::before {
+  content: "";
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100vh;
+  /* background: rgba(0, 0, 0, 0.644); */
+  filter: blur(20px);
+  border: none;
+  background: url("../assets/back-desf.png") no-repeat;
+  z-index: 1;
+}
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100vh;
+  padding: 80px;
+}
+.modal-container {
+  /* position: relative; */
+  background-color: #ffffff;
+  text-align: center;
+  margin-top: 100px;
+  width: 646px;
+  height: 349px;
+  z-index: 2;
+}
+.modal-container {
+  line-height: 4em;
+}
+.modal-container img:nth-child(1) {
+  margin-top: 38px;
+}
+.modal-container p:nth-child(2),
+.modal-container p:nth-child(4) {
+  font-size: 2.6em;
+  font-weight: bold;
+  color: #648362;
+}
+.modal-container p:nth-child(3) {
+  font-size: 3.7em;
+  color: #2e4668;
+}
+.modal-container p:nth-child(5) {
+  margin-top: 10px;
+  color: #2e4668;
+  cursor: pointer;
+}
+/* --- fim modal -- */
 
 /* --- container filtro --- */
 .container-filtro {
@@ -484,19 +597,19 @@ a {
   margin-top: 20px;
 }
 .pesquisa-preditivo {
-  max-width: 200px;
+  max-width: 358px;
   flex-wrap: wrap;
+  padding-left: 42px;
+  padding-bottom: 10px;
 }
 .filtro-acao {
   display: flex;
   width: 358px;
   align-items: center;
   flex-direction: column;
-  /* justify-content: space-between; */
 }
 .uf-selec-animation {
   min-height: 95px;
-  /* transition: all 4s; */
 }
 .consulta-form-filtro-btn-block-item {
   display: flex;
@@ -507,7 +620,7 @@ a {
 .consulta-form-filtro-btn-item:nth-child(1) {
   background-color: #648362;
   height: 34px;
-  width: 249px;
+  width: 279px;
   font-size: 0.9em;
   padding-top: 7px;
   text-align: center;
@@ -518,7 +631,7 @@ a {
 }
 .consulta-form-filtro-btn-item:nth-child(2) {
   height: 34px;
-  width: 249px;
+  width: 279px;
   font-size: 0.9em;
   background-color: #001a3f;
   text-align: center;
@@ -614,15 +727,13 @@ table {
   margin-top: 14px;
   width: 98%;
 }
-td div {
-  height: 123px;
-}
-tr {
-  width: 200px !important;
-}
 tr,
 td {
   padding: 0;
+  max-width: 100px;
+}
+tr > td > div > p {
+  padding: 10px;
 }
 tr .background-blue {
   background-color: #1d375c;
@@ -644,21 +755,19 @@ tr .background-white {
   background-color: #1d375c;
 }
 tr.active td div p {
-  margin-top: 10px;
   text-align: center;
 }
 tr td div {
   max-height: 0px;
   opacity: 0;
   box-sizing: border-box;
-  transition: max-height 0.4s;
+  transition: max-height 0.3s;
   text-align: center;
 }
 tr.active td div {
-  max-height: 30px;
+  max-height: 50px;
   opacity: 1;
-  transition: max-height 0.4s;
-  margin-top: 10px;
+  transition: max-height 0.3s;
 }
 
 thead tr th {

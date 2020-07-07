@@ -27,6 +27,10 @@ list-style {
   margin: 0;
   padding: 0;
 }
+.ant-checkbox-wrapper {
+  border-radius: 50% !important;
+  outline: 0 !important;
+}
 .ant-calendar-picker-container {
   margin-top: 480px !important;
   position: absolute !important;

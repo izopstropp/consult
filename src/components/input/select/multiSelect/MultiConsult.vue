@@ -162,6 +162,7 @@ ul {
   border-radius: 5px;
   scrollbar-width: 0px;
   -webkit-scrollbar: 0px;
+  margin-bottom: 20px;
 }
 .animation-height {
   max-height: 176px;

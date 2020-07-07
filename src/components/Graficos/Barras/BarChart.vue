@@ -84,7 +84,7 @@ export default {
                 // console.log(dataset.data[index]);
                 // console.log(dataset.data);
                 // console.log(valorFormatado);
-                if (valor > 1000000) {
+                if (valor >= 1) {
                   ctx.fillStyle = "#708D6E";
                 } else {
                   ctx.fillStyle = "#C57D7D";
