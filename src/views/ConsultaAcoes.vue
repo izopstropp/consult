@@ -189,6 +189,9 @@ export default {
       dataSetParte: dataSetParte
     };
   },
+  mounted() {
+    this.cleanInput();
+  },
   computed: {
     dataSetJusticaSelecinado() {
       let result = this.dataSetJustica.filter(item => {
@@ -253,6 +256,7 @@ export default {
       let dadosFakeResul = {
         Key: "nomeamericanasltda;documento072479707656678413ufperj",
         ResultPesq: {
+          QtdProcessos: "200",
           QtdEstadual: "1",
           QtdFederal: "1",
           QtdTrabalhista: "34",
@@ -409,6 +413,12 @@ export default {
     resetarInputSigla() {
       this.parametrosConsulta.sigla = "";
       this.siglaValidado = true;
+    },
+    cleanInput() {
+      // console.log("MOUNTED");
+      dataSetJustica.map(x => (x.marcado = false));
+      dataSetParte.map(x => (x.marcado = false));
+      dataSetUf.map(x => (x.marcado = false));
     }
   }
 };

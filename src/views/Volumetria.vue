@@ -9,8 +9,7 @@
         <router-link
           :to="{ name: 'RelatorioConsultaAcoes', params: { id: 123, pag: 1 } }"
           tag="p"
-          >Pré-Visualizar</router-link
-        >
+        >Pré-Visualizar</router-link>
       </div>
     </div>
 
@@ -18,10 +17,10 @@
       <div class="filtro-resumo">
         <div class="resumo-justica">
           <div class="result">
-            <div v-for="(item, index) in dataSetJusticaSelecinado" :key="index">
+            <div v-for="(item, index) in dataSetJusticaSelecinadoFiltroSec" :key="index">
               Justiça
               <span>{{ item.nome }}</span>
-              <span @click="desmarcarItem(item, dataSetJustica)">
+              <span @click="desmarcarItem(item, parametrosFiltro.dataSetJustica)">
                 <small>
                   <img src="../assets/minix.png" alt="fechar" />
                 </small>
@@ -31,10 +30,10 @@
         </div>
         <div class="resumo-parte">
           <div class="result">
-            <div v-for="(item, index) in dataSetParteSelecinado" :key="index">
+            <div v-for="(item, index) in dataSetParteSelecinadoFiltroSec" :key="index">
               Parte
               <span>{{ item.nome }}</span>
-              <span @click="desmarcarItem(item, dataSetParte)">
+              <span @click="desmarcarItem(item, parametrosFiltro.dataSetParte)">
                 <small>
                   <img src="../assets/minix.png" alt="fechar" />
                 </small>
@@ -44,10 +43,10 @@
         </div>
         <div class="resumo-uf">
           <div class="result">
-            <div v-for="(item, index) in dataSetUfSelecinado" :key="index">
+            <div v-for="(item, index) in dataSetUfSelecinadoFiltroSec" :key="index">
               UF
               <span>{{ item.nome }}</span>
-              <span @click="desmarcarItem(item, dataSetUf)">
+              <span @click="desmarcarItem(item, parametrosFiltro.dataSetUf)">
                 <small>
                   <img src="../assets/minix.png" alt="fechar" />
                 </small>
@@ -66,7 +65,7 @@
               nomeCampo="Justiça"
               textAlignTextButtom="48px"
               fonteSizeTextButtom="1.2em"
-              v-model="dataSetJustica"
+              v-model="parametrosFiltro.dataSetJustica"
               borderColorButtom="#ededed"
               paddingLeftTextButtom="48px"
               :blurCloseList="false"
@@ -78,7 +77,7 @@
               nomeCampo="Réu"
               textAlignTextButtom="51px"
               fonteSizeTextButtom="1.2em"
-              v-model="dataSetParte"
+              v-model="parametrosFiltro.dataSetParte"
               paddingLeftTextButtom="51px"
               borderColorButtom="#ededed"
               :blurCloseList="false"
@@ -90,7 +89,7 @@
               nomeCampo="UF"
               textAlignTextButtom="51px"
               fonteSizeTextButtom="1.2em"
-              v-model="dataSetUf"
+              v-model="parametrosFiltro.dataSetUf"
               paddingLeftTextButtom="51px"
               borderColorButtom="#ededed"
               :blurCloseList="false"
@@ -103,16 +102,10 @@
       </div>
       <div class="filtro-acao">
         <div class="consulta-form-filtro-btn-block-item">
-          <div
-            @click="solicitarVolumetria(1)"
-            class="consulta-form-filtro-btn-item"
-          >
+          <div @click="solicitarVolumetria(1)" class="consulta-form-filtro-btn-item">
             <a style="user-select:none">ADIQUERIR TODA VOLUMETRIA</a>
           </div>
-          <div
-            @click="solicitarVolumetria(2)"
-            class="consulta-form-filtro-btn-item"
-          >
+          <div @click="solicitarVolumetria(2)" class="consulta-form-filtro-btn-item">
             <a style="user-select:none">ADIQUERIR VOLUMETRIA SELECIONADA</a>
           </div>
         </div>
@@ -125,7 +118,7 @@
       <div class="container-volumetria-principal">
         <div class="volumetria-titulo">
           <span>Volumetria -</span>
-          <span>Total de 530 Processos encontrados</span>
+          <span>Total de {{$store.getters.getResultadoPesquisaVolumetria.QtdProcessos}} Processos encontrados</span>
         </div>
         <div class="grafico-volumetria">
           <div class="container-chart">
@@ -148,11 +141,7 @@
           </div>
           <div>
             <div class="container-chart-item-uf">
-              <LineChart
-                class="chart-uf"
-                tituloChart="UF"
-                :chart-data="datacollectionUf"
-              ></LineChart>
+              <LineChart class="chart-uf" tituloChart="UF" :chart-data="datacollectionUf"></LineChart>
             </div>
           </div>
         </div>
@@ -160,15 +149,9 @@
           <table>
             <thead style="border-bottom: 1px solid #9494949c !important;">
               <tr>
-                <th :class="[versaoDetalhada ? 'background-blue' : '']">
-                  Descrição
-                </th>
-                <th :class="[versaoDetalhada ? 'background-blue' : '']">
-                  Quantidade de processos
-                </th>
-                <th :class="[versaoDetalhada ? 'background-blue' : '']">
-                  Valor
-                </th>
+                <th :class="[versaoDetalhada ? 'background-blue' : '']">Descrição</th>
+                <th :class="[versaoDetalhada ? 'background-blue' : '']">Quantidade de processos</th>
+                <th :class="[versaoDetalhada ? 'background-blue' : '']">Valor</th>
               </tr>
             </thead>
             <tbody>
@@ -185,16 +168,15 @@
                   <div class="ajust-height-uf">
                     <p>
                       <span
-                        v-for="(item, index) in this.dataSetUfSelecinado"
+                        v-for="(item, index) in this.dataSetUfSelecinadoFiltroSec"
                         :key="index"
-                        >{{ item.nome + "; " }}</span
-                      >
+                      >{{ item.nome + "; " }}</span>
                     </p>
                   </div>
                 </td>
                 <td :class="[versaoDetalhada ? 'background-blue' : '']">
                   <div>
-                    <div>447</div>
+                    <p>{{$store.getters.getResultadoPesquisaVolumetria.QtdProcessos}}</p>
                   </div>
                 </td>
                 <td :class="[versaoDetalhada ? 'background-blue' : '']">
@@ -211,7 +193,7 @@
                 </td>
                 <td :class="[versaoDetalhada ? 'background-blue' : '']">
                   <div>
-                    <p>447</p>
+                    <p>{{$store.getters.getResultadoPesquisaVolumetria.QtdProcessos}}</p>
                   </div>
                 </td>
                 <td :class="[versaoDetalhada ? 'background-blue' : '']">
@@ -258,7 +240,7 @@
                   ]"
                 >
                   <div class="font-weight-bold">
-                    <p>447</p>
+                    <p>{{$store.getters.getResultadoPesquisaVolumetria.QtdProcessos}}</p>
                   </div>
                 </td>
                 <td
@@ -284,11 +266,11 @@
 <script>
 import LineChart from "../components/Graficos/Barras/BarChart.vue";
 import MultiSelect from "../components/input/select/multiSelect/MultiConsult.vue";
-import { dataSetUf } from "../valuesInput/dataSetUf.js";
-import { dataSetJustica } from "../valuesInput/dataSetJustica.js";
-import { dataSetParte } from "../valuesInput/dataSetParte.js";
+import { dataSetUfFiltroSec } from "../valuesInput/dataSetUfFiltroSec.js";
+import { dataSetJusticaFiltroSec } from "../valuesInput/dataSetJusticaFiltroSec.js";
+import { dataSetParteFiltroSec } from "../valuesInput/dataSetParteFiltroSec.js";
 import _ from "lodash";
-// import { debounce } from "../helpers/debounce.js";
+import { SET_RESULT_VOLUMETRIA } from "../store/actions";
 
 export default {
   name: "volumetria",
@@ -299,48 +281,50 @@ export default {
       datacollectionParte: {},
       datacollectionUf: {},
       versaoDetalhada: true,
-      parametrosConsulta: {
-        dataSetJustica: dataSetJustica,
-        dataSetParte: dataSetParte,
-        dataSetUf: dataSetUf,
+      parametrosFiltro: {
+        dataSetJustica: dataSetJusticaFiltroSec,
+        dataSetParte: dataSetParteFiltroSec,
+        dataSetUf: dataSetUfFiltroSec
       },
-      dataSetJustica: dataSetJustica,
-      dataSetParte: dataSetParte,
-      dataSetUf: dataSetUf,
-      solicitarVolume: false,
-      pesquisaSecundaria: {},
+      solicitarVolume: false
     };
   },
+  beforeMount() {
+    console.log("BEFORE mounted");
+    this.cleanInput();
+  },
+
   created() {
-    this.realizarRequicaoFiltro = _.debounce(this.realizarRequicaoFiltro, 5000);
+    console.log("CREATED");
+    this.realizarRequicaoFiltro = _.debounce(this.realizarRequicaoFiltro, 2000);
   },
   computed: {
-    dataSetParteSelecinado() {
-      let result = this.dataSetParte.filter((item) => {
+    dataSetParteSelecinadoFiltroSec() {
+      let result = this.parametrosFiltro.dataSetParte.filter(item => {
         return item.marcado == true;
       });
       return result;
     },
-    dataSetJusticaSelecinado() {
-      let result = this.dataSetJustica.filter((item) => {
+    dataSetJusticaSelecinadoFiltroSec() {
+      let result = this.parametrosFiltro.dataSetJustica.filter(item => {
         return item.marcado == true;
       });
       return result;
     },
-    dataSetUfSelecinado() {
-      let result = this.dataSetUf.filter((item) => {
+    dataSetUfSelecinadoFiltroSec() {
+      let result = this.parametrosFiltro.dataSetUf.filter(item => {
         return item.marcado == true;
       });
       return result;
-    },
+    }
   },
   watch: {
-    parametrosConsulta: {
+    parametrosFiltro: {
       handler() {
         this.realizarRequicaoFiltro();
       },
-      deep: true,
-    },
+      deep: true
+    }
 
     // dataSetParte: lodash.debounce(function() {
     //   alert("funcionou");
@@ -348,16 +332,156 @@ export default {
   },
   mounted() {
     this.fillData();
-    // this.carregarPesquisaSecundaria();
   },
   methods: {
+    cleanInput() {
+      // console.log("MOUNTED");
+      dataSetJusticaFiltroSec.map(x => (x.marcado = false));
+      dataSetParteFiltroSec.map(x => (x.marcado = false));
+      dataSetUfFiltroSec.map(x => (x.marcado = false));
+    },
     realizarRequicaoFiltro() {
-      alert("oi");
-      // _.debounce(console.log("entrei aqui"), 5000);
-      // return true;
-      // debounce(function() {
-      // }, 3000);
-      console.log("entrei aqui");
+      if (this.existeValorFiltro()) {
+        let pesquisaPrincipal = JSON.parse(
+          JSON.stringify(this.$store.getters.getParametrosPesquisa)
+        );
+        pesquisaPrincipal.justica = this.parametrosFiltro.justica;
+        pesquisaPrincipal.parte = this.parametrosFiltro.parte;
+        pesquisaPrincipal.uf = this.parametrosFiltro.uf;
+
+        let dadosFakeResul = {
+          Key: "nomeamericanasltda;documento072479707656678413ufperj",
+          ResultPesq: {
+            QtdProcessos: "1000",
+            QtdEstadual: "100",
+            QtdFederal: "1",
+            QtdTrabalhista: "111",
+            QtdReu: "2",
+            QtdAutor: "20",
+            QtdUF: [
+              {
+                Nome: "AC",
+                Qtd: "1"
+              },
+              {
+                Nome: "AL",
+                Qtd: "10"
+              },
+              {
+                Nome: "AM",
+                Qtd: "20"
+              },
+              {
+                Nome: "AP",
+                Qtd: "10"
+              },
+              {
+                Nome: "BA",
+                Qtd: "50"
+              },
+              {
+                Nome: "PE",
+                Qtd: "11"
+              },
+              {
+                Nome: "CE",
+                Qtd: "0"
+              },
+              {
+                Nome: "DF",
+                Qtd: "11"
+              },
+              {
+                Nome: "ES",
+                Qtd: "11"
+              },
+              {
+                Nome: "ES",
+                Qtd: "11"
+              },
+              {
+                Nome: "GO",
+                Qtd: "11"
+              },
+
+              {
+                Nome: "MA",
+                Qtd: "11"
+              },
+              {
+                Nome: "MG",
+                Qtd: "11"
+              },
+              {
+                Nome: "MS",
+                Qtd: "11"
+              },
+              {
+                Nome: "MT",
+                Qtd: "11"
+              },
+              {
+                Nome: "PA",
+                Qtd: "11"
+              },
+              {
+                Nome: "PB",
+                Qtd: "11"
+              },
+              {
+                Nome: "PE",
+                Qtd: "11"
+              },
+              {
+                Nome: "PI",
+                Qtd: "11"
+              },
+              {
+                Nome: "PR",
+                Qtd: "11"
+              },
+              {
+                Nome: "RJ",
+                Qtd: "11"
+              },
+              {
+                Nome: "RN",
+                Qtd: "11"
+              },
+              {
+                Nome: "RO",
+                Qtd: "11"
+              },
+              {
+                Nome: "RR",
+                Qtd: "11"
+              },
+              {
+                Nome: "RS",
+                Qtd: "11"
+              },
+              {
+                Nome: "SC",
+                Qtd: "11"
+              },
+              {
+                Nome: "SE",
+                Qtd: "11"
+              },
+              {
+                Nome: "SP",
+                Qtd: "11"
+              },
+              {
+                Nome: "TO",
+                Qtd: "11"
+              }
+            ]
+          }
+        };
+        this.$store.dispatch(SET_RESULT_VOLUMETRIA, dadosFakeResul);
+        this.fillData();
+      }
     },
     desmarcarItem(index, dataset) {
       dataset.map(function(item) {
@@ -368,7 +492,7 @@ export default {
     },
     getOpcoesSelecionadas(dataSet) {
       let arrItem = dataSet
-        .map((arr) => arr.nome)
+        .map(arr => arr.nome)
         .reduce(function(arr, item) {
           arr.push(item);
           return arr;
@@ -395,16 +519,36 @@ export default {
           pesquisaPrincipal.parte = filtroParte;
         }
 
-        let filtroUf = this.getOpcoesSelecionadas(this.dataSetUfSelecinado);
+        let filtroUf = this.getOpcoesSelecionadas(
+          this.dataSetUfSelecinadoFiltroSec
+        );
         if (filtroUf.length > 0) {
           pesquisaPrincipal.uf = filtroUf;
         }
 
-        console.log(pesquisaPrincipal);
         this.solicitarVolume = true;
-      } else if (tipoSolicitacao === 1) {
-        console.log(this.$store.getters.getParametrosPesquisa);
       }
+      // } else if (tipoSolicitacao === 1) {
+      //   console.log(this.$store.getters.getParametrosPesquisa);
+      // }
+    },
+    existeValorFiltro() {
+      let qtdJustica = dataSetJusticaFiltroSec.filter(x => x.marcado == true)
+        .length;
+      if (qtdJustica) {
+        return true;
+      }
+      let qtdParte = dataSetParteFiltroSec.filter(x => x.marcado == true)
+        .length;
+      if (qtdParte) {
+        return true;
+      }
+
+      let qtdUf = dataSetUfFiltroSec.filter(x => x.marcado == true).length;
+      if (qtdUf) {
+        return true;
+      }
+      return false;
     },
     fillData() {
       let resultadoPesquisa = this.$store.getters
@@ -417,9 +561,9 @@ export default {
             // label: "Data One",
             backgroundColor: "#1d375c",
             barThickness: 6,
-            data: [resultadoPesquisa.QtdReu, resultadoPesquisa.QtdAutor],
-          },
-        ],
+            data: [resultadoPesquisa.QtdReu, resultadoPesquisa.QtdAutor]
+          }
+        ]
       };
       this.datacollectionJustica = {
         labels: ["Estadual", "Federal", "Trabalhista"],
@@ -432,27 +576,26 @@ export default {
             data: [
               resultadoPesquisa.QtdEstadual,
               resultadoPesquisa.QtdFederal,
-              resultadoPesquisa.QtdTrabalhista,
-            ],
-          },
-        ],
+              resultadoPesquisa.QtdTrabalhista
+            ]
+          }
+        ]
       };
 
-      console.log(resultadoPesquisa.QtdUF.map((x) => x.Nome));
       this.datacollectionUf = {
-        labels: resultadoPesquisa.QtdUF.map((x) => x.Nome),
+        labels: resultadoPesquisa.QtdUF.map(x => x.Nome),
         // labels: [resu~],
         datasets: [
           {
             // label: "Data One",
             backgroundColor: "#1d375c",
             barThickness: 6,
-            data: resultadoPesquisa.QtdUF.map((x) => x.Qtd),
-          },
-        ],
+            data: resultadoPesquisa.QtdUF.map(x => x.Qtd)
+          }
+        ]
       };
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
