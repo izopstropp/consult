@@ -4,18 +4,20 @@
       <p>CONSULTAR AÇÕES</p>
     </div>
     <div class="tooltip-extendido">
-      <tooltip :class="[exibicaoTooltip ? 'tootip-exibir':'','tooltip']">
+      <tooltip :class="[exibicaoTooltip ? 'tootip-exibir' : '', 'tooltip']">
         <div @click="exibirTooltip = false" class="fechar-tooltip">
           <img src="../assets/btn-fecha-tootip.png" alt="fechar" />
         </div>
         <div style="width:220px">
           <p>
-            Este campo não é obrigatório, porém sua pesquisa
-            será ainda mais assertiva caso seja preenchido corretamente.
+            Este campo não é obrigatório, porém sua pesquisa será ainda mais
+            assertiva caso seja preenchido corretamente.
           </p>
         </div>
         <div class="conf-exib-msg">
-          <p @click="exibirTooltip = false">Não exibir essa mensagem novamente</p>
+          <p @click="exibirTooltip = false">
+            Não exibir essa mensagem novamente
+          </p>
         </div>
       </tooltip>
     </div>
@@ -28,7 +30,9 @@
           :class="[!nomeValidado ? 'erroInput' : 'erroResetInput']"
           style="width: 340px"
         />
-        <p v-if="!nomeValidado" style="color:red">Preencha o campo corretamente</p>
+        <p v-if="!nomeValidado" style="color:red">
+          Preencha o campo corretamente
+        </p>
       </div>
       <div class="consulta-form-input">
         <p style="z-index:-99">CPF/CNPJ</p>
@@ -46,7 +50,8 @@
           v-model="parametrosConsulta.possuiSigla"
           class="consulta-form-checkbox"
           @click="resetarInputSigla"
-        >O nome possui sigla?</a-checkbox>
+          >O nome possui sigla?</a-checkbox
+        >
         <a-input
           @click="resetarInputSigla"
           :class="[
@@ -56,7 +61,9 @@
           v-model="parametrosConsulta.sigla"
           :disabled="!parametrosConsulta.possuiSigla"
         />
-        <p v-if="!siglaValidado" style="color:red">Preencha o campo corretamente</p>
+        <p v-if="!siglaValidado" style="color:red">
+          Preencha o campo corretamente
+        </p>
       </div>
       <div class="consulta-form-input">
         <a-select style="width:117px" v-model="parametrosConsulta.tipoPessoa">
@@ -142,7 +149,9 @@
     </div>
     <div class="btn-consulta">
       <div>
-        <a-button @click="consulta" class="consulta-form-btn">Consultar</a-button>
+        <a-button @click="consulta" class="consulta-form-btn"
+          >Consultar</a-button
+        >
       </div>
       <div>
         <p>Essa primeira Consulta tem um valor de R$10,00</p>
@@ -160,12 +169,14 @@ import { dataSetParte } from "../valuesInput/dataSetParte.js";
 import tooltip from "@/components/ToolTip.vue";
 import { SET_RESULT_VOLUMETRIA } from "../store/actions";
 import { SET_PARAMETROS_CONSULT_VOLUMETRIA } from "../store/actions";
+import { CLEAR_VALUES_PARAMETER_CONSULT } from "../store/actions";
+
 export default {
   name: "consulta-acoes",
   directives: { mask },
   components: {
     tooltip,
-    multiSelect
+    multiSelect,
   },
   data() {
     return {
@@ -179,14 +190,14 @@ export default {
         justica: [],
         partes: [],
         dataDistribuicaoInicial: "",
-        dataDistribuicaoFinal: ""
+        dataDistribuicaoFinal: "",
       },
       nomeValidado: true,
       siglaValidado: true,
       exibirTooltip: false,
       dataSetUf: dataSetUf,
       dataSetJustica: dataSetJustica,
-      dataSetParte: dataSetParte
+      dataSetParte: dataSetParte,
     };
   },
   mounted() {
@@ -194,19 +205,19 @@ export default {
   },
   computed: {
     dataSetJusticaSelecinado() {
-      let result = this.dataSetJustica.filter(item => {
+      let result = this.dataSetJustica.filter((item) => {
         return item.marcado == true;
       });
       return result;
     },
     dataSetParteSelecinado() {
-      let result = this.dataSetParte.filter(item => {
+      let result = this.dataSetParte.filter((item) => {
         return item.marcado == true;
       });
       return result;
     },
     dataSetUfSelecinado() {
-      let result = this.dataSetUf.filter(item => {
+      let result = this.dataSetUf.filter((item) => {
         return item.marcado == true;
       });
       return result;
@@ -216,7 +227,7 @@ export default {
         return true;
       }
       return false;
-    }
+    },
   },
   methods: {
     desmarcarItemJustica(index) {
@@ -251,7 +262,7 @@ export default {
         dataDistribuicaoFim: "10/03/2020",
         justica: ["trabalhista", "estadual", "federal"],
         parte: ["autor", "reu"],
-        uf: ["pe", "rj", "sg"]
+        uf: ["pe", "rj", "sg"],
       };
       let dadosFakeResul = {
         Key: "nomeamericanasltda;documento072479707656678413ufperj",
@@ -265,123 +276,123 @@ export default {
           QtdUF: [
             {
               Nome: "AC",
-              Qtd: "1"
+              Qtd: "1",
             },
             {
               Nome: "AL",
-              Qtd: "10"
+              Qtd: "10",
             },
             {
               Nome: "AM",
-              Qtd: "20"
+              Qtd: "20",
             },
             {
               Nome: "AP",
-              Qtd: "10"
+              Qtd: "10",
             },
             {
               Nome: "BA",
-              Qtd: "50"
+              Qtd: "50",
             },
             {
               Nome: "PE",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "CE",
-              Qtd: "0"
+              Qtd: "0",
             },
             {
               Nome: "DF",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "ES",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "ES",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "GO",
-              Qtd: "11"
+              Qtd: "11",
             },
 
             {
               Nome: "MA",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "MG",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "MS",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "MT",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "PA",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "PB",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "PE",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "PI",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "PR",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "RJ",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "RN",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "RO",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "RR",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "RS",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "SC",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "SE",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "SP",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "TO",
-              Qtd: "11"
-            }
-          ]
-        }
+              Qtd: "11",
+            },
+          ],
+        },
       };
 
       if (this.validar()) {
@@ -416,11 +427,13 @@ export default {
     },
     cleanInput() {
       // console.log("MOUNTED");
-      dataSetJustica.map(x => (x.marcado = false));
-      dataSetParte.map(x => (x.marcado = false));
-      dataSetUf.map(x => (x.marcado = false));
-    }
-  }
+      dataSetJustica.map((x) => (x.marcado = false));
+      dataSetParte.map((x) => (x.marcado = false));
+      dataSetUf.map((x) => (x.marcado = false));
+
+      this.$store.dispatch(CLEAR_VALUES_PARAMETER_CONSULT);
+    },
+  },
 };
 </script>
 <style scoped>

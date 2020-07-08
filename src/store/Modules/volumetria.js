@@ -1,7 +1,9 @@
 import { SET_RESULT_VOLUMETRIA, CLEAR_RESULT_VOLUMETRIA } from "../actions";
 import { CHANGE_VALUES_VOLUMETRIA } from "../mutations";
 import { SET_PARAMETROS_CONSULT_VOLUMETRIA } from "../actions";
+import { CLEAR_VALUES_PARAMETER_CONSULT } from "../actions";
 import { CHANGE_VALUES_PARAMETER_VOLUMETRIA } from "../mutations";
+import { CLEAR_VALUES_PARAMETER } from "../mutations";
 
 export default {
   state: {
@@ -36,6 +38,9 @@ export default {
     [CLEAR_RESULT_VOLUMETRIA]({ commit }, payload) {
       commit(CHANGE_VALUES_VOLUMETRIA, payload);
     },
+    [CLEAR_VALUES_PARAMETER_CONSULT]({ commit }, payload) {
+      commit(CLEAR_VALUES_PARAMETER, payload);
+    },
   },
   mutations: {
     [CHANGE_VALUES_VOLUMETRIA](state, payload) {
@@ -53,6 +58,17 @@ export default {
       state.parametrosPesquisa.justica = payload.justica;
       state.parametrosPesquisa.parte = payload.parte;
       state.parametrosPesquisa.uf = payload.uf;
+    },
+    [CLEAR_VALUES_PARAMETER](state) {
+      state.parametrosPesquisa.nome = "";
+      state.parametrosPesquisa.documento = "";
+      state.parametrosPesquisa.sigla = "";
+      state.parametrosPesquisa.tipoPessoa = "";
+      state.parametrosPesquisa.dataDistribuicaoInicio = "";
+      state.parametrosPesquisa.dataDistribuicaoFim = "";
+      state.parametrosPesquisa.justica = [];
+      state.parametrosPesquisa.parte = [];
+      state.parametrosPesquisa.uf = [];
     },
   },
 };
