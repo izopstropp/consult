@@ -568,20 +568,20 @@ export default {
         );
 
         let filtroJustica = this.getOpcoesSelecionadas(
-          this.dataSetJusticaSelecinado
+          this.parametrosFiltro.dataSetJustica
         );
         if (filtroJustica.length > 0) {
           pesquisaPrincipal.justica = pesquisaPrincipal.parte = filtroJustica;
         }
         let filtroParte = this.getOpcoesSelecionadas(
-          this.dataSetParteSelecinado
+          this.parametrosFiltro.dataSetParte
         );
         if (filtroParte.length > 0) {
           pesquisaPrincipal.parte = filtroParte;
         }
 
         let filtroUf = this.getOpcoesSelecionadas(
-          this.dataSetUfSelecinadoFiltroSec
+          this.parametrosFiltro.dataSetUf
         );
         if (filtroUf.length > 0) {
           pesquisaPrincipal.uf = filtroUf;
