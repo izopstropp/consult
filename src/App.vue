@@ -27,6 +27,9 @@ list-style {
   margin: 0;
   padding: 0;
 }
+.vld-background {
+  position: relative !important;
+}
 .ant-checkbox-wrapper {
   border-radius: 50% !important;
   outline: 0 !important;
