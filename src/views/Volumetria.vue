@@ -9,8 +9,7 @@
         <router-link
           :to="{ name: 'RelatorioConsultaAcoes', params: { id: 123, pag: 1 } }"
           tag="p"
-          >Pré-Visualizar</router-link
-        >
+        >Pré-Visualizar</router-link>
       </div>
     </div>
 
@@ -18,15 +17,10 @@
       <div class="filtro-resumo">
         <div class="resumo-justica">
           <div class="result">
-            <div
-              v-for="(item, index) in dataSetJusticaSelecinadoFiltroSec"
-              :key="index"
-            >
+            <div v-for="(item, index) in dataSetJusticaSelecinadoFiltroSec" :key="index">
               Justiça
               <span>{{ item.nome }}</span>
-              <span
-                @click="desmarcarItem(item, parametrosFiltro.dataSetJustica)"
-              >
+              <span @click="desmarcarItem(item, parametrosFiltro.dataSetJustica)">
                 <small>
                   <img src="../assets/minix.png" alt="fechar" />
                 </small>
@@ -36,10 +30,7 @@
         </div>
         <div class="resumo-parte">
           <div class="result">
-            <div
-              v-for="(item, index) in dataSetParteSelecinadoFiltroSec"
-              :key="index"
-            >
+            <div v-for="(item, index) in dataSetParteSelecinadoFiltroSec" :key="index">
               Parte
               <span>{{ item.nome }}</span>
               <span @click="desmarcarItem(item, parametrosFiltro.dataSetParte)">
@@ -52,10 +43,7 @@
         </div>
         <div class="resumo-uf">
           <div class="result">
-            <div
-              v-for="(item, index) in dataSetUfSelecinadoFiltroSec"
-              :key="index"
-            >
+            <div v-for="(item, index) in dataSetUfSelecinadoFiltroSec" :key="index">
               UF
               <span>{{ item.nome }}</span>
               <span @click="desmarcarItem(item, parametrosFiltro.dataSetUf)">
@@ -142,11 +130,11 @@
       <div class="container-volumetria-principal">
         <div class="volumetria-titulo">
           <span>Volumetria -</span>
-          <span
-            >Total de
+          <span>
+            Total de
             {{ $store.getters.getResultadoPesquisaVolumetria.QtdProcessos }}
-            Processos encontrados</span
-          >
+            Processos encontrados
+          </span>
         </div>
         <div class="grafico-volumetria">
           <div class="container-chart">
@@ -172,11 +160,7 @@
           <div>
             <div class="container-chart-item-uf">
               <LoadCircle :exibirLoad="realizandoRequisicaoFiltro" />
-              <LineChart
-                class="chart-uf"
-                tituloChart="UF"
-                :chart-data="datacollectionUf"
-              ></LineChart>
+              <LineChart class="chart-uf" tituloChart="UF" :chart-data="datacollectionUf"></LineChart>
             </div>
           </div>
         </div>
@@ -184,15 +168,9 @@
           <table>
             <thead style="border-bottom: 1px solid #9494949c !important;">
               <tr>
-                <th :class="[versaoDetalhada ? 'background-blue' : '']">
-                  Descrição
-                </th>
-                <th :class="[versaoDetalhada ? 'background-blue' : '']">
-                  Quantidade de processos
-                </th>
-                <th :class="[versaoDetalhada ? 'background-blue' : '']">
-                  Valor
-                </th>
+                <th :class="[versaoDetalhada ? 'background-blue' : '']">Descrição</th>
+                <th :class="[versaoDetalhada ? 'background-blue' : '']">Quantidade de processos</th>
+                <th :class="[versaoDetalhada ? 'background-blue' : '']">Valor</th>
               </tr>
             </thead>
             <tbody>
@@ -212,8 +190,7 @@
                         v-for="(item, index) in this
                           .dataSetUfSelecinadoFiltroSec"
                         :key="index"
-                        >{{ item.nome + "; " }}</span
-                      >
+                      >{{ item.nome + "; " }}</span>
                     </p>
                   </div>
                 </td>
@@ -221,8 +198,8 @@
                   <div>
                     <p>
                       {{
-                        $store.getters.getResultadoPesquisaVolumetria
-                          .QtdProcessos
+                      $store.getters.getResultadoPesquisaVolumetria
+                      .QtdProcessos
                       }}
                     </p>
                   </div>
@@ -243,8 +220,8 @@
                   <div>
                     <p>
                       {{
-                        $store.getters.getResultadoPesquisaVolumetria
-                          .QtdProcessos
+                      $store.getters.getResultadoPesquisaVolumetria
+                      .QtdProcessos
                       }}
                     </p>
                   </div>
@@ -295,8 +272,8 @@
                   <div class="font-weight-bold">
                     <p>
                       {{
-                        $store.getters.getResultadoPesquisaVolumetria
-                          .QtdProcessos
+                      $store.getters.getResultadoPesquisaVolumetria
+                      .QtdProcessos
                       }}
                     </p>
                   </div>
@@ -343,16 +320,20 @@ export default {
       parametrosFiltro: {
         dataSetJustica: dataSetJusticaFiltroSec,
         dataSetParte: dataSetParteFiltroSec,
-        dataSetUf: dataSetUfFiltroSec,
+        dataSetUf: dataSetUfFiltroSec
       },
       solicitarVolume: false,
       isLoading: false,
       fullPage: false,
-      realizandoRequisicaoFiltro: false,
+      realizandoRequisicaoFiltro: false
     };
   },
+
   beforeMount() {
-    console.log("BEFORE mounted");
+    if (!this.$store.getters.getParametrosPesquisa.nome) {
+      this.$router.push({ name: "consulta-acoes" });
+    }
+
     this.cleanInput();
   },
 
@@ -361,31 +342,31 @@ export default {
   },
   computed: {
     dataSetParteSelecinadoFiltroSec() {
-      let result = this.parametrosFiltro.dataSetParte.filter((item) => {
+      let result = this.parametrosFiltro.dataSetParte.filter(item => {
         return item.marcado == true;
       });
       return result;
     },
     dataSetJusticaSelecinadoFiltroSec() {
-      let result = this.parametrosFiltro.dataSetJustica.filter((item) => {
+      let result = this.parametrosFiltro.dataSetJustica.filter(item => {
         return item.marcado == true;
       });
       return result;
     },
     dataSetUfSelecinadoFiltroSec() {
-      let result = this.parametrosFiltro.dataSetUf.filter((item) => {
+      let result = this.parametrosFiltro.dataSetUf.filter(item => {
         return item.marcado == true;
       });
       return result;
-    },
+    }
   },
   watch: {
     parametrosFiltro: {
       handler() {
         this.realizarRequicaoFiltro();
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   mounted() {
     this.fillData();
@@ -393,9 +374,9 @@ export default {
   methods: {
     cleanInput() {
       // console.log("MOUNTED");
-      dataSetJusticaFiltroSec.map((x) => (x.marcado = false));
-      dataSetParteFiltroSec.map((x) => (x.marcado = false));
-      dataSetUfFiltroSec.map((x) => (x.marcado = false));
+      dataSetJusticaFiltroSec.map(x => (x.marcado = false));
+      dataSetParteFiltroSec.map(x => (x.marcado = false));
+      dataSetUfFiltroSec.map(x => (x.marcado = false));
     },
     realizarRequicaoFiltro() {
       if (this.existeValorFiltro()) {
@@ -421,123 +402,123 @@ export default {
               QtdUF: [
                 {
                   Nome: "AC",
-                  Qtd: "1",
+                  Qtd: "1"
                 },
                 {
                   Nome: "AL",
-                  Qtd: "10",
+                  Qtd: "10"
                 },
                 {
                   Nome: "AM",
-                  Qtd: "20",
+                  Qtd: "20"
                 },
                 {
                   Nome: "AP",
-                  Qtd: "10",
+                  Qtd: "10"
                 },
                 {
                   Nome: "BA",
-                  Qtd: "230",
+                  Qtd: "230"
                 },
                 {
                   Nome: "PE",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "CE",
-                  Qtd: "0",
+                  Qtd: "0"
                 },
                 {
                   Nome: "DF",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "ES",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "ES",
-                  Qtd: "100",
+                  Qtd: "100"
                 },
                 {
                   Nome: "GO",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
 
                 {
                   Nome: "MA",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "MG",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "MS",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "MT",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "PA",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "PB",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "PE",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "PI",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "PR",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "RJ",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "RN",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "RO",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "RR",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "RS",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "SC",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "SE",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "SP",
-                  Qtd: "11",
+                  Qtd: "11"
                 },
                 {
                   Nome: "TO",
-                  Qtd: "11",
-                },
-              ],
-            },
+                  Qtd: "11"
+                }
+              ]
+            }
           };
           this.$store.dispatch(SET_RESULT_VOLUMETRIA, dadosFakeResul);
           this.fillData();
@@ -553,7 +534,7 @@ export default {
     },
     getOpcoesSelecionadas(dataSet) {
       let arrItem = dataSet
-        .map((arr) => arr.nome)
+        .map(arr => arr.nome)
         .reduce(function(arr, item) {
           arr.push(item);
           return arr;
@@ -594,18 +575,18 @@ export default {
       // }
     },
     existeValorFiltro() {
-      let qtdJustica = dataSetJusticaFiltroSec.filter((x) => x.marcado == true)
+      let qtdJustica = dataSetJusticaFiltroSec.filter(x => x.marcado == true)
         .length;
       if (qtdJustica) {
         return true;
       }
-      let qtdParte = dataSetParteFiltroSec.filter((x) => x.marcado == true)
+      let qtdParte = dataSetParteFiltroSec.filter(x => x.marcado == true)
         .length;
       if (qtdParte) {
         return true;
       }
 
-      let qtdUf = dataSetUfFiltroSec.filter((x) => x.marcado == true).length;
+      let qtdUf = dataSetUfFiltroSec.filter(x => x.marcado == true).length;
       if (qtdUf) {
         return true;
       }
@@ -622,9 +603,9 @@ export default {
             // label: "Data One",
             backgroundColor: "#1d375c",
             barThickness: 6,
-            data: [resultadoPesquisa.QtdReu, resultadoPesquisa.QtdAutor],
-          },
-        ],
+            data: [resultadoPesquisa.QtdReu, resultadoPesquisa.QtdAutor]
+          }
+        ]
       };
       this.datacollectionJustica = {
         labels: ["Estadual", "Federal", "Trabalhista"],
@@ -637,26 +618,26 @@ export default {
             data: [
               resultadoPesquisa.QtdEstadual,
               resultadoPesquisa.QtdFederal,
-              resultadoPesquisa.QtdTrabalhista,
-            ],
-          },
-        ],
+              resultadoPesquisa.QtdTrabalhista
+            ]
+          }
+        ]
       };
 
       this.datacollectionUf = {
-        labels: resultadoPesquisa.QtdUF.map((x) => x.Nome),
+        labels: resultadoPesquisa.QtdUF.map(x => x.Nome),
         // labels: [resu~],
         datasets: [
           {
             // label: "Data One",
             backgroundColor: "#1d375c",
             barThickness: 6,
-            data: resultadoPesquisa.QtdUF.map((x) => x.Qtd),
-          },
-        ],
+            data: resultadoPesquisa.QtdUF.map(x => x.Qtd)
+          }
+        ]
       };
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>

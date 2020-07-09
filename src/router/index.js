@@ -33,7 +33,7 @@ const routes = [
         component: SelecaoTipoConsulta,
       },
       {
-        path: "/consulta",
+        path: "/consulta-acoes",
         name: "consulta-acoes",
         component: ConsultaAcoes,
       },
@@ -59,7 +59,7 @@ const routes = [
         component: HistoricoConsulta,
       },
       {
-        path: "/consulta",
+        path: "/consulta-preditivo",
         name: "consulta-preditivo",
         component: ConsultaPreditivo,
       },

@@ -87,7 +87,7 @@ export default {
   animation-fill-mode: forwards;
   position: absolute;
   width: 179px;
-  height: 130px;
+  height: 135px;
   top: 50px;
   right: 50px;
   list-style-type: none;

@@ -15,19 +15,18 @@ export default {
         scales: {
           yAxes: [
             {
-              barPercentage: 0,
               stacked: false,
 
               ticks: {
                 display: false,
                 beginAtZero: true,
-                suggestedMax: 70,
+                suggestedMax: 70
               },
               gridLines: {
                 display: false,
-                color: "#1d375c",
-              },
-            },
+                color: "#1d375c"
+              }
+            }
           ],
           xAxes: [
             {
@@ -35,19 +34,17 @@ export default {
 
               gridLines: {
                 display: false,
-                color: "#1d375c",
+                color: "#1d375c"
               },
               scaleFontSize: 10,
-              stacked: false,
-              categoryPercentage: 0.5,
-              barPercentage: 1,
-            },
-          ],
+              stacked: false
+            }
+          ]
         },
         Tooltips: false,
         legend: false,
         hover: {
-          animationDuration: 0,
+          animationDuration: 0
         },
         responsive: true,
         maintainAspectRatio: false,
@@ -60,7 +57,7 @@ export default {
           fontSize: 15.5,
           fontFamily: "sans-serif",
           padding: 10,
-          fontStyle: "",
+          fontStyle: ""
         },
         animation: {
           onProgress: function(animation) {
@@ -101,11 +98,11 @@ export default {
                 // ctx.fillText([2, 2], bar._model.x, bar._model.y);
               });
             });
-          },
-        },
-      },
+          }
+        }
+      }
     };
   },
-  methods: {},
+  methods: {}
 };
 </script>
