@@ -58,6 +58,7 @@ export default {
       state.parametrosPesquisa.justicas = payload.justicas;
       state.parametrosPesquisa.partes = payload.partes;
       state.parametrosPesquisa.ufs = payload.ufs;
+      //
     },
     [CLEAR_VALUES_PARAMETER](state) {
       state.parametrosPesquisa.nome = "";
