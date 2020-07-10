@@ -75,6 +75,7 @@ export default {
 
 .menu-esquerdo {
   display: flex;
+  position: relative;
   align-items: center;
   margin-top: 8px;
   cursor: pointer;
@@ -89,7 +90,7 @@ export default {
   width: 179px;
   height: 135px;
   top: 50px;
-  right: 50px;
+  right: 0px;
   list-style-type: none;
   background-color: #ffffff;
   padding: 10px;

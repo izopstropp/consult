@@ -17,40 +17,52 @@
       <div class="filtro-resumo">
         <div class="resumo-justica">
           <div class="result">
-            <div v-for="(item, index) in dataSetJusticaSelecinadoFiltroSec" :key="index">
+            <div
+              :class="[!item.marcado ? 'excluido':'']"
+              v-for="(item, index) in dataSetJusticaSelecinadoFiltroSec"
+              :key="index"
+            >
               Justiça
               <span>{{ item.nome }}</span>
-              <span @click="desmarcarItem(item, parametrosFiltro.dataSetJustica)">
+              <!-- <span v-if="!item.fixo" @click="desmarcarItem(item, parametrosFiltro.dataSetJustica)">
                 <small>
                   <img src="../assets/minix.png" alt="fechar" />
                 </small>
-              </span>
+              </span>-->
             </div>
           </div>
         </div>
         <div class="resumo-parte">
           <div class="result">
-            <div v-for="(item, index) in dataSetParteSelecinadoFiltroSec" :key="index">
+            <div
+              :class="[!item.marcado ? 'excluido':'']"
+              v-for="(item, index) in dataSetParteSelecinadoFiltroSec"
+              :key="index"
+            >
               Parte
               <span>{{ item.nome }}</span>
-              <span @click="desmarcarItem(item, parametrosFiltro.dataSetParte)">
+              <!-- <span v-if="!item.fixo" @click="desmarcarItem(item, parametrosFiltro.dataSetParte)">
                 <small>
                   <img src="../assets/minix.png" alt="fechar" />
                 </small>
-              </span>
+              </span>-->
             </div>
           </div>
         </div>
         <div class="resumo-uf">
           <div class="result">
-            <div v-for="(item, index) in dataSetUfSelecinadoFiltroSec" :key="index">
+            <div
+              :class="[!item.marcado ? 'excluido':'']"
+              v-for="(item, index) in dataSetUfSelecinadoFiltroSec"
+              :key="index"
+            >
               UF
               <span>{{ item.nome }}</span>
-              <span @click="desmarcarItem(item, parametrosFiltro.dataSetUf)">
+              <!-- <span v-if="!item.fixo" @click="desmarcarItem(item, parametrosFiltro.dataSetUf)">
                 <small>
                   <img src="../assets/minix.png" alt="fechar" />
                 </small>
-              </span>
+              </span>-->
             </div>
           </div>
         </div>
@@ -188,7 +200,7 @@
                     <p>
                       <span
                         v-for="(item, index) in this
-                          .dataSetUfSelecinadoFiltroSec"
+                          .dataSetUfSelecinadoFiltroSec.filter(x=>x.marcado == true)"
                         :key="index"
                       >{{ item.nome + "; " }}</span>
                     </p>
@@ -301,9 +313,9 @@
 <script>
 import LineChart from "../components/Graficos/Barras/BarChart.vue";
 import MultiSelect from "../components/input/select/multiSelect/MultiConsult.vue";
-import { dataSetUfFiltroSec } from "../valuesInput/dataSetUfFiltroSec.js";
-import { dataSetJusticaFiltroSec } from "../valuesInput/dataSetJusticaFiltroSec.js";
-import { dataSetParteFiltroSec } from "../valuesInput/dataSetParteFiltroSec.js";
+import { dataSetUf } from "../valuesInput/dataSetUf.js";
+import { dataSetJustica } from "../valuesInput/dataSetJustica.js";
+import { dataSetParte } from "../valuesInput/dataSetParte.js";
 import { SET_RESULT_VOLUMETRIA } from "../store/actions";
 import _ from "lodash";
 import LoadCircle from "../components/Load/LoadCircle.vue";
@@ -318,23 +330,16 @@ export default {
       datacollectionUf: {},
       versaoDetalhada: true,
       parametrosFiltro: {
-        dataSetJustica: dataSetJusticaFiltroSec,
-        dataSetParte: dataSetParteFiltroSec,
-        dataSetUf: dataSetUfFiltroSec
+        dataSetJustica: [],
+        dataSetParte: [],
+        dataSetUf: []
       },
       solicitarVolume: false,
       isLoading: false,
       fullPage: false,
-      realizandoRequisicaoFiltro: false
+      realizandoRequisicaoFiltro: false,
+      qtdTrocaFiltro: 0
     };
-  },
-
-  beforeMount() {
-    if (!this.$store.getters.getParametrosPesquisa.nome) {
-      this.$router.push({ name: "consulta-acoes" });
-    }
-
-    this.cleanInput();
   },
 
   created() {
@@ -342,52 +347,83 @@ export default {
   },
   computed: {
     dataSetParteSelecinadoFiltroSec() {
-      let result = this.parametrosFiltro.dataSetParte.filter(item => {
-        return item.marcado == true;
-      });
+      let result = dataSetParte
+        .map(u => u)
+        .filter(y =>
+          this.$store.getters.getParametrosPesquisa.partes.includes(y.nome)
+        );
+      result.map(x => (x.marcado = true));
       return result;
     },
     dataSetJusticaSelecinadoFiltroSec() {
-      let result = this.parametrosFiltro.dataSetJustica.filter(item => {
-        return item.marcado == true;
-      });
+      let result = dataSetJustica
+        .map(u => u)
+        .filter(y =>
+          this.$store.getters.getParametrosPesquisa.justicas.includes(y.nome)
+        );
+      result.map(x => (x.marcado = true));
       return result;
     },
     dataSetUfSelecinadoFiltroSec() {
-      let result = this.parametrosFiltro.dataSetUf.filter(item => {
-        return item.marcado == true;
-      });
+      let result = dataSetUf
+        .map(u => u)
+        .filter(y =>
+          this.$store.getters.getParametrosPesquisa.ufs.includes(y.nome)
+        );
+
+      if (result.length == 0) result = dataSetUf;
+
+      result.map(x => (x.marcado = true));
       return result;
     }
   },
   watch: {
     parametrosFiltro: {
       handler() {
-        this.realizarRequicaoFiltro();
+        this.qtdTrocaFiltro += 1;
+        if (this.qtdTrocaFiltro > 1) {
+          this.realizarRequicaoFiltro();
+        }
       },
       deep: true
     }
   },
-  mounted() {
+  beforeMount() {
+    if (!this.$store.getters.getParametrosPesquisa.nome) {
+      this.$router.push({ name: "consulta-acoes" });
+    }
+    this.parametrosFiltro.dataSetUf = this.dataSetUfSelecinadoFiltroSec;
+    this.parametrosFiltro.dataSetJustica = this.dataSetJusticaSelecinadoFiltroSec;
+    this.parametrosFiltro.dataSetParte = this.dataSetParteSelecinadoFiltroSec;
+
     this.fillData();
+
+    // this.cleanInput();
   },
+
   methods: {
     cleanInput() {
-      // console.log("MOUNTED");
-      dataSetJusticaFiltroSec.map(x => (x.marcado = false));
-      dataSetParteFiltroSec.map(x => (x.marcado = false));
-      dataSetUfFiltroSec.map(x => (x.marcado = false));
+      dataSetJustica.map(x => (x.marcado = false));
+      dataSetParte.map(x => (x.marcado = false));
+      dataSetUf.map(x => (x.marcado = false));
     },
     realizarRequicaoFiltro() {
       if (this.existeValorFiltro()) {
         this.realizandoRequisicaoFiltro = true;
+
         let pesquisaPrincipal = JSON.parse(
           JSON.stringify(this.$store.getters.getParametrosPesquisa)
         );
-        pesquisaPrincipal.justica = this.parametrosFiltro.justica;
-        pesquisaPrincipal.parte = this.parametrosFiltro.parte;
-        pesquisaPrincipal.uf = this.parametrosFiltro.uf;
-
+        pesquisaPrincipal.justicas = this.getOpcoesSelecionadas(
+          this.parametrosFiltro.dataSetJustica
+        );
+        pesquisaPrincipal.partes = this.getOpcoesSelecionadas(
+          this.parametrosFiltro.dataSetParte
+        );
+        pesquisaPrincipal.ufs = this.getOpcoesSelecionadas(
+          this.parametrosFiltro.dataSetUf
+        );
+        console.log(pesquisaPrincipal);
         setTimeout(() => {
           this.realizandoRequisicaoFiltro = false;
           let dadosFakeResul = {
@@ -521,7 +557,7 @@ export default {
             }
           };
           this.$store.dispatch(SET_RESULT_VOLUMETRIA, dadosFakeResul);
-          this.fillData();
+          // this.fillData();
         }, 3000);
       }
     },
@@ -534,9 +570,10 @@ export default {
     },
     getOpcoesSelecionadas(dataSet) {
       let arrItem = dataSet
-        .map(arr => arr.nome)
+        .map(arr => arr)
+        .filter(arr => arr.marcado == true)
         .reduce(function(arr, item) {
-          arr.push(item);
+          arr.push(item.nome);
           return arr;
         }, []);
       return arrItem;
@@ -575,18 +612,16 @@ export default {
       // }
     },
     existeValorFiltro() {
-      let qtdJustica = dataSetJusticaFiltroSec.filter(x => x.marcado == true)
-        .length;
+      let qtdJustica = dataSetJustica.filter(x => x.marcado == true).length;
       if (qtdJustica) {
         return true;
       }
-      let qtdParte = dataSetParteFiltroSec.filter(x => x.marcado == true)
-        .length;
+      let qtdParte = dataSetParte.filter(x => x.marcado == true).length;
       if (qtdParte) {
         return true;
       }
 
-      let qtdUf = dataSetUfFiltroSec.filter(x => x.marcado == true).length;
+      let qtdUf = dataSetUf.filter(x => x.marcado == true).length;
       if (qtdUf) {
         return true;
       }
@@ -743,7 +778,8 @@ a {
   height: 23px;
   margin-right: 5px;
   border-radius: 100px;
-  background-color: #e8ebed;
+  background-color: #354a68;
+  color: rgb(219, 216, 216);
   font-size: 0.9em;
   cursor: pointer;
   display: flex;
@@ -753,6 +789,15 @@ a {
   flex-grow: 0.04;
   font-size: 0.8em;
   margin-top: 3px;
+}
+.result div span {
+  color: rgb(73, 72, 72);
+}
+
+.result div.excluido {
+  color: rgb(73, 72, 72);
+  background-color: #e8ebed;
+  text-decoration: line-through;
 }
 .result div span:nth-child(1) {
   background-color: #ffffff;

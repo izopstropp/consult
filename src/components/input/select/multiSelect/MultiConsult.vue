@@ -21,9 +21,9 @@
     >
       <li
         v-show="exibirMulti"
-        v-for="item in dataSet"
+        v-for="item in listagemItems"
         :key="item.nome"
-        @click="item.marcado = !item.marcado"
+        @click="addItenSelected(item)"
         class="lista-itens-excluir"
       >
         <span>&#8680;{{ item.nome }}</span>
@@ -75,6 +75,10 @@ export default {
     blurCloseList: {
       type: Boolean,
       default: true
+    },
+    desmarcarItem: {
+      type: Boolean,
+      default: true
     }
   },
   model: {
@@ -82,12 +86,18 @@ export default {
     event: "change"
   },
   computed: {
-    dataSetSelecionado() {
+    listagemItems() {
       let result = this.dataSet.filter(item => {
-        return item.marcado == true;
+        return item;
       });
       return result;
     },
+    // dataSetSelecionado() {
+    //   let result = this.dataSet.filter(item => {
+    //     return item.marcado == true;
+    //   });
+    //   return result;
+    // },
     colorButtomActive() {
       if (this.exibirMulti) {
         return this.backgroudColorButtom;
@@ -102,11 +112,13 @@ export default {
   },
 
   methods: {
-    additenselected(item) {
+    addItenSelected(item) {
       if (item.marcado == false) {
         item.marcado = true;
+        if (!this.desmarcarItem) item.fixo = true;
       } else {
         item.marcado = false;
+        item.fixo = false;
       }
     },
     handleFocus() {

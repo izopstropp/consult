@@ -16,7 +16,7 @@ export default {
       dataDistribuicaoFim: "",
       justica: [],
       parte: [],
-      uf: [],
+      ufs: [],
     },
     ResultadoVolumetria: {},
   },
@@ -51,13 +51,13 @@ export default {
       state.parametrosPesquisa.documento = payload.documento;
       state.parametrosPesquisa.sigla = payload.sigla;
       state.parametrosPesquisa.tipoPessoa = payload.tipoPessoa;
-      state.parametrosPesquisa.dataDistribuicaoInicio =
-        payload.dataDistribuicaoInicio;
-      state.parametrosPesquisa.dataDistribuicaoFim =
-        payload.dataDistribuicaoFim;
-      state.parametrosPesquisa.justica = payload.justica;
-      state.parametrosPesquisa.parte = payload.parte;
-      state.parametrosPesquisa.uf = payload.uf;
+      state.parametrosPesquisa.dataDistribuicaoInicial =
+        payload.dataDistribuicaoInicial;
+      state.parametrosPesquisa.dataDistribuicaoFinal =
+        payload.dataDistribuicaoFinal;
+      state.parametrosPesquisa.justicas = payload.justicas;
+      state.parametrosPesquisa.partes = payload.partes;
+      state.parametrosPesquisa.ufs = payload.ufs;
     },
     [CLEAR_VALUES_PARAMETER](state) {
       state.parametrosPesquisa.nome = "";
@@ -66,9 +66,9 @@ export default {
       state.parametrosPesquisa.tipoPessoa = "";
       state.parametrosPesquisa.dataDistribuicaoInicio = "";
       state.parametrosPesquisa.dataDistribuicaoFim = "";
-      state.parametrosPesquisa.justica = [];
-      state.parametrosPesquisa.parte = [];
-      state.parametrosPesquisa.uf = [];
+      state.parametrosPesquisa.justicas = [];
+      state.parametrosPesquisa.partes = [];
+      state.parametrosPesquisa.ufs = [];
     },
   },
 };

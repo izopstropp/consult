@@ -89,6 +89,7 @@
           nomeCampo="Justiça"
           paddingLeftTextButtom="45px"
           v-model="dataSetJustica"
+          :desmarcarItem="false"
         />
         <div class="result alt-input-100">
           <div v-for="(item, index) in dataSetJusticaSelecinado" :key="index">
@@ -107,6 +108,7 @@
           nomeCampo="Partes"
           paddingLeftTextButtom="45px"
           v-model="dataSetParte"
+          :desmarcarItem="false"
         />
         <div class="result">
           <div v-for="(item, index) in dataSetParteSelecinado" :key="index">
@@ -124,6 +126,7 @@
           textAlignTextButtom="center"
           nomeCampo="UF"
           paddingLeftTextButtom="45px"
+          :desmarcarItem="false"
           v-model="dataSetUf"
         />
       </div>
@@ -142,7 +145,7 @@
     </div>
     <div class="btn-consulta">
       <div>
-        <a-button @click="consulta" class="consulta-form-btn">Consultar</a-button>
+        <a-button @click="consultar" class="consulta-form-btn">Consultar</a-button>
       </div>
       <div>
         <p>Essa primeira Consulta tem um valor de R$10,00</p>
@@ -176,9 +179,9 @@ export default {
         documento: "",
         possuiSigla: false,
         sigla: "",
-        uf: [],
+        ufs: [],
         tipoPessoa: "pf",
-        justica: [],
+        justicas: [],
         partes: [],
         dataDistribuicaoInicial: "",
         dataDistribuicaoFinal: ""
@@ -212,6 +215,9 @@ export default {
       let result = this.dataSetUf.filter(item => {
         return item.marcado == true;
       });
+
+      // console.log(ok);
+
       return result;
     },
     exibicaoTooltip() {
@@ -243,19 +249,28 @@ export default {
         }
       });
     },
-    consulta() {
+    consultar() {
       // let dadosFake = "test";
-      let parametrosPesquisa = {
-        nome: "americanas",
-        documento: "234556",
-        sigla: "sgo",
-        tipoPessoa: "fisica",
-        dataDistribuicaoInicio: "10/03/2020",
-        dataDistribuicaoFim: "10/03/2020",
-        justica: ["trabalhista", "estadual", "federal"],
-        parte: ["autor", "reu"],
-        uf: ["pe", "rj", "sg"]
-      };
+      // let parametrosPesquisa = {
+      //   nome: "americanas",
+      //   documento: "234556",
+      //   sigla: "sgo",
+      //   tipoPessoa: "fisica",
+      //   dataDistribuicaoInicio: "10/03/2020",
+      //   dataDistribuicaoFim: "10/03/2020",
+      //   justica: ["trabalhista", "estadual", "federal"],
+      //   parte: ["autor", "reu"],
+      //   uf: ["pe", "rj", "sg"]
+      // };
+      this.parametrosConsulta.ufs = this.getOpcoesSelecionadas(
+        this.dataSetUfSelecinado
+      );
+      this.parametrosConsulta.justicas = this.getOpcoesSelecionadas(
+        this.dataSetJusticaSelecinado
+      );
+      this.parametrosConsulta.partes = this.getOpcoesSelecionadas(
+        this.dataSetParteSelecinado
+      );
       let dadosFakeResul = {
         Key: "nomeamericanasltda;documento072479707656678413ufperj",
         ResultPesq: {
@@ -391,7 +406,7 @@ export default {
         // console.log("entrei aqui");
         this.$store.dispatch(
           SET_PARAMETROS_CONSULT_VOLUMETRIA,
-          parametrosPesquisa
+          this.parametrosConsulta
         );
         this.$store.dispatch(SET_RESULT_VOLUMETRIA, dadosFakeResul);
         this.$router.push({ name: "ResultadoConsultaAcoes" });
@@ -424,6 +439,15 @@ export default {
       dataSetUf.map(x => (x.marcado = false));
 
       this.$store.dispatch(CLEAR_VALUES_PARAMETER_CONSULT);
+    },
+    getOpcoesSelecionadas(dataSet) {
+      let arrItem = dataSet
+        .map(arr => arr.nome)
+        .reduce(function(arr, item) {
+          arr.push(item);
+          return arr;
+        }, []);
+      return arrItem;
     }
   }
 };
