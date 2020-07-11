@@ -459,6 +459,17 @@ p {
 }
 .container-Consulta {
   margin-top: 65px;
+  animation: fadeOut 0.3s;
+}
+@keyframes fadeOut {
+  from {
+    opacity: 0;
+    margin-top: 50px;
+  }
+  to {
+    opacity: 1;
+    /* margin-top: 17px; */
+  }
 }
 
 .container-titulo {

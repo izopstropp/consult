@@ -72,6 +72,17 @@ a {
 .container {
   margin: 0 auto;
   max-width: 1480px;
+  animation: fadeOut 0.3s;
+}
+@keyframes fadeOut {
+  from {
+    opacity: 0;
+    margin-top: -10px;
+  }
+  to {
+    opacity: 1;
+    /* margin-top: 17px; */
+  }
 }
 .titulo {
   text-align: center;

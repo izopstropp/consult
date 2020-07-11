@@ -32,6 +32,7 @@
             </div>
           </div>
         </div>
+
         <div class="resumo-parte">
           <div class="result">
             <div
@@ -109,28 +110,30 @@
           </div>
         </div>
       </div>
-      <div class="pesquisa-preditivo">
-        <a-checkbox>Adicionar o Preditivo</a-checkbox>
-      </div>
-      <div class="filtro-acao">
-        <div class="consulta-form-filtro-btn-block-item">
-          <div
-            @click="solicitarVolumetria(1)"
-            :class="[
+      <div class="animation-fadeout">
+        <div class="pesquisa-preditivo">
+          <a-checkbox>Adicionar o Preditivo</a-checkbox>
+        </div>
+        <div class="filtro-acao">
+          <div class="consulta-form-filtro-btn-block-item">
+            <div
+              @click="solicitarVolumetria(1)"
+              :class="[
               realizandoRequisicaoFiltro ? 'btn-disabled' : '',
               'consulta-form-filtro-btn-item',
             ]"
-          >
-            <a style="user-select:none">ADIQUERIR TODA VOLUMETRIA</a>
-          </div>
-          <div
-            @click="solicitarVolumetria(2)"
-            :class="[
+            >
+              <a style="user-select:none">ADIQUERIR TODA VOLUMETRIA</a>
+            </div>
+            <div
+              @click="solicitarVolumetria(2)"
+              :class="[
               realizandoRequisicaoFiltro ? 'btn-disabled' : '',
               'consulta-form-filtro-btn-item',
             ]"
-          >
-            <a style="user-select:none">ADIQUERIR VOLUMETRIA SELECIONADA</a>
+            >
+              <a style="user-select:none">ADIQUERIR VOLUMETRIA SELECIONADA</a>
+            </div>
           </div>
         </div>
       </div>
@@ -316,7 +319,7 @@ import MultiSelect from "../components/input/select/multiSelect/MultiConsult.vue
 import { dataSetUf } from "../valuesInput/dataSetUf.js";
 import { dataSetJustica } from "../valuesInput/dataSetJustica.js";
 import { dataSetParte } from "../valuesInput/dataSetParte.js";
-import { SET_RESULT_VOLUMETRIA } from "../store/actions";
+// import { SET_RESULT_VOLUMETRIA } from "../store/actions";
 import _ from "lodash";
 import LoadCircle from "../components/Load/LoadCircle.vue";
 
@@ -396,7 +399,7 @@ export default {
     this.parametrosFiltro.dataSetJustica = this.dataSetJusticaSelecinadoFiltroSec;
     this.parametrosFiltro.dataSetParte = this.dataSetParteSelecinadoFiltroSec;
 
-    this.fillData();
+    this.fillData(this.$store.getters.getResultadoPesquisaVolumetria);
 
     // this.cleanInput();
   },
@@ -408,158 +411,158 @@ export default {
       dataSetUf.map(x => (x.marcado = false));
     },
     realizarRequicaoFiltro() {
-      if (this.existeValorFiltro()) {
-        this.realizandoRequisicaoFiltro = true;
+      // if (this.existeValorFiltro()) {
+      this.realizandoRequisicaoFiltro = true;
 
-        let pesquisaPrincipal = JSON.parse(
-          JSON.stringify(this.$store.getters.getParametrosPesquisa)
-        );
-        pesquisaPrincipal.justicas = this.getOpcoesSelecionadas(
-          this.parametrosFiltro.dataSetJustica
-        );
-        pesquisaPrincipal.partes = this.getOpcoesSelecionadas(
-          this.parametrosFiltro.dataSetParte
-        );
-        pesquisaPrincipal.ufs = this.getOpcoesSelecionadas(
-          this.parametrosFiltro.dataSetUf
-        );
-        console.log(pesquisaPrincipal);
-        setTimeout(() => {
-          this.realizandoRequisicaoFiltro = false;
-          let dadosFakeResul = {
-            Key: "nomeamericanasltda;documento072479707656678413ufperj",
-            ResultPesq: {
-              QtdProcessos: "1000",
-              QtdEstadual: "100",
-              QtdFederal: "1",
-              QtdTrabalhista: "111",
-              QtdReu: "2",
-              QtdAutor: "20",
-              QtdUF: [
-                {
-                  Nome: "AC",
-                  Qtd: "1"
-                },
-                {
-                  Nome: "AL",
-                  Qtd: "10"
-                },
-                {
-                  Nome: "AM",
-                  Qtd: "20"
-                },
-                {
-                  Nome: "AP",
-                  Qtd: "10"
-                },
-                {
-                  Nome: "BA",
-                  Qtd: "230"
-                },
-                {
-                  Nome: "PE",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "CE",
-                  Qtd: "0"
-                },
-                {
-                  Nome: "DF",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "ES",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "ES",
-                  Qtd: "100"
-                },
-                {
-                  Nome: "GO",
-                  Qtd: "11"
-                },
+      let pesquisaPrincipal = JSON.parse(
+        JSON.stringify(this.$store.getters.getParametrosPesquisa)
+      );
+      pesquisaPrincipal.justicas = this.getOpcoesSelecionadas(
+        this.parametrosFiltro.dataSetJustica
+      );
+      pesquisaPrincipal.partes = this.getOpcoesSelecionadas(
+        this.parametrosFiltro.dataSetParte
+      );
+      pesquisaPrincipal.ufs = this.getOpcoesSelecionadas(
+        this.parametrosFiltro.dataSetUf
+      );
+      console.log(pesquisaPrincipal);
+      setTimeout(() => {
+        this.realizandoRequisicaoFiltro = false;
+        let dadosFakeResul = {
+          Key: "nomeamericanasltda;documento072479707656678413ufperj",
+          ResultPesq: {
+            QtdProcessos: "1000",
+            QtdEstadual: "100",
+            QtdFederal: "1",
+            QtdTrabalhista: "111",
+            QtdReu: "2",
+            QtdAutor: "20",
+            QtdUF: [
+              {
+                Nome: "AC",
+                Qtd: "1"
+              },
+              {
+                Nome: "AL",
+                Qtd: "10"
+              },
+              {
+                Nome: "AM",
+                Qtd: "20"
+              },
+              {
+                Nome: "AP",
+                Qtd: "10"
+              },
+              {
+                Nome: "BA",
+                Qtd: "230"
+              },
+              {
+                Nome: "PE",
+                Qtd: "11"
+              },
+              {
+                Nome: "CE",
+                Qtd: "0"
+              },
+              {
+                Nome: "DF",
+                Qtd: "11"
+              },
+              {
+                Nome: "ES",
+                Qtd: "11"
+              },
+              {
+                Nome: "ES",
+                Qtd: "100"
+              },
+              {
+                Nome: "GO",
+                Qtd: "11"
+              },
 
-                {
-                  Nome: "MA",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "MG",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "MS",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "MT",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "PA",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "PB",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "PE",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "PI",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "PR",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "RJ",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "RN",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "RO",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "RR",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "RS",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "SC",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "SE",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "SP",
-                  Qtd: "11"
-                },
-                {
-                  Nome: "TO",
-                  Qtd: "11"
-                }
-              ]
-            }
-          };
-          this.$store.dispatch(SET_RESULT_VOLUMETRIA, dadosFakeResul);
-          // this.fillData();
-        }, 3000);
-      }
+              {
+                Nome: "MA",
+                Qtd: "11"
+              },
+              {
+                Nome: "MG",
+                Qtd: "11"
+              },
+              {
+                Nome: "MS",
+                Qtd: "11"
+              },
+              {
+                Nome: "MT",
+                Qtd: "11"
+              },
+              {
+                Nome: "PA",
+                Qtd: "11"
+              },
+              {
+                Nome: "PB",
+                Qtd: "11"
+              },
+              {
+                Nome: "PE",
+                Qtd: "11"
+              },
+              {
+                Nome: "PI",
+                Qtd: "11"
+              },
+              {
+                Nome: "PR",
+                Qtd: "11"
+              },
+              {
+                Nome: "RJ",
+                Qtd: "11"
+              },
+              {
+                Nome: "RN",
+                Qtd: "11"
+              },
+              {
+                Nome: "RO",
+                Qtd: "11"
+              },
+              {
+                Nome: "RR",
+                Qtd: "11"
+              },
+              {
+                Nome: "RS",
+                Qtd: "11"
+              },
+              {
+                Nome: "SC",
+                Qtd: "11"
+              },
+              {
+                Nome: "SE",
+                Qtd: "11"
+              },
+              {
+                Nome: "SP",
+                Qtd: "11"
+              },
+              {
+                Nome: "TO",
+                Qtd: "11"
+              }
+            ]
+          }
+        };
+        // this.$store.dispatch(SET_RESULT_VOLUMETRIA, dadosFakeResul);
+        this.fillData(dadosFakeResul.ResultPesq);
+      }, 3000);
+      // }
     },
     desmarcarItem(index, dataset) {
       dataset.map(function(item) {
@@ -627,9 +630,8 @@ export default {
       }
       return false;
     },
-    fillData() {
-      let resultadoPesquisa = this.$store.getters
-        .getResultadoPesquisaVolumetria;
+    fillData(data) {
+      let resultadoPesquisa = data;
       this.datacollectionParte = {
         labels: ["Réu", "Autor"],
 
@@ -760,11 +762,23 @@ a {
 
   flex: 1;
 }
+
 /* --- container-resumo ---*/
 .filtro-resumo {
   margin-left: 29px;
   margin-top: 17px;
   max-height: 300px;
+  animation: fadeOut 0.5s;
+}
+@keyframes fadeOut {
+  from {
+    opacity: 0;
+    margin-top: -7px;
+  }
+  to {
+    opacity: 1;
+    margin-top: 17px;
+  }
 }
 .result {
   display: flex;
@@ -789,6 +803,7 @@ a {
   flex-grow: 0.04;
   font-size: 0.8em;
   margin-top: 3px;
+  transition: all 0.4s;
 }
 .result div span {
   color: rgb(73, 72, 72);
@@ -798,6 +813,7 @@ a {
   color: rgb(73, 72, 72);
   background-color: #e8ebed;
   text-decoration: line-through;
+  transition: all 0.4s;
 }
 .result div span:nth-child(1) {
   background-color: #ffffff;
@@ -817,6 +833,9 @@ a {
   margin-left: 2px;
 }
 /* --- fim-resumo ---*/
+.filtro-selecao {
+  animation: fadeOut 1s;
+}
 .selecao-filtro {
   max-width: 486px;
 }
@@ -840,6 +859,19 @@ a {
 }
 .uf-selec-animation {
   min-height: 95px;
+}
+.animation-fadeout {
+  animation: fadeOut-btn 1.5s;
+}
+@keyframes fadeOut-btn {
+  from {
+    opacity: 0;
+    /* margin-top: -7px; */
+  }
+  to {
+    opacity: 1;
+    /* margin-top: 7px; */
+  }
 }
 .consulta-form-filtro-btn-block-item {
   display: flex;
