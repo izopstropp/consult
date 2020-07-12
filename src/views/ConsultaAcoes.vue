@@ -127,6 +127,7 @@
           nomeCampo="UF"
           paddingLeftTextButtom="45px"
           :desmarcarItem="false"
+          :exibirBarraRolagem="true"
           v-model="dataSetUf"
         />
       </div>

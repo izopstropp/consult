@@ -1,5 +1,10 @@
 export const dataSetUf = [
   {
+    nome: "Todas",
+    marcado: false,
+    fixo: false,
+  },
+  {
     nome: "AC",
     marcado: false,
     fixo: false,

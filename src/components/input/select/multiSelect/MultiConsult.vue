@@ -15,8 +15,7 @@
     </div>
     <transition-group
       tag="ul"
-      class="lista-itens"
-      :class="[exibirMulti ? 'animation-height' : '']"
+      :class="[exibirMulti ? 'animation-height' : '', exibirBarraRolagem ? 'barraRolagem':'','lista-itens']"
       :style="{paddingLeft:paddingLeftList}"
     >
       <li
@@ -79,6 +78,10 @@ export default {
     desmarcarItem: {
       type: Boolean,
       default: true
+    },
+    exibirBarraRolagem: {
+      type: Boolean,
+      default: false
     }
   },
   model: {
@@ -158,7 +161,11 @@ ul {
 }
 
 .lista-itens::-webkit-scrollbar {
-  width: 1px;
+  width: 2px;
+}
+
+.barraRolagem::-webkit-scrollbar-thumb {
+  background: #1d375c;
 }
 
 .lista-itens {

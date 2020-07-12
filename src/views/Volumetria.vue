@@ -374,7 +374,9 @@ export default {
           this.$store.getters.getParametrosPesquisa.ufs.includes(y.nome)
         );
 
-      if (result.length == 0) result = dataSetUf;
+      let opcaoTodasUf = result.filter(x => x.nome === "Todas");
+      if (opcaoTodasUf.length > 0)
+        result = dataSetUf.filter(x => x.nome !== "Todas");
 
       result.map(x => (x.marcado = true));
       return result;
