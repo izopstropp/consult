@@ -843,7 +843,7 @@ a {
   border-radius: 50%;
   margin-left: 2px;
 }
-/* --- fim-resumo ---*/
+/* --- fim-resumo ----*/
 .opacity-filtro {
   opacity: 0.8;
   pointer-events: none;
