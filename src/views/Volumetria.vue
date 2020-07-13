@@ -70,7 +70,7 @@
       </div>
       <hr />
       <div class="filtro-selecao">
-        <div class="selecao-filtro">
+        <div :class="[realizandoRequisicaoFiltro? 'opacity-filtro':'','selecao-filtro']">
           <p>Selecionar Volumetria</p>
           <div>
             <multiSelect
@@ -111,7 +111,12 @@
         </div>
       </div>
       <div class="animation-fadeout">
-        <div class="pesquisa-preditivo">
+        <div
+          :class="[
+              realizandoRequisicaoFiltro ? 'opacity-filtro' : '',
+              'pesquisa-preditivo',
+            ]"
+        >
           <a-checkbox>Adicionar o Preditivo</a-checkbox>
         </div>
         <div class="filtro-acao">
@@ -346,7 +351,7 @@ export default {
   },
 
   created() {
-    this.realizarRequicaoFiltro = _.debounce(this.realizarRequicaoFiltro, 2000);
+    this.realizarRequicaoFiltro = _.debounce(this.realizarRequicaoFiltro, 1600);
   },
   computed: {
     dataSetParteSelecinadoFiltroSec() {
@@ -373,7 +378,6 @@ export default {
         .filter(y =>
           this.$store.getters.getParametrosPesquisa.ufs.includes(y.nome)
         );
-
       let opcaoTodasUf = result.filter(x => x.nome === "Todas");
       if (opcaoTodasUf.length > 0)
         result = dataSetUf.filter(x => x.nome !== "Todas");
@@ -817,6 +821,11 @@ a {
   text-decoration: line-through;
   transition: all 0.4s;
 }
+.risco-exclusao {
+  border: 1px solid black;
+  position: absolute;
+  /*  width: 100%; */
+}
 .result div span:nth-child(1) {
   background-color: #ffffff;
   padding-left: 5px;
@@ -835,6 +844,10 @@ a {
   margin-left: 2px;
 }
 /* --- fim-resumo ---*/
+.opacity-filtro {
+  opacity: 0.8;
+  pointer-events: none;
+}
 .filtro-selecao {
   animation: fadeOut 1s;
 }
