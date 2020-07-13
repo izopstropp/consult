@@ -165,6 +165,7 @@ import tooltip from "@/components/ToolTip.vue";
 import { SET_RESULT_VOLUMETRIA } from "../store/actions";
 import { SET_PARAMETROS_CONSULT_VOLUMETRIA } from "../store/actions";
 import { CLEAR_VALUES_PARAMETER_CONSULT } from "../store/actions";
+import consultProcessosApi from "../api/consultProcessosApi.js"
 
 export default {
   name: "consulta-acoes",
@@ -272,6 +273,13 @@ export default {
       this.parametrosConsulta.partes = this.getOpcoesSelecionadas(
         this.dataSetParteSelecinado
       );
+      consultProcessosApi.buscarProcessosVolumetria().then(response=>{
+        if(response.status == 200){
+          console.log("entrei")
+        }
+      })
+
+
       let dadosFakeResul = {
         Key: "nomeamericanasltda;documento072479707656678413ufperj",
         ResultPesq: {

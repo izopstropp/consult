@@ -2,7 +2,7 @@ import axios from "axios";
 import tokenInterceptor from "./config/tokenInterceptor";
 import unauthorizedAccessInterceptor from "./config/unauthorizedAccessInterceptor";
 
-const baseURL = process.env.VUE_APP_KURIERCONSULTAPI;
+const baseURL = process.env.VUE_APP_KURIERCONSULTAPI+"/api/token";
 const instanceAxios = axios.create();
 
 instanceAxios.interceptors.request.use(tokenInterceptor);
@@ -23,14 +23,10 @@ export default {
     return instanceAxios({
       method: "post",
       baseURL,
-      //url: "api/auth"
-
-      url: "/auth",
-      responseType: "json",
       headers: {
-        "X-Requested-With": "XMLHttpRequest",
+        "Content-Type":"application/x-www-form-urlencoded"
       },
-      params: params,
+      data: params,
     });
   },
 };
