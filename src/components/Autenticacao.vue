@@ -68,9 +68,11 @@
 </template>
 
 <script>
-import autenticacaoApi from "../api/consultAutenticacaoApi";
-import { DO_LOGIN } from "@/store/actions";
+// import autenticacaoApi from "../api/consultAutenticacaoApi";
+// import { DO_LOGIN } from "@/store/actions";
 export default {
+  name: "autenticacao",
+  components: {},
   data() {
     return {
       formLayout: "vertical",
@@ -98,21 +100,35 @@ export default {
             wrapperCol: { span: 14, offset: 4 }
           }
         : {};
+    },
+    dataSetSelecionado() {
+      let result = this.dataSettes.filter(item => {
+        return item.marcado == true;
+      });
+      return result;
     }
   },
   methods: {
+    desmarcarItem(index) {
+      this.dataSettes.map(function(item) {
+        if (item.nome == index.nome) {
+          item.marcado = false;
+        }
+      });
+    },
     autenticar() {
+      this.$router.push("/selecao");
       if (this.validar()) {
-        autenticacaoApi.autenticar("felipe", "test").then(response => {
-          if (response.status == 200) {
-            this.$store.dispatch(DO_LOGIN, response.data);
-            this.$router.push("/selecao");
-          } else {
-            this.usuario = "";
-            this.senha = "";
-            this.$notibar.add("Usuário inválido");
-          }
-        });
+        // autenticacaoApi.autenticar("felipe", "test").then(response => {
+        //   if (response.status == 200) {
+        //     this.$store.dispatch(DO_LOGIN, response.data);
+        //     this.$router.push("/selecao");
+        //   } else {
+        //     this.usuario = "";
+        //     this.senha = "";
+        //     // this.$notibar.add("Usuário inválido");
+        //   }
+        // });
       }
     },
     validar() {
@@ -192,7 +208,7 @@ img {
   height: 34px;
 }
 .btn-login > .ant-btn:active {
-  background-color: #001a3f81;
+  background-color: #052f6b;
 }
 .btn-login > .ant-btn {
   background-color: #001a3f;

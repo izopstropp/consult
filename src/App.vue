@@ -16,6 +16,8 @@ export default {};
 /* #nav a.router-link-exact-active {
   color: #42b983;
 } */
+#app {
+}
 input,
 form,
 a,
@@ -24,6 +26,14 @@ ul,
 list-style {
   margin: 0;
   padding: 0;
+}
+
+.vld-background {
+  position: relative !important;
+}
+.ant-checkbox-wrapper {
+  border-radius: 50% !important;
+  outline: 0 !important;
 }
 .ant-calendar-picker-container {
   margin-top: 480px !important;
@@ -54,7 +64,7 @@ list-style {
   border-color: #c1c1c1 !important;
 }
 .ant-checkbox-inner {
-  border-color: #c1c1c1 !important;
+  border-color: #a8a6a6 !important;
 }
 .notibar {
   height: 30px;
@@ -78,5 +88,8 @@ list-style {
 .ant-select-selection__placeholder {
   text-align: center !important;
   color: #757575 !important;
+}
+.bg-grey {
+  background-color: #a9a9a9 !important;
 }
 </style>

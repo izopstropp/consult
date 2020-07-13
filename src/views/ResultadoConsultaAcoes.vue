@@ -1,5 +1,11 @@
 <template>
   <div class="container-resultado-consulta">
+    <modal :exibirModal="solicitarVolume">
+      <div>
+        <div class="modal-corpo">Sua pesquisa</div>
+        <div class="modal-corpo"></div>
+      </div>
+    </modal>
     <div class="resultado-consulta-indicador">
       <div class="titulo">
         <p>
@@ -32,9 +38,9 @@
         <div class="consulta-filtro-form-item">
           <a-select
             v-model="parametrosConsulta.justica"
-            mode="tags"
             style="max-width: 180px; min-width:180px;"
             placeholder="Justiça"
+            mode="multiple"
           >
             <a-select-option value="ESTADUAL">Estadual</a-select-option>
             <a-select-option value="FEDERAL">Federal</a-select-option>
@@ -44,7 +50,7 @@
         <div class="consulta-filtro-form-item">
           <a-select
             v-model="parametrosConsulta.partes"
-            mode="tags"
+            mode="multiple"
             placeholder="Partes"
             style="width: 100px"
           >
@@ -56,7 +62,7 @@
           <a-select
             v-model="parametrosConsulta.uf"
             mode="multiple"
-            style="width: 340px"
+            style="max-width: 340px;min-width:340px"
             placeholder="UF"
           >
             <a-select-option value=" Todas">Todas</a-select-option>
@@ -92,32 +98,40 @@
       </div>
     </div>
     <div class="consulta-form-filtro-btn">
-      <div class="consulta-tabela-preco">
-        <div class="consulta-tabela-preco-item">
-          <p>Desc.</p>
-          <p>RS;SP</p>
-          <p>Preditivo</p>
-          <p>Total de Consumo</p>
+      <table class="consulta-tabela-preco">
+        <tr class="consulta-tabela-preco-item">
+          <td class="preco-item-titulo">Desc</td>
+          <td class="preco-item-titulo">Qt. de processos</td>
+          <td class="preco-item-titulo">R$</td>
+        </tr>
+        <tr class="consulta-tabela-preco-item">
+          <td class="colorTableCell">RS;SP</td>
+          <td class="colorTableCell">447</td>
+          <td class="colorTableCell">575,00</td>
+        </tr>
+        <tr class="consulta-tabela-preco-item">
+          <td>Predito</td>
+          <td>447</td>
+          <td>275,00</td>
+        </tr>
+        <tr class="consulta-tabela-preco-item">
+          <td class="colorTableCell">total de consumo</td>
+          <td class="colorTableCell">447</td>
+          <td class="colorTableCell colorTableCellValorTotal">845,00</td>
+        </tr>
+      </table>
+
+      <div class="consulta-form-pesquisa">
+        <div class="pesquisa-preditivo">
+          <a-checkbox>Adicionar o Preditivo</a-checkbox>
         </div>
-        <div class="consulta-tabela-preco-item">
-          <p>Qt. de processos</p>
-          <p>500</p>
-          <p>500</p>
-          <p>1000</p>
-        </div>
-        <div class="consulta-tabela-preco-item">
-          <p>R$</p>
-          <p>500,00</p>
-          <p>500,00</p>
-          <p>1000,00</p>
-        </div>
-      </div>
-      <div class="consulta-form-filtro-btn-block-item">
-        <div class="consulta-form-filtro-btn-item">
-          <a>ADIQUERIR TODA VOLUMETRIA</a>
-        </div>
-        <div class="consulta-form-filtro-btn-item">
-          <a>ADIQUERIR VOLUMETRIA SELECIONADA</a>
+        <div class="consulta-form-filtro-btn-block-item">
+          <div class="consulta-form-filtro-btn-item">
+            <a style="user-select:none">ADIQUERIR TODA VOLUMETRIA</a>
+          </div>
+          <div @click="solicitarVolumetria('selecionada')" class="consulta-form-filtro-btn-item">
+            <a style="user-select:none">ADIQUERIR VOLUMETRIA SELECIONADA</a>
+          </div>
         </div>
       </div>
     </div>
@@ -126,11 +140,13 @@
 <script>
 import consultProcessosApi from "../api/consultProcessosApi";
 import LineChart from "../components/Graficos/Barras/BarChart.vue";
+import modal from "../components/Modal.vue";
 
 export default {
   name: "resultado-consulta",
   components: {
-    LineChart
+    LineChart,
+    modal
   },
   data() {
     return {
@@ -143,7 +159,8 @@ export default {
         justica: [],
         partes: [],
         uf: []
-      }
+      },
+      solicitarVolume: false
     };
   },
 
@@ -152,6 +169,11 @@ export default {
     this.fillData();
   },
   methods: {
+    solicitarVolumetria(tipoSolicitacao) {
+      if (tipoSolicitacao === "selecionada") {
+        this.solicitarVolume = true;
+      }
+    },
     buscarProcessosResumo() {
       consultProcessosApi.buscarProcessosResumo().then(response => {
         if (response.status === 200) {
@@ -289,12 +311,13 @@ p {
   margin: 0;
 }
 .container-resultado-consulta {
-  padding: 10px 20px 0px 20px;
-  /* width: 100vw; */
+  padding: 4px 20px 0px 20px;
+  max-width: 1480px;
 }
 .resultado-consulta-indicador {
   background-color: #f2f4f5;
-  height: 233px;
+  height: 228px;
+  display: block;
 }
 .titulo p {
   margin-bottom: 10px;
@@ -310,9 +333,10 @@ p {
   font-weight: bold;
 }
 .container-chart {
-  max-width: 100vw;
+  max-width: 1480px;
   display: flex;
   flex-wrap: wrap;
+  margin: 0 auto;
 }
 .container-chart-item-justica {
   margin-right: 0px;
@@ -349,10 +373,11 @@ p {
 }
 .consulta-filtro {
   max-width: 100vw;
+  flex-wrap: wrap;
   height: 147px;
 }
 .consulta-filtro-titulo {
-  margin-top: 37px;
+  margin-top: 28px;
 }
 .consulta-filtro-titulo > p {
   text-align: center;
@@ -364,23 +389,43 @@ p {
   max-width: 650px;
   margin: 0 auto;
   display: flex;
+  flex-wrap: wrap;
   justify-content: space-between;
-  margin-top: 38px;
+  margin-top: 23px;
 }
-.consulta-filtro-form-item {
+
+.consulta-form-pesquisa {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 660px;
+}
+.pesquisa-preditivo {
+  max-width: 200px;
+  margin-top: 30px;
+  margin-left: 320px;
+  flex-wrap: wrap;
 }
 .consulta-form-filtro-btn {
   display: flex;
-  max-width: 100vw;
-  align-items: flex-end;
+  max-width: 1480px;
+  padding-left: 10px;
   flex-wrap: wrap;
+
+  margin: 35px auto;
 }
 .consulta-form-filtro-btn .consulta-form-filtro-btn-block-item {
   display: flex;
   max-width: 510px;
   justify-content: space-between;
-  margin-left: 160px;
+  flex-wrap: wrap;
+  margin-left: 150px;
 }
+/* .consulta-form-pesquisa > div {
+  width: 510px;
+  display: flex;  
+} */
 a {
   text-decoration: none;
   color: #caced4;
@@ -392,6 +437,10 @@ a {
   font-size: 0.9em;
   text-align: center;
   padding-top: 7px;
+  cursor: pointer;
+}
+.consulta-form-filtro-btn-item:nth-child(1):active {
+  background-color: #70a06d;
 }
 .consulta-form-filtro-btn-item:nth-child(2) {
   height: 34px;
@@ -400,10 +449,48 @@ a {
   background-color: #001a3f;
   text-align: center;
   padding-top: 7px;
+  cursor: pointer;
+}
+.consulta-form-filtro-btn-item:nth-child(2):active {
+  background-color: #052f6b;
 }
 .consulta-tabela-preco {
-  display: flex;
-  max-width: 253px;
-  border: 1px solid red;
+  max-width: 243px;
+  height: 96px;
+  padding: 10px;
+  flex: 1;
+}
+
+.consulta-tabela-preco-item td {
+  font-size: 0.8em;
+  padding-bottom: 8px;
+  color: #878889;
+}
+
+.colorTableCell {
+  background-color: #edf0f2;
+}
+.colorTableCellValorTotal {
+  color: #525252 !important;
+  font-size: 11px !important;
+  font-weight: bold !important;
+}
+.consulta-tabela-preco-item td:nth-child(2) {
+  font-size: 0.8em;
+  padding-bottom: 7px;
+  text-align: center;
+}
+.consulta-tabela-preco-item td:nth-child(3) {
+  font-size: 0.8em;
+  padding-bottom: 7px;
+  text-align: center;
+}
+.preco-item-titulo {
+  font-size: 0.9 !important;
+  color: #1d375c !important;
+  font-weight: bold;
+}
+.btn-login > .ant-btn:active {
+  background-color: #001a3f81;
 }
 </style>

@@ -8,13 +8,19 @@
         <div class="btn-acao">
           <a-button
             @click="ativarBotao(1)"
-            :class="[btnAcaoAtivado? 'color-backgroud-azul':'','esconder-bordar-direita']"
+            :class="[
+              btnAcaoAtivado ? 'color-backgroud-azul' : '',
+              'esconder-bordar-direita',
+            ]"
           >Ações</a-button>
         </div>
         <div class="btn-acao">
           <a-button
             @click="ativarBotao(2)"
-            :class="[btnPreditivoAtivado? 'color-backgroud-azul':'','esconder-bordar-esquerda']"
+            :class="[
+              btnPreditivoAtivado ? 'color-backgroud-azul' : '',
+              'esconder-bordar-esquerda',
+            ]"
           >Preditivo</a-button>
         </div>
       </div>
@@ -42,7 +48,7 @@ export default {
       } else {
         this.btnAcaoAtivado = false;
         this.btnPreditivoAtivado = true;
-        this.nameRouterLink = "test";
+        this.nameRouterLink = "consulta-preditivo";
       }
     }
   }
@@ -52,14 +58,20 @@ export default {
 p {
   margin: 0;
 }
-.container-selecao {
-  /* position: absolute; */
-  /* margin: 100%; */
-  /* height: 100vh; */
-}
 .container-selecao-item {
   margin: 230px auto auto auto;
   max-width: 500px;
+  animation: fadeOut 0.8s;
+}
+@keyframes fadeOut {
+  from {
+    opacity: 0;
+    margin-top: 216px;
+  }
+  to {
+    opacity: 1;
+    /* margin-top: 17px; */
+  }
 }
 .selecao-titulo {
   margin-bottom: 52px;
@@ -119,6 +131,6 @@ p {
   border-radius: 0px;
 }
 .btn-selecao-confirmar:active {
-  background-color: #001a3f81;
+  background-color: #052f6b;
 }
 </style>

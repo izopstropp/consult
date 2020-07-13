@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <Header />
-    <router-view />
+    <router-view v-on:resultadoPesquisaVolumetria="resultadoVolumetria" />
   </div>
 </template>
 
@@ -12,8 +12,18 @@ import Header from "@/components/Header.vue";
 export default {
   name: "Home",
   components: {
-    Header,
+    Header
   },
+  data() {
+    return {
+      dadosVolumetria: []
+    };
+  },
+  methods: {
+    resultadoVolumetria() {
+      console.log("Entrei aqui");
+    }
+  }
 };
 </script>
 <style></style>

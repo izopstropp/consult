@@ -12,20 +12,25 @@ instanceAxios.interceptors.response.use((response) => {
 }, unauthorizedAccessInterceptor);
 
 export default {
-  autenticar(email, senha) {
+  autenticar(usuario, senha) {
+    let grant = "password";
+    var params = new URLSearchParams();
+
+    params.append("username", usuario);
+    params.append("password", senha);
+    params.append("grant_type", grant);
+
     return instanceAxios({
-      method: "get",
+      method: "post",
       baseURL,
-      //url: "api/auth",
+      //url: "api/auth"
+
       url: "/auth",
       responseType: "json",
       headers: {
         "X-Requested-With": "XMLHttpRequest",
       },
-      data: {
-        email,
-        senha,
-      },
+      params: params,
     });
   },
 };

@@ -3,12 +3,25 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import SelecaoTipoConsulta from "../views/SelecaoTipoConsulta.vue";
-import ConsultaAcoes from "../components/ConsultaAcoes";
+import ConsultaAcoes from "../views/ConsultaAcoes";
 import ResultadoConsultaAcoes from "../views/ResultadoConsultaAcoes.vue";
+import RelatorioConsultaAcoes from "../views/RelatorioConsultaAcoes.vue";
+import HistoricoConsulta from "../views/HistoricoConsulta";
+import ConsultaPreditivo from "../views/ConsultaPreditivo";
+import Volumetria from "../views/Volumetria";
+// import LoadCircle from "../components/Load/loadCircle.vue";
 
 Vue.use(VueRouter);
 
 const routes = [
+  {
+    path: "/",
+    redirect: "/login",
+  },
+  {
+    path: "*",
+    redirect: "/login",
+  },
   {
     path: "/",
     name: "Home",
@@ -16,21 +29,47 @@ const routes = [
     children: [
       {
         path: "/selecao",
-        name: "selecao-tipo-consulta",
+        name: "selecaoTipoConsulta",
         component: SelecaoTipoConsulta,
       },
       {
-        path: "/consulta-acoes/",
+        path: "/consulta-acoes",
         name: "consulta-acoes",
         component: ConsultaAcoes,
       },
       {
-        path: "/acoes",
+        path: "/volumetria",
         name: "ResultadoConsultaAcoes",
+        component: Volumetria,
+      },
+      {
+        path: "/volumetria1",
+        name: "ResultadoConsultaAcoes1",
         component: ResultadoConsultaAcoes,
+      },
+      {
+        path: "/volumetria/:id/:pag",
+        name: "RelatorioConsultaAcoes",
+        component: RelatorioConsultaAcoes,
+        props: true,
+      },
+      {
+        path: "/historico",
+        name: "historico",
+        component: HistoricoConsulta,
+      },
+      {
+        path: "/consulta-preditivo",
+        name: "consulta-preditivo",
+        component: ConsultaPreditivo,
       },
     ],
   },
+  // {
+  //   path: "/LoadCircle",
+  //   name: "LoadCircle",
+  //   component: LoadCircle,
+  // },
   {
     path: "/login",
     name: "login",
