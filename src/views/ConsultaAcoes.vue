@@ -71,13 +71,13 @@
             format="MM/YYYY"
             class="consulta-form-calender-item"
             placeholder="Mês / Ano"
-            v-model="parametrosConsulta.dataDistribuicaoInicial"
+            v-model="dataDistIni"
           />
           <a-month-picker
             format="MM/YYYY"
             class="consulta-form-calender-item"
             placeholder="Mês / Ano"
-            v-model="parametrosConsulta.dataDistribuicaoFinal"
+            v-model="dataDistFim"
           />
         </div>
       </div>
@@ -185,9 +185,11 @@ export default {
         tipoPessoa: "pf",
         justicas: [],
         partes: [],
-        dataDistribuicaoInicial: "",
-        dataDistribuicaoFinal: ""
+        dataDistribuicaoInicio: "",
+        dataDistribuicaoFim: ""
       },
+      dataDistIni:"",
+      dataDistFim:"",
       nomeValidado: true,
       siglaValidado: true,
       exibirTooltip: false,
@@ -215,7 +217,7 @@ export default {
     },
     dataSetUfSelecinado() {
       let result = this.dataSetUf.filter(item => {
-        return item.marcado == true;
+        return item.marcado == true && item.nome != "Todas";
       });
 
       // console.log(ok);
@@ -250,36 +252,40 @@ export default {
           item.marcado = false;
         }
       });
+      let itemPrincipal = this.dataSetUf.map(x=>x).filter(y=> y.nome == "Todas")
+      itemPrincipal[0].marcado = false; 
+    },
+    tratarData(data,tipo){
+        var d = new Date(data);
+        var anoC = d.getFullYear();
+        var mesC = d.getMonth();
+        var d1 = new Date (anoC, mesC, 1);
+        var d2 = new Date (anoC, mesC+1, 0);
+
+        if(tipo == 'I'){
+          return (parseInt(d1.getMonth())+1) +"/"+ d1.getDate() +"/"+ d1.getFullYear()
+        }else{
+          return (parseInt(d2.getMonth())+1) +"/"+ d2.getDate() +"/"+ d2.getFullYear()
+        }
     },
     consultar() {
-      // let dadosFake = "test";
-      // let parametrosPesquisa = {
-      //   nome: "americanas",
-      //   documento: "234556",
-      //   sigla: "sgo",
-      //   tipoPessoa: "fisica",
-      //   dataDistribuicaoInicio: "10/03/2020",
-      //   dataDistribuicaoFim: "10/03/2020",
-      //   justica: ["trabalhista", "estadual", "federal"],
-      //   parte: ["autor", "reu"],
-      //   uf: ["pe", "rj", "sg"]
-      // };
+    
       this.parametrosConsulta.ufs = this.getOpcoesSelecionadas(
         this.dataSetUfSelecinado
       );
       this.parametrosConsulta.justicas = this.getOpcoesSelecionadas(
+        
         this.dataSetJusticaSelecinado
       );
       this.parametrosConsulta.partes = this.getOpcoesSelecionadas(
         this.dataSetParteSelecinado
       );
-      consultProcessosApi.buscarProcessosVolumetria().then(response=>{
-        if(response.status == 200){
-          console.log("entrei")
-        }
-      })
-
-
+      
+      if(this.dataDistIni && this.dataDistFim){
+      this.parametrosConsulta.dataDistribuicaoInicio = this.tratarData(this.dataDistIni,'I');
+      this.parametrosConsulta.dataDistribuicaoFim = this.tratarData(this.dataDistFim,'');
+      }
+      
       let dadosFakeResul = {
         Key: "nomeamericanasltda;documento072479707656678413ufperj",
         ResultPesq: {
@@ -413,6 +419,11 @@ export default {
 
       if (this.validar()) {
         // console.log("entrei aqui");
+         consultProcessosApi.buscarProcessosVolumetria(this.parametrosConsulta).then(response=>{
+        if(response.status == 200){
+          console.log("entrei")
+        }
+      })
         this.$store.dispatch(
           SET_PARAMETROS_CONSULT_VOLUMETRIA,
           this.parametrosConsulta
@@ -435,6 +446,7 @@ export default {
         this.siglaValidado = false;
         validado = false;
       }
+
       return validado;
     },
     resetarInputSigla() {

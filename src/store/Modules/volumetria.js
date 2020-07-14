@@ -14,8 +14,8 @@ export default {
       tipoPessoa: "",
       dataDistribuicaoInicio: "",
       dataDistribuicaoFim: "",
-      justica: [],
-      parte: [],
+      justicas: [],
+      partes: [],
       ufs: [],
     },
     ResultadoVolumetria: {},
@@ -51,10 +51,10 @@ export default {
       state.parametrosPesquisa.documento = payload.documento;
       state.parametrosPesquisa.sigla = payload.sigla;
       state.parametrosPesquisa.tipoPessoa = payload.tipoPessoa;
-      state.parametrosPesquisa.dataDistribuicaoInicial =
-        payload.dataDistribuicaoInicial;
-      state.parametrosPesquisa.dataDistribuicaoFinal =
-        payload.dataDistribuicaoFinal;
+      state.parametrosPesquisa.dataDistribuicaoInicio =
+        payload.dataDistribuicaoInicio;
+      state.parametrosPesquisa.dataDistribuicaoFim =
+        payload.dataDistribuicaoFim;
       state.parametrosPesquisa.justicas = payload.justicas;
       state.parametrosPesquisa.partes = payload.partes;
       state.parametrosPesquisa.ufs = payload.ufs;

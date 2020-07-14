@@ -14,19 +14,27 @@ instanceAxios.interceptors.response.use((response) => {
 
 
 export default {
-  buscarProcessosVolumetria() {
+  buscarProcessosVolumetria(dadosConsulta) {
     return instanceAxios({
       method: "get",
       baseURL,
-      url: "/consulta?usuarioId=1&nome=12",
+      url: "/consulta",
       responseType: "json",
-      // headers: {
-      //   "X-Requested-With": "XMLHttpRequest",
-      // },
-      // params:{
-      //   usuarioId:1,
-      //   nome:12
-      // }
+      headers: {
+        "X-Requested-With": "XMLHttpRequest",
+      },
+      params:{
+        nome : dadosConsulta.nome,
+        documento: dadosConsulta.documento,
+        sigla: dadosConsulta.sigla,
+        tipoParte: dadosConsulta.tipoPessoa,
+        justica: dadosConsulta.justicas,
+        partes: dadosConsulta.partes,
+        ufs: dadosConsulta.ufs,
+        dataDistribuicaoInicio: dadosConsulta.dataDistribuicaoInicio,
+        dataDistribuicaoFim: dadosConsulta.dataDistribuicaoFim,
+
+      }
     });
   },
 };

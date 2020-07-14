@@ -116,12 +116,19 @@ export default {
 
   methods: {
     addItenSelected(item) {
-      if (item.marcado == false) {
-        item.marcado = true;
-        if (!this.desmarcarItem) item.fixo = true;
-      } else {
-        item.marcado = false;
-        item.fixo = false;
+      if(item.nome ==='Todas' && item.marcado === false){
+        this.dataSet.map(x=> x.marcado = true)
+      }else{
+        if (item.marcado == false) {
+          item.marcado = true;
+          if (!this.desmarcarItem) item.fixo = true;
+        } else{
+          item.marcado = false;
+          item.fixo = false;
+          let itemPrincipal = this.dataSet.map(x=>x).filter(y=> y.nome == "Todas")
+          itemPrincipal[0].marcado = false;
+          console.log(itemPrincipal)
+        }
       }
     },
     handleFocus() {
