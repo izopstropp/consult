@@ -255,6 +255,8 @@ export default {
       let itemPrincipal = this.dataSetUf.map(x=>x).filter(y=> y.nome == "Todas")
       itemPrincipal[0].marcado = false; 
     },
+     
+     
     tratarData(data,tipo){
         var d = new Date(data);
         var anoC = d.getFullYear();
