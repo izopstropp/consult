@@ -7,6 +7,11 @@ export default {
     token: "",
     perfilName: null,
   },
+  getters :{
+    autenticado:(state) => {
+      return state.usuario != null && state.usuario != '' ? true : false;
+    }
+  },
   actions: {
     [DO_LOGIN]({ commit }, payload) {
       commit(SET_AUTH, payload);

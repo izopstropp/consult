@@ -9,7 +9,6 @@ export default function(error) {
     router.push({ name: "login" });
     return error.response;
   } else {
-    router.push({ name: "login" });
     return error.response;
   }
 }

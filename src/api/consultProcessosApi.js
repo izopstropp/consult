@@ -18,15 +18,15 @@ export default {
     return instanceAxios({
       method: "get",
       baseURL,
-      url: "/consulta",
+      url: "/consulta?usuarioId=1&nome=12",
       responseType: "json",
-      headers: {
-        "X-Requested-With": "XMLHttpRequest",
-      },
-      params:{
-        usuario:1,
-        nome:12
-      }
+      // headers: {
+      //   "X-Requested-With": "XMLHttpRequest",
+      // },
+      // params:{
+      //   usuarioId:1,
+      //   nome:12
+      // }
     });
   },
 };

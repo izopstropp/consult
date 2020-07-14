@@ -26,7 +26,7 @@ export default {
     },
     getParametrosPesquisa: (state) => {
       return state.parametrosPesquisa;
-    },
+    }
   },
   actions: {
     [SET_PARAMETROS_CONSULT_VOLUMETRIA]({ commit }, payload) {
