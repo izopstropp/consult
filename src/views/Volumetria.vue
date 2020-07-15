@@ -87,7 +87,7 @@
           <div>
             <multiSelect
               paddingLeftList="51px"
-              nomeCampo="Réu"
+              nomeCampo="Parte"
               textAlignTextButtom="51px"
               fonteSizeTextButtom="1.2em"
               v-model="parametrosFiltro.dataSetParte"

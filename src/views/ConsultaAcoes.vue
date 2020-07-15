@@ -165,7 +165,7 @@ import tooltip from "@/components/ToolTip.vue";
 import { SET_RESULT_VOLUMETRIA } from "../store/actions";
 import { SET_PARAMETROS_CONSULT_VOLUMETRIA } from "../store/actions";
 import { CLEAR_VALUES_PARAMETER_CONSULT } from "../store/actions";
-import consultProcessosApi from "../api/consultProcessosApi.js"
+// import consultProcessosApi from "../api/consultProcessosApi.js";
 
 export default {
   name: "consulta-acoes",
@@ -188,8 +188,8 @@ export default {
         dataDistribuicaoInicio: "",
         dataDistribuicaoFim: ""
       },
-      dataDistIni:"",
-      dataDistFim:"",
+      dataDistIni: "",
+      dataDistFim: "",
       nomeValidado: true,
       siglaValidado: true,
       exibirTooltip: false,
@@ -252,42 +252,61 @@ export default {
           item.marcado = false;
         }
       });
-      let itemPrincipal = this.dataSetUf.map(x=>x).filter(y=> y.nome == "Todas")
-      itemPrincipal[0].marcado = false; 
+      let itemPrincipal = this.dataSetUf
+        .map(x => x)
+        .filter(y => y.nome == "Todas");
+      itemPrincipal[0].marcado = false;
     },
-     
-     
-    tratarData(data,tipo){
-        var d = new Date(data);
-        var anoC = d.getFullYear();
-        var mesC = d.getMonth();
-        var d1 = new Date (anoC, mesC, 1);
-        var d2 = new Date (anoC, mesC+1, 0);
 
-        if(tipo == 'I'){
-          return (parseInt(d1.getMonth())+1) +"/"+ d1.getDate() +"/"+ d1.getFullYear()
-        }else{
-          return (parseInt(d2.getMonth())+1) +"/"+ d2.getDate() +"/"+ d2.getFullYear()
-        }
+    tratarData(data, tipo) {
+      var d = new Date(data);
+      var anoC = d.getFullYear();
+      var mesC = d.getMonth();
+      var d1 = new Date(anoC, mesC, 1);
+      var d2 = new Date(anoC, mesC + 1, 0);
+
+      if (tipo == "I") {
+        return (
+          parseInt(d1.getMonth()) +
+          1 +
+          "/" +
+          d1.getDate() +
+          "/" +
+          d1.getFullYear()
+        );
+      } else {
+        return (
+          parseInt(d2.getMonth()) +
+          1 +
+          "/" +
+          d2.getDate() +
+          "/" +
+          d2.getFullYear()
+        );
+      }
     },
     consultar() {
-    
       this.parametrosConsulta.ufs = this.getOpcoesSelecionadas(
         this.dataSetUfSelecinado
       );
       this.parametrosConsulta.justicas = this.getOpcoesSelecionadas(
-        
         this.dataSetJusticaSelecinado
       );
       this.parametrosConsulta.partes = this.getOpcoesSelecionadas(
         this.dataSetParteSelecinado
       );
-      
-      if(this.dataDistIni && this.dataDistFim){
-      this.parametrosConsulta.dataDistribuicaoInicio = this.tratarData(this.dataDistIni,'I');
-      this.parametrosConsulta.dataDistribuicaoFim = this.tratarData(this.dataDistFim,'');
+
+      if (this.dataDistIni && this.dataDistFim) {
+        this.parametrosConsulta.dataDistribuicaoInicio = this.tratarData(
+          this.dataDistIni,
+          "I"
+        );
+        this.parametrosConsulta.dataDistribuicaoFim = this.tratarData(
+          this.dataDistFim,
+          ""
+        );
       }
-      
+
       let dadosFakeResul = {
         Key: "nomeamericanasltda;documento072479707656678413ufperj",
         ResultPesq: {
@@ -421,11 +440,11 @@ export default {
 
       if (this.validar()) {
         // console.log("entrei aqui");
-         consultProcessosApi.buscarProcessosVolumetria(this.parametrosConsulta).then(response=>{
-        if(response.status == 200){
-          console.log("entrei")
-        }
-      })
+        //  consultProcessosApi.buscarProcessosVolumetria(this.parametrosConsulta).then(response=>{
+        // if(response.status == 200){
+        //   console.log("entrei")
+        // }
+        // })
         this.$store.dispatch(
           SET_PARAMETROS_CONSULT_VOLUMETRIA,
           this.parametrosConsulta
