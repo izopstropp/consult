@@ -9,6 +9,7 @@ export default {
   components: {
     Autenticacao: Autenticacao,
   },
+  mounted() {},
 };
 </script>
 

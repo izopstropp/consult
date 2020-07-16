@@ -21,7 +21,9 @@
               @click="usuarioValidado = true"
               :class="[!usuarioValidado ? 'erroInput' : 'resetErroInput']"
             />
-            <p style="color:red" v-if="!usuarioValidado">Preencha o campo corretamente.</p>
+            <p style="color:red" v-if="!usuarioValidado">
+              Preencha o campo corretamente.
+            </p>
           </a-form-item>
           <div class="login-grupo-label">
             <div class="login-label">
@@ -48,7 +50,9 @@
               :type="mostrarSenha ? 'text' : 'password'"
               placeholder
             />
-            <p style="color:red" v-if="!senhaValidado">Preencha o campo corretamente.</p>
+            <p style="color:red" v-if="!senhaValidado">
+              Preencha o campo corretamente.
+            </p>
             <p></p>
           </a-form-item>
 
@@ -64,12 +68,19 @@
       <p>A Kurier</p>
       <p>Ajuda</p>
     </div>
+    <notifications
+      classes="style-notification"
+      group="general"
+      position="bottom center"
+      :ignoreDuplicates="true"
+      animation-name="v-fade-left"
+    />
   </div>
 </template>
 
 <script>
-// import autenticacaoApi from "../api/consultAutenticacaoApi";
-// import { DO_LOGIN } from "@/store/actions";
+import autenticacaoApi from "../api/consultAutenticacaoApi";
+import { DO_LOGIN } from "@/store/actions";
 export default {
   name: "autenticacao",
   components: {},
@@ -80,7 +91,7 @@ export default {
       usuarioValidado: true,
       senhaValidado: true,
       usuario: "",
-      senha: ""
+      senha: "",
     };
   },
   computed: {
@@ -89,7 +100,7 @@ export default {
       return formLayout === "horizontal"
         ? {
             labelCol: { span: 4 },
-            wrapperCol: { span: 14 }
+            wrapperCol: { span: 14 },
           }
         : {};
     },
@@ -97,16 +108,16 @@ export default {
       const { formLayout } = this;
       return formLayout === "horizontal"
         ? {
-            wrapperCol: { span: 14, offset: 4 }
+            wrapperCol: { span: 14, offset: 4 },
           }
         : {};
     },
     dataSetSelecionado() {
-      let result = this.dataSettes.filter(item => {
+      let result = this.dataSettes.filter((item) => {
         return item.marcado == true;
       });
       return result;
-    }
+    },
   },
   methods: {
     desmarcarItem(index) {
@@ -117,20 +128,40 @@ export default {
       });
     },
     autenticar() {
-      this.$router.push("/selecao");
-      // if (this.validar()) {
-      //   autenticacaoApi.autenticar(this.usuario, this.senha).then(response => {
-      //     console.log(response)
-      //     if (response.status == 200) {
-      //       this.$store.dispatch(DO_LOGIN, response.data);
-      //       this.$router.push("/selecao");
-      //     } else {
-      //       this.usuario = "";cls
-      //       this.senha = "";
-      //       // this.$notibar.add("Usuário inválido");
-      //     }
-      //   });
-      // }
+      // this.$router.push("/selecao");
+      if (this.validar()) {
+        autenticacaoApi.autenticar(this.usuario, this.senha).then(
+          (response) => {
+            console.log(response);
+            if (response.status == 200) {
+              this.$store.dispatch(DO_LOGIN, response.data);
+              this.$router.push("/selecao");
+            } else if (response.status == 404) {
+              this.$notify({
+                group: "general",
+                title: "Falha na conexão.",
+
+                duration: 1000,
+
+                speed: 700,
+              });
+              this.usuario = "";
+              this.senha = "";
+              // this.$notibar.add("Usuário inválido");
+            }
+          },
+          () => {
+            this.$notify({
+              group: "general",
+              title: "Falha na conexão.",
+
+              duration: 1000,
+
+              speed: 700,
+            });
+          }
+        );
+      }
     },
     validar() {
       let validado = true;
@@ -143,8 +174,8 @@ export default {
         validado = false;
       }
       return validado;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

@@ -92,4 +92,29 @@ list-style {
 .bg-grey {
   background-color: #a9a9a9 !important;
 }
+.style-notification {
+  padding: 0px;
+  margin: 0 5px 5px;
+  font-size: 12px;
+  color: rgb(250, 249, 249) !important;
+  background: #052f6b !important;
+  height: 30px;
+  margin-bottom: 40px;
+  border-radius: 3px;
+}
+.style-notification .notification-title {
+  text-align: center;
+  font-weight: normal;
+  padding-top: 5px;
+}
+.v-fade-left-enter-active,
+.v-fade-left-leave-active,
+.v-fade-left-move {
+  transition: all 0.5s;
+}
+.v-fade-left-enter,
+.v-fade-left-leave-to {
+  opacity: 0;
+  transform: translateY(200px) scale(0.2);
+}
 </style>
