@@ -68,8 +68,8 @@
 </template>
 
 <script>
-import autenticacaoApi from "../api/consultAutenticacaoApi";
-import { DO_LOGIN } from "@/store/actions";
+// import autenticacaoApi from "../api/consultAutenticacaoApi";
+// import { DO_LOGIN } from "@/store/actions";
 export default {
   name: "autenticacao",
   components: {},
@@ -125,12 +125,12 @@ export default {
       //       this.$store.dispatch(DO_LOGIN, response.data);
       //       this.$router.push("/selecao");
       //     } else {
-      //       this.usuario = "";
+      //       this.usuario = "";cls
       //       this.senha = "";
       //       // this.$notibar.add("Usuário inválido");
       //     }
       //   });
-      }
+      // }
     },
     validar() {
       let validado = true;

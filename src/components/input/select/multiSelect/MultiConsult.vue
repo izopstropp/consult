@@ -10,7 +10,9 @@
         style="display:flex;justify-content: flex-end; margin-top:3px"
       >
         <div style="flex:1;width:50px;">{{ nomeCampo }}</div>
-        <div style="width:50px">&#8681;</div>
+        <div style="width:50px">
+          <img src="../../../../assets/Prancheta – 5.png" alt="setaDown" />
+        </div>
       </div>
     </div>
     <transition-group
@@ -82,6 +84,10 @@ export default {
     exibirBarraRolagem: {
       type: Boolean,
       default: false
+    },
+    permitirZeroSelecionado: {
+      type: Boolean,
+      default: true
     }
   },
   model: {
@@ -116,19 +122,28 @@ export default {
 
   methods: {
     addItenSelected(item) {
-      if(item.nome ==='Todas' && item.marcado === false){
-        this.dataSet.map(x=> x.marcado = true)
-      }else{
+      if (item.nome === "Todas" && item.marcado === false) {
+        this.dataSet.map(x => (x.marcado = true));
+      } else {
         if (item.marcado == false) {
           item.marcado = true;
-          if (!this.desmarcarItem) item.fixo = true;
-        } else{
-          item.marcado = false;
-          item.fixo = false;
-          let itemPrincipal = this.dataSet.map(x=>x).filter(y=> y.nome == "Todas")
-          itemPrincipal[0].marcado = false;
-          console.log(itemPrincipal)
+        } else {
+          let qtdSelecionas = this.dataSet
+            .map(x => x)
+            .filter(y => y.marcado == true).length;
+          if (this.permitirZeroSelecionado === true) {
+            item.marcado = false;
+          } else if (
+            this.permitirZeroSelecionado === false &&
+            qtdSelecionas > 1
+          ) {
+            item.marcado = false;
+          }
         }
+        let itemPrincipal = this.dataSet
+          .map(x => x)
+          .filter(y => y.nome == "Todas");
+        if (itemPrincipal.length) itemPrincipal[0].marcado = false;
       }
     },
     handleFocus() {
@@ -156,7 +171,7 @@ ul {
 }
 .btn-item {
   background-color: #ffffff;
-  border: 1px solid #d11515;
+  border: 1px solid black;
   max-width: 100vw;
   height: 32px;
   position: relative;

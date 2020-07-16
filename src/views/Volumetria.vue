@@ -82,6 +82,7 @@
               borderColorButtom="#ededed"
               paddingLeftTextButtom="48px"
               :blurCloseList="false"
+              :permitirZeroSelecionado="false"
             />
           </div>
           <div>
@@ -94,6 +95,7 @@
               paddingLeftTextButtom="51px"
               borderColorButtom="#ededed"
               :blurCloseList="false"
+              :permitirZeroSelecionado="false"
             />
           </div>
           <div class="uf-selec-animation">
@@ -106,6 +108,7 @@
               paddingLeftTextButtom="51px"
               borderColorButtom="#ededed"
               :blurCloseList="false"
+              :permitirZeroSelecionado="false"
             />
           </div>
         </div>
@@ -417,7 +420,6 @@ export default {
       dataSetUf.map(x => (x.marcado = false));
     },
     realizarRequicaoFiltro() {
-      // if (this.existeValorFiltro()) {
       this.realizandoRequisicaoFiltro = true;
 
       let pesquisaPrincipal = JSON.parse(
