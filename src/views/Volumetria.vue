@@ -1,6 +1,6 @@
 <template>
   <div class="container-resultado-volumetria">
-    <div v-if="solicitarVolume" @click="solicitarVolume = false" class="modal">
+    <div v-if="solicitarVolume" @click="fecharModal" class="modal">
       <div class="modal-container">
         <img src="../assets/confir-envio.png" alt="imagem de confirmação" />
         <p>Sua pesquisa</p>
@@ -9,16 +9,17 @@
         <router-link
           :to="{ name: 'RelatorioConsultaAcoes', params: { id: 123, pag: 1 } }"
           tag="p"
-        >Pré-Visualizar</router-link>
+          >Pré-Visualizar</router-link
+        >
       </div>
     </div>
 
-    <div class="container-filtro">
+    <div :class="[solicitarVolume ? 'blur-container' : '', 'container-filtro']">
       <div class="filtro-resumo">
         <div class="resumo-justica">
           <div class="result">
             <div
-              :class="[!item.marcado ? 'excluido':'']"
+              :class="[!item.marcado ? 'excluido' : '']"
               v-for="(item, index) in dataSetJusticaSelecinadoFiltroSec"
               :key="index"
             >
@@ -36,7 +37,7 @@
         <div class="resumo-parte">
           <div class="result">
             <div
-              :class="[!item.marcado ? 'excluido':'']"
+              :class="[!item.marcado ? 'excluido' : '']"
               v-for="(item, index) in dataSetParteSelecinadoFiltroSec"
               :key="index"
             >
@@ -53,7 +54,7 @@
         <div class="resumo-uf">
           <div class="result">
             <div
-              :class="[!item.marcado ? 'excluido':'']"
+              :class="[!item.marcado ? 'excluido' : '']"
               v-for="(item, index) in dataSetUfSelecinadoFiltroSec"
               :key="index"
             >
@@ -70,7 +71,12 @@
       </div>
       <hr />
       <div class="filtro-selecao">
-        <div :class="[realizandoRequisicaoFiltro? 'opacity-filtro':'','selecao-filtro']">
+        <div
+          :class="[
+            realizandoRequisicaoFiltro ? 'opacity-filtro' : '',
+            'selecao-filtro',
+          ]"
+        >
           <p>Selecionar Volumetria</p>
           <div>
             <multiSelect
@@ -116,38 +122,42 @@
       <div class="animation-fadeout">
         <div
           :class="[
-              realizandoRequisicaoFiltro ? 'opacity-filtro' : '',
-              'pesquisa-preditivo',
-            ]"
+            realizandoRequisicaoFiltro ? 'opacity-filtro' : '',
+            'pesquisa-preditivo',
+          ]"
         >
-          <a-checkbox>Adicionar o Preditivo</a-checkbox>
+          <a-checkbox @click="preditivo = !preditivo"
+            >Adicionar o Preditivo</a-checkbox
+          >
         </div>
         <div class="filtro-acao">
           <div class="consulta-form-filtro-btn-block-item">
             <div
-              @click="solicitarVolumetria(1)"
+              @click="solicitarVolumetria"
               :class="[
-              realizandoRequisicaoFiltro ? 'btn-disabled' : '',
-              'consulta-form-filtro-btn-item',
-            ]"
-            >
-              <a style="user-select:none">ADIQUERIR TODA VOLUMETRIA</a>
-            </div>
-            <div
-              @click="solicitarVolumetria(2)"
-              :class="[
-              realizandoRequisicaoFiltro ? 'btn-disabled' : '',
-              'consulta-form-filtro-btn-item',
-            ]"
+                realizandoRequisicaoFiltro ? 'btn-disabled' : '',
+                'consulta-form-filtro-btn-item',
+              ]"
             >
               <a style="user-select:none">ADIQUERIR VOLUMETRIA SELECIONADA</a>
+            </div>
+            <div
+              @click="$router.push({ name: 'consulta-acoes' })"
+              :class="[
+                realizandoRequisicaoFiltro ? 'btn-disabled' : '',
+                'consulta-form-filtro-btn-item',
+              ]"
+            >
+              <a style="user-select:none">VOLTAR PARA TELA DE PESQUISA</a>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <div class="container-volumetria">
-      <div @click="versaoDetalhada = !versaoDetalhada" class="valor-consumo">
+    <div
+      :class="[solicitarVolume ? 'blur-container' : '', 'container-volumetria']"
+    >
+      <div class="valor-consumo">
         <p>R$ 10,00</p>
       </div>
       <div class="container-volumetria-principal">
@@ -183,7 +193,11 @@
           <div>
             <div class="container-chart-item-uf">
               <LoadCircle :exibirLoad="realizandoRequisicaoFiltro" />
-              <LineChart class="chart-uf" tituloChart="UF" :chart-data="datacollectionUf"></LineChart>
+              <LineChart
+                class="chart-uf"
+                tituloChart="UF"
+                :chart-data="datacollectionUf"
+              ></LineChart>
             </div>
           </div>
         </div>
@@ -191,71 +205,84 @@
           <table>
             <thead style="border-bottom: 1px solid #9494949c !important;">
               <tr>
-                <th :class="[versaoDetalhada ? 'background-blue' : '']">Descrição</th>
-                <th :class="[versaoDetalhada ? 'background-blue' : '']">Quantidade de processos</th>
-                <th :class="[versaoDetalhada ? 'background-blue' : '']">Valor</th>
+                <th>
+                  Descrição
+                </th>
+                <th>
+                  Quantidade de processos
+                </th>
+                <th>
+                  Valor
+                </th>
               </tr>
             </thead>
             <tbody>
-              <tr
-                :class="[
-                  versaoDetalhada ? 'active ajust-height-uf' : '',
-                  'background-blue',
-                ]"
-              >
-                <!-- <td
-                  :class="[versaoDetalhada ? 'background-blue ajust-height-uf ajust-width-uf':'ajust-width-uf']"
-                >-->
-                <td :class="[versaoDetalhada ? 'background-blue' : '']">
-                  <div class="ajust-height-uf">
-                    <p>
-                      <span
-                        v-for="(item, index) in this
-                          .dataSetUfSelecinadoFiltroSec.filter(x=>x.marcado == true)"
-                        :key="index"
-                      >{{ item.nome + "; " }}</span>
-                    </p>
+              <tr class="active">
+                <td>
+                  <div class="font-weight-bold">
+                    <p>Total da consulta das ações</p>
                   </div>
                 </td>
-                <td :class="[versaoDetalhada ? 'background-blue' : '']">
-                  <div>
+                <td>
+                  <div class="font-weight-bold">
                     <p>
                       {{
-                      $store.getters.getResultadoPesquisaVolumetria
-                      .QtdProcessos
+                        $store.getters.getResultadoPesquisaVolumetria
+                          .totalConsultaAcoes.quantidade
                       }}
                     </p>
                   </div>
                 </td>
-                <td :class="[versaoDetalhada ? 'background-blue' : '']">
-                  <div>
-                    <p>R$570,00</p>
+                <td>
+                  <div class="font-weight-bold">
+                    <p>
+                      {{
+                        $store.getters.getResultadoPesquisaVolumetria
+                          .totalConsultaAcoes.valor
+                      }}
+                    </p>
                   </div>
                 </td>
               </tr>
-              <tr :class="[versaoDetalhada ? 'active' : '', 'background-blue']">
-                <td :class="[versaoDetalhada ? 'background-blue' : '']">
+              <tr class="active">
+                <td>
+                  <div class="font-weight-bold">
+                    <p>Total da volumetria a ser consumida</p>
+                  </div>
+                </td>
+                <td>
+                  <div class="font-weight-bold">
+                    <p>
+                      {{ this.totalVolumetriaConsumo.QtdProcessos }}
+                    </p>
+                  </div>
+                </td>
+                <td>
+                  <div class="font-weight-bold">
+                    <p>{{ this.totalVolumetriaConsumo.valor }}</p>
+                  </div>
+                </td>
+              </tr>
+              <tr :class="[preditivo ? 'active' : '', 'background-blue']">
+                <td>
                   <div>
                     <p>Preditivo</p>
                   </div>
                 </td>
-                <td :class="[versaoDetalhada ? 'background-blue' : '']">
+                <td>
                   <div>
                     <p>
-                      {{
-                      $store.getters.getResultadoPesquisaVolumetria
-                      .QtdProcessos
-                      }}
+                      {{ this.totalVolumetriaConsumo.QtdProcessos }}
                     </p>
                   </div>
                 </td>
-                <td :class="[versaoDetalhada ? 'background-blue' : '']">
+                <td>
                   <div>
-                    <p>R$275,00</p>
+                    <p>{{ valorPreditivoAcoes }}</p>
                   </div>
                 </td>
               </tr>
-              <tr :class="[!versaoDetalhada ? 'active' : 'change-color-bg']">
+              <tr>
                 <td>
                   <div>
                     <p>Total consumido</p>
@@ -273,42 +300,23 @@
                 </td>
               </tr>
 
-              <tr :class="[versaoDetalhada ? 'border-blue' : '', 'active']">
-                <td
-                  :class="[
-                    versaoDetalhada
-                      ? 'background-blue background-dark-blue'
-                      : 'bg-grey',
-                  ]"
-                >
+              <tr class="active">
+                <td>
                   <div class="font-weight-bold">
                     <p>Total de Consumo</p>
                   </div>
                 </td>
-                <td
-                  :class="[
-                    versaoDetalhada
-                      ? 'background-blue background-dark-blue'
-                      : 'bg-grey',
-                  ]"
-                >
+                <td>
                   <div class="font-weight-bold">
                     <p>
                       {{
-                      $store.getters.getResultadoPesquisaVolumetria
-                      .QtdProcessos
+                        $store.getters.getResultadoPesquisaVolumetria
+                          .QtdProcessos
                       }}
                     </p>
                   </div>
                 </td>
-                <td
-                  :class="[
-                    versaoDetalhada
-                      ? 'background-blue background-dark-blue'
-                      : 'bg-grey',
-                    'valor-total',
-                  ]"
-                >
+                <td>
                   <div class="font-weight-bold">
                     <p>R$ 845,00</p>
                   </div>
@@ -318,6 +326,14 @@
           </table>
         </div>
       </div>
+      <notifications
+        classes="style-notification"
+        group="general"
+        position="bottom center"
+        :ignoreDuplicates="true"
+        animation-name="v-fade-left"
+        :width="350"
+      />
     </div>
   </div>
 </template>
@@ -327,9 +343,9 @@ import MultiSelect from "../components/input/select/multiSelect/MultiConsult.vue
 import { dataSetUf } from "../valuesInput/dataSetUf.js";
 import { dataSetJustica } from "../valuesInput/dataSetJustica.js";
 import { dataSetParte } from "../valuesInput/dataSetParte.js";
-// import { SET_RESULT_VOLUMETRIA } from "../store/actions";
 import _ from "lodash";
 import LoadCircle from "../components/Load/LoadCircle.vue";
+// import { CLEAR_VALUES_PARAMETER_CONSULT } from "../store/actions";
 
 export default {
   name: "volumetria",
@@ -339,17 +355,21 @@ export default {
       datacollectionJustica: {},
       datacollectionParte: {},
       datacollectionUf: {},
-      versaoDetalhada: true,
+      preditivo: false,
       parametrosFiltro: {
         dataSetJustica: [],
         dataSetParte: [],
-        dataSetUf: []
+        dataSetUf: [],
+      },
+      totalVolumetriaConsumo: {
+        QtdProcessos: 0,
+        valor: "0,00",
       },
       solicitarVolume: false,
       isLoading: false,
       fullPage: false,
       realizandoRequisicaoFiltro: false,
-      qtdTrocaFiltro: 0
+      qtdTrocaFiltro: 0,
     };
   },
 
@@ -359,35 +379,40 @@ export default {
   computed: {
     dataSetParteSelecinadoFiltroSec() {
       let result = dataSetParte
-        .map(u => u)
-        .filter(y =>
+        .map((u) => u)
+        .filter((y) =>
           this.$store.getters.getParametrosPesquisa.partes.includes(y.nome)
         );
-      result.map(x => (x.marcado = true));
+      result.map((x) => (x.marcado = true));
       return result;
     },
     dataSetJusticaSelecinadoFiltroSec() {
       let result = dataSetJustica
-        .map(u => u)
-        .filter(y =>
+        .map((u) => u)
+        .filter((y) =>
           this.$store.getters.getParametrosPesquisa.justicas.includes(y.nome)
         );
-      result.map(x => (x.marcado = true));
+      result.map((x) => (x.marcado = true));
       return result;
     },
     dataSetUfSelecinadoFiltroSec() {
       let result = dataSetUf
-        .map(u => u)
-        .filter(y =>
+        .map((u) => u)
+        .filter((y) =>
           this.$store.getters.getParametrosPesquisa.ufs.includes(y.nome)
         );
-      let opcaoTodasUf = result.filter(x => x.nome === "Todas");
+      let opcaoTodasUf = result.filter((x) => x.nome === "Todas");
       if (opcaoTodasUf.length > 0)
-        result = dataSetUf.filter(x => x.nome !== "Todas");
+        result = dataSetUf.filter((x) => x.nome !== "Todas");
 
-      result.map(x => (x.marcado = true));
+      result.map((x) => (x.marcado = true));
       return result;
-    }
+    },
+    valorPreditivoAcoes() {
+      return (
+        parseInt(this.totalVolumetriaConsumo.QtdProcessos) * 2
+      ).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+    },
   },
   watch: {
     parametrosFiltro: {
@@ -397,8 +422,8 @@ export default {
           this.realizarRequicaoFiltro();
         }
       },
-      deep: true
-    }
+      deep: true,
+    },
   },
   beforeMount() {
     if (!this.$store.getters.getParametrosPesquisa.nome) {
@@ -414,10 +439,15 @@ export default {
   },
 
   methods: {
+    fecharModal(event) {
+      if (event.target === event.currentTarget) {
+        this.$router.push({ name: "consulta-acoes" });
+      }
+    },
     cleanInput() {
-      dataSetJustica.map(x => (x.marcado = false));
-      dataSetParte.map(x => (x.marcado = false));
-      dataSetUf.map(x => (x.marcado = false));
+      dataSetJustica.map((x) => (x.marcado = false));
+      dataSetParte.map((x) => (x.marcado = false));
+      dataSetUf.map((x) => (x.marcado = false));
     },
     realizarRequicaoFiltro() {
       this.realizandoRequisicaoFiltro = true;
@@ -437,137 +467,160 @@ export default {
       console.log(pesquisaPrincipal);
       setTimeout(() => {
         this.realizandoRequisicaoFiltro = false;
+
         let dadosFakeResul = {
           Key: "nomeamericanasltda;documento072479707656678413ufperj",
           ResultPesq: {
-            QtdProcessos: "1000",
-            QtdEstadual: "100",
-            QtdFederal: "1",
-            QtdTrabalhista: "111",
-            QtdReu: "2",
-            QtdAutor: "20",
-            QtdUF: [
+            totalVolumetriaConsumo: {
+              quantidade: "20",
+              valor: "30,00",
+            },
+            justica: [
+              {
+                Nome: "Estadual",
+                Qtd: "1",
+              },
+              {
+                Nome: "Federal",
+                Qtd: "240",
+              },
+              {
+                Nome: "Trabalhista",
+                Qtd: "4050",
+              },
+            ],
+            parte: [
+              {
+                Nome: "reu",
+                Qtd: "2003",
+              },
+              {
+                Nome: "autor",
+                Qtd: "20330",
+              },
+            ],
+            UF: [
               {
                 Nome: "AC",
-                Qtd: "1"
+                Qtd: "123",
               },
               {
                 Nome: "AL",
-                Qtd: "10"
+                Qtd: "10",
               },
               {
                 Nome: "AM",
-                Qtd: "20"
+                Qtd: "20",
               },
               {
                 Nome: "AP",
-                Qtd: "10"
+                Qtd: "1000",
               },
               {
                 Nome: "BA",
-                Qtd: "230"
+                Qtd: "50",
               },
               {
                 Nome: "PE",
-                Qtd: "11"
+                Qtd: "1100",
               },
               {
                 Nome: "CE",
-                Qtd: "0"
+                Qtd: "0",
               },
               {
                 Nome: "DF",
-                Qtd: "11"
+                Qtd: "11",
               },
               {
                 Nome: "ES",
-                Qtd: "11"
+                Qtd: "103",
               },
               {
                 Nome: "ES",
-                Qtd: "100"
+                Qtd: "11",
               },
               {
                 Nome: "GO",
-                Qtd: "11"
+                Qtd: "11",
               },
 
               {
                 Nome: "MA",
-                Qtd: "11"
+                Qtd: "394",
               },
               {
                 Nome: "MG",
-                Qtd: "11"
+                Qtd: "11",
               },
               {
                 Nome: "MS",
-                Qtd: "11"
+                Qtd: "11",
               },
               {
                 Nome: "MT",
-                Qtd: "11"
+                Qtd: "11",
               },
               {
                 Nome: "PA",
-                Qtd: "11"
+                Qtd: "11",
               },
               {
                 Nome: "PB",
-                Qtd: "11"
+                Qtd: "11",
               },
               {
                 Nome: "PE",
-                Qtd: "11"
+                Qtd: "11",
               },
               {
                 Nome: "PI",
-                Qtd: "11"
+                Qtd: "11",
               },
               {
                 Nome: "PR",
-                Qtd: "11"
+                Qtd: "11",
               },
               {
                 Nome: "RJ",
-                Qtd: "11"
+                Qtd: "11",
               },
               {
                 Nome: "RN",
-                Qtd: "11"
+                Qtd: "11",
               },
               {
                 Nome: "RO",
-                Qtd: "11"
+                Qtd: "11",
               },
               {
                 Nome: "RR",
-                Qtd: "11"
+                Qtd: "11",
               },
               {
                 Nome: "RS",
-                Qtd: "11"
+                Qtd: "11",
               },
               {
                 Nome: "SC",
-                Qtd: "11"
+                Qtd: "11",
               },
               {
                 Nome: "SE",
-                Qtd: "11"
+                Qtd: "11",
               },
               {
                 Nome: "SP",
-                Qtd: "11"
+                Qtd: "11",
               },
               {
                 Nome: "TO",
-                Qtd: "11"
-              }
-            ]
-          }
+                Qtd: "11",
+              },
+            ],
+          },
         };
-        // this.$store.dispatch(SET_RESULT_VOLUMETRIA, dadosFakeResul);
+
         this.fillData(dadosFakeResul.ResultPesq);
       }, 3000);
       // }
@@ -581,17 +634,17 @@ export default {
     },
     getOpcoesSelecionadas(dataSet) {
       let arrItem = dataSet
-        .map(arr => arr)
-        .filter(arr => arr.marcado == true)
+        .map((arr) => arr)
+        .filter((arr) => arr.marcado == true)
         .reduce(function(arr, item) {
           arr.push(item.nome);
           return arr;
         }, []);
       return arrItem;
     },
-    solicitarVolumetria(tipoSolicitacao) {
-      // FAZER REQUISIÇÃO
-      if (tipoSolicitacao === 2) {
+    solicitarVolumetria() {
+      if (this.validarSolicitacaoAcoes()) {
+        // FAZER REQUISIÇÃO
         let pesquisaPrincipal = JSON.parse(
           JSON.stringify(this.$store.getters.getParametrosPesquisa)
         );
@@ -618,27 +671,42 @@ export default {
 
         this.solicitarVolume = true;
       }
-      // } else if (tipoSolicitacao === 1) {
-      //   console.log(this.$store.getters.getParametrosPesquisa);
-      // }
+      //  this.$store.dispatch(CLEAR_VALUES_PARAMETER_CONSULT);
+    },
+    validarSolicitacaoAcoes() {
+      console.log(this.totalVolumetriaConsumo.QtdProcessos);
+      if (this.preditivo && this.totalVolumetriaConsumo.QtdProcessos > 50) {
+        this.$notify({
+          group: "general",
+          title: "Somente é possível adquirir Preditivo de até 50 processos.",
+          duration: 5000,
+          speed: 700,
+        });
+        return false;
+      }
+      return true;
     },
     existeValorFiltro() {
-      let qtdJustica = dataSetJustica.filter(x => x.marcado == true).length;
+      let qtdJustica = dataSetJustica.filter((x) => x.marcado == true).length;
       if (qtdJustica) {
         return true;
       }
-      let qtdParte = dataSetParte.filter(x => x.marcado == true).length;
+      let qtdParte = dataSetParte.filter((x) => x.marcado == true).length;
       if (qtdParte) {
         return true;
       }
 
-      let qtdUf = dataSetUf.filter(x => x.marcado == true).length;
+      let qtdUf = dataSetUf.filter((x) => x.marcado == true).length;
       if (qtdUf) {
         return true;
       }
       return false;
     },
     fillData(data) {
+      this.totalVolumetriaConsumo.QtdProcessos =
+        data.totalVolumetriaConsumo.quantidade;
+      this.totalVolumetriaConsumo.valor = data.totalVolumetriaConsumo.valor;
+
       let resultadoPesquisa = data;
       this.datacollectionParte = {
         labels: ["Réu", "Autor"],
@@ -648,9 +716,9 @@ export default {
             // label: "Data One",
             backgroundColor: "#1d375c",
             barThickness: 6,
-            data: [resultadoPesquisa.QtdReu, resultadoPesquisa.QtdAutor]
-          }
-        ]
+            data: resultadoPesquisa.parte.map((x) => x.Qtd),
+          },
+        ],
       };
       this.datacollectionJustica = {
         labels: ["Estadual", "Federal", "Trabalhista"],
@@ -660,29 +728,25 @@ export default {
             // label: "Qtd",
             backgroundColor: "#1d375c",
             barThickness: 6,
-            data: [
-              resultadoPesquisa.QtdEstadual,
-              resultadoPesquisa.QtdFederal,
-              resultadoPesquisa.QtdTrabalhista
-            ]
-          }
-        ]
+            data: resultadoPesquisa.justica.map((x) => x.Qtd),
+          },
+        ],
       };
 
       this.datacollectionUf = {
-        labels: resultadoPesquisa.QtdUF.map(x => x.Nome),
+        labels: resultadoPesquisa.UF.map((x) => x.Nome),
         // labels: [resu~],
         datasets: [
           {
             // label: "Data One",
             backgroundColor: "#1d375c",
             barThickness: 6,
-            data: resultadoPesquisa.QtdUF.map(x => x.Qtd)
-          }
-        ]
+            data: resultadoPesquisa.UF.map((x) => x.Qtd),
+          },
+        ],
       };
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -701,6 +765,9 @@ a {
   max-width: 1349px;
   margin: 0 auto;
 }
+.blur-container {
+  filter: blur(2px);
+}
 
 /* --- modal --- */
 .modal::before {
@@ -710,10 +777,8 @@ a {
   left: 0px;
   width: 100%;
   height: 100vh;
-  /* background: rgba(0, 0, 0, 0.644); */
-  filter: blur(20px);
-  border: none;
-  background: url("../assets/back-desf.png") no-repeat;
+  background: rgba(0, 0, 0, 0.644);
+  /* background: url("../assets/back-desf.png") no-repeat; */
   z-index: 1;
 }
 .modal {
@@ -744,17 +809,24 @@ a {
 }
 .modal-container p:nth-child(2),
 .modal-container p:nth-child(4) {
-  font-size: 2.6em;
+  font-size: 1.5em;
   font-weight: bold;
-  color: #648362;
+  color: #595959;
 }
 .modal-container p:nth-child(3) {
   font-size: 3.7em;
-  color: #2e4668;
+  color: #668464;
 }
 .modal-container p:nth-child(5) {
-  margin-top: 10px;
-  color: #2e4668;
+  background-color: #001a3f;
+  margin: 10px auto;
+  width: 416px;
+  height: 36px;
+  color: #c4cad2;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   cursor: pointer;
 }
 /* --- fim modal -- */
@@ -803,7 +875,6 @@ a {
   background-color: #354a68;
   color: rgb(219, 216, 216);
   font-size: 0.9em;
-  cursor: pointer;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -896,7 +967,7 @@ a {
   justify-content: space-between;
   height: 77px;
 }
-.consulta-form-filtro-btn-item:nth-child(1) {
+.consulta-form-filtro-btn-item:nth-child(2) {
   background-color: #648362;
   height: 34px;
   width: 279px;
@@ -905,10 +976,10 @@ a {
   text-align: center;
   cursor: pointer;
 }
-.consulta-form-filtro-btn-item:nth-child(1):active {
+.consulta-form-filtro-btn-item:nth-child(2):active {
   background-color: #70a06d;
 }
-.consulta-form-filtro-btn-item:nth-child(2) {
+.consulta-form-filtro-btn-item:nth-child(1) {
   height: 34px;
   width: 279px;
   font-size: 0.9em;
@@ -917,7 +988,7 @@ a {
   padding-top: 7px;
   cursor: pointer;
 }
-.consulta-form-filtro-btn-item:nth-child(2):active {
+.consulta-form-filtro-btn-item:nth-child(1):active {
   background-color: #052f6b;
 }
 .btn-disabled {

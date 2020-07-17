@@ -15,7 +15,9 @@
           </p>
         </div>
         <div class="conf-exib-msg">
-          <p @click="exibirTooltip = false">Não exibir essa mensagem novamente</p>
+          <p @click="exibirTooltip = false">
+            Não exibir essa mensagem novamente
+          </p>
         </div>
       </tooltip>
     </div>
@@ -28,7 +30,9 @@
           :class="[!nomeValidado ? 'erroInput' : 'erroResetInput']"
           style="width: 340px"
         />
-        <p v-if="!nomeValidado" style="color:red">Preencha o campo corretamente</p>
+        <p v-if="!nomeValidado" style="color:red">
+          Preencha o campo corretamente
+        </p>
       </div>
       <div class="consulta-form-input">
         <p style="z-index:-99">CPF/CNPJ</p>
@@ -46,7 +50,8 @@
           v-model="parametrosConsulta.possuiSigla"
           class="consulta-form-checkbox"
           @click="resetarInputSigla"
-        >O nome possui sigla?</a-checkbox>
+          >O nome possui sigla?</a-checkbox
+        >
         <a-input
           @click="resetarInputSigla"
           :class="[
@@ -56,7 +61,9 @@
           v-model="parametrosConsulta.sigla"
           :disabled="!parametrosConsulta.possuiSigla"
         />
-        <p v-if="!siglaValidado" style="color:red">Preencha o campo corretamente</p>
+        <p v-if="!siglaValidado" style="color:red">
+          Preencha o campo corretamente
+        </p>
       </div>
       <div class="consulta-form-input">
         <a-select style="width:117px" v-model="parametrosConsulta.tipoPessoa">
@@ -146,7 +153,9 @@
     </div>
     <div class="btn-consulta">
       <div>
-        <a-button @click="consultar" class="consulta-form-btn">Consultar</a-button>
+        <a-button @click="consultar" class="consulta-form-btn"
+          >Consultar</a-button
+        >
       </div>
       <div>
         <p>Essa primeira Consulta tem um valor de R$10,00</p>
@@ -165,14 +174,14 @@ import tooltip from "@/components/ToolTip.vue";
 import { SET_RESULT_VOLUMETRIA } from "../store/actions";
 import { SET_PARAMETROS_CONSULT_VOLUMETRIA } from "../store/actions";
 import { CLEAR_VALUES_PARAMETER_CONSULT } from "../store/actions";
-// import consultProcessosApi from "../api/consultProcessosApi.js";
+import consultProcessosApi from "../api/consultProcessosApi.js";
 
 export default {
   name: "consulta-acoes",
   directives: { mask },
   components: {
     tooltip,
-    multiSelect
+    multiSelect,
   },
   data() {
     return {
@@ -186,7 +195,7 @@ export default {
         justicas: [],
         partes: [],
         dataDistribuicaoInicio: "",
-        dataDistribuicaoFim: ""
+        dataDistribuicaoFim: "",
       },
       dataDistIni: "",
       dataDistFim: "",
@@ -195,7 +204,7 @@ export default {
       exibirTooltip: false,
       dataSetUf: dataSetUf,
       dataSetJustica: dataSetJustica,
-      dataSetParte: dataSetParte
+      dataSetParte: dataSetParte,
     };
   },
 
@@ -204,19 +213,19 @@ export default {
   },
   computed: {
     dataSetJusticaSelecinado() {
-      let result = this.dataSetJustica.filter(item => {
+      let result = this.dataSetJustica.filter((item) => {
         return item.marcado == true;
       });
       return result;
     },
     dataSetParteSelecinado() {
-      let result = this.dataSetParte.filter(item => {
+      let result = this.dataSetParte.filter((item) => {
         return item.marcado == true;
       });
       return result;
     },
     dataSetUfSelecinado() {
-      let result = this.dataSetUf.filter(item => {
+      let result = this.dataSetUf.filter((item) => {
         return item.marcado == true && item.nome != "Todas";
       });
 
@@ -229,7 +238,7 @@ export default {
         return true;
       }
       return false;
-    }
+    },
   },
   methods: {
     desmarcarItemJustica(index) {
@@ -253,8 +262,8 @@ export default {
         }
       });
       let itemPrincipal = this.dataSetUf
-        .map(x => x)
-        .filter(y => y.nome == "Todas");
+        .map((x) => x)
+        .filter((y) => y.nome == "Todas");
       itemPrincipal[0].marcado = false;
     },
 
@@ -306,145 +315,187 @@ export default {
           ""
         );
       }
+      console.log(dadosFakeResul);
 
       let dadosFakeResul = {
         Key: "nomeamericanasltda;documento072479707656678413ufperj",
         ResultPesq: {
-          QtdProcessos: "200",
-          QtdEstadual: "1",
-          QtdFederal: "1",
-          QtdTrabalhista: "34",
-          QtdReu: "2",
-          QtdAutor: "20",
-          QtdUF: [
+          totalConsultaAcoes: {
+            quantidade: "20000",
+            valor: "10,00",
+          },
+          totalVolumetriaConsumo: {
+            quantidade: "20000",
+            valor: "200,00",
+          },
+
+          justica: [
+            {
+              Nome: "Estadual",
+              Qtd: "20",
+            },
+            {
+              Nome: "Federal",
+              Qtd: "20",
+            },
+            {
+              Nome: "Trabalhista",
+              Qtd: "20",
+            },
+          ],
+          parte: [
+            {
+              Nome: "reu",
+              Qtd: "200",
+            },
+            {
+              Nome: "autor",
+              Qtd: "200",
+            },
+          ],
+          UF: [
             {
               Nome: "AC",
-              Qtd: "1"
+              Qtd: "1",
             },
             {
               Nome: "AL",
-              Qtd: "10"
+              Qtd: "10",
             },
             {
               Nome: "AM",
-              Qtd: "20"
+              Qtd: "20",
             },
             {
               Nome: "AP",
-              Qtd: "10"
+              Qtd: "10",
             },
             {
               Nome: "BA",
-              Qtd: "50"
+              Qtd: "50",
             },
             {
               Nome: "PE",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "CE",
-              Qtd: "0"
+              Qtd: "0",
             },
             {
               Nome: "DF",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "ES",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "ES",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "GO",
-              Qtd: "11"
+              Qtd: "11",
             },
 
             {
               Nome: "MA",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "MG",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "MS",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "MT",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "PA",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "PB",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "PE",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "PI",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "PR",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "RJ",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "RN",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "RO",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "RR",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "RS",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "SC",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "SE",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "SP",
-              Qtd: "11"
+              Qtd: "11",
             },
             {
               Nome: "TO",
-              Qtd: "11"
-            }
-          ]
-        }
+              Qtd: "11",
+            },
+          ],
+        },
+      };
+      let test = {
+        AC: "10",
+        AL: "4567",
+        PE: "2",
+        RJ: "1",
+        BA: "4",
       };
 
+      for (var [key, value] of Object.entries(test)) {
+        dadosFakeResul.ResultPesq.UF.filter(
+          (n) => n.Nome === key
+        )[0].Qtd = value;
+      }
+
       if (this.validar()) {
-        // console.log("entrei aqui");
-        //  consultProcessosApi.buscarProcessosVolumetria(this.parametrosConsulta).then(response=>{
-        // if(response.status == 200){
-        //   console.log("entrei")
-        // }
-        // })
+        consultProcessosApi
+          .buscarProcessosVolumetria(this.parametrosConsulta)
+          .then((response) => {
+            if (response.status == 200) {
+              console.log("entrei");
+            }
+          });
         this.$store.dispatch(
           SET_PARAMETROS_CONSULT_VOLUMETRIA,
           this.parametrosConsulta
@@ -476,22 +527,22 @@ export default {
     },
     cleanInput() {
       // console.log("MOUNTED");
-      dataSetJustica.map(x => (x.marcado = false));
-      dataSetParte.map(x => (x.marcado = false));
-      dataSetUf.map(x => (x.marcado = false));
+      dataSetJustica.map((x) => (x.marcado = false));
+      dataSetParte.map((x) => (x.marcado = false));
+      dataSetUf.map((x) => (x.marcado = false));
 
       this.$store.dispatch(CLEAR_VALUES_PARAMETER_CONSULT);
     },
     getOpcoesSelecionadas(dataSet) {
       let arrItem = dataSet
-        .map(arr => arr.nome)
+        .map((arr) => arr.nome)
         .reduce(function(arr, item) {
           arr.push(item);
           return arr;
         }, []);
       return arrItem;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

@@ -12,7 +12,8 @@
               btnAcaoAtivado ? 'color-backgroud-azul' : '',
               'esconder-bordar-direita',
             ]"
-          >Ações</a-button>
+            >Ações</a-button
+          >
         </div>
         <div class="btn-acao">
           <a-button
@@ -21,11 +22,16 @@
               btnPreditivoAtivado ? 'color-backgroud-azul' : '',
               'esconder-bordar-esquerda',
             ]"
-          >Preditivo</a-button>
+            >Preditivo</a-button
+          >
         </div>
       </div>
       <div class="selecao-confirma">
-        <router-link class="btn-selecao-confirmar" :to="{ name: nameRouterLink }">Confirmar</router-link>
+        <router-link
+          class="btn-selecao-confirmar"
+          :to="{ name: nameRouterLink }"
+          >Confirmar</router-link
+        >
       </div>
     </div>
   </div>
@@ -36,7 +42,7 @@ export default {
     return {
       btnAcaoAtivado: true,
       btnPreditivoAtivado: false,
-      nameRouterLink: "consulta-acoes"
+      nameRouterLink: "consulta-acoes",
     };
   },
   methods: {
@@ -50,8 +56,8 @@ export default {
         this.btnPreditivoAtivado = true;
         this.nameRouterLink = "consulta-preditivo";
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

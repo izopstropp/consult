@@ -97,7 +97,7 @@ list-style {
   margin: 0 5px 5px;
   font-size: 12px;
   color: rgb(250, 249, 249) !important;
-  background: #052f6b !important;
+  background: #02214d !important;
   height: 30px;
   margin-bottom: 40px;
   border-radius: 3px;
