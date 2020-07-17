@@ -70,6 +70,7 @@ export default {
       state.parametrosPesquisa.justicas = [];
       state.parametrosPesquisa.partes = [];
       state.parametrosPesquisa.ufs = [];
+      //s
     },
   },
 };
