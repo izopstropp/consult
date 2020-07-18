@@ -449,6 +449,9 @@ export default {
   mounted() {
     this.paginaCarregada = true;
   },
+  destroyed() {
+    this.$store.dispatch(CLEAR_VALUES_PARAMETER_CONSULT);
+  },
   methods: {
     fecharModal(event) {
       if (event.target === event.currentTarget) {
@@ -654,7 +657,8 @@ export default {
       return arrItem;
     },
     solicitarVolumetria() {
-      if (this.validarSolicitacaoAcoes()) {
+      if (this.validarSolicitacaoAcoes() && !this.solicitarVolume) {
+        console.log("ENTREI AQUI");
         // FAZER REQUISIÇÃO
         let pesquisaPrincipal = JSON.parse(
           JSON.stringify(this.$store.getters.getParametrosPesquisa)
@@ -681,11 +685,10 @@ export default {
         }
 
         this.solicitarVolume = true;
-        this.$store.dispatch(CLEAR_VALUES_PARAMETER_CONSULT);
+        // this.$store.dispatch(CLEAR_VALUES_PARAMETER_CONSULT);
       }
     },
     validarSolicitacaoAcoes() {
-      console.log(this.totalVolumetriaConsumo.QtdProcessos);
       if (this.preditivo && this.totalVolumetriaConsumo.QtdProcessos > 50) {
         this.$notify({
           group: "general",

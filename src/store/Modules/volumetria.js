@@ -11,7 +11,7 @@ export default {
       nome: "",
       documento: "",
       sigla: "",
-      tipoPessoa: "",
+      tipoPessoa: [],
       dataDistribuicaoInicio: "",
       dataDistribuicaoFim: "",
       justicas: [],
@@ -64,7 +64,7 @@ export default {
       state.parametrosPesquisa.nome = "";
       state.parametrosPesquisa.documento = "";
       state.parametrosPesquisa.sigla = "";
-      state.parametrosPesquisa.tipoPessoa = "";
+      state.parametrosPesquisa.tipoPessoa = [];
       state.parametrosPesquisa.dataDistribuicaoInicio = "";
       state.parametrosPesquisa.dataDistribuicaoFim = "";
       state.parametrosPesquisa.justicas = [];

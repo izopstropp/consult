@@ -23,7 +23,7 @@
     </div>
     <div class="consulta-formulario-line">
       <div class="consulta-form-input">
-        <p>Nome*:</p>
+        <p>Nome*</p>
         <a-input
           v-model="parametrosConsulta.nome"
           @click="nomeValidado = true"
@@ -65,13 +65,7 @@
           Preencha o campo corretamente
         </p>
       </div>
-      <div class="consulta-form-input">
-        <a-select style="width:117px" v-model="parametrosConsulta.tipoPessoa">
-          <a-select-option value="pf">Pessoa física</a-select-option>
-          <a-select-option value="pj">Pessoa jurídica</a-select-option>
-        </a-select>
-      </div>
-      <div style="width:213px">
+      <div style="width:340px">
         <p style="margin-bottom:4px">Data de distribuição</p>
         <div class="consulta-form-calender">
           <a-month-picker
@@ -90,7 +84,29 @@
       </div>
     </div>
     <div class="consulta-formulario-line consulta-form-top-33">
-      <div class="consulta-form-input" style="min-width: 225px;height: 32px;">
+      <div class="consulta-form-input" style="min-width: 170px;height: 32px;">
+        <multiSelect
+          textAlignTextButtom="center"
+          nomeCampo="Tipo Pessoa"
+          paddingLeftTextButtom="45px"
+          v-model="dataSetTipoPessoa"
+          :desmarcarItem="false"
+        />
+        <div class="result alt-input-100">
+          <div
+            v-for="(item, index) in dataSetTipoPessoaSelecionado"
+            :key="index"
+          >
+            <span>{{ item.nome }}</span>
+            <span @click="desmarcarItemTipoPessoa(item)">
+              <small>
+                <img src="../assets/minix.png" alt="fechar" />
+              </small>
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="consulta-form-input" style="min-width: 158px;height: 32px;">
         <multiSelect
           textAlignTextButtom="center"
           nomeCampo="Justiça"
@@ -109,7 +125,7 @@
           </div>
         </div>
       </div>
-      <div class="consulta-form-input" style="min-width: 225px;height: 32px;">
+      <div class="consulta-form-input" style="min-width: 169px;height: 32px;">
         <multiSelect
           textAlignTextButtom="center"
           nomeCampo="Partes"
@@ -128,7 +144,7 @@
           </div>
         </div>
       </div>
-      <div class="consulta-form-input" style="min-width: 225px;height: 32px;">
+      <div class="consulta-form-input" style="min-width: 158px;height: 32px;">
         <multiSelect
           textAlignTextButtom="center"
           nomeCampo="UF"
@@ -170,10 +186,10 @@ import multiSelect from "@/components/input/select/multiSelect/MultiConsult.vue"
 import { dataSetUf } from "../valuesInput/dataSetUf.js";
 import { dataSetJustica } from "../valuesInput/dataSetJustica.js";
 import { dataSetParte } from "../valuesInput/dataSetParte.js";
+import { dataSetTipoPessoa } from "../valuesInput/dataSetTipoPessoa.js";
 import tooltip from "@/components/ToolTip.vue";
 import { SET_RESULT_VOLUMETRIA } from "../store/actions";
 import { SET_PARAMETROS_CONSULT_VOLUMETRIA } from "../store/actions";
-import { CLEAR_VALUES_PARAMETER_CONSULT } from "../store/actions";
 import consultProcessosApi from "../api/consultProcessosApi.js";
 
 export default {
@@ -191,7 +207,7 @@ export default {
         possuiSigla: false,
         sigla: "",
         ufs: [],
-        tipoPessoa: "pf",
+        tipoPessoa: [],
         justicas: [],
         partes: [],
         dataDistribuicaoInicio: "",
@@ -205,6 +221,7 @@ export default {
       dataSetUf: dataSetUf,
       dataSetJustica: dataSetJustica,
       dataSetParte: dataSetParte,
+      dataSetTipoPessoa: dataSetTipoPessoa,
     };
   },
 
@@ -233,6 +250,13 @@ export default {
 
       return result;
     },
+    dataSetTipoPessoaSelecionado() {
+      let result = this.dataSetTipoPessoa.filter((item) => {
+        return item.marcado == true;
+      });
+      return result;
+    },
+
     exibicaoTooltip() {
       if (this.exibirTooltip === true) {
         return true;
@@ -265,6 +289,13 @@ export default {
         .map((x) => x)
         .filter((y) => y.nome == "Todas");
       itemPrincipal[0].marcado = false;
+    },
+    desmarcarItemTipoPessoa(index) {
+      this.dataSetTipoPessoa.map(function(item) {
+        if (item.nome == index.nome) {
+          item.marcado = false;
+        }
+      });
     },
 
     tratarData(data, tipo) {
@@ -303,6 +334,9 @@ export default {
       );
       this.parametrosConsulta.partes = this.getOpcoesSelecionadas(
         this.dataSetParteSelecinado
+      );
+      this.parametrosConsulta.tipoPessoa = this.getOpcoesSelecionadas(
+        this.dataSetTipoPessoa
       );
 
       if (this.dataDistIni && this.dataDistFim) {
@@ -530,8 +564,7 @@ export default {
       dataSetJustica.map((x) => (x.marcado = false));
       dataSetParte.map((x) => (x.marcado = false));
       dataSetUf.map((x) => (x.marcado = false));
-
-      this.$store.dispatch(CLEAR_VALUES_PARAMETER_CONSULT);
+      dataSetTipoPessoa.map((x) => (x.marcado = false));
     },
     getOpcoesSelecionadas(dataSet) {
       let arrItem = dataSet
@@ -664,7 +697,7 @@ p {
 }
 .consulta-form-calender-item {
   /* margin-right: 50px; */
-  max-width: 100px;
+  width: 166px;
 }
 .consulta-form-btn {
   margin: 67px auto auto auto;
@@ -684,7 +717,7 @@ p {
 }
 .result {
   display: flex;
-  max-width: 235px;
+  max-width: 155px;
   flex-wrap: wrap;
 
   margin-top: 6px;
@@ -692,7 +725,7 @@ p {
 }
 .result-expandido {
   max-width: 325px;
-  margin-left: 64%;
+  margin-left: 71%;
 
   height: 1px;
 }
@@ -700,7 +733,7 @@ p {
   max-width: 890px;
   padding: 0;
   margin: 0 auto;
-  margin-top: -7px;
+  margin-top: -3px;
 }
 .result div {
   height: 23px;

@@ -70,7 +70,7 @@ export default {
 </script>
 <style scoped>
 .menu {
-  width: 1349px;
+  max-width: 1349px;
   height: 56px;
   background-color: #001a3f;
 }
