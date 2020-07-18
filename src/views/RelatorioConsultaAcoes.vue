@@ -188,6 +188,17 @@ p {
 .rel-bl {
   max-width: 1480px;
   margin: 65px auto;
+  animation: fadeOut 0.3s;
+}
+@keyframes fadeOut {
+  from {
+    opacity: 0;
+    margin-top: 50px;
+  }
+  to {
+    opacity: 1;
+    /* margin-top: 17px; */
+  }
 }
 .rel-col-input {
   display: flex;

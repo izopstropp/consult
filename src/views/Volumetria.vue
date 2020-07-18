@@ -1,17 +1,22 @@
 <template>
-  <div class="container-resultado-volumetria">
+  <div class="container-resultado-volumetria" v-if="paginaCarregada">
     <div v-if="solicitarVolume" @click="fecharModal" class="modal">
-      <div class="modal-container">
-        <img src="../assets/confir-envio.png" alt="imagem de confirmação" />
-        <p>Sua pesquisa</p>
-        <p>0006721</p>
-        <p>foi enviada para seu e-email</p>
-        <router-link
-          :to="{ name: 'RelatorioConsultaAcoes', params: { id: 123, pag: 1 } }"
-          tag="p"
-          >Pré-Visualizar</router-link
-        >
-      </div>
+      <transition appear name="slide-resul-volum">
+        <div class="modal-container">
+          <img src="../assets/confir-envio.png" alt="imagem de confirmação" />
+          <p>Sua pesquisa</p>
+          <p>0006721</p>
+          <p>foi enviada para seu e-email</p>
+          <router-link
+            :to="{
+              name: 'RelatorioConsultaAcoes',
+              params: { id: 123, pag: 1 },
+            }"
+            tag="p"
+            >Pré-Visualizar</router-link
+          >
+        </div>
+      </transition>
     </div>
 
     <div :class="[solicitarVolume ? 'blur-container' : '', 'container-filtro']">
@@ -89,6 +94,7 @@
               paddingLeftTextButtom="48px"
               :blurCloseList="false"
               :permitirZeroSelecionado="false"
+              @clickInvalido="exibirAvisoOpcaoInvalido"
             />
           </div>
           <div>
@@ -102,6 +108,7 @@
               borderColorButtom="#ededed"
               :blurCloseList="false"
               :permitirZeroSelecionado="false"
+              @clickInvalido="exibirAvisoOpcaoInvalido"
             />
           </div>
           <div class="uf-selec-animation">
@@ -115,6 +122,7 @@
               borderColorButtom="#ededed"
               :blurCloseList="false"
               :permitirZeroSelecionado="false"
+              @clickInvalido="exibirAvisoOpcaoInvalido"
             />
           </div>
         </div>
@@ -345,7 +353,7 @@ import { dataSetJustica } from "../valuesInput/dataSetJustica.js";
 import { dataSetParte } from "../valuesInput/dataSetParte.js";
 import _ from "lodash";
 import LoadCircle from "../components/Load/LoadCircle.vue";
-// import { CLEAR_VALUES_PARAMETER_CONSULT } from "../store/actions";
+import { CLEAR_VALUES_PARAMETER_CONSULT } from "../store/actions";
 
 export default {
   name: "volumetria",
@@ -370,6 +378,7 @@ export default {
       fullPage: false,
       realizandoRequisicaoFiltro: false,
       qtdTrocaFiltro: 0,
+      paginaCarregada: false,
     };
   },
 
@@ -437,7 +446,9 @@ export default {
 
     // this.cleanInput();
   },
-
+  mounted() {
+    this.paginaCarregada = true;
+  },
   methods: {
     fecharModal(event) {
       if (event.target === event.currentTarget) {
@@ -670,8 +681,8 @@ export default {
         }
 
         this.solicitarVolume = true;
+        this.$store.dispatch(CLEAR_VALUES_PARAMETER_CONSULT);
       }
-      //  this.$store.dispatch(CLEAR_VALUES_PARAMETER_CONSULT);
     },
     validarSolicitacaoAcoes() {
       console.log(this.totalVolumetriaConsumo.QtdProcessos);
@@ -685,6 +696,14 @@ export default {
         return false;
       }
       return true;
+    },
+    exibirAvisoOpcaoInvalido() {
+      this.$notify({
+        group: "general",
+        title: "É necessario que haja uma opção selecionada.",
+        duration: 5000,
+        speed: 600,
+      });
     },
     existeValorFiltro() {
       let qtdJustica = dataSetJustica.filter((x) => x.marcado == true).length;
@@ -770,6 +789,15 @@ a {
 }
 
 /* --- modal --- */
+.slide-resul-volum-enter-active {
+  transition: all 0.9s ease;
+  z-index: 1;
+}
+.slide-resul-volum-enter, .slide-resul-volum-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateY(-10px);
+  opacity: 0;
+}
 .modal::before {
   content: "";
   position: fixed;
@@ -800,6 +828,7 @@ a {
   width: 646px;
   height: 349px;
   z-index: 2;
+  border-radius: 4px;
 }
 .modal-container {
   line-height: 4em;
@@ -950,6 +979,7 @@ a {
 }
 .animation-fadeout {
   animation: fadeOut-btn 1.5s;
+  -webkit-animation: fadeOut-btn 1.5s;
 }
 @keyframes fadeOut-btn {
   from {

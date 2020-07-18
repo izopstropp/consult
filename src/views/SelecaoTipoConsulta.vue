@@ -1,6 +1,6 @@
 <template>
   <div class="container-selecao">
-    <div class="container-selecao-item">
+    <div v-if="paginaCarregada" class="container-selecao-item">
       <div class="selecao-titulo">
         <p>Qual opção você deseja consultar?</p>
       </div>
@@ -43,7 +43,11 @@ export default {
       btnAcaoAtivado: true,
       btnPreditivoAtivado: false,
       nameRouterLink: "consulta-acoes",
+      paginaCarregada: false,
     };
+  },
+  mounted() {
+    this.paginaCarregada = true;
   },
   methods: {
     ativarBotao(btn) {

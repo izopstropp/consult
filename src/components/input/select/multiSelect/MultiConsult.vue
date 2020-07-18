@@ -1,24 +1,37 @@
 <template>
   <div tabindex="-1" @blur="handleFocusOut" class="container">
     <div
-      :style="{textAlign:textAlignTextButtom, paddingLeft:paddingLeftTextButtom, backgroundColor:colorButtomActive, borderColor:borderColorButtom}"
+      :style="{
+        textAlign: textAlignTextButtom,
+        paddingLeft: paddingLeftTextButtom,
+        backgroundColor: colorButtomActive,
+        borderColor: borderColorButtom,
+      }"
       @click="exibirMulti = !exibirMulti"
       class="btn-item"
     >
       <div
-        :style="{fontSize:fonteSizeTextButtom}"
+        :style="{ fontSize: fonteSizeTextButtom }"
         style="display:flex;justify-content: flex-end; margin-top:3px"
       >
         <div style="flex:1;width:50px;">{{ nomeCampo }}</div>
         <div style="width:50px">
-          <img src="../../../../assets/Prancheta – 5.png" alt="setaDown" />
+          <img
+            style="width:10px"
+            src="../../../../assets/icons/Seta.png"
+            alt="setaDown"
+          />
         </div>
       </div>
     </div>
     <transition-group
       tag="ul"
-      :class="[exibirMulti ? 'animation-height' : '', exibirBarraRolagem ? 'barraRolagem':'','lista-itens']"
-      :style="{paddingLeft:paddingLeftList}"
+      :class="[
+        exibirMulti ? 'animation-height' : '',
+        exibirBarraRolagem ? 'barraRolagem' : '',
+        'lista-itens',
+      ]"
+      :style="{ paddingLeft: paddingLeftList }"
     >
       <li
         v-show="exibirMulti"
@@ -38,65 +51,65 @@ export default {
   name: "multiSelectConsult",
   props: {
     nomeExibicao: {
-      type: String
+      type: String,
     },
     dataSet: {
       type: Array,
-      required: true
+      required: true,
     },
     nomeCampo: {
       type: String,
-      required: true
+      required: true,
     },
 
     paddingLeftList: {
       type: String,
-      default: "10px"
+      default: "10px",
     },
     textAlignTextButtom: {
       type: String,
-      default: "left"
+      default: "left",
     },
     paddingLeftTextButtom: {
       type: String,
-      default: ""
+      default: "",
     },
     backgroudColorButtom: {
       type: String,
-      default: "#EDF0F2"
+      default: "#EDF0F2",
     },
     fonteSizeTextButtom: {
       type: String,
-      default: "1em"
+      default: "1em",
     },
     borderColorButtom: {
       type: String,
-      default: "#c5c5c5"
+      default: "#c5c5c5",
     },
     blurCloseList: {
       type: Boolean,
-      default: true
+      default: true,
     },
     desmarcarItem: {
       type: Boolean,
-      default: true
+      default: true,
     },
     exibirBarraRolagem: {
       type: Boolean,
-      default: false
+      default: false,
     },
     permitirZeroSelecionado: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
   model: {
     prop: "dataSet",
-    event: "change"
+    event: "change",
   },
   computed: {
     listagemItems() {
-      let result = this.dataSet.filter(item => {
+      let result = this.dataSet.filter((item) => {
         return item;
       });
       return result;
@@ -112,25 +125,25 @@ export default {
         return this.backgroudColorButtom;
       }
       return "";
-    }
+    },
   },
   data() {
     return {
-      exibirMulti: false
+      exibirMulti: false,
     };
   },
 
   methods: {
     addItenSelected(item) {
       if (item.nome === "Todas" && item.marcado === false) {
-        this.dataSet.map(x => (x.marcado = true));
+        this.dataSet.map((x) => (x.marcado = true));
       } else {
         if (item.marcado == false) {
           item.marcado = true;
         } else {
           let qtdSelecionas = this.dataSet
-            .map(x => x)
-            .filter(y => y.marcado == true).length;
+            .map((x) => x)
+            .filter((y) => y.marcado == true).length;
           if (this.permitirZeroSelecionado === true) {
             item.marcado = false;
           } else if (
@@ -138,11 +151,17 @@ export default {
             qtdSelecionas > 1
           ) {
             item.marcado = false;
+          } else if (
+            this.permitirZeroSelecionado === false &&
+            qtdSelecionas == 1
+          ) {
+            console.log("entrei aqui");
+            this.$emit("clickInvalido");
           }
         }
         let itemPrincipal = this.dataSet
-          .map(x => x)
-          .filter(y => y.nome == "Todas");
+          .map((x) => x)
+          .filter((y) => y.nome == "Todas");
         if (itemPrincipal.length) itemPrincipal[0].marcado = false;
       }
     },
@@ -153,8 +172,8 @@ export default {
       if (this.blurCloseList) {
         this.exibirMulti = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>

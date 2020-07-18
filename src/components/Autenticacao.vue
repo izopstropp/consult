@@ -128,40 +128,40 @@ export default {
       });
     },
     autenticar() {
-      // this.$router.push("/selecao");
-      if (this.validar()) {
-        autenticacaoApi.autenticar(this.usuario, this.senha).then(
-          (response) => {
-            console.log(response);
-            if (response.status == 200) {
-              this.$store.dispatch(DO_LOGIN, response.data);
-              this.$router.push("/selecao");
-            } else if (response.status == 404) {
-              this.$notify({
-                group: "general",
-                title: "Falha na conexão.",
+      this.$router.push("/selecao");
+      // if (this.validar()) {
+      //   autenticacaoApi.autenticar(this.usuario, this.senha).then(
+      //     (response) => {
+      //       console.log(response);
+      //       if (response.status == 200) {
+      //         this.$store.dispatch(DO_LOGIN, response.data);
+      //         this.$router.push("/selecao");
+      //       } else if (response.status == 404) {
+      //         this.$notify({
+      //           group: "general",
+      //           title: "Falha na conexão.",
 
-                duration: 1000,
+      //           duration: 1000,
 
-                speed: 700,
-              });
-              this.usuario = "";
-              this.senha = "";
-              // this.$notibar.add("Usuário inválido");
-            }
-          },
-          () => {
-            this.$notify({
-              group: "general",
-              title: "Falha na conexão.",
+      //           speed: 700,
+      //         });
+      //         this.usuario = "";
+      //         this.senha = "";
+      //         // this.$notibar.add("Usuário inválido");
+      //       }
+      //     },
+      //     () => {
+      //       this.$notify({
+      //         group: "general",
+      //         title: "Falha na conexão.",
 
-              duration: 1000,
+      //         duration: 1000,
 
-              speed: 700,
-            });
-          }
-        );
-      }
+      //         speed: 700,
+      //       });
+      //     }
+      //   );
+      // }
     },
     validar() {
       let validado = true;
