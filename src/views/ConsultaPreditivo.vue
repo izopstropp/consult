@@ -1,5 +1,15 @@
 <template>
   <div class="container">
+    <div v-if="solicitarPred" @click="fecharModal" class="modal">
+      <transition appear name="slide-resul-volum">
+        <div class="modal-container">
+          <img src="../assets/confir-envio.png" alt="imagem de confirmação" />
+          <p>Sua pesquisa</p>
+          <p>0006721</p>
+          <p>foi enviada para seu e-email</p>
+        </div>
+      </transition>
+    </div>
     <div class="titulo">
       <p>CONSULTAR DE PREDITIVO</p>
     </div>
@@ -8,8 +18,17 @@
         <div class="titulo-processo">
           <p>Número do Processo (NPU)</p>
         </div>
-        <textarea v-model="npus" id cols="30" rows="2" wrap="on"></textarea>
+        <textarea
+          :class="[npuInvalido ? 'borderColorRed':'']"
+          @focus="npuInvalido = false"
+          v-model="npus"
+          id
+          cols="30"
+          rows="2"
+          wrap="on"
+        ></textarea>
         <p class="aviso-input">NPU deve seguir o padrão com "-" e ".".</p>
+        <p v-if="npuInvalido" style="color:red">Numeração processual inválida.</p>
       </div>
     </div>
     <div class="grid-processo">
@@ -32,7 +51,7 @@
           </tbody>
         </table>
       </div>
-      <div class="btn-solic-pred">
+      <div class="btn-solic-pred" @click="solicitarPreditivo">
         <a>solicitar preditivo</a>
       </div>
     </div>
@@ -43,13 +62,15 @@ export default {
   name: "ConsultaPreditivo",
   data() {
     return {
-      npus: ""
+      npus: "",
+      npuInvalido: false,
+      solicitarPred: false
     };
   },
   computed: {
     npuFormatados() {
       var re = /\s+/;
-      return this.npus.split(re);
+      return this.npus.split(re).filter(y => y != null && y != "");
     },
     qtdProcessos() {
       if (this.npus[0]) return this.npuFormatados.length;
@@ -57,6 +78,40 @@ export default {
     },
     valorTotal() {
       return this.qtdProcessos * 7;
+    }
+  },
+  beforeMount() {
+    this.npus = "";
+  },
+  methods: {
+    fecharModal(event) {
+      if (event.target === event.currentTarget) {
+        this.solicitarPred = false;
+        this.npus = "";
+      }
+    },
+    solicitarPreditivo() {
+      if (this.validarNpus()) {
+        this.solicitarPred = true;
+      } else {
+        this.npuInvalido = true;
+      }
+    },
+    validarNpus() {
+      let patern = /\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}/;
+      let paternEspecial = /[@!#$%^&*()/\\]/;
+      let paternLetra = /[a-zA-z]/;
+      let npusValidados = this.npuFormatados.filter(
+        y =>
+          y.match(patern) && !y.match(paternEspecial) && !y.match(paternLetra)
+      );
+
+      // console.log(qtdEspecial);
+      if (npusValidados.length == this.qtdProcessos) {
+        console.log(npusValidados.length + " = " + this.qtdProcessos);
+        return true;
+      }
+      return false;
     }
   }
 };
@@ -182,4 +237,77 @@ th {
 .btn-solic-pred:active {
   background-color: #052f6b;
 }
+.borderColorRed {
+  border-color: red;
+}
+.slide-resul-volum-enter-active {
+  transition: all 0.9s ease;
+  z-index: 1;
+}
+.slide-resul-volum-enter, .slide-resul-volum-leave-to
+/* .slide-fade-leave-active below version 2.1.8 */ {
+  transform: translateY(-10px);
+  opacity: 0;
+}
+.modal::before {
+  content: "";
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.644);
+  /* background: url("../assets/back-desf.png") no-repeat; */
+  z-index: 1;
+}
+.modal {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100vh;
+  padding: 80px;
+}
+.modal-container {
+  /* position: relative; */
+  background-color: #ffffff;
+  text-align: center;
+  margin-top: 100px;
+  width: 646px;
+  height: 349px;
+  z-index: 2;
+  border-radius: 4px;
+}
+.modal-container {
+  line-height: 4em;
+}
+.modal-container img:nth-child(1) {
+  margin-top: 38px;
+}
+.modal-container p:nth-child(2),
+.modal-container p:nth-child(4) {
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #595959;
+}
+.modal-container p:nth-child(3) {
+  font-size: 3.7em;
+  color: #668464;
+}
+.modal-container p:nth-child(5) {
+  background-color: #001a3f;
+  margin: 10px auto;
+  width: 416px;
+  height: 36px;
+  color: #c4cad2;
+  font-weight: bold;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+/* --- fim modal -- */
 </style>
