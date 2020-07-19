@@ -3,6 +3,9 @@
     <div v-if="solicitarPred" @click="fecharModal" class="modal">
       <transition appear name="slide-resul-volum">
         <div class="modal-container">
+          <div class="fecharModal" @click="fecharModalClick">
+            <p>X</p>
+          </div>
           <img src="../assets/confir-envio.png" alt="imagem de confirmação" />
           <p>Sua pesquisa</p>
           <p>0006721</p>
@@ -87,9 +90,12 @@ export default {
   methods: {
     fecharModal(event) {
       if (event.target === event.currentTarget) {
-        this.solicitarPred = false;
-        this.npus = "";
+        this.fecharModalClick();
       }
+    },
+    fecharModalClick() {
+      this.solicitarPred = false;
+      this.npus = "";
     },
     solicitarPreditivo() {
       if (this.validarNpus()) {
@@ -100,7 +106,7 @@ export default {
     },
     validarNpus() {
       let patern = /\d{7}-\d{2}\.\d{4}\.\d\.\d{2}\.\d{4}/;
-      let paternEspecial = /[@!#$%^&*()/\\]/;
+      let paternEspecial = /[@!,#$%^&*()/\\]/;
       let paternLetra = /[a-zA-z]/;
       let npusValidados = this.npuFormatados.filter(
         y =>
@@ -273,7 +279,7 @@ th {
   padding: 80px;
 }
 .modal-container {
-  /* position: relative; */
+  position: relative;
   background-color: #ffffff;
   text-align: center;
   margin-top: 100px;
@@ -285,20 +291,29 @@ th {
 .modal-container {
   line-height: 4em;
 }
-.modal-container img:nth-child(1) {
+.fecharModal {
+  position: absolute;
+  top: -4px;
+  right: 6px;
+  color: #001a3f;
+  font-size: 2.3em;
+  width: 30px;
+  cursor: pointer;
+}
+.modal-container img:nth-child(2) {
   margin-top: 38px;
 }
-.modal-container p:nth-child(2),
-.modal-container p:nth-child(4) {
+.modal-container p:nth-child(3),
+.modal-container p:nth-child(5) {
   font-size: 1.5em;
   font-weight: bold;
   color: #595959;
 }
-.modal-container p:nth-child(3) {
+.modal-container p:nth-child(4) {
   font-size: 3.7em;
   color: #668464;
 }
-.modal-container p:nth-child(5) {
+.modal-container p:nth-child(6) {
   background-color: #001a3f;
   margin: 10px auto;
   width: 416px;

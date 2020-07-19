@@ -1,9 +1,11 @@
 import { SET_RESULT_VOLUMETRIA, CLEAR_RESULT_VOLUMETRIA } from "../actions";
-import { CHANGE_VALUES_VOLUMETRIA } from "../mutations";
 import { SET_PARAMETROS_CONSULT_VOLUMETRIA } from "../actions";
 import { CLEAR_VALUES_PARAMETER_CONSULT } from "../actions";
+import { SET_STATUS_PESQUISA } from "../actions";
+import { CHANGE_VALUES_VOLUMETRIA } from "../mutations";
 import { CHANGE_VALUES_PARAMETER_VOLUMETRIA } from "../mutations";
 import { CLEAR_VALUES_PARAMETER } from "../mutations";
+import { MOD_STATUS_PESQUISA } from "../mutations";
 
 export default {
   state: {
@@ -19,6 +21,7 @@ export default {
       ufs: [],
     },
     ResultadoVolumetria: {},
+    pesquisaRealizada: false,
   },
   getters: {
     getResultadoPesquisaVolumetria: (state) => {
@@ -26,6 +29,9 @@ export default {
     },
     getParametrosPesquisa: (state) => {
       return state.parametrosPesquisa;
+    },
+    getStatusRealizacaoPesquisa: (state) => {
+      return state.pesquisaRealizada;
     },
   },
   actions: {
@@ -40,6 +46,9 @@ export default {
     },
     [CLEAR_VALUES_PARAMETER_CONSULT]({ commit }, payload) {
       commit(CLEAR_VALUES_PARAMETER, payload);
+    },
+    [SET_STATUS_PESQUISA]({ commit }, payload) {
+      commit(MOD_STATUS_PESQUISA, payload);
     },
   },
   mutations: {
@@ -71,6 +80,9 @@ export default {
       state.parametrosPesquisa.partes = [];
       state.parametrosPesquisa.ufs = [];
       //s
+    },
+    [MOD_STATUS_PESQUISA](state, payload) {
+      state.pesquisaRealizada = payload;
     },
   },
 };
