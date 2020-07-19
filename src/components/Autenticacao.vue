@@ -79,8 +79,8 @@
 </template>
 
 <script>
-import autenticacaoApi from "../api/consultAutenticacaoApi";
-import { DO_LOGIN } from "@/store/actions";
+// import autenticacaoApi from "../api/consultAutenticacaoApi";
+// import { DO_LOGIN } from "@/store/actions";
 export default {
   name: "autenticacao",
   components: {},
@@ -128,8 +128,20 @@ export default {
       });
     },
     autenticar() {
-      this.$router.push("/selecao");
-      // if (this.validar()) {
+      
+       if (this.validar()) {
+         if(this.usuario == 'admin' && this.senha == 'admin'){
+this.$router.push("/selecao");
+         }else{
+           this.$notify({
+                group: "general",
+                title: "Email ou senha inválidos.",
+
+                duration: 1000,
+
+                speed: 700,
+              });
+         }
       //   autenticacaoApi.autenticar(this.usuario, this.senha).then(
       //     (response) => {
       //       console.log(response);
@@ -161,7 +173,7 @@ export default {
       //       });
       //     }
       //   );
-      // }
+       }
     },
     validar() {
       let validado = true;
