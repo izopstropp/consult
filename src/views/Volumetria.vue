@@ -325,6 +325,7 @@
         </div>
       </div>
       <notifications
+        v-if="$store.getters.getStatusRealizacaoPesquisa"
         classes="style-notification"
         group="general"
         position="bottom center"
@@ -687,13 +688,13 @@ export default {
         this.$notify({
           group: "general",
           title: "Somente é possível adquirir Preditivo de até 50 processos.",
-          duration: 5000,
+          duration: 2800,
           speed: 700
         });
         this.indicarQtdPreditivo = true;
         setTimeout(() => {
           this.indicarQtdPreditivo = false;
-        }, 1900);
+        }, 1100);
         return false;
       }
       return true;
@@ -702,7 +703,7 @@ export default {
       this.$notify({
         group: "general",
         title: "É necessario que haja uma opção selecionada.",
-        duration: 5000,
+        duration: 2800,
         speed: 600
       });
       //
