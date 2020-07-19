@@ -705,6 +705,7 @@ export default {
         duration: 5000,
         speed: 600
       });
+      //
     },
     existeValorFiltro() {
       let qtdJustica = dataSetJustica.filter(x => x.marcado == true).length;
