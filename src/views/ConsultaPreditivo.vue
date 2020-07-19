@@ -71,6 +71,7 @@ export default {
     npuFormatados() {
       var re = /\s+/;
       return this.npus.split(re).filter(y => y != null && y != "");
+      //
     },
     qtdProcessos() {
       if (this.npus[0]) return this.npuFormatados.length;
