@@ -13,8 +13,7 @@
               params: { id: 123, pag: 1 },
             }"
             tag="p"
-            >Pré-Visualizar</router-link
-          >
+          >Pré-Visualizar</router-link>
         </div>
       </transition>
     </div>
@@ -134,9 +133,7 @@
             'pesquisa-preditivo',
           ]"
         >
-          <a-checkbox @click="preditivo = !preditivo"
-            >Adicionar o Preditivo</a-checkbox
-          >
+          <a-checkbox @click="preditivo = !preditivo">Adicionar o Preditivo</a-checkbox>
         </div>
         <div class="filtro-acao">
           <div class="consulta-form-filtro-btn-block-item">
@@ -162,18 +159,17 @@
         </div>
       </div>
     </div>
-    <div
-      :class="[solicitarVolume ? 'blur-container' : '', 'container-volumetria']"
-    >
-      <div class="valor-consumo">
-        <p>R$ 10,00</p>
+    <div :class="[solicitarVolume ? 'blur-container' : '', 'container-volumetria']">
+      <div class="registro">
+        <img src="../assets/img-compart.png" alt />
+        <img src="../assets/img-impres.png" alt />
       </div>
       <div class="container-volumetria-principal">
         <div class="volumetria-titulo">
           <span>Volumetria -</span>
           <span>
             Total de
-            {{ $store.getters.getResultadoPesquisaVolumetria.QtdProcessos }}
+            {{ this.totalVolumetriaConsumo.QtdProcessos }}
             Processos encontrados
           </span>
         </div>
@@ -201,11 +197,7 @@
           <div>
             <div class="container-chart-item-uf">
               <LoadCircle :exibirLoad="realizandoRequisicaoFiltro" />
-              <LineChart
-                class="chart-uf"
-                tituloChart="UF"
-                :chart-data="datacollectionUf"
-              ></LineChart>
+              <LineChart class="chart-uf" tituloChart="UF" :chart-data="datacollectionUf"></LineChart>
             </div>
           </div>
         </div>
@@ -213,15 +205,9 @@
           <table>
             <thead style="border-bottom: 1px solid #9494949c !important;">
               <tr>
-                <th>
-                  Descrição
-                </th>
-                <th>
-                  Quantidade de processos
-                </th>
-                <th>
-                  Valor
-                </th>
+                <th>Descrição</th>
+                <th>Quantidade de processos</th>
+                <th>Valor</th>
               </tr>
             </thead>
             <tbody>
@@ -235,8 +221,8 @@
                   <div class="font-weight-bold">
                     <p>
                       {{
-                        $store.getters.getResultadoPesquisaVolumetria
-                          .totalConsultaAcoes.quantidade
+                      $store.getters.getResultadoPesquisaVolumetria
+                      .totalConsultaAcoes.quantidade
                       }}
                     </p>
                   </div>
@@ -245,8 +231,8 @@
                   <div class="font-weight-bold">
                     <p>
                       {{
-                        $store.getters.getResultadoPesquisaVolumetria
-                          .totalConsultaAcoes.valor
+                      $store.getters.getResultadoPesquisaVolumetria
+                      .totalConsultaAcoes.valor
                       }}
                     </p>
                   </div>
@@ -260,9 +246,7 @@
                 </td>
                 <td>
                   <div class="font-weight-bold">
-                    <p>
-                      {{ this.totalVolumetriaConsumo.QtdProcessos }}
-                    </p>
+                    <p>{{ this.totalVolumetriaConsumo.QtdProcessos }}</p>
                   </div>
                 </td>
                 <td>
@@ -279,9 +263,12 @@
                 </td>
                 <td>
                   <div>
-                    <p>
-                      {{ this.totalVolumetriaConsumo.QtdProcessos }}
-                    </p>
+                    <p
+                      :class="[
+                        indicarQtdPreditivo ? 'scale-preditivo-ativado' : '',
+                        'scale-preditivo',
+                      ]"
+                    >{{ this.totalVolumetriaConsumo.QtdProcessos }}</p>
                   </div>
                 </td>
                 <td>
@@ -318,8 +305,8 @@
                   <div class="font-weight-bold">
                     <p>
                       {{
-                        $store.getters.getResultadoPesquisaVolumetria
-                          .QtdProcessos
+                      $store.getters.getResultadoPesquisaVolumetria
+                      .QtdProcessos
                       }}
                     </p>
                   </div>
@@ -367,11 +354,11 @@ export default {
       parametrosFiltro: {
         dataSetJustica: [],
         dataSetParte: [],
-        dataSetUf: [],
+        dataSetUf: []
       },
       totalVolumetriaConsumo: {
         QtdProcessos: 0,
-        valor: "0,00",
+        valor: "0,00"
       },
       solicitarVolume: false,
       isLoading: false,
@@ -379,6 +366,7 @@ export default {
       realizandoRequisicaoFiltro: false,
       qtdTrocaFiltro: 0,
       paginaCarregada: false,
+      indicarQtdPreditivo: false
     };
   },
 
@@ -388,40 +376,40 @@ export default {
   computed: {
     dataSetParteSelecinadoFiltroSec() {
       let result = dataSetParte
-        .map((u) => u)
-        .filter((y) =>
+        .map(u => u)
+        .filter(y =>
           this.$store.getters.getParametrosPesquisa.partes.includes(y.nome)
         );
-      result.map((x) => (x.marcado = true));
+      result.map(x => (x.marcado = true));
       return result;
     },
     dataSetJusticaSelecinadoFiltroSec() {
       let result = dataSetJustica
-        .map((u) => u)
-        .filter((y) =>
+        .map(u => u)
+        .filter(y =>
           this.$store.getters.getParametrosPesquisa.justicas.includes(y.nome)
         );
-      result.map((x) => (x.marcado = true));
+      result.map(x => (x.marcado = true));
       return result;
     },
     dataSetUfSelecinadoFiltroSec() {
       let result = dataSetUf
-        .map((u) => u)
-        .filter((y) =>
+        .map(u => u)
+        .filter(y =>
           this.$store.getters.getParametrosPesquisa.ufs.includes(y.nome)
         );
-      let opcaoTodasUf = result.filter((x) => x.nome === "Todas");
+      let opcaoTodasUf = result.filter(x => x.nome === "Todas");
       if (opcaoTodasUf.length > 0)
-        result = dataSetUf.filter((x) => x.nome !== "Todas");
+        result = dataSetUf.filter(x => x.nome !== "Todas");
 
-      result.map((x) => (x.marcado = true));
+      result.map(x => (x.marcado = true));
       return result;
     },
     valorPreditivoAcoes() {
       return (
         parseInt(this.totalVolumetriaConsumo.QtdProcessos) * 2
       ).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
-    },
+    }
   },
   watch: {
     parametrosFiltro: {
@@ -431,8 +419,8 @@ export default {
           this.realizarRequicaoFiltro();
         }
       },
-      deep: true,
-    },
+      deep: true
+    }
   },
   beforeMount() {
     if (!this.$store.getters.getParametrosPesquisa.nome) {
@@ -459,9 +447,9 @@ export default {
       }
     },
     cleanInput() {
-      dataSetJustica.map((x) => (x.marcado = false));
-      dataSetParte.map((x) => (x.marcado = false));
-      dataSetUf.map((x) => (x.marcado = false));
+      dataSetJustica.map(x => (x.marcado = false));
+      dataSetParte.map(x => (x.marcado = false));
+      dataSetUf.map(x => (x.marcado = false));
     },
     realizarRequicaoFiltro() {
       this.realizandoRequisicaoFiltro = true;
@@ -487,152 +475,152 @@ export default {
           ResultPesq: {
             totalVolumetriaConsumo: {
               quantidade: "20",
-              valor: "30,00",
+              valor: "30,00"
             },
             justica: [
               {
                 Nome: "Estadual",
-                Qtd: "1",
+                Qtd: "1"
               },
               {
                 Nome: "Federal",
-                Qtd: "240",
+                Qtd: "240"
               },
               {
                 Nome: "Trabalhista",
-                Qtd: "4050",
-              },
+                Qtd: "4050"
+              }
             ],
             parte: [
               {
                 Nome: "reu",
-                Qtd: "2003",
+                Qtd: "2003"
               },
               {
                 Nome: "autor",
-                Qtd: "20330",
-              },
+                Qtd: "20330"
+              }
             ],
             UF: [
               {
                 Nome: "AC",
-                Qtd: "123",
+                Qtd: "123"
               },
               {
                 Nome: "AL",
-                Qtd: "10",
+                Qtd: "10"
               },
               {
                 Nome: "AM",
-                Qtd: "20",
+                Qtd: "20"
               },
               {
                 Nome: "AP",
-                Qtd: "1000",
+                Qtd: "1000"
               },
               {
                 Nome: "BA",
-                Qtd: "50",
+                Qtd: "50"
               },
               {
                 Nome: "PE",
-                Qtd: "1100",
+                Qtd: "1100"
               },
               {
                 Nome: "CE",
-                Qtd: "0",
+                Qtd: "0"
               },
               {
                 Nome: "DF",
-                Qtd: "11",
+                Qtd: "11"
               },
               {
                 Nome: "ES",
-                Qtd: "103",
+                Qtd: "103"
               },
               {
                 Nome: "ES",
-                Qtd: "11",
+                Qtd: "11"
               },
               {
                 Nome: "GO",
-                Qtd: "11",
+                Qtd: "11"
               },
 
               {
                 Nome: "MA",
-                Qtd: "394",
+                Qtd: "394"
               },
               {
                 Nome: "MG",
-                Qtd: "11",
+                Qtd: "11"
               },
               {
                 Nome: "MS",
-                Qtd: "11",
+                Qtd: "11"
               },
               {
                 Nome: "MT",
-                Qtd: "11",
+                Qtd: "11"
               },
               {
                 Nome: "PA",
-                Qtd: "11",
+                Qtd: "11"
               },
               {
                 Nome: "PB",
-                Qtd: "11",
+                Qtd: "11"
               },
               {
                 Nome: "PE",
-                Qtd: "11",
+                Qtd: "11"
               },
               {
                 Nome: "PI",
-                Qtd: "11",
+                Qtd: "11"
               },
               {
                 Nome: "PR",
-                Qtd: "11",
+                Qtd: "11"
               },
               {
                 Nome: "RJ",
-                Qtd: "11",
+                Qtd: "11"
               },
               {
                 Nome: "RN",
-                Qtd: "11",
+                Qtd: "11"
               },
               {
                 Nome: "RO",
-                Qtd: "11",
+                Qtd: "11"
               },
               {
                 Nome: "RR",
-                Qtd: "11",
+                Qtd: "11"
               },
               {
                 Nome: "RS",
-                Qtd: "11",
+                Qtd: "11"
               },
               {
                 Nome: "SC",
-                Qtd: "11",
+                Qtd: "11"
               },
               {
                 Nome: "SE",
-                Qtd: "11",
+                Qtd: "11"
               },
               {
                 Nome: "SP",
-                Qtd: "11",
+                Qtd: "11"
               },
               {
                 Nome: "TO",
-                Qtd: "11",
-              },
-            ],
-          },
+                Qtd: "11"
+              }
+            ]
+          }
         };
 
         this.fillData(dadosFakeResul.ResultPesq);
@@ -648,8 +636,8 @@ export default {
     },
     getOpcoesSelecionadas(dataSet) {
       let arrItem = dataSet
-        .map((arr) => arr)
-        .filter((arr) => arr.marcado == true)
+        .map(arr => arr)
+        .filter(arr => arr.marcado == true)
         .reduce(function(arr, item) {
           arr.push(item.nome);
           return arr;
@@ -658,7 +646,6 @@ export default {
     },
     solicitarVolumetria() {
       if (this.validarSolicitacaoAcoes() && !this.solicitarVolume) {
-        console.log("ENTREI AQUI");
         // FAZER REQUISIÇÃO
         let pesquisaPrincipal = JSON.parse(
           JSON.stringify(this.$store.getters.getParametrosPesquisa)
@@ -694,8 +681,12 @@ export default {
           group: "general",
           title: "Somente é possível adquirir Preditivo de até 50 processos.",
           duration: 5000,
-          speed: 700,
+          speed: 700
         });
+        this.indicarQtdPreditivo = true;
+        setTimeout(() => {
+          this.indicarQtdPreditivo = false;
+        }, 1900);
         return false;
       }
       return true;
@@ -705,20 +696,20 @@ export default {
         group: "general",
         title: "É necessario que haja uma opção selecionada.",
         duration: 5000,
-        speed: 600,
+        speed: 600
       });
     },
     existeValorFiltro() {
-      let qtdJustica = dataSetJustica.filter((x) => x.marcado == true).length;
+      let qtdJustica = dataSetJustica.filter(x => x.marcado == true).length;
       if (qtdJustica) {
         return true;
       }
-      let qtdParte = dataSetParte.filter((x) => x.marcado == true).length;
+      let qtdParte = dataSetParte.filter(x => x.marcado == true).length;
       if (qtdParte) {
         return true;
       }
 
-      let qtdUf = dataSetUf.filter((x) => x.marcado == true).length;
+      let qtdUf = dataSetUf.filter(x => x.marcado == true).length;
       if (qtdUf) {
         return true;
       }
@@ -738,9 +729,9 @@ export default {
             // label: "Data One",
             backgroundColor: "#1d375c",
             barThickness: 6,
-            data: resultadoPesquisa.parte.map((x) => x.Qtd),
-          },
-        ],
+            data: resultadoPesquisa.parte.map(x => x.Qtd)
+          }
+        ]
       };
       this.datacollectionJustica = {
         labels: ["Estadual", "Federal", "Trabalhista"],
@@ -750,25 +741,25 @@ export default {
             // label: "Qtd",
             backgroundColor: "#1d375c",
             barThickness: 6,
-            data: resultadoPesquisa.justica.map((x) => x.Qtd),
-          },
-        ],
+            data: resultadoPesquisa.justica.map(x => x.Qtd)
+          }
+        ]
       };
 
       this.datacollectionUf = {
-        labels: resultadoPesquisa.UF.map((x) => x.Nome),
+        labels: resultadoPesquisa.UF.map(x => x.Nome),
         // labels: [resu~],
         datasets: [
           {
             // label: "Data One",
             backgroundColor: "#1d375c",
             barThickness: 6,
-            data: resultadoPesquisa.UF.map((x) => x.Qtd),
-          },
-        ],
+            data: resultadoPesquisa.UF.map(x => x.Qtd)
+          }
+        ]
       };
-    },
-  },
+    }
+  }
 };
 </script>
 <style scoped>
@@ -911,7 +902,7 @@ a {
   justify-content: space-between;
   align-items: center;
   padding: 5px 5px 5px 8px;
-  flex-grow: 0.04;
+  flex: 1 1 1;
   font-size: 0.8em;
   margin-top: 3px;
   transition: all 0.4s;
@@ -1035,7 +1026,7 @@ a {
   max-width: 1006px;
   flex: 1;
 }
-.valor-consumo {
+.registro {
   display: flex;
   max-width: 1006px;
   justify-content: flex-end;
@@ -1044,7 +1035,7 @@ a {
   background-color: #edf0f2;
   padding-right: 42px;
 }
-.valor-consumo p {
+.registro p {
   font-size: 1.2em;
   color: #8a8b8b;
 }
@@ -1198,6 +1189,19 @@ tbody > tr > td:nth-of-type(3) {
 tbody > tr {
   font-weight: bold;
   font-size: 0.9em;
+}
+.scale-preditivo {
+  -webkit-transition: 1s ease-in-out;
+  -moz-transition: 1s ease-in-out;
+  -o-transition: 1s ease-in-out;
+  transition: 1s ease-in-out;
+}
+.scale-preditivo-ativado {
+  transform: scale(1.5);
+  -moz-transform: scale(1.5);
+  -o-transform: scale(1.5);
+  -webkit-transform: scale(1.5);
+  color: #1d375c;
 }
 .volumetria-grid-resultado {
   display: flex;

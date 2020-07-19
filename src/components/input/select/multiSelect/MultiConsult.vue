@@ -17,7 +17,7 @@
         <div style="flex:1;width:50px;">{{ nomeCampo }}</div>
         <div style="width:50px">
           <img
-            style="width:10px"
+            style="width:15px"
             src="../../../../assets/icons/Seta.png"
             alt="setaDown"
           />
@@ -40,8 +40,16 @@
         @click="addItenSelected(item)"
         class="lista-itens-excluir"
       >
-        <span>&#8680;{{ item.nome }}</span>
-        <span v-if="item.marcado">&#10003;</span>
+        <span
+          ><img
+            v-if="exibirIndicadorItem"
+            class="img-item"
+            src="../../../../assets/icons/Seta.png"
+            alt=""
+          />
+          {{ item.nome }}</span
+        >
+        <span style="color:#648362;" v-if="item.marcado">&#10003;</span>
       </li>
     </transition-group>
   </div>
@@ -99,6 +107,10 @@ export default {
       default: false,
     },
     permitirZeroSelecionado: {
+      type: Boolean,
+      default: true,
+    },
+    exibirIndicadorItem: {
       type: Boolean,
       default: true,
     },
@@ -227,12 +239,17 @@ ul {
 .animation-height {
   max-height: 176px;
 }
+.img-item {
+  width: 11px;
+  transform: rotate(-90deg);
+  margin-top: -5px;
+}
 span {
   color: #8d8e8f;
 }
 .lista-itens-excluir {
   display: flex;
-  max-width: 100vw;
+  max-width: 266px;
   justify-content: space-between;
 }
 .hide-item {

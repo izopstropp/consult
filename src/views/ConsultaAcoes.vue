@@ -91,6 +91,7 @@
           paddingLeftTextButtom="45px"
           v-model="dataSetTipoPessoa"
           :desmarcarItem="false"
+          :exibirIndicadorItem="false"
         />
         <div class="result alt-input-100">
           <div
@@ -113,6 +114,7 @@
           paddingLeftTextButtom="45px"
           v-model="dataSetJustica"
           :desmarcarItem="false"
+          :exibirIndicadorItem="false"
         />
         <div class="result alt-input-100">
           <div v-for="(item, index) in dataSetJusticaSelecinado" :key="index">
@@ -132,6 +134,7 @@
           paddingLeftTextButtom="45px"
           v-model="dataSetParte"
           :desmarcarItem="false"
+          :exibirIndicadorItem="false"
         />
         <div class="result">
           <div v-for="(item, index) in dataSetParteSelecinado" :key="index">
@@ -151,6 +154,7 @@
           paddingLeftTextButtom="45px"
           :desmarcarItem="false"
           :exibirBarraRolagem="true"
+          :exibirIndicadorItem="false"
           v-model="dataSetUf"
         />
       </div>
@@ -746,7 +750,7 @@ p {
   justify-content: space-between;
   align-items: center;
   padding: 5px 5px 5px 8px;
-  flex-grow: 0.02;
+  flex: 1 1 1;
   font-size: 0.8em;
   margin-top: 3px;
 }
@@ -756,7 +760,7 @@ p {
 .result div span img {
   width: 14px;
   border-radius: 50%;
-  margin-left: 2px;
+  margin-left: 4px;
 }
 .btn-consulta {
   margin: 56px auto;
