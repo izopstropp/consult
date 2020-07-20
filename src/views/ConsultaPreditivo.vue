@@ -22,8 +22,8 @@
           <p>Número do Processo (NPU)</p>
         </div>
         <textarea
-          :class="[npuInvalido ? 'borderColorRed':'']"
-          @focus="npuInvalido = false"
+          :class="[npuInvalido || semNpu ? 'borderColorRed':'']"
+          @focus="[npuInvalido = false, semNpu = false]"
           v-model="npus"
           id
           cols="30"
@@ -32,6 +32,7 @@
         ></textarea>
         <p class="aviso-input">NPU deve seguir o padrão com "-" e ".".</p>
         <p v-if="npuInvalido" style="color:red">Numeração processual inválida.</p>
+        <p v-if="semNpu" style="color:red">É necessário que possua no mínimo 1 npu.</p>
       </div>
     </div>
     <div class="grid-processo">
@@ -67,6 +68,7 @@ export default {
     return {
       npus: "",
       npuInvalido: false,
+      semNpu: false,
       solicitarPred: false
     };
   },
@@ -98,10 +100,14 @@ export default {
       this.npus = "";
     },
     solicitarPreditivo() {
-      if (this.validarNpus()) {
-        this.solicitarPred = true;
+      if (this.npus !== "") {
+        if (this.validarNpus()) {
+          this.solicitarPred = true;
+        } else {
+          this.npuInvalido = true;
+        }
       } else {
-        this.npuInvalido = true;
+        this.semNpu = true;
       }
     },
     validarNpus() {

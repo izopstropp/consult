@@ -482,7 +482,7 @@ export default {
           Key: "nomeamericanasltda;documento072479707656678413ufperj",
           ResultPesq: {
             totalVolumetriaConsumo: {
-              quantidade: "20",
+              quantidade: "51",
               valor: "30,00"
             },
             justica: [
@@ -688,13 +688,15 @@ export default {
         this.$notify({
           group: "general",
           title: "Somente é possível adquirir Preditivo de até 50 processos.",
-          duration: 2800,
+          duration: 2000,
           speed: 700
         });
-        this.indicarQtdPreditivo = true;
+        setTimeout(() => {
+          this.indicarQtdPreditivo = true;
+        }, 3499);
         setTimeout(() => {
           this.indicarQtdPreditivo = false;
-        }, 1100);
+        }, 4200);
         return false;
       }
       return true;
@@ -1215,10 +1217,10 @@ tbody > tr {
   transition: 1s ease-in-out;
 }
 .scale-preditivo-ativado {
-  transform: scale(1.5);
-  -moz-transform: scale(1.5);
-  -o-transform: scale(1.5);
-  -webkit-transform: scale(1.5);
+  transform: scale(1.6);
+  -moz-transform: scale(1.6);
+  -o-transform: scale(1.6);
+  -webkit-transform: scale(1.6);
   color: #1d375c;
 }
 .volumetria-grid-resultado {
