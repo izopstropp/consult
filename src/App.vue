@@ -17,6 +17,7 @@ export default {};
   color: #42b983;
 } */
 #app {
+  max-width: 2080px;
 }
 input,
 form,

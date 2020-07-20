@@ -130,15 +130,15 @@
         </div>
       </div>
       <div class="animation-fadeout">
-        <div
-          :class="[
+        <div class="filtro-acao">
+          <div
+            :class="[
             realizandoRequisicaoFiltro ? 'opacity-filtro' : '',
             'pesquisa-preditivo',
           ]"
-        >
-          <a-checkbox @click="preditivo = !preditivo">Adicionar o Preditivo</a-checkbox>
-        </div>
-        <div class="filtro-acao">
+          >
+            <a-checkbox @click="preditivo = !preditivo">Adicionar o Preditivo</a-checkbox>
+          </div>
           <div class="consulta-form-filtro-btn-block-item">
             <div
               @click="solicitarVolumetria"
@@ -786,7 +786,8 @@ a {
 }
 .container-resultado-volumetria {
   display: flex;
-  max-width: 1349px;
+  flex-wrap: wrap;
+  max-width: 100vw;
   margin: 0 auto;
 }
 .blur-container {
@@ -880,9 +881,10 @@ a {
   border: 1px solid #c3c3c3;
   border-top: none;
   border-left: none;
-  max-width: 358px;
-  height: 610px;
-
+  /* max-width: 358px; */
+  max-width: 28vw;
+  padding-bottom: 20px;
+  min-height: 30vw;
   flex: 1;
 }
 
@@ -905,7 +907,7 @@ a {
 }
 .result {
   display: flex;
-  max-width: 358px;
+  max-width: 558px;
   flex-wrap: wrap;
 
   margin-top: 6px;
@@ -967,9 +969,6 @@ a {
 .filtro-selecao {
   animation: fadeOut 1s;
 }
-.selecao-filtro {
-  max-width: 486px;
-}
 .selecao-filtro > p {
   margin-left: 29px;
   font-size: 1.5em;
@@ -977,14 +976,13 @@ a {
   margin-top: 20px;
 }
 .pesquisa-preditivo {
-  max-width: 358px;
   flex-wrap: wrap;
-  padding-left: 42px;
+  width: 70%;
   padding-bottom: 10px;
 }
 .filtro-acao {
   display: flex;
-  width: 358px;
+  max-width: 548px;
   align-items: center;
   flex-direction: column;
 }
@@ -1010,11 +1008,12 @@ a {
   flex-direction: column;
   justify-content: space-between;
   height: 77px;
+  width: 70%;
 }
 .consulta-form-filtro-btn-item:nth-child(2) {
   background-color: #648362;
-  height: 34px;
-  width: 279px;
+  min-height: 34px;
+  max-width: 379px;
   font-size: 0.9em;
   padding-top: 7px;
   text-align: center;
@@ -1024,8 +1023,8 @@ a {
   background-color: #70a06d;
 }
 .consulta-form-filtro-btn-item:nth-child(1) {
-  height: 34px;
-  width: 279px;
+  min-height: 34px;
+  max-width: 379px;
   font-size: 0.9em;
   background-color: #001a3f;
   text-align: center;
@@ -1043,12 +1042,11 @@ a {
 
 /* --- container  volumetria --- */
 .container-volumetria {
-  max-width: 1006px;
+  max-width: 72vw;
   flex: 1;
 }
 .registro {
   display: flex;
-  max-width: 1006px;
   justify-content: flex-end;
   align-content: center;
   height: 32px;
@@ -1061,7 +1059,10 @@ a {
 }
 .container-volumetria-principal {
   margin: auto auto auto 21px;
-  max-width: 100vw;
+  max-width: 100%;
+}
+.grafico-volumetria {
+  max-width: 100%;
 }
 .volumetria-titulo {
   margin-bottom: 16px;
@@ -1078,15 +1079,16 @@ a {
 }
 
 .container-chart {
-  max-width: 949px;
+  max-width: 96%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  /* justify-content: space-between; */
 }
 .container-chart-item-justica {
   position: relative;
-  max-width: 548px;
-  flex: 1;
+  max-width: 57%;
+  margin-right: 1%;
+  flex: 2;
 }
 .chart-justica {
   background-color: #ffffff;
@@ -1095,9 +1097,9 @@ a {
   border: 1px solid #c9c9c9;
 }
 .container-chart-item-parte {
-  max-width: 390px;
+  max-width: 42%;
   position: relative;
-  flex-grow: 0;
+  flex: 1;
 }
 .chart-parte {
   background-color: #ffffff;
@@ -1110,7 +1112,7 @@ a {
   position: relative;
   margin-right: 11px;
   margin-top: 10px;
-  max-width: 949px;
+  max-width: 96%;
 }
 .chart-uf {
   background-color: #ffffff;
@@ -1126,7 +1128,7 @@ a {
 table {
   border-collapse: collapse;
   margin-top: 14px;
-  width: 98%;
+  width: 100%;
 }
 tr,
 td {
@@ -1175,7 +1177,6 @@ thead tr th {
   border: 1px solid #9494949c;
   border-left: none;
   border-bottom: none;
-  background-color: #edf0f2;
   height: 43px;
   font-size: 1em;
   text-align: center;
@@ -1206,6 +1207,9 @@ tbody > tr > td:nth-child(n + 1) {
 tbody > tr > td:nth-of-type(3) {
   border-right: 1px solid #edf0f2;
 }
+tbody > tr:last-of-type {
+  background-color: #edf0f2;
+}
 tbody > tr {
   font-weight: bold;
   font-size: 0.9em;
@@ -1225,6 +1229,7 @@ tbody > tr {
 }
 .volumetria-grid-resultado {
   display: flex;
+  max-width: 96%;
 }
 
 /* --- fim grid --- */
