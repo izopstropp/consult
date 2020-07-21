@@ -6,7 +6,7 @@
           <img src="../assets/LogoKurierConsultMenu.png" alt="logo kurier" />
         </div>
         <div class="menu-esquerdo" @click="iterarMenuUsuario">
-          <img src="../assets/perfilUsuario.png" alt="perfil usuário" />
+          <img style="width:35px" src="../assets/icons/07.png" alt="perfil usuário" />
           <div class="menu-esquerdo-usuario">
             <p>Nome do usuário</p>
           </div>
@@ -15,19 +15,21 @@
           </div>
           <div class="menu-itens-esquerdo-usuario" :class="nomeClassAbrirMenuUsuario">
             <ul>
-              <router-link
-                class="menu-itens-esquerdo-usuario-configuracao"
-                to="/selecao"
-                tag="li"
-              >Inicio</router-link>
+              <router-link class="menu-itens-esquerdo-usuario-configuracao" to="/selecao" tag="li">
+                Inicio
+                <img src="../assets/icons/02.png" alt="mini ampulheta" />
+              </router-link>
               <router-link
                 class="menu-itens-esquerdo-usuario-configuracao"
                 to="/historico"
                 tag="li"
-              >Histórico de pesquisa</router-link>
+              >
+                Histórico de pesquisa
+                <img src="../assets/icons/03.png" alt="mini ampulheta" />
+              </router-link>
               <li class="menu-itens-esquerdo-usuario-configuracao">
                 Configuração
-                <!-- <img src="../assets/miniEngrenagem.png" alt="mini engrenagem" /> -->
+                <img src="../assets/icons/04.png" alt="mini engrenagem" />
               </li>
               <li @click="sair">Sair</li>
             </ul>
@@ -60,6 +62,9 @@ export default {
 };
 </script>
 <style scoped>
+img {
+  width: 20px;
+}
 .menu {
   max-width: 100vw;
   height: 56px;
@@ -87,9 +92,9 @@ export default {
   animation-duration: 0.6s;
   animation-fill-mode: forwards;
   position: absolute;
-  width: 179px;
-  height: 135px;
-  top: 50px;
+  width: 199px;
+  height: 137px;
+  top: 38px;
   right: 0px;
   list-style-type: none;
   background-color: #ffffff;
@@ -101,12 +106,12 @@ export default {
 }
 .menu-itens-esquerdo-usuario ul {
   list-style-type: none;
-  padding: 2px;
+  /* padding: 2px; */
   margin: 0;
   cursor: pointer;
 }
 .menu-itens-esquerdo-usuario > ul li:hover {
-  background-color: #001a3f;
+  background-color: #001a3ff1;
   color: white;
 }
 
@@ -116,15 +121,18 @@ export default {
 }
 .menu-itens-esquerdo-usuario > ul li {
   text-align: right;
-  /* border-bottom: 1px solid #0415203b; */
-  padding-bottom: 7px;
-  padding-right: 5px;
+  padding-top: 3px;
+  height: 30px;
 }
 .menu-itens-esquerdo-usuario > ul li:nth-child(3) {
   border-bottom: 1px solid #0415203b;
 }
+
+.menu-itens-esquerdo-usuario > ul li:nth-child(4) {
+  padding-right: 30px;
+}
 .menu-itens-esquerdo-usuario-configuracao > img {
-  margin-top: -5px;
+  margin-top: -4px;
 }
 .menu-itens-esquerdo-usuario ul li:last-child {
   border-bottom: none;

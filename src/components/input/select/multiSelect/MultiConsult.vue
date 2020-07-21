@@ -16,7 +16,7 @@
       >
         <div style="flex:1;width:50px;">{{ nomeCampo }}</div>
         <div style="width:50px">
-          <img style="width:15px" src="../../../../assets/icons/Seta.png" alt="setaDown" />
+          <img style="width:15px" src="../../../../assets/icons/01.png" alt="setaDown" />
         </div>
       </div>
     </div>
@@ -40,7 +40,7 @@
           <img
             v-if="exibirIndicadorItem"
             class="img-item"
-            src="../../../../assets/icons/Seta.png"
+            src="../../../../assets/icons/01.png"
             alt
           />
           {{ item.nome }}

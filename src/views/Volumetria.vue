@@ -164,8 +164,8 @@
     </div>
     <div :class="[solicitarVolume ? 'blur-container' : '', 'container-volumetria']">
       <div class="registro">
-        <img src="../assets/img-compart.png" alt />
-        <img src="../assets/img-impres.png" alt />
+        <img src="../assets//icons/05.png" alt />
+        <img src="../assets/icons/06.png" alt />
       </div>
       <div class="container-volumetria-principal">
         <div class="volumetria-titulo">
@@ -208,7 +208,33 @@
           <table>
             <thead style="border-bottom: 1px solid #9494949c !important;">
               <tr>
-                <th>Descrição</th>
+                <th>
+                  Descrição
+                  <img
+                    @click="[exibirtooltipTable = !exibirtooltipTable, exibirCorpoTooltip = false]"
+                    src="../assets/icons/08.png"
+                    alt="info"
+                    style="cursor:pointer"
+                  />
+                  <div class="tooltipTable">
+                    <div :class="[exibirtooltipTable ? 'tooltipAberto' : '', 'tooltip']">
+                      <div :class="[exibirCorpoTooltip ? 'exibirTextoToltip':'','tooltipTexto']">
+                        <p class="tooltipTitulo">Total da consulta das ações</p>
+                        <p
+                          class="tooltipCorpo"
+                        >Este campo informa o que você já consumiu na consulta das ações</p>
+                        <p class="tooltipTitulo">Total da volumetria a ser consumida</p>
+                        <p
+                          class="tooltipCorpo"
+                        >Este campo sinaliza o total da volumetria que você ira consumir seguindo a pesquisa já realizada.</p>
+                        <p class="tooltipTitulo">Total de consumo</p>
+                        <p
+                          class="tooltipCorpo"
+                        >É a soma da consulta das ações mais a volumetria. Caso você queira obter essa informação, basta clicar em "Adquirir volumetria selecionada."</p>
+                      </div>
+                    </div>
+                  </div>
+                </th>
                 <th>Quantidade de processos</th>
                 <th>Valor</th>
               </tr>
@@ -371,7 +397,9 @@ export default {
       realizandoRequisicaoFiltro: false,
       qtdTrocaFiltro: 0,
       paginaCarregada: false,
-      indicarQtdPreditivo: false
+      indicarQtdPreditivo: false,
+      exibirtooltipTable: false,
+      exibirCorpoTooltip: false
     };
   },
 
@@ -425,6 +453,15 @@ export default {
         }
       },
       deep: true
+    },
+    exibirtooltipTable: {
+      handler() {
+        if (this.exibirtooltipTable) {
+          setTimeout(() => {
+            this.exibirCorpoTooltip = true;
+          }, 400);
+        }
+      }
     }
   },
   beforeMount() {
@@ -693,7 +730,7 @@ export default {
         });
         setTimeout(() => {
           this.indicarQtdPreditivo = true;
-        }, 3499);
+        }, 3000);
         setTimeout(() => {
           this.indicarQtdPreditivo = false;
         }, 4200);
@@ -1130,6 +1167,58 @@ table {
   margin-top: 14px;
   width: 100%;
 }
+.tooltipTable {
+  position: relative;
+  height: 0px;
+}
+.tooltip {
+  position: absolute;
+  background-color: white;
+  padding: 15px 20px;
+  overflow: hidden;
+  opacity: 0;
+  width: 0px;
+  height: 0px;
+  left: 160px;
+  top: 0px;
+  right: 0px;
+  transition: all 0.6s ease-in-out;
+  -webkit-box-shadow: 2px 2px 21px 1px rgba(0, 0, 0, 0.41);
+  -moz-box-shadow: 2px 2px 21px 1px rgba(0, 0, 0, 0.41);
+  box-shadow: 2px 2px 21px 1px rgba(0, 0, 0, 0.41);
+  /* overflow-y: scroll; */
+}
+/* .tooltip::-webkit-scrollbar {
+  width: 2px;
+} */
+
+/* .tooltip::-webkit-scrollbar-thumb {
+  background: #1d375c;
+} */
+.tooltipTitulo {
+  font-weight: bold;
+  font-size: 0.8em;
+  text-align: left;
+}
+.tooltipCorpo {
+  text-align: left;
+  font-size: 0.6em;
+  margin-left: 8px;
+  margin-bottom: 10px;
+}
+.tooltipTexto {
+  transition: all 1s;
+  opacity: 0;
+}
+.exibirTextoToltip {
+  opacity: 1;
+}
+.tooltipAberto {
+  height: 170px;
+  width: 384px;
+  opacity: 1;
+}
+
 tr,
 td {
   padding: 0;
