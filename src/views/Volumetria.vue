@@ -459,7 +459,7 @@ export default {
         if (this.exibirtooltipTable) {
           setTimeout(() => {
             this.exibirCorpoTooltip = true;
-          }, 400);
+          }, 600);
         }
       }
     }
@@ -1179,7 +1179,7 @@ table {
   opacity: 0;
   width: 0px;
   height: 0px;
-  left: 160px;
+  left: calc(100% - 40%);
   top: 0px;
   right: 0px;
   transition: all 0.6s ease-in-out;
