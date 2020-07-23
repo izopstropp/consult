@@ -13,22 +13,23 @@ instanceAxios.interceptors.response.use((response) => {
 
 export default {
   buscarProcessosVolumetria(dadosConsulta) {
+    console.log(dadosConsulta)
     return instanceAxios({
       method: "get",
       baseURL,
       url: "/consulta",
       responseType: "json",
-      headers: {
-        "X-Requested-With": "XMLHttpRequest",
-      },
+      // headers: {
+      //   "X-Requested-With": "XMLHttpRequest",
+      // },
       params: {
         nome: dadosConsulta.nome,
         documento: dadosConsulta.documento,
         sigla: dadosConsulta.sigla,
+        tipoPessoa: dadosConsulta.tipoPessoa,
         justica: dadosConsulta.justicas,
         partes: dadosConsulta.partes,
         ufs: dadosConsulta.ufs,
-        tipoPessoa: dadosConsulta.tipoPessoa,
         dataDistribuicaoInicio: dadosConsulta.dataDistribuicaoInicio,
         dataDistribuicaoFim: dadosConsulta.dataDistribuicaoFim,
       },

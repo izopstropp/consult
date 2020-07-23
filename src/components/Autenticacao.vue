@@ -79,8 +79,8 @@
 </template>
 
 <script>
-// import autenticacaoApi from "../api/consultAutenticacaoApi";
-// import { DO_LOGIN } from "@/store/actions";
+import autenticacaoApi from "../api/consultAutenticacaoApi";
+import { DO_LOGIN } from "@/store/actions";
 export default {
   name: "autenticacao",
   components: {},
@@ -130,49 +130,49 @@ export default {
     autenticar() {
       
        if (this.validar()) {
-         if(this.usuario == 'admin' && this.senha == 'admin'){
-this.$router.push("/selecao");
-         }else{
-           this.$notify({
+                 autenticacaoApi.autenticar(this.usuario, this.senha).then(
+          (response) => {
+            console.log(response);
+            if (response.status == 200) {
+              this.$store.dispatch(DO_LOGIN, response.data);
+              this.$router.push("/selecao");
+            } else if (response.status == 404) {
+              this.$notify({
                 group: "general",
-                title: "Email ou senha inválidos.",
+                title: "Falha na conexão.",
 
                 duration: 1000,
 
                 speed: 700,
               });
-         }
-      //   autenticacaoApi.autenticar(this.usuario, this.senha).then(
-      //     (response) => {
-      //       console.log(response);
-      //       if (response.status == 200) {
-      //         this.$store.dispatch(DO_LOGIN, response.data);
-      //         this.$router.push("/selecao");
-      //       } else if (response.status == 404) {
-      //         this.$notify({
-      //           group: "general",
-      //           title: "Falha na conexão.",
+              this.usuario = "";
+              this.senha = "";
+            }
+          },
+          () => {
+            this.$notify({
+              group: "general",
+              title: "Falha na conexão.",
 
-      //           duration: 1000,
+              duration: 1000,
 
-      //           speed: 700,
-      //         });
-      //         this.usuario = "";
-      //         this.senha = "";
-      //         // this.$notibar.add("Usuário inválido");
-      //       }
-      //     },
-      //     () => {
-      //       this.$notify({
-      //         group: "general",
-      //         title: "Falha na conexão.",
+              speed: 700,
+            });
+          }
+        );
+//          if(this.usuario == 'admin' && this.senha == 'admin'){
+// this.$router.push("/selecao");
+//          }else{
+//            this.$notify({
+//                 group: "general",
+//                 title: "Email ou senha inválidos.",
 
-      //         duration: 1000,
+//                 duration: 1000,
 
-      //         speed: 700,
-      //       });
-      //     }
-      //   );
+//                 speed: 700,
+//               });
+//          }
+
        }
     },
     validar() {

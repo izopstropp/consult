@@ -260,8 +260,8 @@
                   <div class="font-weight-bold">
                     <p>
                       {{
-                      $store.getters.getResultadoPesquisaVolumetria
-                      .totalConsultaAcoes.valor
+                      parseFloat($store.getters.getResultadoPesquisaVolumetria
+                      .totalConsultaAcoes.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
                       }}
                     </p>
                   </div>
@@ -280,7 +280,7 @@
                 </td>
                 <td>
                   <div class="font-weight-bold">
-                    <p>{{ this.totalVolumetriaConsumo.valor }}</p>
+                    <p>{{ parseFloat(this.totalVolumetriaConsumo.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) }}</p>
                   </div>
                 </td>
               </tr>
@@ -372,6 +372,8 @@ import _ from "lodash";
 import LoadCircle from "../components/Load/LoadCircle.vue";
 import { CLEAR_VALUES_PARAMETER_CONSULT } from "../store/actions";
 import { SET_STATUS_PESQUISA } from "../store/actions";
+import {MapperVolumetriaToModel} from "../mapper/MapearVolumetriaToModel.js"
+import consultProcessosApi from "../api/consultProcessosApi.js";
 
 export default {
   name: "volumetria",
@@ -440,7 +442,7 @@ export default {
     },
     valorPreditivoAcoes() {
       return (
-        parseInt(this.totalVolumetriaConsumo.QtdProcessos) * 2
+        parseInt(this.totalVolumetriaConsumo.QtdProcessos) * 0.50
       ).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
     }
   },
@@ -474,7 +476,6 @@ export default {
 
     this.fillData(this.$store.getters.getResultadoPesquisaVolumetria);
 
-    // this.cleanInput();
   },
   mounted() {
     this.paginaCarregada = true;
@@ -497,7 +498,7 @@ export default {
       dataSetUf.map(x => (x.marcado = false));
     },
     realizarRequicaoFiltro() {
-      this.realizandoRequisicaoFiltro = true;
+      
 
       let pesquisaPrincipal = JSON.parse(
         JSON.stringify(this.$store.getters.getParametrosPesquisa)
@@ -511,166 +512,20 @@ export default {
       pesquisaPrincipal.ufs = this.getOpcoesSelecionadas(
         this.parametrosFiltro.dataSetUf
       );
-      console.log(pesquisaPrincipal);
-      setTimeout(() => {
-        this.realizandoRequisicaoFiltro = false;
-
-        let dadosFakeResul = {
-          Key: "nomeamericanasltda;documento072479707656678413ufperj",
-          ResultPesq: {
-            totalVolumetriaConsumo: {
-              quantidade: "51",
-              valor: "30,00"
-            },
-            justica: [
-              {
-                Nome: "Estadual",
-                Qtd: "1"
-              },
-              {
-                Nome: "Federal",
-                Qtd: "240"
-              },
-              {
-                Nome: "Trabalhista",
-                Qtd: "4050"
-              }
-            ],
-            parte: [
-              {
-                Nome: "reu",
-                Qtd: "2003"
-              },
-              {
-                Nome: "autor",
-                Qtd: "20330"
-              }
-            ],
-            UF: [
-              {
-                Nome: "AC",
-                Qtd: "123"
-              },
-              {
-                Nome: "AL",
-                Qtd: "10"
-              },
-              {
-                Nome: "AM",
-                Qtd: "20"
-              },
-              {
-                Nome: "AP",
-                Qtd: "1000"
-              },
-              {
-                Nome: "BA",
-                Qtd: "50"
-              },
-              {
-                Nome: "PE",
-                Qtd: "1100"
-              },
-              {
-                Nome: "CE",
-                Qtd: "0"
-              },
-              {
-                Nome: "DF",
-                Qtd: "11"
-              },
-              {
-                Nome: "ES",
-                Qtd: "103"
-              },
-              {
-                Nome: "ES",
-                Qtd: "11"
-              },
-              {
-                Nome: "GO",
-                Qtd: "11"
-              },
-
-              {
-                Nome: "MA",
-                Qtd: "394"
-              },
-              {
-                Nome: "MG",
-                Qtd: "11"
-              },
-              {
-                Nome: "MS",
-                Qtd: "11"
-              },
-              {
-                Nome: "MT",
-                Qtd: "11"
-              },
-              {
-                Nome: "PA",
-                Qtd: "11"
-              },
-              {
-                Nome: "PB",
-                Qtd: "11"
-              },
-              {
-                Nome: "PE",
-                Qtd: "11"
-              },
-              {
-                Nome: "PI",
-                Qtd: "11"
-              },
-              {
-                Nome: "PR",
-                Qtd: "11"
-              },
-              {
-                Nome: "RJ",
-                Qtd: "11"
-              },
-              {
-                Nome: "RN",
-                Qtd: "11"
-              },
-              {
-                Nome: "RO",
-                Qtd: "11"
-              },
-              {
-                Nome: "RR",
-                Qtd: "11"
-              },
-              {
-                Nome: "RS",
-                Qtd: "11"
-              },
-              {
-                Nome: "SC",
-                Qtd: "11"
-              },
-              {
-                Nome: "SE",
-                Qtd: "11"
-              },
-              {
-                Nome: "SP",
-                Qtd: "11"
-              },
-              {
-                Nome: "TO",
-                Qtd: "11"
-              }
-            ]
-          }
-        };
-
-        this.fillData(dadosFakeResul.ResultPesq);
-      }, 3000);
-      // }
+      this.realizandoRequisicaoFiltro = true;
+     consultProcessosApi
+          .buscarProcessosVolumetria(pesquisaPrincipal)
+          .then(response => {
+            
+            if (response.status == 200) {
+              console.log(response.data.Content)
+              let dadosModel = MapperVolumetriaToModel.MapearToModel(response.data.Content)
+    
+              this.fillData(dadosModel.ResultPesq);
+            }
+          this.realizandoRequisicaoFiltro = false;  
+          });
+          
     },
     desmarcarItem(index, dataset) {
       dataset.map(function(item) {
@@ -764,8 +619,7 @@ export default {
       return false;
     },
     fillData(data) {
-      this.totalVolumetriaConsumo.QtdProcessos =
-        data.totalVolumetriaConsumo.quantidade;
+      this.totalVolumetriaConsumo.QtdProcessos = data.totalVolumetriaConsumo.quantidade;
       this.totalVolumetriaConsumo.valor = data.totalVolumetriaConsumo.valor;
 
       let resultadoPesquisa = data;

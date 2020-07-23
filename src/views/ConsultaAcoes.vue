@@ -184,6 +184,8 @@ import tooltip from "@/components/ToolTip.vue";
 import { SET_RESULT_VOLUMETRIA } from "../store/actions";
 import { SET_PARAMETROS_CONSULT_VOLUMETRIA } from "../store/actions";
 import { SET_STATUS_PESQUISA } from "../store/actions";
+import {MapperVolumetriaToModel} from "../mapper/MapearVolumetriaToModel.js"
+
 
 export default {
   name: "consulta-acoes",
@@ -329,7 +331,7 @@ export default {
         this.dataSetParteSelecinado
       );
       this.parametrosConsulta.tipoPessoa = this.getOpcoesSelecionadas(
-        this.dataSetTipoPessoa
+        this.dataSetTipoPessoaSelecionado
       );
 
       if (this.dataDistIni && this.dataDistFim) {
@@ -342,192 +344,27 @@ export default {
           ""
         );
       }
-      console.log(dadosFakeResul);
-
-      let dadosFakeResul = {
-        Key: "nomeamericanasltda;documento072479707656678413ufperj",
-        ResultPesq: {
-          totalConsultaAcoes: {
-            quantidade: "20000",
-            valor: "10,00"
-          },
-          totalVolumetriaConsumo: {
-            quantidade: "20000",
-            valor: "200,00"
-          },
-
-          justica: [
-            {
-              Nome: "Estadual",
-              Qtd: "20"
-            },
-            {
-              Nome: "Federal",
-              Qtd: "20"
-            },
-            {
-              Nome: "Trabalhista",
-              Qtd: "20"
-            }
-          ],
-          parte: [
-            {
-              Nome: "reu",
-              Qtd: "200"
-            },
-            {
-              Nome: "autor",
-              Qtd: "200"
-            }
-          ],
-          UF: [
-            {
-              Nome: "AC",
-              Qtd: "1"
-            },
-            {
-              Nome: "AL",
-              Qtd: "10"
-            },
-            {
-              Nome: "AM",
-              Qtd: "20"
-            },
-            {
-              Nome: "AP",
-              Qtd: "10"
-            },
-            {
-              Nome: "BA",
-              Qtd: "50"
-            },
-            {
-              Nome: "PE",
-              Qtd: "11"
-            },
-            {
-              Nome: "CE",
-              Qtd: "0"
-            },
-            {
-              Nome: "DF",
-              Qtd: "11"
-            },
-            {
-              Nome: "ES",
-              Qtd: "11"
-            },
-            {
-              Nome: "ES",
-              Qtd: "11"
-            },
-            {
-              Nome: "GO",
-              Qtd: "11"
-            },
-
-            {
-              Nome: "MA",
-              Qtd: "11"
-            },
-            {
-              Nome: "MG",
-              Qtd: "11"
-            },
-            {
-              Nome: "MS",
-              Qtd: "11"
-            },
-            {
-              Nome: "MT",
-              Qtd: "11"
-            },
-            {
-              Nome: "PA",
-              Qtd: "11"
-            },
-            {
-              Nome: "PB",
-              Qtd: "11"
-            },
-            {
-              Nome: "PE",
-              Qtd: "11"
-            },
-            {
-              Nome: "PI",
-              Qtd: "11"
-            },
-            {
-              Nome: "PR",
-              Qtd: "11"
-            },
-            {
-              Nome: "RJ",
-              Qtd: "11"
-            },
-            {
-              Nome: "RN",
-              Qtd: "11"
-            },
-            {
-              Nome: "RO",
-              Qtd: "11"
-            },
-            {
-              Nome: "RR",
-              Qtd: "11"
-            },
-            {
-              Nome: "RS",
-              Qtd: "11"
-            },
-            {
-              Nome: "SC",
-              Qtd: "11"
-            },
-            {
-              Nome: "SE",
-              Qtd: "11"
-            },
-            {
-              Nome: "SP",
-              Qtd: "11"
-            },
-            {
-              Nome: "TO",
-              Qtd: "11"
-            }
-          ]
-        }
-      };
-      let test = {
-        AC: "10",
-        AL: "4567",
-        PE: "2",
-        RJ: "1",
-        BA: "4"
-      };
-
-      for (var [key, value] of Object.entries(test)) {
-        dadosFakeResul.ResultPesq.UF.filter(n => n.Nome === key)[0].Qtd = value;
-      }
 
       if (this.validar()) {
         consultProcessosApi
           .buscarProcessosVolumetria(this.parametrosConsulta)
           .then(response => {
+            
             if (response.status == 200) {
-              console.log("entrei");
+              console.log(response.data.Content)
+              let dadosModel = MapperVolumetriaToModel.MapearToModel(response.data.Content)
+              //---- mapper
+              // let dadosMapeados=[]
+              // for (var [key, value] of Object.entries(response.Content.partes)) {
+              // dadosFakeResul.ResultPesq.UF.filter(n => n.Nome === key)[0].Qtd = value;
+              // }
+              //---- fim mapper
+              this.$store.dispatch(SET_RESULT_VOLUMETRIA, dadosModel);
+              this.$store.dispatch(SET_PARAMETROS_CONSULT_VOLUMETRIA,this.parametrosConsulta);
+              this.$store.dispatch(SET_STATUS_PESQUISA, true);
+              this.$router.push({ name: "ResultadoConsultaAcoes" });
             }
           });
-        this.$store.dispatch(
-          SET_PARAMETROS_CONSULT_VOLUMETRIA,
-          this.parametrosConsulta
-        );
-        this.$store.dispatch(SET_STATUS_PESQUISA, true);
-        this.$store.dispatch(SET_RESULT_VOLUMETRIA, dadosFakeResul);
-        this.$router.push({ name: "ResultadoConsultaAcoes" });
       }
     },
     validar() {
