@@ -78,7 +78,7 @@
       </div>
     </div>
     <div class="consulta-formulario-line consulta-form-top-33">
-      <div class="consulta-form-input" style="min-width: 172px;height: 32px;">
+      <div class="consulta-form-input" style="min-width: 175px;height: 32px;">
         <multiSelect
           textAlignTextButtom="center"
           nomeCampo="Tipo Pessoa"
