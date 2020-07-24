@@ -1,6 +1,11 @@
 <template>
   <div class="container-Consulta">
-    <LoadCircle  :exibirLoad="realizandoRequisicaoFiltro" sizeCircle='100px' pwidth="100%" pheight="92%" />
+    <LoadCircle
+      :exibirLoad="realizandoRequisicaoFiltro"
+      sizeCircle="100px"
+      pwidth="100%"
+      pheight="92%"
+    />
     <div class="container-titulo">
       <p>CONSULTAR AÇÕES</p>
     </div>
@@ -170,7 +175,7 @@
         <p>Essa primeira Consulta tem um valor de R$10,00</p>
       </div>
     </div>
-      <notifications
+    <notifications
       classes="style-notification-large"
       group="general"
       position="bottom center"
@@ -192,9 +197,8 @@ import tooltip from "@/components/ToolTip.vue";
 import { SET_RESULT_VOLUMETRIA } from "../store/actions";
 import { SET_PARAMETROS_CONSULT_VOLUMETRIA } from "../store/actions";
 import { SET_STATUS_PESQUISA } from "../store/actions";
-import {MapperVolumetriaToModel} from "../mapper/MapearVolumetriaToModel.js"
+import { MapperVolumetriaToModel } from "../mapper/MapearVolumetriaToModel.js";
 import LoadCircle from "../components/Load/LoadCircle.vue";
-
 
 export default {
   name: "consulta-acoes",
@@ -357,33 +361,36 @@ export default {
       }
 
       if (this.validar()) {
-        this.realizandoRequisicaoFiltro = true
+        this.realizandoRequisicaoFiltro = true;
         consultProcessosApi
           .buscarProcessosVolumetria(this.parametrosConsulta)
           .then(response => {
-            
             if (response.status == 200) {
-              console.log(response.data.Content)
-              let dadosModel = MapperVolumetriaToModel.MapearToModel(response.data.Content)
+              console.log(response.data.Content);
+              let dadosModel = MapperVolumetriaToModel.MapearToModel(
+                response.data.Content
+              );
 
               this.$store.dispatch(SET_RESULT_VOLUMETRIA, dadosModel);
-              this.$store.dispatch(SET_PARAMETROS_CONSULT_VOLUMETRIA,this.parametrosConsulta);
+              this.$store.dispatch(
+                SET_PARAMETROS_CONSULT_VOLUMETRIA,
+                this.parametrosConsulta
+              );
               this.$store.dispatch(SET_STATUS_PESQUISA, true);
               this.$router.push({ name: "ResultadoConsultaAcoes" });
-              
-            }else{
+            } else {
               this.$notify({
                 group: "general",
-                title: "Ocorreu um erro inesperado, tente novamente em alguns instantes.",
+                title:
+                  "Ocorreu um erro inesperado, tente novamente em alguns instantes.",
 
                 duration: 5000,
 
-                speed: 700,
+                speed: 700
               });
-              this.realizandoRequisicaoFiltro = false
+              this.realizandoRequisicaoFiltro = false;
             }
           });
-          
       }
     },
     validar() {
@@ -432,8 +439,6 @@ p {
   font-size: 0.8em;
 }
 .container-Consulta {
-  padding-top: 65px;
-  animation: fadeOut 0.3s;
 }
 @keyframes fadeOut {
   from {
@@ -447,8 +452,9 @@ p {
 }
 
 .container-titulo {
-  
+  padding-top: 65px;
   height: 1px;
+  animation: fadeOut 0.3s;
 }
 .container-titulo > p {
   margin: 0px;
