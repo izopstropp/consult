@@ -1,5 +1,6 @@
 <template>
   <div class="container-Consulta">
+    <LoadCircle  :exibirLoad="realizandoRequisicaoFiltro" sizeCircle='100px' pwidth="100vw" pheight="100vh" />
     <div class="container-titulo">
       <p>CONSULTAR AÇÕES</p>
     </div>
@@ -185,6 +186,7 @@ import { SET_RESULT_VOLUMETRIA } from "../store/actions";
 import { SET_PARAMETROS_CONSULT_VOLUMETRIA } from "../store/actions";
 import { SET_STATUS_PESQUISA } from "../store/actions";
 import {MapperVolumetriaToModel} from "../mapper/MapearVolumetriaToModel.js"
+import LoadCircle from "../components/Load/LoadCircle.vue";
 
 
 export default {
@@ -192,7 +194,8 @@ export default {
   directives: { mask },
   components: {
     tooltip,
-    multiSelect
+    multiSelect,
+    LoadCircle
   },
   data() {
     return {
@@ -216,7 +219,8 @@ export default {
       dataSetUf: dataSetUf,
       dataSetJustica: dataSetJustica,
       dataSetParte: dataSetParte,
-      dataSetTipoPessoa: dataSetTipoPessoa
+      dataSetTipoPessoa: dataSetTipoPessoa,
+      realizandoRequisicaoFiltro: false
     };
   },
 
@@ -346,6 +350,7 @@ export default {
       }
 
       if (this.validar()) {
+        this.realizandoRequisicaoFiltro = true
         consultProcessosApi
           .buscarProcessosVolumetria(this.parametrosConsulta)
           .then(response => {
@@ -353,18 +358,15 @@ export default {
             if (response.status == 200) {
               console.log(response.data.Content)
               let dadosModel = MapperVolumetriaToModel.MapearToModel(response.data.Content)
-              //---- mapper
-              // let dadosMapeados=[]
-              // for (var [key, value] of Object.entries(response.Content.partes)) {
-              // dadosFakeResul.ResultPesq.UF.filter(n => n.Nome === key)[0].Qtd = value;
-              // }
-              //---- fim mapper
+
               this.$store.dispatch(SET_RESULT_VOLUMETRIA, dadosModel);
               this.$store.dispatch(SET_PARAMETROS_CONSULT_VOLUMETRIA,this.parametrosConsulta);
               this.$store.dispatch(SET_STATUS_PESQUISA, true);
               this.$router.push({ name: "ResultadoConsultaAcoes" });
+              this.realizandoRequisicaoFiltro = false
             }
           });
+          
       }
     },
     validar() {
@@ -397,7 +399,7 @@ export default {
     },
     getOpcoesSelecionadas(dataSet) {
       let arrItem = dataSet
-        .map(arr => arr.nome)
+        .map(arr => arr.value)
         .reduce(function(arr, item) {
           arr.push(item);
           return arr;
@@ -413,7 +415,7 @@ p {
   font-size: 0.8em;
 }
 .container-Consulta {
-  margin-top: 65px;
+  
   animation: fadeOut 0.3s;
 }
 @keyframes fadeOut {
@@ -428,6 +430,7 @@ p {
 }
 
 .container-titulo {
+  padding-top: 65px;
   height: 1px;
 }
 .container-titulo > p {

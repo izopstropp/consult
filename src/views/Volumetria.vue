@@ -302,7 +302,7 @@
                 </td>
                 <td>
                   <div>
-                    <p>{{ valorPreditivoAcoes }}</p>
+                    <p>{{ valorPreditivoAcoes.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) }}</p>
                   </div>
                 </td>
               </tr>
@@ -342,7 +342,7 @@
                 </td>
                 <td>
                   <div class="font-weight-bold">
-                    <p>R$ 845,00</p>
+                    <p>{{valorTotalConsumido}}</p>
                   </div>
                 </td>
               </tr>
@@ -413,7 +413,7 @@ export default {
       let result = dataSetParte
         .map(u => u)
         .filter(y =>
-          this.$store.getters.getParametrosPesquisa.partes.includes(y.nome)
+          this.$store.getters.getParametrosPesquisa.partes.includes(y.value)
         );
       result.map(x => (x.marcado = true));
       return result;
@@ -422,7 +422,7 @@ export default {
       let result = dataSetJustica
         .map(u => u)
         .filter(y =>
-          this.$store.getters.getParametrosPesquisa.justicas.includes(y.nome)
+          this.$store.getters.getParametrosPesquisa.justicas.includes(y.value)
         );
       result.map(x => (x.marcado = true));
       return result;
@@ -431,7 +431,7 @@ export default {
       let result = dataSetUf
         .map(u => u)
         .filter(y =>
-          this.$store.getters.getParametrosPesquisa.ufs.includes(y.nome)
+          this.$store.getters.getParametrosPesquisa.ufs.includes(y.value)
         );
       let opcaoTodasUf = result.filter(x => x.nome === "Todas");
       if (opcaoTodasUf.length > 0)
@@ -441,9 +441,22 @@ export default {
       return result;
     },
     valorPreditivoAcoes() {
-      return (
-        parseInt(this.totalVolumetriaConsumo.QtdProcessos) * 0.50
-      ).toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
+      return parseFloat(this.totalVolumetriaConsumo.QtdProcessos) * 0.50
+    },
+    valorTotalConsumido(){
+      let valorTotal = 0
+      let valorPreditivo = 0
+      if(this.preditivo){
+        valorPreditivo = this.valorPreditivoAcoes;
+      }else{
+        valorPreditivo = 0
+      }
+      valorTotal = parseFloat(this.totalVolumetriaConsumo.valor) + parseFloat(this.$store.getters.getResultadoPesquisaVolumetria
+                      .totalConsultaAcoes.valor) + valorPreditivo;
+                      
+      return valorTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
+      // parseFloat(this.totalVolumetriaConsumo.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) 
+      // parseFloat(this.totalConsultAcoes.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) 
     }
   },
   watch: {
@@ -539,7 +552,7 @@ export default {
         .map(arr => arr)
         .filter(arr => arr.marcado == true)
         .reduce(function(arr, item) {
-          arr.push(item.nome);
+          arr.push(item.value);
           return arr;
         }, []);
       return arrItem;

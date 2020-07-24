@@ -1,6 +1,6 @@
-<template>
-  <div :class="[exibirLoad ? 'bg-opacity' : '', 'circleContainer']">
-    <div v-if="exibirLoad" class="circleAnimation"></div>
+zz<template>
+  <div v-if="exibirLoad" :class="[exibirLoad ? 'bg-opacity' : '', 'circleContainer']" :style="{ width:pwidth ,height:pheight}">
+    <div  :style="{ width: sizeCircle, height:sizeCircle}" class="circleAnimation"></div>
   </div>
 </template>
 <script>
@@ -11,23 +11,32 @@ export default {
       type: Boolean,
       default: false,
     },
+    sizeCircle:{
+      type:String,
+      default:"30px"
+    },
+    pwidth:{
+      type:String,
+      default:"100%"
+    },
+    pheight:{
+      type:String,
+      default:"100%"
+    }
   },
 };
 </script>
 <style scoped>
 .circleContainer {
-  width: 100%;
-  height: 100%;
   display: flex;
   justify-content: center;
   position: absolute;
   align-items: center;
+  z-index: 1000;
 }
 .circleAnimation {
-  border: 3px solid rgb(160, 142, 142);
+  border: 2px solid rgb(160, 142, 142);
   border-top-color: #1d375c;
-  width: 30px;
-  height: 30px;
   border-radius: 50%;
   animation: is-rotating 1s infinite;
   z-index: 1000;
