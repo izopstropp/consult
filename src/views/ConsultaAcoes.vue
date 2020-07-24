@@ -237,6 +237,7 @@ export default {
 
   mounted() {
     this.cleanInput();
+    this.$store.dispatch(SET_STATUS_PESQUISA, false);
   },
   computed: {
     dataSetJusticaSelecinado() {
@@ -415,7 +416,6 @@ export default {
       this.siglaValidado = true;
     },
     cleanInput() {
-      // console.log("MOUNTED");
       dataSetJustica.map(x => (x.marcado = false));
       dataSetParte.map(x => (x.marcado = false));
       dataSetUf.map(x => (x.marcado = false));
