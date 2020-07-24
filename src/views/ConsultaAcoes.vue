@@ -211,6 +211,7 @@ export default {
   data() {
     return {
       parametrosConsulta: {
+        consultaId:"",
         nome: "",
         documento: "",
         possuiSigla: false,
@@ -257,7 +258,6 @@ export default {
         return item.marcado == true && item.nome != "Todas";
       });
 
-      // console.log(ok);
 
       return result;
     },
@@ -367,11 +367,10 @@ export default {
           .buscarProcessosVolumetria(this.parametrosConsulta)
           .then(response => {
             if (response.status == 200) {
-              console.log(response.data.Content);
               let dadosModel = MapperVolumetriaToModel.MapearToModel(
                 response.data.Content
               );
-
+              this.parametrosConsulta.consultaId = response.data.Content.consultaId
               this.$store.dispatch(SET_RESULT_VOLUMETRIA, dadosModel);
               this.$store.dispatch(
                 SET_PARAMETROS_CONSULT_VOLUMETRIA,

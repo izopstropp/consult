@@ -10,6 +10,7 @@ import { MOD_STATUS_PESQUISA } from "../mutations";
 export default {
   state: {
     parametrosPesquisa: {
+      consultaId:"",
       nome: "",
       documento: "",
       sigla: "",
@@ -56,6 +57,7 @@ export default {
       state.ResultadoVolumetria = payload;
     },
     [CHANGE_VALUES_PARAMETER_VOLUMETRIA](state, payload) {
+      state.parametrosPesquisa.consultaId = payload.consultaId
       state.parametrosPesquisa.nome = payload.nome;
       state.parametrosPesquisa.documento = payload.documento;
       state.parametrosPesquisa.sigla = payload.sigla;
@@ -70,6 +72,7 @@ export default {
       //
     },
     [CLEAR_VALUES_PARAMETER](state) {
+      state.parametrosPesquisa.consultaId = "";
       state.parametrosPesquisa.nome = "";
       state.parametrosPesquisa.documento = "";
       state.parametrosPesquisa.sigla = "";

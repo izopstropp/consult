@@ -8,7 +8,7 @@
           </div>
           <img src="../assets/confir-envio.png" alt="imagem de confirmação" />
           <p>Sua pesquisa</p>
-          <p>0006721</p>
+          <p>{{numeracaoConsulta}}</p>
           <p>foi enviada para seu e-email</p>
           <router-link
             :to="{
@@ -297,7 +297,7 @@
                         indicarQtdPreditivo ? 'scale-preditivo-ativado' : '',
                         'scale-preditivo',
                       ]"
-                    >{{ this.totalVolumetriaConsumo.QtdProcessos }}</p>
+                    >{{ this.totalPreditivoConsumo.QtdProcessos }}</p>
                   </div>
                 </td>
                 <td>
@@ -393,6 +393,10 @@ export default {
         QtdProcessos: 0,
         valor: "0,00"
       },
+      totalPreditivoConsumo: {
+        QtdProcessos: 0,
+        valor: "0,00"
+      },
       solicitarVolume: false,
       isLoading: false,
       fullPage: false,
@@ -441,7 +445,7 @@ export default {
       return result;
     },
     valorPreditivoAcoes() {
-      return parseFloat(this.totalVolumetriaConsumo.QtdProcessos) * 0.50
+      return parseFloat(this.totalPreditivoConsumo.valor)
     },
     valorTotalConsumido(){
       let valorTotal = 0
@@ -457,6 +461,9 @@ export default {
       return valorTotal.toLocaleString("pt-BR", { style: "currency", currency: "BRL" })
       // parseFloat(this.totalVolumetriaConsumo.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) 
       // parseFloat(this.totalConsultAcoes.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) 
+    },
+    numeracaoConsulta(){
+      return ("0000000" + this.$store.getters.getParametrosPesquisa.consultaId ).slice(-7)
     }
   },
   watch: {
@@ -531,7 +538,6 @@ export default {
           .then(response => {
             
             if (response.status == 200) {
-              console.log(response.data.Content)
               let dadosModel = MapperVolumetriaToModel.MapearToModel(response.data.Content)
     
               this.fillData(dadosModel.ResultPesq);
@@ -634,6 +640,8 @@ export default {
     fillData(data) {
       this.totalVolumetriaConsumo.QtdProcessos = data.totalVolumetriaConsumo.quantidade;
       this.totalVolumetriaConsumo.valor = data.totalVolumetriaConsumo.valor;
+      this.totalPreditivoConsumo.QtdProcessos = data.totalPreditivoConsumo.quantidade;
+      this.totalPreditivoConsumo.valor = data.totalPreditivoConsumo.valor;
 
       let resultadoPesquisa = data;
       this.datacollectionParte = {

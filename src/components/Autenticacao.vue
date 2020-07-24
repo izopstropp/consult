@@ -136,7 +136,6 @@ export default {
        if (this.validar()) {
                  autenticacaoApi.autenticar(this.usuario, this.senha).then(
           (response) => {
-            console.log(response);
             if (response.status == 200) {
               this.$store.dispatch(DO_LOGIN, response.data);
               this.$router.push("/selecao");
@@ -151,6 +150,17 @@ export default {
               });
               this.usuario = "";
               this.senha = "";
+            }else if(response.status == 400){
+              if(response.data.error == "invalid_grant"){
+                  this.$notify({
+                group: "general",
+                title: "Usuário ou senha inválido",
+
+                duration: 1000,
+
+                speed: 700,
+              });
+              }
             }
           },
           () => {

@@ -1,7 +1,6 @@
 export const MapperVolumetriaToModel = {
     MapearToModel:function(dados){
         let  dadosModel = {
-            Key: "nomeamericanasltda;documento072479707656678413ufperj",
             ResultPesq: {
               totalConsultaAcoes: {
                 quantidade: "0",
@@ -11,7 +10,10 @@ export const MapperVolumetriaToModel = {
                 quantidade: "0",
                 valor: "0"
               },
-        
+              totalPreditivoConsumo: {
+                quantidade: "0",
+                valor: "0"
+              },
               justica: [
                 {
                   Nome: "Estadual",
@@ -157,13 +159,15 @@ export const MapperVolumetriaToModel = {
               ]
             }
           };
-          console.log(dados)
           //Transformando para objeto adicionando no model de volumetria
           
           dadosModel.ResultPesq.totalConsultaAcoes.quantidade = dados.totalConsultaAcoes.quantidade
           dadosModel.ResultPesq.totalConsultaAcoes.valor = dados.totalConsultaAcoes.valor
           dadosModel.ResultPesq.totalVolumetriaConsumo.quantidade = dados.totalVolumetriaConsumo.quantidade
-          dadosModel.ResultPesq.totalVolumetriaConsumo.valor = dados.totalConsulmo
+          dadosModel.ResultPesq.totalVolumetriaConsumo.valor = dados.totalVolumetriaConsumo.valor
+          dadosModel.ResultPesq.totalPreditivoConsumo.quantidade = dados.totalPreditivoConsumo.quantidade
+          dadosModel.ResultPesq.totalPreditivoConsumo.valor = dados.totalPreditivoConsumo.valor
+
 
           dadosModel.ResultPesq.justica[0].Qtd = dados.justica.estadual
           dadosModel.ResultPesq.justica[1].Qtd = dados.justica.federal
@@ -171,12 +175,12 @@ export const MapperVolumetriaToModel = {
 
           dadosModel.ResultPesq.parte[0].Qtd = dados.partes.reu
           dadosModel.ResultPesq.parte[1].Qtd = dados.partes.autor
+
           
           for (const elem of dados.uf) {
             dadosModel.ResultPesq.UF.filter(y=> y.Nome == elem.uf_cod)[0].Qtd = elem.count
           }
         
-          console.log(dadosModel)
           return dadosModel
         
 
