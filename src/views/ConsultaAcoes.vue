@@ -1,6 +1,6 @@
 <template>
   <div class="container-Consulta">
-    <LoadCircle  :exibirLoad="realizandoRequisicaoFiltro" sizeCircle='100px' pwidth="100vw" pheight="100vh" />
+    <LoadCircle  :exibirLoad="realizandoRequisicaoFiltro" sizeCircle='100px' pwidth="100%" pheight="92%" />
     <div class="container-titulo">
       <p>CONSULTAR AÇÕES</p>
     </div>
@@ -170,6 +170,13 @@
         <p>Essa primeira Consulta tem um valor de R$10,00</p>
       </div>
     </div>
+      <notifications
+      classes="style-notification-large"
+      group="general"
+      position="bottom center"
+      :ignoreDuplicates="true"
+      animation-name="v-fade-left"
+    />
   </div>
 </template>
 
@@ -363,6 +370,16 @@ export default {
               this.$store.dispatch(SET_PARAMETROS_CONSULT_VOLUMETRIA,this.parametrosConsulta);
               this.$store.dispatch(SET_STATUS_PESQUISA, true);
               this.$router.push({ name: "ResultadoConsultaAcoes" });
+              
+            }else{
+              this.$notify({
+                group: "general",
+                title: "Ocorreu um erro inesperado, tente novamente em alguns instantes.",
+
+                duration: 5000,
+
+                speed: 700,
+              });
               this.realizandoRequisicaoFiltro = false
             }
           });
@@ -415,13 +432,13 @@ p {
   font-size: 0.8em;
 }
 .container-Consulta {
-  
+  padding-top: 65px;
   animation: fadeOut 0.3s;
 }
 @keyframes fadeOut {
   from {
     opacity: 0;
-    margin-top: 50px;
+    padding-top: 50px;
   }
   to {
     opacity: 1;
@@ -430,7 +447,7 @@ p {
 }
 
 .container-titulo {
-  padding-top: 65px;
+  
   height: 1px;
 }
 .container-titulo > p {

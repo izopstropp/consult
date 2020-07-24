@@ -1137,6 +1137,7 @@ thead tr th {
   font-size: 1em;
   text-align: center;
   color: #59595a;
+  background: #F6F6F6
 }
 thead tr th.background-blue {
   background-color: #1d375c;

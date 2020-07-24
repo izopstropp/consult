@@ -81,6 +81,7 @@
 <script>
 import autenticacaoApi from "../api/consultAutenticacaoApi";
 import { DO_LOGIN } from "@/store/actions";
+import { DO_LOGOUT } from "../store/actions";
 export default {
   name: "autenticacao",
   components: {},
@@ -118,6 +119,9 @@ export default {
       });
       return result;
     },
+  },
+  mounted() {
+    this.$store.dispatch(DO_LOGOUT);
   },
   methods: {
     desmarcarItem(index) {

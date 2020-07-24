@@ -108,6 +108,21 @@ list-style {
   font-weight: normal;
   padding-top: 5px;
 }
+.style-notification-large {
+  padding: 0px;
+  margin: 0 5px 5px;
+  font-size: 12px;
+  color: rgb(250, 249, 249) !important;
+  background: #02214d !important;
+  height: 45px;
+  margin-bottom: 40px;
+  border-radius: 3px;
+}
+.style-notification-large .notification-title {
+  text-align: center;
+  font-weight: normal;
+  padding-top: 5px;
+}
 .v-fade-left-enter-active,
 .v-fade-left-leave-active,
 .v-fade-left-move {
