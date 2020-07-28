@@ -37,7 +37,7 @@ export default {
                 color: "#1d375c"
               },
               scaleFontSize: 10,
-              stacked: false
+              stacked: false,
             }
           ]
         },
@@ -49,6 +49,7 @@ export default {
         responsive: true,
         maintainAspectRatio: false,
         scaleBeginAtZero: true,
+        width:"1123px",
         title: {
           display: true,
           text: `${this.tituloChart}`,
@@ -61,7 +62,7 @@ export default {
         },
         animation: {
           onProgress: function(animation) {
-            animation.duration = 800;
+            animation.duration = 1000;
           },
           onComplete: function() {
             var chartInstance = this.chart;

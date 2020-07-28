@@ -76,10 +76,6 @@ export const MapperVolumetriaToModel = {
                   Qtd: "0"
                 },
                 {
-                  Nome: "ES",
-                  Qtd: "0"
-                },
-                {
                   Nome: "GO",
                   Qtd: "0"
                 },
@@ -106,10 +102,6 @@ export const MapperVolumetriaToModel = {
                 },
                 {
                   Nome: "PB",
-                  Qtd: "0"
-                },
-                {
-                  Nome: "PE",
                   Qtd: "0"
                 },
                 {
@@ -180,7 +172,6 @@ export const MapperVolumetriaToModel = {
           for (const elem of dados.uf) {
             dadosModel.ResultPesq.UF.filter(y=> y.Nome == elem.uf_cod)[0].Qtd = elem.count
           }
-        
           return dadosModel
         
 

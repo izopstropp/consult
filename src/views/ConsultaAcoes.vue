@@ -83,7 +83,7 @@
       </div>
     </div>
     <div class="consulta-formulario-line consulta-form-top-33">
-      <div class="consulta-form-input" style="min-width: 175px;height: 32px;">
+      <div class="consulta-form-input input-multi-select">
         <multiSelect
           textAlignTextButtom="center"
           nomeCampo="Tipo Pessoa"
@@ -103,7 +103,7 @@
           </div>
         </div>
       </div>
-      <div class="consulta-form-input" style="min-width: 158px;height: 32px;">
+      <div class="consulta-form-input input-multi-select " >
         <multiSelect
           textAlignTextButtom="center"
           nomeCampo="Justiça"
@@ -123,7 +123,7 @@
           </div>
         </div>
       </div>
-      <div class="consulta-form-input" style="min-width: 169px;height: 32px;">
+      <div class="consulta-form-input input-multi-select">
         <multiSelect
           textAlignTextButtom="center"
           nomeCampo="Partes"
@@ -143,7 +143,7 @@
           </div>
         </div>
       </div>
-      <div class="consulta-form-input" style="min-width: 158px;height: 32px;">
+      <div class="consulta-form-input input-multi-select">
         <multiSelect
           textAlignTextButtom="center"
           nomeCampo="UF"
@@ -360,13 +360,14 @@ export default {
           ""
         );
       }
-
+      this.parametrosConsulta.consultaId = 0
       if (this.validar()) {
         this.realizandoRequisicaoFiltro = true;
         consultProcessosApi
           .buscarProcessosVolumetria(this.parametrosConsulta)
           .then(response => {
             if (response.status == 200) {
+              console.log(response.data.Content)
               let dadosModel = MapperVolumetriaToModel.MapearToModel(
                 response.data.Content
               );
@@ -464,12 +465,18 @@ p {
 }
 .consulta-formulario-line {
   display: flex;
+  
   align-items: unset;
   align-content: center;
   flex-wrap: wrap;
   margin: 0 auto 7px auto;
   max-width: 690px;
   justify-content: space-between;
+}
+@media screen and (max-width:700px) {
+  .consulta-formulario-line{
+flex-direction: column;
+  }
 }
 .tooltip-extendido {
   max-width: 890px;
@@ -534,12 +541,17 @@ p {
 .alt-input-100 {
   max-height: 147px;
 }
-.consulta-form-select {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  width: 694px;
-  max-height: 100px;
+.input-multi-select {
+  min-width: 165px;
+  height: 32px;
+  
+}
+@media screen and (max-width : 700px){
+  .input-multi-select {
+  min-width: 340px;
+  height: auto;
+  
+}
 }
 .align-items-end {
   align-items: flex-end;
@@ -557,11 +569,22 @@ p {
   margin: 67px auto auto auto;
   font-size: 0.9em;
 }
+@media screen and (max-width:700px){
+  .consulta-form-btn {
+  margin: auto auto auto auto;
+}
+}
+
 .ant-btn {
   background-color: #001a3f;
   width: 148px;
   height: 35px;
   color: #c1c8d1;
+}
+@media screen and (max-width: 700px){
+ .ant-btn {
+  width: 340px !important;
+}
 }
 .ant-btn:active {
   background-color: #001a3f81;
@@ -577,18 +600,32 @@ p {
   margin-top: 6px;
   height: 1px;
 }
+@media screen and (max-width:700px){
+  .result{
+    height: auto;
+  }
+}
 .result-expandido {
   max-width: 325px;
   margin-left: 71%;
-
   height: 1px;
 }
+
+@media screen and (max-width:700px){
+  .result-expandido {
+  max-width: 325px;
+  margin: 0 auto;
+  height: auto;
+  }
+}
+
 .form-input-extendido {
   max-width: 890px;
   padding: 0;
   margin: 0 auto;
   margin-top: -3px;
 }
+
 .result div {
   height: 23px;
   margin-right: 5px;
@@ -615,6 +652,11 @@ p {
 .btn-consulta {
   margin: 56px auto;
 }
+@media screen and (max-width:700px){
+  .btn-consulta {
+  margin: 30px auto;
+  }
+}
 .btn-consulta div:nth-child(1) {
   margin: 0 auto;
   width: 149px;
@@ -622,6 +664,16 @@ p {
 .btn-consulta div:nth-child(2) {
   margin: 0 auto;
   max-width: 220px;
+}
+@media screen and (max-width:700px){
+  .btn-consulta div:nth-child(1) {
+    margin: 0 auto;
+    width: 340px;
+  }
+  .btn-consulta div:nth-child(2) {
+    margin: 0 auto;
+    max-width: 340px;
+  }
 }
 .btn-consulta p {
   margin-top: 3px;

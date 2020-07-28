@@ -26,8 +26,11 @@
   </div>
 </template>
 <script>
+import consultProcessosApi from "../api/consultProcessosApi.js";
+
 export default {
   name: "HistoricoConsulta",
+
   data() {
     return {
       dadosHistorico: [
@@ -51,6 +54,14 @@ export default {
         }
       ]
     };
+  },
+  beforeMount(){
+    consultProcessosApi.buscarAcoesPorUsuario().then(response => {
+      if(response.status == 200){
+        // this.dadosHistorico.response.data.Content
+      }
+
+    })
   }
 };
 </script>

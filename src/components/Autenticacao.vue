@@ -138,6 +138,7 @@ export default {
           (response) => {
             if (response.status == 200) {
               this.$store.dispatch(DO_LOGIN, response.data);
+              console.log(response.data)
               this.$router.push("/selecao");
             } else if (response.status == 404) {
               this.$notify({

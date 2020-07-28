@@ -147,7 +147,7 @@
                 'consulta-form-filtro-btn-item',
               ]"
             >
-              <a style="user-select:none">ADIQUERIR VOLUMETRIA SELECIONADA</a>
+              <a style="user-select:none">ADQUIRIR VOLUMETRIA SELECIONADA</a>
             </div>
             <div
               @click="$router.push({ name: 'consulta-acoes' })"
@@ -519,22 +519,11 @@ export default {
     },
     realizarRequicaoFiltro() {
       
+      let corpoRequest = this.prepararCorpoRequest()
 
-      let pesquisaPrincipal = JSON.parse(
-        JSON.stringify(this.$store.getters.getParametrosPesquisa)
-      );
-      pesquisaPrincipal.justicas = this.getOpcoesSelecionadas(
-        this.parametrosFiltro.dataSetJustica
-      );
-      pesquisaPrincipal.partes = this.getOpcoesSelecionadas(
-        this.parametrosFiltro.dataSetParte
-      );
-      pesquisaPrincipal.ufs = this.getOpcoesSelecionadas(
-        this.parametrosFiltro.dataSetUf
-      );
       this.realizandoRequisicaoFiltro = true;
      consultProcessosApi
-          .buscarProcessosVolumetria(pesquisaPrincipal)
+          .buscarProcessosVolumetria(corpoRequest)
           .then(response => {
             
             if (response.status == 200) {
@@ -563,32 +552,39 @@ export default {
         }, []);
       return arrItem;
     },
+    prepararCorpoRequest(){
+       let pesquisaPrincipal = JSON.parse(
+        JSON.stringify(this.$store.getters.getParametrosPesquisa)
+      );
+      pesquisaPrincipal.justicas = this.getOpcoesSelecionadas(
+        this.parametrosFiltro.dataSetJustica
+      );
+      pesquisaPrincipal.partes = this.getOpcoesSelecionadas(
+        this.parametrosFiltro.dataSetParte
+      );
+      pesquisaPrincipal.ufs = this.getOpcoesSelecionadas(
+        this.parametrosFiltro.dataSetUf
+      );
+      this.parametrosFiltro.consultaId = this.$store.getters.getParametrosPesquisa.consultaId
+      return pesquisaPrincipal;
+
+    },
     solicitarVolumetria() {
       if (this.validarSolicitacaoAcoes() && !this.solicitarVolume) {
         // FAZER REQUISIÇÃO
-        let pesquisaPrincipal = JSON.parse(
-          JSON.stringify(this.$store.getters.getParametrosPesquisa)
-        );
+        let corpoRequest = this.prepararCorpoRequest();
 
-        let filtroJustica = this.getOpcoesSelecionadas(
-          this.parametrosFiltro.dataSetJustica
-        );
-        if (filtroJustica.length > 0) {
-          pesquisaPrincipal.justica = pesquisaPrincipal.parte = filtroJustica;
-        }
-        let filtroParte = this.getOpcoesSelecionadas(
-          this.parametrosFiltro.dataSetParte
-        );
-        if (filtroParte.length > 0) {
-          pesquisaPrincipal.parte = filtroParte;
-        }
-
-        let filtroUf = this.getOpcoesSelecionadas(
-          this.parametrosFiltro.dataSetUf
-        );
-        if (filtroUf.length > 0) {
-          pesquisaPrincipal.uf = filtroUf;
-        }
+         this.realizandoRequisicaoFiltro = true;
+        consultProcessosApi
+          .buscarProcessosDetalhados(corpoRequest)
+          .then(response => {
+            
+            if (response.status == 200) {
+              // let dadosModel = MapperVolumetriaToModel.MapearToModel(response.data.Content)
+            }
+          this.realizandoRequisicaoFiltro = false;  
+          });
+          
 
         this.solicitarVolume = true;
         this.$store.dispatch(SET_STATUS_PESQUISA, false);
@@ -669,15 +665,17 @@ export default {
         ]
       };
 
+      let QtdUf = resultadoPesquisa.UF.map(x => x.Qtd)
+      let NomeUf = resultadoPesquisa.UF.map(x => x.Nome)
       this.datacollectionUf = {
-        labels: resultadoPesquisa.UF.map(x => x.Nome),
+        labels: NomeUf.slice(1,27),
         // labels: [resu~],
         datasets: [
           {
             // label: "Data One",
             backgroundColor: "#1d375c",
             barThickness: 6,
-            data: resultadoPesquisa.UF.map(x => x.Qtd)
+            data: QtdUf.slice(1,27)
           }
         ]
       };
@@ -1001,6 +999,7 @@ a {
   max-width: 57%;
   margin-right: 1%;
   flex: 2;
+  /* overflow-x: scroll; */
 }
 .chart-justica {
   background-color: #ffffff;
@@ -1012,6 +1011,7 @@ a {
   max-width: 42%;
   position: relative;
   flex: 1;
+  /* overflow-x: scroll; */
 }
 .chart-parte {
   background-color: #ffffff;
@@ -1025,13 +1025,14 @@ a {
   margin-right: 11px;
   margin-top: 10px;
   max-width: 96%;
+  /* overflow-x: scroll; */
 }
 .chart-uf {
   background-color: #ffffff;
-  /* max-width: 940px; */
   height: 142px;
   border-radius: 2px;
   border: 1px solid #c9c9c9;
+  
 }
 /* --- fim  volumetria --- */
 
