@@ -360,7 +360,7 @@ export default {
           ""
         );
       }
-      this.parametrosConsulta.consultaId = 0
+      this.parametrosConsulta.consultaId = null
       if (this.validar()) {
         this.realizandoRequisicaoFiltro = true;
         consultProcessosApi

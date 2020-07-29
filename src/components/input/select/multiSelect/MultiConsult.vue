@@ -14,7 +14,7 @@
         :style="{ fontSize: fonteSizeTextButtom }"
         style="display:flex;justify-content: flex-end; margin-top:3px"
       >
-        <div style="flex:1;width:50px;">{{ nomeCampo }}</div>
+        <div style="flex:1;">{{ nomeCampo }}</div>
         <div style="width:50px">
           <img style="width:15px" src="../../../../assets/icons/01.png" alt="setaDown" />
         </div>

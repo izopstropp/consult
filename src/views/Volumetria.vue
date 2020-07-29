@@ -1,5 +1,6 @@
 <template>
   <div class="container-resultado-volumetria" v-if="paginaCarregada">
+    <SizeScreen @sizeScreen="ajustarComponentesScreen"/>
     <div v-if="solicitarVolume" @click="fecharModal" class="modal">
       <transition appear name="slide-resul-volum">
         <div class="modal-container">
@@ -21,8 +22,9 @@
       </transition>
     </div>
 
-    <div :class="[solicitarVolume ? 'blur-container' : '', 'container-filtro']">
+    <div v-show="exibirContainerFiltro" :class="[solicitarVolume ? 'blur-container' : '', 'container-filtro']">
       <div class="filtro-resumo">
+        <img v-if="screenMobile" @click="exibirFiltro = false" style="width:25px; height:25px; cursor:pointer" src="../assets/icons/icon-menu.png" alt="menu" />
         <div class="resumo-justica">
           <div class="result">
             <div
@@ -164,8 +166,13 @@
     </div>
     <div :class="[solicitarVolume ? 'blur-container' : '', 'container-volumetria']">
       <div class="registro">
-        <img src="../assets//icons/05.png" alt />
-        <img src="../assets/icons/06.png" alt />
+        <div>
+          <img v-if="screenMobile" @click="exibirFiltro = true" style="width:25px; height:25px; cursor:pointer" src="../assets/icons/icon-menu.png" alt="menu" />
+        </div>
+        <div>
+        <img src="../assets//icons/05.png" alt="compartilhar" />
+        <img src="../assets/icons/06.png" alt="impressão" />
+        </div>
       </div>
       <div class="container-volumetria-principal">
         <div class="volumetria-titulo">
@@ -199,6 +206,8 @@
           </div>
           <div>
             <div class="container-chart-item-uf">
+              <a v-if="screenMobile && this.controlePaginacaoVolumetriaUf.indiceSelecao > 0" class="btn-pag-left" v-on:click="paginarVolumetriaUf('A')">&lt;</a>
+              <a v-if="screenMobile && this.controlePaginacaoVolumetriaUf.indiceSelecao < 14" class="btn-pag-right" v-on:click="paginarVolumetriaUf('P')">&gt;</a>
               <LoadCircle :exibirLoad="realizandoRequisicaoFiltro" />
               <LineChart class="chart-uf" tituloChart="UF" :chart-data="datacollectionUf"></LineChart>
             </div>
@@ -374,10 +383,11 @@ import { CLEAR_VALUES_PARAMETER_CONSULT } from "../store/actions";
 import { SET_STATUS_PESQUISA } from "../store/actions";
 import {MapperVolumetriaToModel} from "../mapper/MapearVolumetriaToModel.js"
 import consultProcessosApi from "../api/consultProcessosApi.js";
+import SizeScreen from "../components/EventListeners/SizeScreen.vue"
 
 export default {
   name: "volumetria",
-  components: { LineChart, MultiSelect, LoadCircle },
+  components: { LineChart, MultiSelect, LoadCircle, SizeScreen },
   data() {
     return {
       datacollectionJustica: {},
@@ -399,13 +409,20 @@ export default {
       },
       solicitarVolume: false,
       isLoading: false,
-      fullPage: false,
       realizandoRequisicaoFiltro: false,
       qtdTrocaFiltro: 0,
       paginaCarregada: false,
       indicarQtdPreditivo: false,
       exibirtooltipTable: false,
-      exibirCorpoTooltip: false
+      exibirCorpoTooltip: false,
+      widthScreen:0,
+      resultadoVolumetria:[],
+      controlePaginacaoVolumetriaUf:{
+        indiceSelecao :0,
+        limitQtdPaginaVolumetrisUf: 27
+      },
+      screenMobile:false,
+      exibirFiltro:false
     };
   },
 
@@ -464,7 +481,16 @@ export default {
     },
     numeracaoConsulta(){
       return ("0000000" + this.$store.getters.getParametrosPesquisa.consultaId ).slice(-7)
+    },
+    exibirContainerFiltro(){
+      if(this.screenMobile && this.exibirFiltro){
+        return true
+      }else if (this.screenMobile && this.exibirFiltro == false) {
+        return false
+      }
+      return true
     }
+    
   },
   watch: {
     parametrosFiltro: {
@@ -484,7 +510,21 @@ export default {
           }, 600);
         }
       }
+    },
+    widthScreen:{
+      handler(){
+        if(this.widthScreen <= "900"){
+          this.screenMobile = true
+          this.controlePaginacaoVolumetriaUf.limitQtdPaginaVolumetrisUf = 13
+          this.fillDataUf(this.resultadoVolumetria)  
+        }else{
+          this.screenMobile = false
+          this.controlePaginacaoVolumetriaUf.limitQtdPaginaVolumetrisUf= 27
+          this.fillDataUf(this.resultadoVolumetria) 
+        }
+      }
     }
+    
   },
   beforeMount() {
     if (!this.$store.getters.getStatusRealizacaoPesquisa) {
@@ -494,8 +534,9 @@ export default {
     this.parametrosFiltro.dataSetJustica = this.dataSetJusticaSelecinadoFiltroSec;
     this.parametrosFiltro.dataSetParte = this.dataSetParteSelecinadoFiltroSec;
 
-    this.fillData(this.$store.getters.getResultadoPesquisaVolumetria);
-
+    this.resultadoVolumetria = this.$store.getters.getResultadoPesquisaVolumetria;
+    this.fillData(this.resultadoVolumetria);
+    this.fillDataUf(this.resultadoVolumetria);
   },
   mounted() {
     this.paginaCarregada = true;
@@ -504,6 +545,16 @@ export default {
     this.$store.dispatch(CLEAR_VALUES_PARAMETER_CONSULT);
   },
   methods: {
+    paginarVolumetriaUf(direcao){
+      if(direcao === "A"){
+        this.fillDataUf(this.resultadoVolumetria ,this.controlePaginacaoVolumetriaUf.indiceSelecao--)
+      }else if(direcao === "P"){
+        this.fillDataUf(this.resultadoVolumetria , this.controlePaginacaoVolumetriaUf.indiceSelecao++)
+      }
+    },
+    ajustarComponentesScreen(e){
+      this.widthScreen = e.dados.width
+    },
     fecharModal(event) {
       if (event.target === event.currentTarget) {
         this.fecharModalClick();
@@ -522,14 +573,18 @@ export default {
       let corpoRequest = this.prepararCorpoRequest()
 
       this.realizandoRequisicaoFiltro = true;
+     if(this.screenMobile) this.exibirFiltro = false
      consultProcessosApi
           .buscarProcessosVolumetria(corpoRequest)
           .then(response => {
             
             if (response.status == 200) {
               let dadosModel = MapperVolumetriaToModel.MapearToModel(response.data.Content)
-    
-              this.fillData(dadosModel.ResultPesq);
+              
+              this.resultadoVolumetria = dadosModel.ResultPesq
+              
+              this.fillData(this.resultadoVolumetria);
+              this.fillDataUf(this.resultadoVolumetria);
             }
           this.realizandoRequisicaoFiltro = false;  
           });
@@ -640,6 +695,7 @@ export default {
       this.totalPreditivoConsumo.valor = data.totalPreditivoConsumo.valor;
 
       let resultadoPesquisa = data;
+
       this.datacollectionParte = {
         labels: ["Réu", "Autor"],
 
@@ -652,9 +708,10 @@ export default {
           }
         ]
       };
+  
       this.datacollectionJustica = {
         labels: ["Estadual", "Federal", "Trabalhista"],
-
+        
         datasets: [
           {
             // label: "Qtd",
@@ -664,18 +721,21 @@ export default {
           }
         ]
       };
-
+    },
+    fillDataUf(data){
+      let resultadoPesquisa = data;
       let QtdUf = resultadoPesquisa.UF.map(x => x.Qtd)
       let NomeUf = resultadoPesquisa.UF.map(x => x.Nome)
+      
       this.datacollectionUf = {
-        labels: NomeUf.slice(1,27),
+        labels: NomeUf.slice(0 + this.controlePaginacaoVolumetriaUf.indiceSelecao, this.controlePaginacaoVolumetriaUf.limitQtdPaginaVolumetrisUf + this.controlePaginacaoVolumetriaUf.indiceSelecao ),
         // labels: [resu~],
         datasets: [
           {
             // label: "Data One",
             backgroundColor: "#1d375c",
             barThickness: 6,
-            data: QtdUf.slice(1,27)
+            data: QtdUf.slice(0 + this.controlePaginacaoVolumetriaUf.indiceSelecao, this.controlePaginacaoVolumetriaUf.limitQtdPaginaVolumetrisUf + this.controlePaginacaoVolumetriaUf.indiceSelecao )
           }
         ]
       };
@@ -735,6 +795,7 @@ a {
   width: 100%;
   height: 100vh;
   padding: 80px;
+  z-index: 2000
 }
 .modal-container {
   position: relative;
@@ -794,8 +855,24 @@ a {
   /* max-width: 358px; */
   max-width: 28vw;
   padding-bottom: 20px;
-  min-height: 30vw;
+  min-height: 30vh;
   flex: 1;
+}
+@media screen and (max-width: 900px){
+  .container-filtro {
+    position:absolute;
+    margin: 0;
+    right:0;
+    left: 0;
+    border: 1px solid #c3c3c3;
+    border-top: none;
+    border-left: none;
+    max-width: 100vw;
+    padding-bottom: 20px;
+    min-height: 100vh;
+    z-index: 1000;
+    background: white;
+}
 }
 
 /* --- container-resumo ---*/
@@ -894,6 +971,7 @@ a {
   display: flex;
   max-width: 548px;
   align-items: center;
+  margin: 0 auto;
   flex-direction: column;
 }
 .uf-selec-animation {
@@ -955,13 +1033,20 @@ a {
   max-width: 72vw;
   flex: 1;
 }
+@media screen and (max-width:900px) {
+  .container-volumetria {
+  max-width: 100vw;
+
+}
+}
 .registro {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-content: center;
   height: 32px;
   background-color: #edf0f2;
   padding-right: 42px;
+  padding-left: 10px;
 }
 .registro p {
   font-size: 1.2em;
@@ -1034,6 +1119,48 @@ a {
   border: 1px solid #c9c9c9;
   
 }
+.btn-pag-left{
+  position: absolute;
+  display: flex;
+  color:white;
+  font-size: 2em;
+  align-items: center;
+  width: 16px;
+  height: 100%;
+  background: #6a6c6e;
+  opacity:0.3;
+     -webkit-touch-callout: none;
+   -webkit-user-select: none;
+   -khtml-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+.btn-pag-left:hover{
+  opacity:0.7;
+}
+.btn-pag-right{
+  position: absolute;
+  display: flex;
+  color:white;
+  font-size: 2em;
+  align-items: center;
+  width: 16px;
+  height: 100%;
+  background: #6a6c6e;
+  opacity:0.3;
+  right:0px;
+     -webkit-touch-callout: none;
+   -webkit-user-select: none;
+   -khtml-user-select: none;
+   -moz-user-select: none;
+   -ms-user-select: none;
+   user-select: none;
+}
+.btn-pag-right:hover{
+  opacity:0.7;
+}
+
 /* --- fim  volumetria --- */
 
 /* --- inicio grid --- */
