@@ -8,3 +8,7 @@ export const CLEAR_RESULT_VOLUMETRIA = "limparResultadoConsulta";
 export const CLEAR_VALUES_PARAMETER_CONSULT = "limparParametrosConsulta";
 
 export const SET_STATUS_PESQUISA = "alterarStatusPesquisa";
+
+// -- temporário
+export const SET_PROCESSO_DETALHADOS = "guardarProcessosDetalhados"
+// -- temporário

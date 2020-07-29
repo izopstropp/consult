@@ -6,3 +6,5 @@ export const CHANGE_VALUES_PARAMETER_VOLUMETRIA =
 export const CLEAR_VALUES_PARAMETER = "limparValoresPrametros";
 
 export const MOD_STATUS_PESQUISA = "modificaStatusPesquisa";
+
+export const CHANGE_PROCESSO_DETALHADOS = "trocarValorProcessosDetalhados"

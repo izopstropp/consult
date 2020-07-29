@@ -2,10 +2,12 @@ import { SET_RESULT_VOLUMETRIA, CLEAR_RESULT_VOLUMETRIA } from "../actions";
 import { SET_PARAMETROS_CONSULT_VOLUMETRIA } from "../actions";
 import { CLEAR_VALUES_PARAMETER_CONSULT } from "../actions";
 import { SET_STATUS_PESQUISA } from "../actions";
+import { SET_PROCESSO_DETALHADOS } from "../actions";
 import { CHANGE_VALUES_VOLUMETRIA } from "../mutations";
 import { CHANGE_VALUES_PARAMETER_VOLUMETRIA } from "../mutations";
 import { CLEAR_VALUES_PARAMETER } from "../mutations";
 import { MOD_STATUS_PESQUISA } from "../mutations";
+import { CHANGE_PROCESSO_DETALHADOS } from "../mutations";
 
 export default {
   state: {
@@ -23,6 +25,9 @@ export default {
     },
     ResultadoVolumetria: {},
     pesquisaRealizada: false,
+    //-- Temporário
+    processosDetalhados:[]
+    //------------------
   },
   getters: {
     getResultadoPesquisaVolumetria: (state) => {
@@ -34,6 +39,9 @@ export default {
     getStatusRealizacaoPesquisa: (state) => {
       return state.pesquisaRealizada;
     },
+    getProcessosDetalhados: (state)=>{
+      return state.processosDetalhados
+    }
   },
   actions: {
     [SET_PARAMETROS_CONSULT_VOLUMETRIA]({ commit }, payload) {
@@ -50,6 +58,9 @@ export default {
     },
     [SET_STATUS_PESQUISA]({ commit }, payload) {
       commit(MOD_STATUS_PESQUISA, payload);
+    },
+    [SET_PROCESSO_DETALHADOS]({ commit }, payload) {
+      commit(CHANGE_PROCESSO_DETALHADOS, payload);
     },
   },
   mutations: {
@@ -86,6 +97,9 @@ export default {
     },
     [MOD_STATUS_PESQUISA](state, payload) {
       state.pesquisaRealizada = payload;
+    },
+    [CHANGE_PROCESSO_DETALHADOS](state, payload) {
+      state.processosDetalhados = payload;
     },
   },
 };

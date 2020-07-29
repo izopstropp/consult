@@ -52,7 +52,7 @@
       <!-- <div class="rel-bl1-num-pag"></div> -->
     </div>
     <div class="rel-bl2">
-      <div class="rel-bl2-titulo">Nº de identificação 0006721</div>
+      <div class="rel-bl2-titulo">Nº de identificação {{numeracaoConsultaFormatada}}</div>
       <div clas="rel-bl2-table">
         <table class="rel-bl2-tabela">
           <tr>
@@ -73,18 +73,18 @@
           <template v-for="(reg, index) in gerarRegistroPorPagina">
             <!-- <tr v-for="(item,index) in reg" :key="index"> -->
             <tr :key="index">
-              <td>{{ reg.uf }}</td>
-              <td>{{ reg.npu }}</td>
-              <td>{{ reg.forum }}</td>
-              <td>{{ reg.cidade }}</td>
-              <td>{{ reg.vara }}</td>
-              <td>{{ reg.reu }}</td>
-              <td>{{ reg.autor }}</td>
-              <td>{{ reg.tipoAcao }}</td>
-              <td>{{ reg.valorAcao }}</td>
-              <td>{{ reg.dataDistri }}</td>
-              <td>{{ reg.advAutor }}</td>
-              <td>{{ reg.advRéu }}</td>
+              <td>{{ reg.UF }}</td>
+              <td>{{ reg.NPU }}</td>
+              <td>{{ reg.Forum }}</td>
+              <td>{{ reg.Cidade }}</td>
+              <td>{{ reg.Vara }}</td>
+              <td>{{ reg.Partes.filter(x=> x.TipoParte == 2).map(x=> x.Nome).reduce((acc,el)=> acc+= " | "+el) }}</td>
+              <td>{{ reg.Partes.filter(x=> x.TipoParte == 1).map(x=> x.Nome).reduce((acc,el)=> acc+= " | "+el) }}</td>
+              <td>{{ reg.TipoAcao }}</td>
+              <td>{{ reg.ValorAcao }}</td>
+              <td>{{ reg.DataDistribuicao }}</td>
+              <td>{{ reg.AdvogadoAutor }}</td>
+              <td>{{ reg.AdvogadoReu }}</td>
             </tr>
           </template>
         </table>
@@ -125,21 +125,25 @@
   </div>
 </template>
 <script>
-import { resultaConsulta } from "../../dadosFake/resultadoConsulta";
 export default {
   name: "RelatorioConsultaAcoes",
-  props: ["id", "pag"],
+  props: ["consultaId", "pag"],
   data() {
     return {
-      registrosVelumetria: resultaConsulta,
-      qtdrefres: 0,
+      registrosVelumetria:  this.$store.getters.getProcessosDetalhados,
       paginacao: {
-        limiteItensPagina: 2,
+        limiteItensPagina: 9,
       },
     };
   },
 
   computed: {
+    c(){
+
+    }
+    numeracaoConsultaFormatada(){
+      return ("0000000" + this.consultaId ).slice(-7)
+    },
     totalPage() {
       let totalPage = Math.ceil(
         this.registrosVelumetria.length / this.paginacao.limiteItensPagina
@@ -172,7 +176,7 @@ export default {
           ? parseInt(this.$route.params.pag) + 1
           : parseInt(this.$route.params.pag) - 1;
       this.$router.push({
-        path: `/volumetria/${this.id}/${direcao}`,
+        path: `/volumetria/${this.consultaId}/${direcao}`,
       });
     },
   },

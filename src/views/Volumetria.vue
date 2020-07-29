@@ -1,7 +1,13 @@
 <template>
   <div class="container-resultado-volumetria" v-if="paginaCarregada">
+    <LoadCircle
+      :exibirLoad="solicitandoVolumetriaDetalheProcessos"
+      sizeCircle="100px"
+      pwidth="100%"
+      pheight="92%"
+    />
     <SizeScreen @sizeScreen="ajustarComponentesScreen"/>
-    <div v-if="solicitarVolume" @click="fecharModal" class="modal">
+    <div v-if="VolumetriaDetalhada" @click="fecharModal" class="modal">
       <transition appear name="slide-resul-volum">
         <div class="modal-container">
           <div class="fecharModal" @click="fecharModalClick">
@@ -9,12 +15,12 @@
           </div>
           <img src="../assets/confir-envio.png" alt="imagem de confirmação" />
           <p>Sua pesquisa</p>
-          <p>{{numeracaoConsulta}}</p>
+          <p>{{numeracaoConsultaFormatada}}</p>
           <p>foi enviada para seu e-email</p>
           <router-link
             :to="{
               name: 'RelatorioConsultaAcoes',
-              params: { id: 123, pag: 1 },
+              params: { consultaId: this.consultaId, pag: 1 },
             }"
             tag="p"
           >Pré-Visualizar</router-link>
@@ -381,6 +387,7 @@ import _ from "lodash";
 import LoadCircle from "../components/Load/LoadCircle.vue";
 import { CLEAR_VALUES_PARAMETER_CONSULT } from "../store/actions";
 import { SET_STATUS_PESQUISA } from "../store/actions";
+import { SET_PROCESSO_DETALHADOS } from "../store/actions"
 import {MapperVolumetriaToModel} from "../mapper/MapearVolumetriaToModel.js"
 import consultProcessosApi from "../api/consultProcessosApi.js";
 import SizeScreen from "../components/EventListeners/SizeScreen.vue"
@@ -390,6 +397,7 @@ export default {
   components: { LineChart, MultiSelect, LoadCircle, SizeScreen },
   data() {
     return {
+      consultaId : "",
       datacollectionJustica: {},
       datacollectionParte: {},
       datacollectionUf: {},
@@ -422,7 +430,9 @@ export default {
         limitQtdPaginaVolumetrisUf: 27
       },
       screenMobile:false,
-      exibirFiltro:false
+      exibirFiltro:false,
+      solicitandoVolumetriaDetalheProcessos: false,
+      VolumetriaDetalhada:false
     };
   },
 
@@ -479,7 +489,7 @@ export default {
       // parseFloat(this.totalVolumetriaConsumo.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) 
       // parseFloat(this.totalConsultAcoes.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) 
     },
-    numeracaoConsulta(){
+    numeracaoConsultaFormatada(){
       return ("0000000" + this.$store.getters.getParametrosPesquisa.consultaId ).slice(-7)
     },
     exibirContainerFiltro(){
@@ -539,6 +549,7 @@ export default {
     this.fillDataUf(this.resultadoVolumetria);
   },
   mounted() {
+    this.consultaId = this.$store.getters.getParametrosPesquisa.consultaId 
     this.paginaCarregada = true;
   },
   destroyed() {
@@ -629,15 +640,17 @@ export default {
         // FAZER REQUISIÇÃO
         let corpoRequest = this.prepararCorpoRequest();
 
-         this.realizandoRequisicaoFiltro = true;
+         this.solicitandoVolumetriaDetalheProcessos = true;
+         
         consultProcessosApi
           .buscarProcessosDetalhados(corpoRequest)
           .then(response => {
-            
             if (response.status == 200) {
+              this.VolumetriaDetalhada = true;
+               this.$store.dispatch(SET_PROCESSO_DETALHADOS, response.data.Content );
               // let dadosModel = MapperVolumetriaToModel.MapearToModel(response.data.Content)
             }
-          this.realizandoRequisicaoFiltro = false;  
+          this.solicitandoVolumetriaDetalheProcessos = false;  
           });
           
 
