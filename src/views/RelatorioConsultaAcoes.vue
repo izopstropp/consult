@@ -9,13 +9,13 @@
         <div class="rel-bl1-filtro-input">
           <div class="rel-col-input">
             <label for="nomeParte">Réu/Autor</label>
-            <a-input class="wtam294" name="nomeParte" />
+            <a-input class="wtam294" name="nomeParte" v-model="nomeParte"/>
           </div>
           <div class="rel-col-input">
             <label for="nomeParte">Tipo Ação</label>
-            <a-input class="wtam294" />
+            <a-input class="wtam294" v-model="tipoAcao" />
           </div>
-          <a-button class="rel-bl1-filtro-btn">FILTRAR RESULTADO</a-button>
+          <!-- <a-button class="rel-bl1-filtro-btn">FILTRAR RESULTADO</a-button> -->
         </div>
         <div class="rel-bl1-page">
           <div class="rel-bl1-page-selec">
@@ -130,23 +130,25 @@ export default {
   props: ["consultaId", "pag"],
   data() {
     return {
-      registrosVelumetria:  this.$store.getters.getProcessosDetalhados,
+      registrosVolumetria:  this.$store.getters.getProcessosDetalhados,
       paginacao: {
         limiteItensPagina: 9,
       },
+      nomeParte:"",
+      tipoAcao:""
     };
   },
 
   computed: {
-    c(){
-
-    }
+    processosDetalhadosFiltrados(){
+       return this.registrosVolumetria.filter(p => p.Partes.map(x=> x.Nome).toString().toLowerCase().includes(this.nomeParte.toLowerCase()) && p.TipoAcao.toString().toLowerCase().includes(this.tipoAcao.toLowerCase()))
+    },
     numeracaoConsultaFormatada(){
       return ("0000000" + this.consultaId ).slice(-7)
     },
     totalPage() {
       let totalPage = Math.ceil(
-        this.registrosVelumetria.length / this.paginacao.limiteItensPagina
+        this.processosDetalhadosFiltrados.length / this.paginacao.limiteItensPagina
       );
       return totalPage;
     },
@@ -161,13 +163,29 @@ export default {
         qtdRegistrosAnteriores + this.paginacao.limiteItensPagina;
       if (this.$route.params.pag <= totalPage) {
         for (let i = qtdRegistrosAnteriores; i < qtdRegistroExibicao; i++) {
-          if (this.registrosVelumetria[i] != null) {
-            registrosPorPagina.push(this.registrosVelumetria[i]);
+          if (this.processosDetalhadosFiltrados[i] != null) {
+            registrosPorPagina.push(this.processosDetalhadosFiltrados[i]);
           }
         }
       }
       return registrosPorPagina;
     },
+  },
+  watch: {
+    nomeParte:{
+      handler() {
+       this.$router.push({
+        path: `/volumetria/${this.consultaId}/1`,
+      })
+      }
+    },
+    tipoAcao:{
+      handler() {
+       this.$router.push({
+        path: `/volumetria/${this.consultaId}/1`,
+      })
+      }
+    }
   },
   methods: {
     navegacaoPagina(tipo) {
@@ -222,7 +240,7 @@ p {
 }
 .rel-bl1 {
   margin: 0 auto;
-  max-width: 1162px;
+  max-width: 1362px;
   margin-bottom: 29px;
 }
 .rel-bl1-titulo {
@@ -340,14 +358,14 @@ p {
 }
 .rel-bl2 {
   margin: 0 auto;
-  max-width: 1162px;
+  max-width: 1362px;
 }
 .rel-bl2-titulo {
   font-size: 1.5em;
   margin-bottom: 13px;
 }
 .rel-bl2-tabela {
-  width: 1162px;
+  width: 100%;
 }
 table,
 th,
