@@ -61,5 +61,13 @@ export default {
       url:"consulta/historicoUsuario",
       responseType:"json",
     })
+  },
+  enviarSolicitacaoPreditivo(dados){
+    return instanceAxios({
+      method:"post",
+      baseURL,
+      url:"consulta/preditivo",
+      data:dados
+    })
   }
 };

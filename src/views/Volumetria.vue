@@ -149,7 +149,7 @@
           </div>
           <div class="consulta-form-filtro-btn-block-item">
             <div
-              @click="solicitarVolumetria"
+              @click.prevent ="solicitarVolumetria"
               :class="[
                 realizandoRequisicaoFiltro ? 'btn-disabled' : '',
                 'consulta-form-filtro-btn-item',
@@ -596,9 +596,16 @@ export default {
               
               this.fillData(this.resultadoVolumetria);
               this.fillDataUf(this.resultadoVolumetria);
+            }else {
+              this.$notify({
+                group: "general",
+                title:"Ocorreu um erro inesperado, tente novamente em alguns instantes.",
+                duration: 5000,
+                speed: 700
+              });
             }
           this.realizandoRequisicaoFiltro = false;  
-          });
+          })
           
     },
     desmarcarItem(index, dataset) {
@@ -636,26 +643,41 @@ export default {
 
     },
     solicitarVolumetria() {
-      if (this.validarSolicitacaoAcoes() && !this.solicitarVolume) {
+      if (this.validarSolicitacaoAcoes() && !this.solicitarVolume && !this.realizandoRequisicaoFiltro) {
         // FAZER REQUISIÇÃO
         let corpoRequest = this.prepararCorpoRequest();
+        this.solicitarVolume = true;
+        this.solicitandoVolumetriaDetalheProcessos = true;
 
-         this.solicitandoVolumetriaDetalheProcessos = true;
-         
         consultProcessosApi
           .buscarProcessosDetalhados(corpoRequest)
           .then(response => {
             if (response.status == 200) {
-              this.VolumetriaDetalhada = true;
-               this.$store.dispatch(SET_PROCESSO_DETALHADOS, response.data.Content );
-              // let dadosModel = MapperVolumetriaToModel.MapearToModel(response.data.Content)
+              if(response.data.Success == true){
+                this.VolumetriaDetalhada = true;
+                this.$store.dispatch(SET_PROCESSO_DETALHADOS, response.data.Content );
+                this.$store.dispatch(SET_STATUS_PESQUISA, false);
+              } else {
+                this.solicitarVolume = false;
+                this.solicitandoVolumetriaDetalheProcessos = false;
+                this.$notify({
+                  group: "general",
+                  title:"Ocorreu um erro inesperado, tente novamente em alguns instantes.",
+                  duration: 5000,
+                  speed: 700
+                });
+              }
+            } else {
+              this.$notify({
+                group: "general",
+                title:"Ocorreu um erro inesperado, tente novamente em alguns instantes.",
+                duration: 5000,
+                speed: 700
+              });
+              this.solicitarVolume = false;
+              this.solicitandoVolumetriaDetalheProcessos = false;  
             }
-          this.solicitandoVolumetriaDetalheProcessos = false;  
           });
-          
-
-        this.solicitarVolume = true;
-        this.$store.dispatch(SET_STATUS_PESQUISA, false);
       }
     },
     validarSolicitacaoAcoes() {

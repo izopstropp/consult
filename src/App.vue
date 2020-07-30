@@ -99,7 +99,7 @@ list-style {
   font-size: 12px;
   color: rgb(250, 249, 249) !important;
   background: #02214d !important;
-  height: 30px;
+  height: 46px;
   margin-bottom: 40px;
   border-radius: 3px;
 }

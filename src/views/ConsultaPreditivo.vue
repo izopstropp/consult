@@ -8,7 +8,7 @@
           </div>
           <img src="../assets/confir-envio.png" alt="imagem de confirmação" />
           <p>Sua pesquisa</p>
-          <p>0006721</p>
+          <p>{{nucmeracaoConsultaFormatada}}</p>
           <p>foi enviada para seu e-email</p>
         </div>
       </transition>
@@ -59,13 +59,22 @@
         <a>solicitar preditivo</a>
       </div>
     </div>
+    <notifications
+      classes="style-notification"
+      group="general"
+      position="bottom center"
+      :ignoreDuplicates="true"
+      animation-name="v-fade-left"
+    />
   </div>
 </template>
 <script>
+import consultProcessosApi from "../api/consultProcessosApi.js";
 export default {
   name: "ConsultaPreditivo",
   data() {
     return {
+      consultaId:"",
       npus: "",
       npuInvalido: false,
       semNpu: false,
@@ -73,6 +82,9 @@ export default {
     };
   },
   computed: {
+     nucmeracaoConsultaFormatada(){
+      return ("0000000" + this.consultaId ).slice(-7)
+    },
     npuFormatados() {
       var re = /\s+/;
       return this.npus.split(re).filter(y => y != null && y != "");
@@ -102,7 +114,24 @@ export default {
     solicitarPreditivo() {
       if (this.npus !== "") {
         if (this.validarNpus()) {
-          this.solicitarPred = true;
+          consultProcessosApi.enviarSolicitacaoPreditivo({"NPUs": this.npuFormatados}).then(response =>{
+              if (response.status == 200) {
+                  this.consultaId = response.data.Content
+                  this.solicitarPred = true;
+            }else {
+              this.$notify({
+                group: "general",
+                title:
+                  "Ocorreu um erro inesperado, tente novamente em alguns instantes.",
+
+                duration: 5000,
+
+                speed: 700
+              });
+              this.realizandoRequisicaoFiltro = false;
+            }
+          })
+
         } else {
           this.npuInvalido = true;
         }
