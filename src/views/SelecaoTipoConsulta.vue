@@ -7,10 +7,40 @@
       <div class="selecao-botao">
         <div class="btn-acao">
           <a-button
-            @click="ativarBotao(1)"
+            @click="ativarBotao(3)"
+            style="border-right:none; border-bottom:none; border-radius: 5px 0px 0px 0px !important;"
             :class="[
-              btnAcaoAtivado ? 'color-backgroud-azul' : '',
-              'esconder-bordar-direita',
+              btnAlertaJuridicoAtivado ? 'color-backgroud-azul' : '',
+            ]"
+          >Alerta Jurídico <span 
+          style="color:white; 
+          background-color:red; 
+          width:10px;
+          height:16px;
+          margin-left: 10px;
+          padding-right: 3px;
+          position:absolute;
+          padding-bottom: 18px;
+          "
+          > 1</span></a-button
+          >
+        </div>
+        <div class="btn-acao">
+          <a-button
+            @click="ativarBotao(4)"
+            style="border-bottom: none; border-radius: 0px 5px 0px 0px !important;"
+            :class="[
+              btnPassivoJuridicoAtivado ? 'color-backgroud-azul' : ''
+            ]"
+            >Passivo Jurídico</a-button
+          >
+        </div>
+        <div class="btn-acao">
+          <a-button
+            @click="ativarBotao(1)"
+            style="border-right:none; border-radius: 0px 0px 0px 5px !important;"
+            :class="[
+              btnAcaoAtivado ? 'color-backgroud-azul' : ''
             ]"
             >Ações</a-button
           >
@@ -18,13 +48,14 @@
         <div class="btn-acao">
           <a-button
             @click="ativarBotao(2)"
+            style="border-radius: 0px 0px 5px 0px !important;"
             :class="[
               btnPreditivoAtivado ? 'color-backgroud-azul' : '',
-              'esconder-bordar-esquerda',
             ]"
             >Preditivo</a-button
           >
         </div>
+         
       </div>
       <div class="selecao-confirma">
         <router-link
@@ -42,6 +73,8 @@ export default {
     return {
       btnAcaoAtivado: true,
       btnPreditivoAtivado: false,
+      btnAlertaJuridicoAtivado:false,
+      btnPassivoJuridicoAtivado: false,
       nameRouterLink: "consulta-acoes",
       paginaCarregada: false,
     };
@@ -54,11 +87,29 @@ export default {
       if (btn === 1) {
         this.btnAcaoAtivado = true;
         this.btnPreditivoAtivado = false;
+        this.btnAlertaJuridicoAtivado = false;
+        this.btnPassivoJuridicoAtivado = false;
         this.nameRouterLink = "consulta-acoes";
-      } else {
+      } else if(btn === 2) {
         this.btnAcaoAtivado = false;
         this.btnPreditivoAtivado = true;
+        this.btnAlertaJuridicoAtivado = false;
+        this.btnPassivoJuridicoAtivado = false;
         this.nameRouterLink = "consulta-preditivo";
+      }
+       else if(btn === 3) {
+        this.btnAcaoAtivado = false;
+        this.btnPreditivoAtivado = false;
+        this.btnAlertaJuridicoAtivado = true;
+        this.btnPassivoJuridicoAtivado = false;
+        this.nameRouterLink = "alerta-juridico";
+      }
+       else if(btn === 4) {
+        this.btnAcaoAtivado = false;
+        this.btnPreditivoAtivado = false;
+        this.btnAlertaJuridicoAtivado = false;
+        this.btnPassivoJuridicoAtivado = true;
+        this.nameRouterLink = "passivo-juridico";
       }
     },
   },
@@ -93,7 +144,7 @@ p {
 }
 .selecao-botao {
   display: flex;
-  max-width: 294px;
+  max-width: 314px;
   flex-wrap: wrap;
   margin: 0 auto;
   /* background-color: #001a3f; */
@@ -109,7 +160,7 @@ p {
 }
 .esconder-bordar-esquerda {
   border-left: none;
-  border-radius: 0px 5px 5px 0px !important;
+  
 }
 .selecao-confirma {
   margin-top: 38px;
@@ -127,8 +178,8 @@ p {
   border-radius: 2px;
 }
 .ant-btn {
-  width: 147px;
-  height: 33px;
+  width: 157px;
+  height: 43px;
   color: #1a1919a9;
 }
 

@@ -9,6 +9,7 @@ import RelatorioConsultaAcoes from "../views/RelatorioConsultaAcoes.vue";
 import HistoricoConsulta from "../views/HistoricoConsulta";
 import ConsultaPreditivo from "../views/ConsultaPreditivo";
 import Volumetria from "../views/Volumetria";
+import PassivoJuridico from "../views/PassivoJuridico"
 // import LoadCircle from "../components/Load/loadCircle.vue";
 
 Vue.use(VueRouter);
@@ -62,6 +63,11 @@ const routes = [
         path: "/consulta-preditivo",
         name: "consulta-preditivo",
         component: ConsultaPreditivo,
+      },
+      {
+        path: "/passivo-juridico",
+        name: "passivo-juridico",
+        component: PassivoJuridico,
       },
     ],
   },

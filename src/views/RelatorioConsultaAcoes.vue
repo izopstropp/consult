@@ -208,7 +208,7 @@ p {
   width: 294px;
 }
 .rel-bl {
-  max-width: 1480px;
+  max-width: 1120px;
   margin: 65px auto;
   animation: fadeOut 0.3s;
 }
