@@ -54,6 +54,26 @@ export default {
       },
     })
   },
+  buscarProcessosDetalhadosPreditivo(dadosConsulta){
+    return instanceAxios({
+      method:"get",
+      baseURL,
+      url:"/consultaProcessosPreditivo",
+      responseType:"json",
+      params: {
+        consultaId : dadosConsulta.consultaId,
+        nome: dadosConsulta.nome,
+        documento: dadosConsulta.documento,
+        sigla: dadosConsulta.sigla,
+        tipoPessoa: dadosConsulta.tipoPessoa,
+        justica: dadosConsulta.justicas,
+        partes: dadosConsulta.partes,
+        ufs: dadosConsulta.ufs,
+        dataDistribuicaoInicio: dadosConsulta.dataDistribuicaoInicio,
+        dataDistribuicaoFim: dadosConsulta.dataDistribuicaoFim,
+      },
+    })
+  },
   buscarAcoesPorUsuario(){
     return instanceAxios({
       method:"post",

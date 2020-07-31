@@ -3,13 +3,12 @@ import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
 import SelecaoTipoConsulta from "../views/SelecaoTipoConsulta.vue";
-import ConsultaAcoes from "../views/ConsultaAcoes";
-import ResultadoConsultaAcoes from "../views/ResultadoConsultaAcoes.vue";
-import RelatorioConsultaAcoes from "../views/RelatorioConsultaAcoes.vue";
+import ConsultaAcoes from "../views/acoes/ConsultaAcoes";
+import RelatorioConsultaAcoes from "../views/acoes/RelatorioConsultaAcoes.vue";
 import HistoricoConsulta from "../views/HistoricoConsulta";
-import ConsultaPreditivo from "../views/ConsultaPreditivo";
-import Volumetria from "../views/Volumetria";
-import PassivoJuridico from "../views/PassivoJuridico"
+import ConsultaPreditivo from "../views/preditivo/ConsultaPreditivo";
+import Volumetria from "../views/acoes/Volumetria";
+import PassivoJuridico from "../views/passivoJuridico/PassivoJuridico"
 // import LoadCircle from "../components/Load/loadCircle.vue";
 
 Vue.use(VueRouter);
@@ -42,11 +41,6 @@ const routes = [
         path: "/volumetria",
         name: "ResultadoConsultaAcoes",
         component: Volumetria,
-      },
-      {
-        path: "/volumetria1",
-        name: "ResultadoConsultaAcoes1",
-        component: ResultadoConsultaAcoes,
       },
       {
         path: "/volumetria/:consultaId/:pag",

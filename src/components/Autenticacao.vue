@@ -1,7 +1,7 @@
 <template>
   <div class="container-login-principal">
     <div class="container-component-login">
-      <img src="../assets/LogoKurierConsult.png" alt="logo da kurier consult" />
+      <img src="../assets/logo-soluções-color.png" alt="logo da kurier consult" />
       <a-form :layout="formLayout">
         <div class="login">
           <a-form-item
@@ -216,17 +216,16 @@ body {
   position: absolute;
 }
 img {
-  text-align: center;
+  margin: 0 auto;
   margin-top: 35px;
-  max-width: 50%;
+  width: 250px;
+  display: inherit;
+  margin-right: 80px
 }
 .container-component-login {
   margin: 174px auto auto auto;
   background-color: #ffffff;
   max-width: 373px;
-}
-.container-component-login > img {
-  margin-left: 94px;
 }
 .login {
   padding: 20px;

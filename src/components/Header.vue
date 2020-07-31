@@ -3,7 +3,7 @@
     <div class="menu">
       <div class="menu-itens">
         <div class="menu-logokurier">
-          <img src="../assets/LogoKurierConsultMenu.png" alt="logo kurier" />
+          <img style="width:150px;" src="../assets/logo-soluções-negativo.png" alt="logo kurier" />
         </div>
         <div class="menu-esquerdo" @click="iterarMenuUsuario">
           <img style="width:35px" src="../assets/icons/07.png" alt="perfil usuário" />

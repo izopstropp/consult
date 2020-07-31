@@ -13,7 +13,7 @@
           <div class="fecharModal" @click="fecharModalClick">
             <p>X</p>
           </div>
-          <img src="../assets/confir-envio.png" alt="imagem de confirmação" />
+          <img src="../../assets/confir-envio.png" alt="imagem de confirmação" />
           <p>Sua pesquisa</p>
           <p>{{numeracaoConsultaFormatada}}</p>
           <p>foi enviada para seu e-email</p>
@@ -30,7 +30,7 @@
 
     <div v-show="exibirContainerFiltro" :class="[solicitarVolume ? 'blur-container' : '', 'container-filtro']">
       <div class="filtro-resumo">
-        <img v-if="screenMobile" @click="exibirFiltro = false" style="width:25px; height:25px; cursor:pointer" src="../assets/icons/icon-menu.png" alt="menu" />
+        <img v-if="screenMobile" @click="exibirFiltro = false" style="width:25px; height:25px; cursor:pointer" src="../../assets/icons/icon-menu.png" alt="menu" />
         <div class="resumo-justica">
           <div class="result">
             <div
@@ -40,11 +40,6 @@
             >
               Justiça
               <span>{{ item.nome }}</span>
-              <!-- <span v-if="!item.fixo" @click="desmarcarItem(item, parametrosFiltro.dataSetJustica)">
-                <small>
-                  <img src="../assets/minix.png" alt="fechar" />
-                </small>
-              </span>-->
             </div>
           </div>
         </div>
@@ -58,11 +53,7 @@
             >
               Parte
               <span>{{ item.nome }}</span>
-              <!-- <span v-if="!item.fixo" @click="desmarcarItem(item, parametrosFiltro.dataSetParte)">
-                <small>
-                  <img src="../assets/minix.png" alt="fechar" />
-                </small>
-              </span>-->
+
             </div>
           </div>
         </div>
@@ -75,11 +66,6 @@
             >
               UF
               <span>{{ item.nome }}</span>
-              <!-- <span v-if="!item.fixo" @click="desmarcarItem(item, parametrosFiltro.dataSetUf)">
-                <small>
-                  <img src="../assets/minix.png" alt="fechar" />
-                </small>
-              </span>-->
             </div>
           </div>
         </div>
@@ -173,11 +159,11 @@
     <div :class="[solicitarVolume ? 'blur-container' : '', 'container-volumetria']">
       <div class="registro">
         <div>
-          <img v-if="screenMobile" @click="exibirFiltro = true" style="width:25px; height:25px; cursor:pointer" src="../assets/icons/icon-menu.png" alt="menu" />
+          <img v-if="screenMobile" @click="exibirFiltro = true" style="width:25px; height:25px; cursor:pointer" src="../../assets/icons/icon-menu.png" alt="menu" />
         </div>
         <div>
-        <img src="../assets//icons/05.png" alt="compartilhar" />
-        <img src="../assets/icons/06.png" alt="impressão" />
+        <img src="../../assets//icons/05.png" alt="compartilhar" />
+        <img src="../../assets/icons/06.png" alt="impressão" />
         </div>
       </div>
       <div class="container-volumetria-principal">
@@ -227,7 +213,7 @@
                   Descrição
                   <img
                     @click="[exibirtooltipTable = !exibirtooltipTable, exibirCorpoTooltip = false]"
-                    src="../assets/icons/08.png"
+                    src="../../assets/icons/08.png"
                     alt="info"
                     style="cursor:pointer"
                   />
@@ -378,19 +364,19 @@
   </div>
 </template>
 <script>
-import LineChart from "../components/Graficos/Barras/BarChart.vue";
-import MultiSelect from "../components/input/select/multiSelect/MultiConsult.vue";
-import { dataSetUf } from "../valuesInput/dataSetUf.js";
-import { dataSetJustica } from "../valuesInput/dataSetJustica.js";
-import { dataSetParte } from "../valuesInput/dataSetParte.js";
+import LineChart from "../../components/Graficos/Barras/BarChart.vue";
+import MultiSelect from "../../components/input/select/multiSelect/MultiConsult.vue";
+import { dataSetUf } from "../../valuesInput/dataSetUf.js";
+import { dataSetJustica } from "../../valuesInput/dataSetJustica.js";
+import { dataSetParte } from "../../valuesInput/dataSetParte.js";
 import _ from "lodash";
-import LoadCircle from "../components/Load/LoadCircle.vue";
-import { CLEAR_VALUES_PARAMETER_CONSULT } from "../store/actions";
-import { SET_STATUS_PESQUISA } from "../store/actions";
-import { SET_PROCESSO_DETALHADOS } from "../store/actions"
-import {MapperVolumetriaToModel} from "../mapper/MapearVolumetriaToModel.js"
-import consultProcessosApi from "../api/consultProcessosApi.js";
-import SizeScreen from "../components/EventListeners/SizeScreen.vue"
+import LoadCircle from "../../components/Load/LoadCircle.vue";
+import { CLEAR_VALUES_PARAMETER_CONSULT } from "../../store/actions";
+import { SET_STATUS_PESQUISA } from "../../store/actions";
+import { SET_PROCESSO_DETALHADOS } from "../../store/actions"
+import {MapperVolumetriaToModel} from "../../mapper/MapearVolumetriaToModel.js"
+import consultProcessosApi from "../../api/consultProcessosApi.js";
+import SizeScreen from "../../components/EventListeners/SizeScreen.vue"
 
 export default {
   name: "volumetria",
@@ -644,22 +630,31 @@ export default {
     },
     solicitarVolumetria() {
       if (this.validarSolicitacaoAcoes() && !this.solicitarVolume && !this.realizandoRequisicaoFiltro) {
-        // FAZER REQUISIÇÃO
+        if(this.screenMobile) this.exibirFiltro = false
+
         let corpoRequest = this.prepararCorpoRequest();
+        let instanciaRequest=null;
+        if(!this.preditivo){
+          instanciaRequest = consultProcessosApi.buscarProcessosDetalhados(corpoRequest);
+        }else{
+          instanciaRequest = consultProcessosApi.buscarProcessosDetalhadosPreditivo(corpoRequest);
+        }
+        // FAZER REQUISIÇÃO
+        
         this.solicitarVolume = true;
         this.solicitandoVolumetriaDetalheProcessos = true;
 
-        consultProcessosApi
-          .buscarProcessosDetalhados(corpoRequest)
+        instanciaRequest
           .then(response => {
             if (response.status == 200) {
               if(response.data.Success == true){
+                this.solicitandoVolumetriaDetalheProcessos = false;
                 this.VolumetriaDetalhada = true;
                 this.$store.dispatch(SET_PROCESSO_DETALHADOS, response.data.Content );
                 this.$store.dispatch(SET_STATUS_PESQUISA, false);
               } else {
-                this.solicitarVolume = false;
                 this.solicitandoVolumetriaDetalheProcessos = false;
+                this.solicitarVolume = false;
                 this.$notify({
                   group: "general",
                   title:"Ocorreu um erro inesperado, tente novamente em alguns instantes.",

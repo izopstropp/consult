@@ -12,7 +12,7 @@
     <div class="tooltip-extendido">
       <tooltip :class="[exibicaoTooltip ? 'tootip-exibir' : '', 'tooltip']">
         <div @click="exibirTooltip = false" class="fechar-tooltip">
-          <img src="../assets/btn-fecha-tootip.png" alt="fechar" />
+          <img src="../../assets/btn-fecha-tootip.png" alt="fechar" />
         </div>
         <div style="width:220px">
           <p>
@@ -97,7 +97,7 @@
             <span>{{ item.nome }}</span>
             <span @click="desmarcarItemTipoPessoa(item)">
               <small>
-                <img src="../assets/minix.png" alt="fechar" />
+                <img src="../../assets/minix.png" alt="fechar" />
               </small>
             </span>
           </div>
@@ -117,7 +117,7 @@
             <span>{{ item.nome }}</span>
             <span @click="desmarcarItemJustica(item)">
               <small>
-                <img src="../assets/minix.png" alt="fechar" />
+                <img src="../../assets/minix.png" alt="fechar" />
               </small>
             </span>
           </div>
@@ -137,7 +137,7 @@
             <span>{{ item.nome }}</span>
             <span @click="desmarcarItemParte(item)">
               <small>
-                <img src="../assets/minix.png" alt="fechar" />
+                <img src="../../assets/minix.png" alt="fechar" />
               </small>
             </span>
           </div>
@@ -161,7 +161,7 @@
           <span>{{ item.nome }}</span>
           <span @click="desmarcarItemUf(item)">
             <small>
-              <img src="../assets/minix.png" alt="fechar" />
+              <img src="../../assets/minix.png" alt="fechar" />
             </small>
           </span>
         </div>
@@ -188,17 +188,17 @@
 <script>
 import { mask } from "vue-the-mask";
 import multiSelect from "@/components/input/select/multiSelect/MultiConsult.vue";
-import { dataSetUf } from "../valuesInput/dataSetUf.js";
-import { dataSetJustica } from "../valuesInput/dataSetJustica.js";
-import { dataSetParte } from "../valuesInput/dataSetParte.js";
-import { dataSetTipoPessoa } from "../valuesInput/dataSetTipoPessoa.js";
-import consultProcessosApi from "../api/consultProcessosApi.js";
+import { dataSetUf } from "../../valuesInput/dataSetUf.js";
+import { dataSetJustica } from "../../valuesInput/dataSetJustica.js";
+import { dataSetParte } from "../../valuesInput/dataSetParte.js";
+import { dataSetTipoPessoa } from "../../valuesInput/dataSetTipoPessoa.js";
+import consultProcessosApi from "../../api/consultProcessosApi.js";
 import tooltip from "@/components/ToolTip.vue";
-import { SET_RESULT_VOLUMETRIA } from "../store/actions";
-import { SET_PARAMETROS_CONSULT_VOLUMETRIA } from "../store/actions";
-import { SET_STATUS_PESQUISA } from "../store/actions";
-import { MapperVolumetriaToModel } from "../mapper/MapearVolumetriaToModel.js";
-import LoadCircle from "../components/Load/LoadCircle.vue";
+import { SET_RESULT_VOLUMETRIA } from "../../store/actions";
+import { SET_PARAMETROS_CONSULT_VOLUMETRIA } from "../../store/actions";
+import { SET_STATUS_PESQUISA } from "../../store/actions";
+import { MapperVolumetriaToModel } from "../../mapper/MapearVolumetriaToModel.js";
+import LoadCircle from "../../components/Load/LoadCircle.vue";
 
 export default {
   name: "consulta-acoes",
@@ -349,7 +349,8 @@ export default {
       this.parametrosConsulta.tipoPessoa = this.getOpcoesSelecionadas(
         this.dataSetTipoPessoaSelecionado
       );
-
+      this.parametrosConsulta.documento = this.parametrosConsulta.documento.replace("-","").replace(".","").replace(".","").replace("/","")
+      console.log(this.parametrosConsulta.documento)
       if (this.dataDistIni && this.dataDistFim) {
         this.parametrosConsulta.dataDistribuicaoInicio = this.tratarData(
           this.dataDistIni,

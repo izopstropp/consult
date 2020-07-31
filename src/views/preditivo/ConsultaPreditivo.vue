@@ -6,7 +6,7 @@
           <div class="fecharModal" @click="fecharModalClick">
             <p>X</p>
           </div>
-          <img src="../assets/confir-envio.png" alt="imagem de confirmação" />
+          <img src="../../assets/confir-envio.png" alt="imagem de confirmação" />
           <p>Sua pesquisa</p>
           <p>{{nucmeracaoConsultaFormatada}}</p>
           <p>foi enviada para seu e-email</p>
@@ -69,7 +69,7 @@
   </div>
 </template>
 <script>
-import consultProcessosApi from "../api/consultProcessosApi.js";
+import consultProcessosApi from "../../api/consultProcessosApi.js";
 export default {
   name: "ConsultaPreditivo",
   data() {

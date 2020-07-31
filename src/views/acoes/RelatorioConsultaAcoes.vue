@@ -60,7 +60,7 @@
             <th>NPU</th>
             <th>Fórum</th>
             <th>Cidade</th>
-            <th>Vará</th>
+            <th>Vara</th>
             <th>Réu</th>
             <th>Autor</th>
             <th>Tipo Ação</th>
@@ -78,11 +78,11 @@
               <td>{{ reg.Forum }}</td>
               <td>{{ reg.Cidade }}</td>
               <td>{{ reg.Vara }}</td>
-              <td>{{ reg.Partes.filter(x=> x.TipoParte == 2).map(x=> x.Nome).reduce((acc,el)=> acc+= " | "+el) }}</td>
-              <td>{{ reg.Partes.filter(x=> x.TipoParte == 1).map(x=> x.Nome).reduce((acc,el)=> acc+= " | "+el) }}</td>
+              <td>{{ formatacaoParte(reg.Partes,2) }}</td>
+              <td>{{ formatacaoParte(reg.Partes,1) }}</td>
               <td>{{ reg.TipoAcao }}</td>
-              <td>{{ reg.ValorAcao }}</td>
-              <td>{{ reg.DataDistribuicao }}</td>
+              <td>{{ reg.ValorAcao.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) }}</td>
+              <td>{{ formatacaoData(reg.DataDistribuicao) }}</td>
               <td>{{ reg.AdvogadoAutor }}</td>
               <td>{{ reg.AdvogadoReu }}</td>
             </tr>
@@ -153,8 +153,7 @@ export default {
       return totalPage;
     },
     gerarRegistroPorPagina() {
-      let registrosPorPagina = [];
-
+      let registrosPorPagina = [];      
       let totalPage = this.totalPage;
       let qtdRegistrosAnteriores =
         this.$route.params.pag * this.paginacao.limiteItensPagina -
@@ -168,6 +167,7 @@ export default {
           }
         }
       }
+      console.log(registrosPorPagina)
       return registrosPorPagina;
     },
   },
@@ -197,6 +197,14 @@ export default {
         path: `/volumetria/${this.consultaId}/${direcao}`,
       });
     },
+    formatacaoData(data){
+      var d = new Date(data);
+      return d.toLocaleDateString();
+    },
+    formatacaoParte(parte,tipo){
+      return parte.filter(x=> x.TipoParte == tipo).map(p=> p.Nome).reduce((acc,el)=> acc+= " | "+el,"")
+        // return parte.filter(x=> x.TipoParte == tipo).map(x=> x.Nome).reduce((acc,el)=> acc+= " | "+el)
+    }
   },
 };
 </script>
