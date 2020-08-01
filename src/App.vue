@@ -133,18 +133,9 @@ list-style {
   opacity: 0;
   transform: translateY(200px) scale(0.2);
 }
-.chartjs-size-monitor, .chartjs-size-monitor-expand, .chartjs-size-monitor-shrink{
+.chartjs-size-monitor,
+.chartjs-size-monitor-expand,
+.chartjs-size-monitor-shrink {
   position: relative;
-    /* direction: ltr !important; */
-    /* left: 0 !important;
-    top: 0 !important;
-    right: 0 !important;
-    bottom: 0 !important;
-    overflow-x: visible !important;
-    overflow-y: visible !important;
-    pointer-events: none !important;
-    visibility: hidden !important;
-    z-index: -1 !important; */
 }
-
 </style>

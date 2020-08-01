@@ -103,7 +103,7 @@
           </div>
         </div>
       </div>
-      <div class="consulta-form-input input-multi-select " >
+      <div class="consulta-form-input input-multi-select">
         <multiSelect
           textAlignTextButtom="center"
           nomeCampo="Justiça"
@@ -206,12 +206,12 @@ export default {
   components: {
     tooltip,
     multiSelect,
-    LoadCircle
+    LoadCircle,
   },
   data() {
     return {
       parametrosConsulta: {
-        consultaId:"",
+        consultaId: "",
         nome: "",
         documento: "",
         possuiSigla: false,
@@ -221,7 +221,7 @@ export default {
         justicas: [],
         partes: [],
         dataDistribuicaoInicio: "",
-        dataDistribuicaoFim: ""
+        dataDistribuicaoFim: "",
       },
       dataDistIni: "",
       dataDistFim: "",
@@ -232,7 +232,7 @@ export default {
       dataSetJustica: dataSetJustica,
       dataSetParte: dataSetParte,
       dataSetTipoPessoa: dataSetTipoPessoa,
-      realizandoRequisicaoFiltro: false
+      realizandoRequisicaoFiltro: false,
     };
   },
 
@@ -242,27 +242,26 @@ export default {
   },
   computed: {
     dataSetJusticaSelecinado() {
-      let result = this.dataSetJustica.filter(item => {
+      let result = this.dataSetJustica.filter((item) => {
         return item.marcado == true;
       });
       return result;
     },
     dataSetParteSelecinado() {
-      let result = this.dataSetParte.filter(item => {
+      let result = this.dataSetParte.filter((item) => {
         return item.marcado == true;
       });
       return result;
     },
     dataSetUfSelecinado() {
-      let result = this.dataSetUf.filter(item => {
+      let result = this.dataSetUf.filter((item) => {
         return item.marcado == true && item.nome != "Todas";
       });
-
 
       return result;
     },
     dataSetTipoPessoaSelecionado() {
-      let result = this.dataSetTipoPessoa.filter(item => {
+      let result = this.dataSetTipoPessoa.filter((item) => {
         return item.marcado == true;
       });
       return result;
@@ -273,36 +272,36 @@ export default {
         return true;
       }
       return false;
-    }
+    },
   },
   methods: {
     desmarcarItemJustica(index) {
-      this.dataSetJustica.map(function(item) {
+      this.dataSetJustica.map(function (item) {
         if (item.nome == index.nome) {
           item.marcado = false;
         }
       });
     },
     desmarcarItemParte(index) {
-      this.dataSetParte.map(function(item) {
+      this.dataSetParte.map(function (item) {
         if (item.nome == index.nome) {
           item.marcado = false;
         }
       });
     },
     desmarcarItemUf(index) {
-      this.dataSetUf.map(function(item) {
+      this.dataSetUf.map(function (item) {
         if (item.nome == index.nome) {
           item.marcado = false;
         }
       });
       let itemPrincipal = this.dataSetUf
-        .map(x => x)
-        .filter(y => y.nome == "Todas");
+        .map((x) => x)
+        .filter((y) => y.nome == "Todas");
       itemPrincipal[0].marcado = false;
     },
     desmarcarItemTipoPessoa(index) {
-      this.dataSetTipoPessoa.map(function(item) {
+      this.dataSetTipoPessoa.map(function (item) {
         if (item.nome == index.nome) {
           item.marcado = false;
         }
@@ -349,8 +348,12 @@ export default {
       this.parametrosConsulta.tipoPessoa = this.getOpcoesSelecionadas(
         this.dataSetTipoPessoaSelecionado
       );
-      this.parametrosConsulta.documento = this.parametrosConsulta.documento.replace("-","").replace(".","").replace(".","").replace("/","")
-      console.log(this.parametrosConsulta.documento)
+      this.parametrosConsulta.documento = this.parametrosConsulta.documento
+        .replace("-", "")
+        .replace(".", "")
+        .replace(".", "")
+        .replace("/", "");
+      console.log(this.parametrosConsulta.documento);
       if (this.dataDistIni && this.dataDistFim) {
         this.parametrosConsulta.dataDistribuicaoInicio = this.tratarData(
           this.dataDistIni,
@@ -361,18 +364,19 @@ export default {
           ""
         );
       }
-      this.parametrosConsulta.consultaId = null
+      this.parametrosConsulta.consultaId = null;
       if (this.validar()) {
         this.realizandoRequisicaoFiltro = true;
         consultProcessosApi
           .buscarProcessosVolumetria(this.parametrosConsulta)
-          .then(response => {
+          .then((response) => {
             if (response.status == 200) {
-              console.log(response.data.Content)
+              console.log(response.data.Content);
               let dadosModel = MapperVolumetriaToModel.MapearToModel(
                 response.data.Content
               );
-              this.parametrosConsulta.consultaId = response.data.Content.consultaId
+              this.parametrosConsulta.consultaId =
+                response.data.Content.consultaId;
               this.$store.dispatch(SET_RESULT_VOLUMETRIA, dadosModel);
               this.$store.dispatch(
                 SET_PARAMETROS_CONSULT_VOLUMETRIA,
@@ -388,7 +392,7 @@ export default {
 
                 duration: 5000,
 
-                speed: 700
+                speed: 700,
               });
               this.realizandoRequisicaoFiltro = false;
             }
@@ -417,21 +421,21 @@ export default {
       this.siglaValidado = true;
     },
     cleanInput() {
-      dataSetJustica.map(x => (x.marcado = false));
-      dataSetParte.map(x => (x.marcado = false));
-      dataSetUf.map(x => (x.marcado = false));
-      dataSetTipoPessoa.map(x => (x.marcado = false));
+      dataSetJustica.map((x) => (x.marcado = false));
+      dataSetParte.map((x) => (x.marcado = false));
+      dataSetUf.map((x) => (x.marcado = false));
+      dataSetTipoPessoa.map((x) => (x.marcado = false));
     },
     getOpcoesSelecionadas(dataSet) {
       let arrItem = dataSet
-        .map(arr => arr.value)
-        .reduce(function(arr, item) {
+        .map((arr) => arr.value)
+        .reduce(function (arr, item) {
           arr.push(item);
           return arr;
         }, []);
       return arrItem;
-    }
-  }
+    },
+  },
 };
 </script>
 <style scoped>
@@ -466,7 +470,7 @@ p {
 }
 .consulta-formulario-line {
   display: flex;
-  
+
   align-items: unset;
   align-content: center;
   flex-wrap: wrap;
@@ -474,9 +478,9 @@ p {
   max-width: 690px;
   justify-content: space-between;
 }
-@media screen and (max-width:700px) {
-  .consulta-formulario-line{
-flex-direction: column;
+@media screen and (max-width: 700px) {
+  .consulta-formulario-line {
+    flex-direction: column;
   }
 }
 .tooltip-extendido {
@@ -545,14 +549,12 @@ flex-direction: column;
 .input-multi-select {
   min-width: 165px;
   height: 32px;
-  
 }
-@media screen and (max-width : 700px){
+@media screen and (max-width: 700px) {
   .input-multi-select {
-  min-width: 340px;
-  height: auto;
-  
-}
+    min-width: 340px;
+    height: auto;
+  }
 }
 .align-items-end {
   align-items: flex-end;
@@ -570,10 +572,10 @@ flex-direction: column;
   margin: 67px auto auto auto;
   font-size: 0.9em;
 }
-@media screen and (max-width:700px){
+@media screen and (max-width: 700px) {
   .consulta-form-btn {
-  margin: auto auto auto auto;
-}
+    margin: auto auto auto auto;
+  }
 }
 
 .ant-btn {
@@ -582,10 +584,10 @@ flex-direction: column;
   height: 35px;
   color: #c1c8d1;
 }
-@media screen and (max-width: 700px){
- .ant-btn {
-  width: 340px !important;
-}
+@media screen and (max-width: 700px) {
+  .ant-btn {
+    width: 340px !important;
+  }
 }
 .ant-btn:active {
   background-color: #001a3f81;
@@ -601,8 +603,8 @@ p {
   margin-top: 6px;
   height: 1px;
 }
-@media screen and (max-width:700px){
-  .result{
+@media screen and (max-width: 700px) {
+  .result {
     height: auto;
   }
 }
@@ -612,11 +614,11 @@ p {
   height: 1px;
 }
 
-@media screen and (max-width:700px){
+@media screen and (max-width: 700px) {
   .result-expandido {
-  max-width: 325px;
-  margin: 0 auto;
-  height: auto;
+    max-width: 325px;
+    margin: 0 auto;
+    height: auto;
   }
 }
 
@@ -653,9 +655,9 @@ p {
 .btn-consulta {
   margin: 56px auto;
 }
-@media screen and (max-width:700px){
+@media screen and (max-width: 700px) {
   .btn-consulta {
-  margin: 30px auto;
+    margin: 30px auto;
   }
 }
 .btn-consulta div:nth-child(1) {
@@ -666,7 +668,7 @@ p {
   margin: 0 auto;
   max-width: 220px;
 }
-@media screen and (max-width:700px){
+@media screen and (max-width: 700px) {
   .btn-consulta div:nth-child(1) {
     margin: 0 auto;
     width: 340px;

@@ -12,18 +12,10 @@
             :class="[
               btnAlertaJuridicoAtivado ? 'color-backgroud-azul' : '',
             ]"
-          >Alerta Jurídico <span 
-          style="color:white; 
-          background-color:red; 
-          width:10px;
-          height:16px;
-          margin-left: 10px;
-          padding-right: 3px;
-          position:absolute;
-          padding-bottom: 18px;
-          "
-          > 1</span></a-button
           >
+            Alerta Jurídico
+            <span class="qtdAlertaJuridico">1</span>
+          </a-button>
         </div>
         <div class="btn-acao">
           <a-button
@@ -32,8 +24,7 @@
             :class="[
               btnPassivoJuridicoAtivado ? 'color-backgroud-azul' : ''
             ]"
-            >Passivo Jurídico</a-button
-          >
+          >Passivo Jurídico</a-button>
         </div>
         <div class="btn-acao">
           <a-button
@@ -42,8 +33,7 @@
             :class="[
               btnAcaoAtivado ? 'color-backgroud-azul' : ''
             ]"
-            >Ações</a-button
-          >
+          >Ações</a-button>
         </div>
         <div class="btn-acao">
           <a-button
@@ -52,17 +42,11 @@
             :class="[
               btnPreditivoAtivado ? 'color-backgroud-azul' : '',
             ]"
-            >Preditivo</a-button
-          >
+          >Preditivo</a-button>
         </div>
-         
       </div>
       <div class="selecao-confirma">
-        <router-link
-          class="btn-selecao-confirmar"
-          :to="{ name: nameRouterLink }"
-          >Confirmar</router-link
-        >
+        <router-link class="btn-selecao-confirmar" :to="{ name: nameRouterLink }">Confirmar</router-link>
       </div>
     </div>
   </div>
@@ -73,7 +57,7 @@ export default {
     return {
       btnAcaoAtivado: true,
       btnPreditivoAtivado: false,
-      btnAlertaJuridicoAtivado:false,
+      btnAlertaJuridicoAtivado: false,
       btnPassivoJuridicoAtivado: false,
       nameRouterLink: "consulta-acoes",
       paginaCarregada: false,
@@ -90,21 +74,19 @@ export default {
         this.btnAlertaJuridicoAtivado = false;
         this.btnPassivoJuridicoAtivado = false;
         this.nameRouterLink = "consulta-acoes";
-      } else if(btn === 2) {
+      } else if (btn === 2) {
         this.btnAcaoAtivado = false;
         this.btnPreditivoAtivado = true;
         this.btnAlertaJuridicoAtivado = false;
         this.btnPassivoJuridicoAtivado = false;
         this.nameRouterLink = "consulta-preditivo";
-      }
-       else if(btn === 3) {
+      } else if (btn === 3) {
         this.btnAcaoAtivado = false;
         this.btnPreditivoAtivado = false;
         this.btnAlertaJuridicoAtivado = true;
         this.btnPassivoJuridicoAtivado = false;
         this.nameRouterLink = "alerta-juridico";
-      }
-       else if(btn === 4) {
+      } else if (btn === 4) {
         this.btnAcaoAtivado = false;
         this.btnPreditivoAtivado = false;
         this.btnAlertaJuridicoAtivado = false;
@@ -160,7 +142,6 @@ p {
 }
 .esconder-bordar-esquerda {
   border-left: none;
-  
 }
 .selecao-confirma {
   margin-top: 38px;
@@ -193,5 +174,12 @@ p {
 }
 .btn-selecao-confirmar:active {
   background-color: #052f6b;
+}
+.qtdAlertaJuridico {
+  width: 15px;
+  background-color: rgba(187, 7, 7, 0.657);
+  color: white;
+  margin-left: 5px;
+  border-radius: 2px;
 }
 </style>
