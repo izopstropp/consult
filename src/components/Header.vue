@@ -15,7 +15,7 @@
           </div>
           <div class="menu-itens-esquerdo-usuario" :class="nomeClassAbrirMenuUsuario">
             <ul>
-              <router-link class="menu-itens-esquerdo-usuario-configuracao" to="/selecao" tag="li">
+              <router-link class="menu-itens-esquerdo-usuario-configuracao" to="/modulo" tag="li">
                 Inicio
                 <img src="../assets/icons/02.png" alt="mini ampulheta" />
               </router-link>

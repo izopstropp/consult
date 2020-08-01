@@ -378,11 +378,10 @@ p {
 table,
 th,
 td {
-  border: 1px solid black;
+  border: 1px solid #a8b2c0;
   border-collapse: collapse;
-  border-color: #a8b2c0;
   padding: 10px;
-  font-size: 0.9em;
+  fonst-size: 0.9em;
 }
 th {
   text-align: center;

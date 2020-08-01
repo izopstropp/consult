@@ -139,7 +139,7 @@ export default {
             if (response.status == 200) {
               this.$store.dispatch(DO_LOGIN, response.data);
               console.log(response.data)
-              this.$router.push("/selecao");
+              this.$router.push({name: "selecaoTipoConsulta"});
             } else if (response.status == 404) {
               this.$notify({
                 group: "general",

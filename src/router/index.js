@@ -2,14 +2,14 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
-import SelecaoTipoConsulta from "../views/SelecaoTipoConsulta.vue";
+import SelecaoTipoConsulta from "../views/SelecaoModulo.vue";
 import ConsultaAcoes from "../views/acoes/ConsultaAcoes";
 import RelatorioConsultaAcoes from "../views/acoes/RelatorioConsultaAcoes.vue";
 import HistoricoConsulta from "../views/HistoricoConsulta";
 import ConsultaPreditivo from "../views/preditivo/ConsultaPreditivo";
 import Volumetria from "../views/acoes/Volumetria";
 import PassivoJuridico from "../views/passivoJuridico/PassivoJuridico"
-// import LoadCircle from "../components/Load/loadCircle.vue";
+import AlertaJuridico from "../views/alertaJuridico/ConsultaAlertaJuridico"
 
 Vue.use(VueRouter);
 
@@ -28,7 +28,7 @@ const routes = [
     component: Home,
     children: [
       {
-        path: "/selecao",
+        path: "/modulo",
         name: "selecaoTipoConsulta",
         component: SelecaoTipoConsulta,
       },
@@ -63,13 +63,13 @@ const routes = [
         name: "passivo-juridico",
         component: PassivoJuridico,
       },
+      {
+        path: "/alerta-juridico",
+        name: "alerta-juridico",
+        component: AlertaJuridico,
+      },
     ],
   },
-  // {
-  //   path: "/LoadCircle",
-  //   name: "LoadCircle",
-  //   component: LoadCircle,
-  // },
   {
     path: "/login",
     name: "login",
