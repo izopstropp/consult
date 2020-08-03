@@ -74,19 +74,19 @@
           <template v-for="(reg, index) in gerarRegistroPorPagina">
             <!-- <tr v-for="(item,index) in reg" :key="index"> -->
             <tr :key="index">
-              <td>{{ reg.UF }}</td>
-              <td>{{ reg.Justica }}</td>
-              <td>{{ reg.NPU }}</td>
-              <td>{{ reg.Forum }}</td>
-              <td>{{ reg.Cidade }}</td>
-              <td>{{ reg.Vara }}</td>
-              <td>{{ formatacaoParte(reg.Partes,2) }}</td>
-              <td>{{ formatacaoParte(reg.Partes,1) }}</td>
-              <td>{{ reg.TipoAcao }}</td>
-              <td>{{ reg.ValorAcao.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) }}</td>
-              <td>{{ formatacaoData(reg.DataDistribuicao) }}</td>
-              <td>{{ reg.AdvogadoAutor }}</td>
-              <td>{{ reg.AdvogadoReu }}</td>
+              <td width="40">{{ reg.UF }}</td>
+              <td width="40">{{ reg.Justica }}</td>
+              <td width="40">{{ reg.NPU }}</td>
+              <td width="40">{{ reg.Forum }}</td>
+              <td width="40">{{ reg.Cidade }}</td>
+              <td width="40">{{ reg.Vara }}</td>
+              <td width="40">{{ formatacaoParte(reg.Partes,2) }}</td>
+              <td width="40">{{ formatacaoParte(reg.Partes,1) }}</td>
+              <td width="40">{{ reg.TipoAcao }}</td>
+              <td width="40">{{ reg.ValorAcao.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) }}</td>
+              <td width="40">{{ formatacaoData(reg.DataDistribuicao) }}</td>
+              <td width="40">{{ reg.AdvogadoAutor }}</td>
+              <td width="40">{{ reg.AdvogadoReu }}</td>
             </tr>
           </template>
         </table>
@@ -203,7 +203,8 @@ export default {
       return d.toLocaleDateString();
     },
     formatacaoParte(parte,tipo){
-      return parte.filter(x=> x.TipoParte == tipo).map(p=> p.Nome).reduce((acc,el)=> acc+= " | "+el,"")
+      var resultParte = parte.filter(x=> x.TipoParte == tipo).map(p=> p.Nome).reduce((acc,el)=> acc+= " | "+el,"")
+      return resultParte.substring(2, resultParte.length);
         // return parte.filter(x=> x.TipoParte == tipo).map(x=> x.Nome).reduce((acc,el)=> acc+= " | "+el)
     }
   },

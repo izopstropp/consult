@@ -12,8 +12,8 @@
     </div>
     <div class="aj-bl2">
       <p>
-        Você possui
-        <span class="color-red">{{qtdDadosNaoObtidos}}</span> novo alerta!
+        Você possui 
+        <span class="color-red">{{qtdDadosNaoObtidos}}</span> novo(s) alerta(s)!
       </p>
       <p>
         <a-checkbox v-model="selecinarTodos">Selecionar todos</a-checkbox>
@@ -49,7 +49,7 @@
           tag="a-button"
           a-button
           class="ant-btn-green"
-        >Consultar meus monitoramento</router-link>
+        >Consultar meus monitoramentos</router-link>
       </div>
       <div class="rel-bl1-page">
         <div>
