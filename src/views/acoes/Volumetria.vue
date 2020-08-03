@@ -171,7 +171,7 @@
           <span>Volumetria -</span>
           <span>
             Total de
-            {{ this.totalVolumetriaConsumo.QtdProcessos }}
+            {{ this.totalVolumetriaConsumo.QtdProcessos.toLocaleString('pt-BR') }}
             Processos encontrados
           </span>
         </div>
@@ -252,7 +252,7 @@
                     <p>
                       {{
                       $store.getters.getResultadoPesquisaVolumetria
-                      .totalConsultaAcoes.quantidade
+                      .totalConsultaAcoes.quantidade.toLocaleString('pt-BR')
                       }}
                     </p>
                   </div>
@@ -276,7 +276,7 @@
                 </td>
                 <td>
                   <div class="font-weight-bold">
-                    <p>{{ this.totalVolumetriaConsumo.QtdProcessos }}</p>
+                    <p>{{ this.totalVolumetriaConsumo.QtdProcessos.toLocaleString('pt-BR') }}</p>
                   </div>
                 </td>
                 <td>
@@ -298,7 +298,7 @@
                         indicarQtdPreditivo ? 'scale-preditivo-ativado' : '',
                         'scale-preditivo',
                       ]"
-                    >{{ this.totalPreditivoConsumo.QtdProcessos }}</p>
+                    >{{ this.totalPreditivoConsumo.QtdProcessos.toLocaleString('pt-BR') }}</p>
                   </div>
                 </td>
                 <td>
