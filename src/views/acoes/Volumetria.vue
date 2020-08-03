@@ -650,6 +650,7 @@ export default {
               if(response.data.Success == true){
                 this.solicitandoVolumetriaDetalheProcessos = false;
                 this.VolumetriaDetalhada = true;
+                console.log(response.data)
                 this.$store.dispatch(SET_PROCESSO_DETALHADOS, response.data.Content );
                 this.$store.dispatch(SET_STATUS_PESQUISA, false);
               } else {

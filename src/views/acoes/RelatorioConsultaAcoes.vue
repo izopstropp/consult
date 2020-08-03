@@ -57,6 +57,7 @@
         <table class="rel-bl2-tabela">
           <tr>
             <th>UF</th>
+            <th>Justiça</th>
             <th>NPU</th>
             <th>Fórum</th>
             <th>Cidade</th>
@@ -74,6 +75,7 @@
             <!-- <tr v-for="(item,index) in reg" :key="index"> -->
             <tr :key="index">
               <td>{{ reg.UF }}</td>
+              <td>{{ reg.Justica }}</td>
               <td>{{ reg.NPU }}</td>
               <td>{{ reg.Forum }}</td>
               <td>{{ reg.Cidade }}</td>
@@ -215,7 +217,7 @@ p {
   width: 294px;
 }
 .rel-bl {
-  max-width: 1120px;
+  max-width: 1320px;
   margin: 65px auto;
   animation: fadeOut 0.3s;
 }
