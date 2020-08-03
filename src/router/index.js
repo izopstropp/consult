@@ -8,8 +8,9 @@ import RelatorioConsultaAcoes from "../views/acoes/RelatorioConsultaAcoes.vue";
 import HistoricoConsulta from "../views/HistoricoConsulta";
 import ConsultaPreditivo from "../views/preditivo/ConsultaPreditivo";
 import Volumetria from "../views/acoes/Volumetria";
-import PassivoJuridico from "../views/passivoJuridico/PassivoJuridico"
-import AlertaJuridico from "../views/alertaJuridico/ConsultaAlertaJuridico"
+import PassivoJuridico from "../views/passivoJuridico/PassivoJuridico";
+import AlertaJuridico from "../views/alertaJuridico/ConsultaAlertaJuridico";
+import monitoramentoCadastrado from "../views/alertaJuridico/MonitoramentoCadastrado";
 
 Vue.use(VueRouter);
 
@@ -67,6 +68,11 @@ const routes = [
         path: "/alerta-juridico",
         name: "alerta-juridico",
         component: AlertaJuridico,
+      },
+      {
+        path: "/alerta-juridico/monitorados",
+        name: "monitoramento-cadastrado",
+        component: monitoramentoCadastrado,
       },
     ],
   },

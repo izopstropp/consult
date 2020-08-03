@@ -167,7 +167,6 @@ export default {
           }
         }
       }
-      console.log(registrosPorPagina)
       return registrosPorPagina;
     },
   },
