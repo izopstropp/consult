@@ -29,7 +29,12 @@
             <div class="login-label">
               <label>Senha:</label>
             </div>
-            <div>
+          </div>
+          <a-form-item
+            :label-col="formItemLayout.labelCol"
+            :wrapper-col="formItemLayout.wrapperCol"
+          >
+          <div>
               <a class="login-esqueci-senha">Esqueci minha senha</a>
               <img
                 @click="mostrarSenha = !mostrarSenha"
@@ -38,11 +43,6 @@
                 alt="visualizar senha"
               />
             </div>
-          </div>
-          <a-form-item
-            :label-col="formItemLayout.labelCol"
-            :wrapper-col="formItemLayout.wrapperCol"
-          >
             <a-input
               :class="[!senhaValidado ? 'erroInput' : 'resetErroInput']"
               @click="senhaValidado = true"
@@ -247,8 +247,10 @@ img {
   cursor: pointer;
   position: absolute;
   width: 30px;
-  margin-left: -31px;
+  margin:0px;
   z-index: 1;
+  right:10px;
+  top:30px
 }
 .login-grupo-label {
   max-width: 340px;
@@ -281,6 +283,8 @@ img {
   justify-content: flex-start;
 }
 .login-esqueci-senha {
+  display: flex;
+  justify-content: flex-end;
   font-size: 0.8em;
 }
 .login-footer {
