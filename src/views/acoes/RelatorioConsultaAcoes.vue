@@ -217,7 +217,7 @@ p {
   width: 294px;
 }
 .rel-bl {
-  max-width: 1120px;
+  max-width: 1220px;
   margin: 65px auto;
   animation: fadeOut 0.3s;
 }
@@ -377,22 +377,21 @@ table {
   width: 100%;
   border-collapse: collapse;
 }
-table,
-th,
-td {
-  border: 1px solid #a8b2c0;
-  /* text-align: center; */
-  padding: 2px
-}
 th {
   height: 32px;
   background-color: #1d375c;
   color: white;
   font-size: 0.9em;
-  text-align: center
+  text-align: center;
+  border: 1px solid #a8b2c0;
+  
+  padding: 10px
 }
 td {
   height: 60px;
+  border: 1px solid #a8b2c0;
+  text-align: center;
+  padding: 4px;
 }
 td:first-child + td {
   width: 170px;
