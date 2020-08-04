@@ -91,7 +91,7 @@ export default {
         this.btnPreditivoAtivado = false;
         this.btnAlertaJuridicoAtivado = false;
         this.btnPassivoJuridicoAtivado = true;
-        this.nameRouterLink = "c";
+        this.nameRouterLink = "passivo-juridico";
       }
     },
   },
