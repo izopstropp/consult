@@ -10,6 +10,9 @@ export default {
   getters :{
     autenticado:(state) => {
       return state.usuario != null && state.usuario != '' ? true : false;
+    },
+    nomeUsuario:(state)=>{
+      return state.usuario;
     }
   },
   actions: {

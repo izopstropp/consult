@@ -16,7 +16,7 @@ export default {
     return instanceAxios({
       method: "post",
       baseURL,
-      url: "acoes/consultaEvjd",
+      url: "/consultaEvjd",
       data: dados,
     });
   },

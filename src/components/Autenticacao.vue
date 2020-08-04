@@ -1,5 +1,11 @@
 <template>
   <div class="container-login-principal">
+       <LoadCircle
+      :exibirLoad="realizandoRequisicao"
+      sizeCircle="100px"
+      pwidth="100%"
+      pheight="92%"
+    />
     <div class="container-component-login">
       <img src="../assets/logo-soluções-color.png" alt="logo da kurier consult" />
       <a-form :layout="formLayout">
@@ -82,9 +88,10 @@
 import autenticacaoApi from "../api/consultAutenticacaoApi";
 import { DO_LOGIN } from "@/store/actions";
 import { DO_LOGOUT } from "../store/actions";
+import LoadCircle from "../components/Load/LoadCircle.vue";
 export default {
   name: "autenticacao",
-  components: {},
+  components: {LoadCircle},
   data() {
     return {
       formLayout: "vertical",
@@ -93,6 +100,7 @@ export default {
       senhaValidado: true,
       usuario: "",
       senha: "",
+      realizandoRequisicao: false
     };
   },
   computed: {
@@ -134,13 +142,16 @@ export default {
     autenticar() {
       
        if (this.validar()) {
+         this.realizandoRequisicao = true;
                  autenticacaoApi.autenticar(this.usuario, this.senha).then(
           (response) => {
             if (response.status == 200) {
+              this.realizandoRequisicao = false
               this.$store.dispatch(DO_LOGIN, response.data);
               console.log(response.data)
               this.$router.push({name: "selecaoTipoConsulta"});
             } else if (response.status == 404) {
+              this.realizandoRequisicao = false
               this.$notify({
                 group: "general",
                 title: "Falha na conexão.",
@@ -152,6 +163,7 @@ export default {
               this.usuario = "";
               this.senha = "";
             }else if(response.status == 400){
+              this.realizandoRequisicao = false
               if(response.data.error == "invalid_grant"){
                   this.$notify({
                 group: "general",
@@ -250,7 +262,7 @@ img {
   margin:0px;
   z-index: 1;
   right:10px;
-  top:30px
+  top:26px
 }
 .login-grupo-label {
   max-width: 340px;

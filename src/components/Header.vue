@@ -5,34 +5,43 @@
         <div class="menu-logokurier">
           <img style="width:150px;" src="../assets/logo-soluções-negativo.png" alt="logo kurier" />
         </div>
-        <div class="menu-esquerdo" @click="iterarMenuUsuario">
-          <img style="width:35px" src="../assets/icons/07.png" alt="perfil usuário" />
-          <div class="menu-esquerdo-usuario">
-            <p>Nome do usuário</p>
-          </div>
+        <div class="menu-direito-rapido">
           <div>
-            <img class="menu-esquerdo-seta" src="../assets/setaMenuLateral.png" alt="seta" />
+            <router-link class="linkFastStyle" tag ="p" :to="{name: 'alerta-juridico'}">Alerta Jurídico</router-link>
+            <router-link class="linkFastStyle"  tag ="p" :to="{name: 'consulta-acoes'}">Ações</router-link>
+            <router-link  class="linkFastStyle" tag ="p" :to="{name: 'passivo-juridico'}">Passivo Jurídico</router-link>
+            <router-link  class="linkFastStyle" tag ="p" :to="{name: 'consulta-preditivo'}">Preditivo</router-link> 
           </div>
-          <div class="menu-itens-esquerdo-usuario" :class="nomeClassAbrirMenuUsuario">
-            <ul>
-              <router-link class="menu-itens-esquerdo-usuario-configuracao" to="/modulo" tag="li">
-                Inicio
-                <img src="../assets/icons/02.png" alt="mini ampulheta" />
-              </router-link>
-              <router-link
-                class="menu-itens-esquerdo-usuario-configuracao"
-                to="/historico"
-                tag="li"
-              >
-                Histórico de pesquisa
-                <img src="../assets/icons/03.png" alt="mini ampulheta" />
-              </router-link>
-              <li class="menu-itens-esquerdo-usuario-configuracao">
-                Configuração
-                <img src="../assets/icons/04.png" alt="mini engrenagem" />
-              </li>
-              <li @click="sair">Sair</li>
-            </ul>
+          <div class="menu-esquerdo" @click="iterarMenuUsuario">
+            
+            <img style="width:35px" src="../assets/icons/07.png" alt="perfil usuário" />
+            <div class="menu-esquerdo-usuario">
+              <p>{{$store.getters.nomeUsuario.toLowerCase()}}</p>
+            </div>
+            <div>
+              <img class="menu-esquerdo-seta" src="../assets/setaMenuLateral.png" alt="seta" />
+            </div>
+            <div class="menu-itens-esquerdo-usuario" :class="nomeClassAbrirMenuUsuario">
+              <ul>
+                <router-link class="menu-itens-esquerdo-usuario-configuracao" to="/modulo" tag="li">
+                  Inicio
+                  <img src="../assets/icons/02.png" alt="mini ampulheta" />
+                </router-link>
+                <router-link
+                  class="menu-itens-esquerdo-usuario-configuracao"
+                  to="/historico"
+                  tag="li"
+                >
+                  Histórico de pesquisa
+                  <img src="../assets/icons/03.png" alt="mini ampulheta" />
+                </router-link>
+                <li class="menu-itens-esquerdo-usuario-configuracao">
+                  Configuração
+                  <img src="../assets/icons/04.png" alt="mini engrenagem" />
+                </li>
+                <li @click="sair">Sair</li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
@@ -62,6 +71,32 @@ export default {
 };
 </script>
 <style scoped>
+p{
+  margin: 0px;
+}
+.menu-direito-rapido{
+  display: flex;
+  align-items: center;
+  width: 550px;
+  justify-content: space-between;
+}
+.menu-direito-rapido div:nth-child(1){
+margin-top: 8px;
+  width:500px;
+  display: flex;
+  align-items: center;
+}
+
+.linkFastStyle{
+  padding: 10px;
+  color: white;
+  transition: all 0.2s;
+  cursor: pointer;
+  
+}
+.linkFastStyle:hover{
+  transform: scale(1.1)
+}
 img {
   width: 20px;
 }

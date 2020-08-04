@@ -20,7 +20,7 @@
           <router-link
             :to="{
               name: 'RelatorioConsultaAcoes',
-              params: { consultaId: this.consultaId, pag: 1 },
+              params: { consultaId: this.ConsultaDetalhesProcessosId, pag: 1 },
             }"
             tag="p"
           >Pré-Visualizar</router-link>
@@ -418,7 +418,8 @@ export default {
       screenMobile:false,
       exibirFiltro:false,
       solicitandoVolumetriaDetalheProcessos: false,
-      VolumetriaDetalhada:false
+      VolumetriaDetalhada:false,
+      ConsultaDetalhesProcessosId:""
     };
   },
 
@@ -476,7 +477,7 @@ export default {
       // parseFloat(this.totalConsultAcoes.valor).toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) 
     },
     numeracaoConsultaFormatada(){
-      return ("0000000" + this.$store.getters.getParametrosPesquisa.consultaId ).slice(-7)
+      return ("0000000" + this.ConsultaDetalhesProcessosId ).slice(-7)
     },
     exibirContainerFiltro(){
       if(this.screenMobile && this.exibirFiltro){
@@ -650,7 +651,7 @@ export default {
               if(response.data.Success == true){
                 this.solicitandoVolumetriaDetalheProcessos = false;
                 this.VolumetriaDetalhada = true;
-                console.log(response.data)
+                this.ConsultaDetalhesProcessosId = response.data.Content[0].ConsultaID
                 this.$store.dispatch(SET_PROCESSO_DETALHADOS, response.data.Content );
                 this.$store.dispatch(SET_STATUS_PESQUISA, false);
               } else {

@@ -22,11 +22,12 @@
         <a class="consulta-form-btn">Consultar</a>
       </div>
     </div>
+    <p style="text-align:center" v-if="msgRetornoRequest">{{this.msgRetornoRequest}}</p>
     <table :class="[resultRequestEvjd.evjd ? 'exibirTable' : '']">
       <thead>
-        <th>EVJD</th>
+        <th>Passivo Jurídico</th>
         <th>Lower Bound</th>
-        <th style="width: 290px">Upper Bound</th>
+        <th>Upper Bound</th>
         <th>Qtde Processos</th>
       </thead>
       <tbody>
@@ -38,6 +39,15 @@
         </tr>
       </tbody>
     </table>
+     <notifications
+        v-if="$store.getters.getStatusRealizacaoPesquisa"
+        classes="style-notification"
+        group="general"
+        position="bottom center"
+        :ignoreDuplicates="true"
+        animation-name="v-fade-left"
+        :width="350"
+      />
   </div>
 </template>
 <script>
@@ -51,40 +61,57 @@ export default {
   directives: { mask },
   data() {
     return {
-      parametrosConsulta: [
+      parametrosConsulta:
         {
           razao_social: "",
           cnpj: "",
         },
-      ],
       resultRequestEvjd: {
         evjd: "",
         lowerBound: "",
         upperBound: "",
-        totalProcesso: 0,
+        totalProcesso: "",
       },
+      msgRetornoRequest:"",
       realizandoRequisicao: false,
     };
   },
   methods: {
     consultar() {
-      this.realizandoRequisicao = true;
+      this.resultRequestEvjd.evjd = ""
+      this.resultRequestEvjd.lowerBound = ""
+      this.resultRequestEvjd.upperBound = ""
+      this.resultRequestEvjd.totalProcesso = ""
+      this.msgRetornoRequest=""
+      if(this.parametrosConsulta.razao_social != "" && this.parametrosConsulta.cnpj != ""){
+      this.parametrosConsulta.cnpj = this.parametrosConsulta.cnpj.replace("-", "")
+        .replace(".", "")
+        .replace(".", "")
+        .replace("/", "")
+        this.realizandoRequisicao = true;
       consultProcessosApi
         .solicitarDadosEvjd(this.parametrosConsulta)
         .then((response) => {
           if (response.status == 200) {
             this.realizandoRequisicao = false;
-            let result = response.data.Content;
-            this.resultRequestEvjd.evjd = result.evjd.toLocaleString("pt-BR");
-            this.resultRequestEvjd.lowerBound = result.lower_bound.toLocaleString(
-              "pt-BR"
-            );
-            this.resultRequestEvjd.upperBound = result.upper_bound.toLocaleString(
-              "pt-BR"
-            );
-            this.resultRequestEvjd.totalProcessos = result.total_processos.toLocaleString(
-              "pt-BR"
-            );
+            if(response.data.Success == true){
+              let result = response.data.Content;
+              console.log(result)
+              this.resultRequestEvjd.evjd = result.evjd.toLocaleString(
+                "pt-BR", { style: "currency", currency: "BRL" }
+              );
+              this.resultRequestEvjd.lowerBound = result.lower_bound.toLocaleString(
+                "pt-BR", { style: "currency", currency: "BRL" }
+              );
+              this.resultRequestEvjd.upperBound = result.upper_bound.toLocaleString(
+                "pt-BR", { style: "currency", currency: "BRL" }
+              );
+              this.resultRequestEvjd.totalProcesso = result.total_processo.toLocaleString(
+                "pt-BR"
+              );
+            }else{
+              this.msgRetornoRequest = "Não foi possível gerar o Passivo Jurídico, pois não identificamos processos ativos na base Kurier para esta empresa."
+            }
           } else {
             this.realizandoRequisicao = false;
             this.$notify({
@@ -97,7 +124,19 @@ export default {
               speed: 700,
             });
           }
+        }).catch(()=>{
+          this.realizandoRequisicao = false;
+            this.$notify({
+              group: "general",
+              title:
+                "Ocorreu um erro inesperado, tente novamente em alguns instantes.",
+
+              duration: 5000,
+
+              speed: 700,
+            });
         });
+      }
     },
   },
 };
@@ -107,15 +146,13 @@ p {
   margin: 0px;
 }
 .his-bl {
-  margin: 65px auto;
-  width: 700px;
-  position: relative;
-  animation: fadeOut 0.3s;
+  margin: 0 auto;
+  /* position: relative; */
 }
 @keyframes fadeOut {
   from {
     opacity: 0;
-    margin-top: 50px;
+    padding-top: 50px;
   }
   to {
     opacity: 1;
@@ -123,14 +160,16 @@ p {
   }
 }
 .his-bl-titulo {
+  animation: fadeOut 0.3s;
   text-align: center;
   font-size: 1.5em;
   font-weight: bold;
   margin-bottom: 131px;
+  padding-top: 65px;
 }
 .his-bl-form {
   display: flex;
-
+  margin: 0 auto;
   width: 700px;
   justify-content: space-between;
 }
@@ -156,6 +195,8 @@ a {
 }
 table {
   width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
   border-collapse: collapse;
   transition: all 0.4s;
   opacity: 0;

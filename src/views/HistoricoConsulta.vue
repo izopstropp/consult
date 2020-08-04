@@ -11,12 +11,12 @@
             <th>Valor</th>
           </thead>
           <tbody>
-            <template v-for="(item, index) in dadosHistorico">
+            <template v-for="(item, index) in this.dadosHistorico">
               <tr :key="index">
-                <td>{{ item.identificacao }}</td>
-                <td>{{ item.data }}</td>
-                <td>{{ item.tipoConsulta }}</td>
-                <td>{{ item.valor }}</td>
+                <td>{{ formatarId(item.ID) }}</td>
+                <td>{{ item.DataCriacao }}</td>
+                <td>{{ item.TipoConsulta }}</td>
+                <td>{{ item.ValorConsulta.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) }}</td>
               </tr>
             </template>
           </tbody>
@@ -33,42 +33,32 @@ export default {
 
   data() {
     return {
-      dadosHistorico: [
-        {
-          identificacao: "123",
-          data: "19/06/2020",
-          tipoConsulta: "açõe",
-          valor: "R$ 110,00"
-        },
-        {
-          identificacao: "123",
-          data: "19/06/2020",
-          tipoConsulta: "açõe",
-          valor: "R$ 110,00"
-        },
-        {
-          identificacao: "123",
-          data: "19/06/2020",
-          tipoConsulta: "açõe",
-          valor: "R$ 110,00"
-        }
-      ]
+      dadosHistorico: []
     };
+  },
+  computed: {
   },
   beforeMount(){
     consultProcessosApi.buscarAcoesPorUsuario().then(response => {
+      console.log(response)
       if(response.status == 200){
+        this.dadosHistorico = response.data.Result.Content
         // this.dadosHistorico.response.data.Content
       }
 
     })
-  }
+  },
+  methods: {
+    formatarId(id){
+      return ("0000000" + id.toString().slice(-7))
+    }
+  },
 };
 </script>
 <style scoped>
 .his-bl-titulo {
   margin: 0 auto;
-  width: 270px;
+  width: 300px;
   font-size: 1.5em;
   font-weight: bold;
   margin-top: 65px;
