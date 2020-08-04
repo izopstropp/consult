@@ -7,10 +7,10 @@
         </div>
         <div class="menu-direito-rapido">
           <div>
-            <router-link class="linkFastStyle" tag ="p" :to="{name: 'alerta-juridico'}">Alerta Jurídico</router-link>
-            <router-link class="linkFastStyle"  tag ="p" :to="{name: 'consulta-acoes'}">Ações</router-link>
-            <router-link  class="linkFastStyle" tag ="p" :to="{name: 'passivo-juridico'}">Passivo Jurídico</router-link>
-            <router-link  class="linkFastStyle" tag ="p" :to="{name: 'consulta-preditivo'}">Preditivo</router-link> 
+            <router-link v-show="this.$route.path != '/modulo'" class="linkFastStyle" tag ="p" :to="{name: 'alerta-juridico'}">Alerta Jurídico</router-link>
+            <router-link v-show="this.$route.path != '/modulo'" class="linkFastStyle"  tag ="p" :to="{name: 'consulta-acoes'}">Ações</router-link>
+            <router-link v-show="this.$route.path != '/modulo'" class="linkFastStyle" tag ="p" :to="{name: 'passivo-juridico'}">Passivo Jurídico</router-link>
+            <router-link v-show="this.$route.path != '/modulo'" class="linkFastStyle" tag ="p" :to="{name: 'consulta-preditivo'}">Preditivo</router-link> 
           </div>
           <div class="menu-esquerdo" @click="iterarMenuUsuario">
             
@@ -82,7 +82,7 @@ p{
 }
 .menu-direito-rapido div:nth-child(1){
 margin-top: 8px;
-  width:500px;
+  width:490px;
   display: flex;
   align-items: center;
 }
@@ -90,7 +90,7 @@ margin-top: 8px;
 .linkFastStyle{
   padding: 10px;
   color: white;
-  transition: all 0.2s;
+  transition: all 0.4s;
   cursor: pointer;
   
 }
