@@ -68,7 +68,7 @@ export default {
   display: flex;
 }
 table {
-  width: 1162px;
+  width: 662px;
   margin: 0 auto;
 }
 thead {
@@ -80,13 +80,13 @@ td {
   border: 1px solid black;
   border-collapse: collapse;
   border-color: #a8b2c0;
-  padding: 10px;
+  padding: 6px;
   font-size: 0.9em;
   text-align: center;
 }
 th {
   text-align: center;
-  height: 73px;
+  height: 32px;
   background-color: #1d375c;
   color: white;
 }

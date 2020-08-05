@@ -541,6 +541,7 @@ export default {
   },
   destroyed() {
     this.$store.dispatch(CLEAR_VALUES_PARAMETER_CONSULT);
+    this.$store.dispatch(SET_PROCESSO_DETALHADOS, [] );
   },
   methods: {
     paginarVolumetriaUf(direcao){
@@ -559,6 +560,7 @@ export default {
       }
     },
     fecharModalClick() {
+      this.$store.dispatch(SET_PROCESSO_DETALHADOS, [] );
       this.$router.push({ name: "consulta-acoes" });
     },
     cleanInput() {
