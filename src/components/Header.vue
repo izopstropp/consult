@@ -95,7 +95,8 @@ margin-top: 8px;
   
 }
 .linkFastStyle:hover{
-  transform: scale(1.1)
+  transform: scale(1.1);
+  text-decoration: underline;
 }
 img {
   width: 20px;
