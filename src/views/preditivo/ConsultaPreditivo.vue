@@ -9,7 +9,7 @@
           <img src="../../assets/confir-envio.png" alt="imagem de confirmação" />
           <p>Sua pesquisa</p>
           <p>{{nucmeracaoConsultaFormatada}}</p>
-          <p>foi enviada para seu e-email</p>
+          <p>será enviada para seu e-mail dentro de alguns minutos</p>
         </div>
       </transition>
     </div>

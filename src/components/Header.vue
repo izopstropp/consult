@@ -6,14 +6,21 @@
           <img style="width:150px;" src="../assets/logo-soluções-negativo.png" alt="logo kurier" />
         </div>
         <div class="menu-direito-rapido">
-          <div>
-            <router-link v-show="this.$route.path != '/modulo'" class="linkFastStyle" tag ="p" :to="{name: 'alerta-juridico'}">Alerta Jurídico</router-link>
-            <router-link v-show="this.$route.path != '/modulo'" class="linkFastStyle"  tag ="p" :to="{name: 'consulta-acoes'}">Ações</router-link>
-            <router-link v-show="this.$route.path != '/modulo'" class="linkFastStyle" tag ="p" :to="{name: 'passivo-juridico'}">Passivo Jurídico</router-link>
-            <router-link v-show="this.$route.path != '/modulo'" class="linkFastStyle" tag ="p" :to="{name: 'consulta-preditivo'}">Preditivo</router-link> 
+          <div :class="[this.$route.path != '/modulo' ? 'animacao-menu':'']">
+            <router-link
+              class="linkFastStyle"
+              tag="p"
+              :to="{name: 'alerta-juridico'}"
+            >Alerta Jurídico</router-link>
+            <router-link class="linkFastStyle" tag="p" :to="{name: 'consulta-acoes'}">Ações</router-link>
+            <router-link
+              class="linkFastStyle"
+              tag="p"
+              :to="{name: 'passivo-juridico'}"
+            >Passivo Jurídico</router-link>
+            <router-link class="linkFastStyle" tag="p" :to="{name: 'consulta-preditivo'}">Preditivo</router-link>
           </div>
           <div class="menu-esquerdo" @click="iterarMenuUsuario">
-            
             <img style="width:35px" src="../assets/icons/07.png" alt="perfil usuário" />
             <div class="menu-esquerdo-usuario">
               <p>{{$store.getters.nomeUsuario.toLowerCase()}}</p>
@@ -53,7 +60,7 @@ import { DO_LOGOUT } from "../store/actions";
 export default {
   data() {
     return {
-      nomeClassAbrirMenuUsuario: ""
+      nomeClassAbrirMenuUsuario: "",
     };
   },
   methods: {
@@ -65,39 +72,51 @@ export default {
     },
     sair() {
       this.$store.dispatch(DO_LOGOUT);
-      this.$router.push({name: 'login'});
-    }
-  }
+      this.$router.push({ name: "login" });
+    },
+  },
 };
 </script>
 <style scoped>
-p{
+p {
   margin: 0px;
 }
-.menu-direito-rapido{
+.menu-direito-rapido {
   display: flex;
   align-items: center;
   width: 550px;
   justify-content: space-between;
 }
-.menu-direito-rapido div:nth-child(1){
-margin-top: 8px;
-  width:490px;
+.menu-direito-rapido div:nth-child(1) {
+  margin-top: 8px;
+  max-width: 490px;
+  padding-left: 400px;
+  overflow: hidden;
   display: flex;
   align-items: center;
+  transition: all 0.6s ease-in-out;
+  opacity: 0;
+}
+.menu-direito-rapido div:nth-child(1).animacao-menu {
+  padding-left: 0px;
+  color: red;
+  opacity: 1;
+}
+.menu-direito-rapido div:nth-child(1) p {
+  height: 35px;
 }
 
-.linkFastStyle{
+.linkFastStyle {
   padding: 10px;
   color: white;
   transition: all 0.4s;
   cursor: pointer;
-  
 }
-.linkFastStyle:hover{
+.linkFastStyle:hover {
   transform: scale(1.1);
   text-decoration: underline;
 }
+
 img {
   width: 20px;
 }

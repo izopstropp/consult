@@ -120,13 +120,27 @@ export default {
 p{
   margin:0px;
 }
+.his-bl-block{
+  padding-bottom: 100px;
+}
 .his-bl-titulo {
+  padding-top: 65px;
   margin: 0 auto;
   width: 300px;
   font-size: 1.5em;
   font-weight: bold;
-  margin-top: 65px;
   margin-bottom: 68px;
+  animation: fadeOut 0.3s;
+}
+@keyframes fadeOut {
+  from {
+    opacity: 0;
+    padding-top: 50px;
+  }
+  to {
+    opacity: 1;
+    /* margin-top: 17px; */
+  }
 }
 .his-bl-table {
   display: flex;

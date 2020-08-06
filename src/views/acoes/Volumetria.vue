@@ -16,7 +16,7 @@
           <img src="../../assets/confir-envio.png" alt="imagem de confirmação" />
           <p>Sua pesquisa</p>
           <p>{{numeracaoConsultaFormatada}}</p>
-          <p>foi enviada para seu e-email</p>
+          <p>será enviada para seu e-mail dentro de alguns minutos</p>
           <router-link
             :to="{
               name: 'RelatorioConsultaAcoes',
@@ -519,6 +519,11 @@ export default {
           this.controlePaginacaoVolumetriaUf.limitQtdPaginaVolumetrisUf= 27
           this.fillDataUf(this.resultadoVolumetria) 
         }
+      }
+    },
+    preditivo:{
+      handler(){
+        this.validarSolicitacaoAcoes()
       }
     }
     

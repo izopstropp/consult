@@ -28,7 +28,21 @@
         <th>Passivo Jurídico</th>
         <th>Lower Bound</th>
         <th>Upper Bound</th>
-        <th>Qtde Processos</th>
+        <th>Qtde Processos
+            <!-- <img
+                    @click="[exibirtooltipTable = !exibirtooltipTable, exibirCorpoTooltip = false]"
+                    src="../../assets/icons/08.png"
+                    alt="info"
+                    style="cursor:pointer"
+                  />
+                  <div class="tooltipTable">
+                    <div :class="[exibirtooltipTable ? 'tooltipAberto' : '', 'tooltip']">
+                      <div :class="[exibirCorpoTooltip ? 'exibirTextoToltip':'','tooltipTexto']">
+                        <p class="tooltipTitulo">Processos identificados na base Kurier que não possuem evidência de terem sido sentenciados</p>
+                      </div>
+                    </div>
+                  </div> -->
+        </th>
       </thead>
       <tbody>
         <tr>
@@ -74,7 +88,20 @@ export default {
       },
       msgRetornoRequest:"",
       realizandoRequisicao: false,
+      exibirtooltipTable: true,
+      exibirCorpoTooltip: true,
     };
+  },
+  watch: {
+      exibirtooltipTable: {
+      handler() {
+        if (this.exibirtooltipTable) {
+          setTimeout(() => {
+            this.exibirCorpoTooltip = true;
+          }, 600);
+        }
+      }
+    }
   },
   methods: {
     consultar() {
@@ -219,4 +246,51 @@ th {
 td {
   height: 60px;
 }
+.tooltipTable {
+  position: relative;
+  height: 0px;
+}
+.tooltip {
+  position: absolute;
+  background-color: white;
+  padding: 15px 20px;
+  overflow: hidden;
+  opacity: 0;
+  width: 0px;
+  height: 0px;
+  left: calc(100% - 25%);
+  top: 0px;
+  right: 0px;
+  transition: all 0.6s ease-in-out;
+  -webkit-box-shadow: 2px 2px 21px 1px rgba(0, 0, 0, 0.41);
+  -moz-box-shadow: 2px 2px 21px 1px rgba(0, 0, 0, 0.41);
+  box-shadow: 2px 2px 21px 1px rgba(0, 0, 0, 0.41);
+  /* overflow-y: scroll; */
+}
+/* .tooltip::-webkit-scrollbar {
+  width: 2px;
+} */
+
+/* .tooltip::-webkit-scrollbar-thumb {
+  background: #1d375c;
+} */
+.tooltipTitulo {
+  font-weight: bold;
+  font-size: 0.8em;
+  text-align: left;
+  color:#59595a;
+}
+.tooltipTexto {
+  transition: all 1s;
+  opacity: 0;
+}
+.exibirTextoToltip {
+  opacity: 1;
+}
+.tooltipAberto {
+  height: 60px;
+  width: 384px;
+  opacity: 1;
+}
+
 </style>
