@@ -16,7 +16,7 @@
           <img src="../../assets/confir-envio.png" alt="imagem de confirmação" />
           <p>Sua pesquisa</p>
           <p>{{numeracaoConsultaFormatada}}</p>
-          <p>foi enviada para seu e-email</p>
+          <p>será enviada para seu e-mail dentro de alguns minutos</p>
           <router-link
             :to="{
               name: 'RelatorioConsultaAcoes',
@@ -520,6 +520,11 @@ export default {
           this.fillDataUf(this.resultadoVolumetria) 
         }
       }
+    },
+    preditivo:{
+      handler(){
+        this.validarSolicitacaoAcoes()
+      }
     }
     
   },
@@ -541,6 +546,7 @@ export default {
   },
   destroyed() {
     this.$store.dispatch(CLEAR_VALUES_PARAMETER_CONSULT);
+    this.$store.dispatch(SET_PROCESSO_DETALHADOS, [] );
   },
   methods: {
     paginarVolumetriaUf(direcao){
@@ -559,6 +565,7 @@ export default {
       }
     },
     fecharModalClick() {
+      this.$store.dispatch(SET_PROCESSO_DETALHADOS, [] );
       this.$router.push({ name: "consulta-acoes" });
     },
     cleanInput() {

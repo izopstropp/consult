@@ -2,6 +2,37 @@
   <div class="his-bl">
     <div class="his-bl-block">
       <div class="his-bl-titulo">HISTÓRICO DE CONSULTAS</div>
+       <div class="rel-bl1-page">
+          <div class="rel-bl1-page-selec">
+            <a-input
+              class="rel-bl1-page-selec-input"
+              :value="this.paginaAtual"
+            />
+            <p>/{{ totalPage }}</p>
+          </div>
+          <div class="rel-bl1-page-direc">
+            <div
+              @click="navegacaoPagina('a')"
+              :class="[
+                this.paginaAtual <= '1' ? 'page-direct-disable' : '',
+                'rel-bl1-page-direc-a',
+              ]"
+            >
+              <p>&lt;</p>
+            </div>
+            <div
+              @click="navegacaoPagina('p')"
+              :class="[
+                this.paginaAtual >= totalPage
+                  ? 'page-direct-disable'
+                  : '',
+                'rel-bl1-page-direc-p',
+              ]"
+            >
+              <p>&gt;</p>
+            </div>
+          </div>
+        </div>
       <div class="his-bl-table">
         <table>
           <thead>
@@ -11,7 +42,7 @@
             <th>Valor</th>
           </thead>
           <tbody>
-            <template v-for="(item, index) in this.dadosHistorico">
+            <template v-for="(item, index) in this.gerarRegistroPorPagina">
               <tr :key="index">
                 <td>{{ formatarId(item.ID) }}</td>
                 <td>{{ item.DataCriacao }}</td>
@@ -33,10 +64,35 @@ export default {
 
   data() {
     return {
-      dadosHistorico: []
+      dadosHistorico: [],
+      paginaAtual:1,
+      limiteItensPagina:15
     };
   },
   computed: {
+     totalPage() {
+      let totalPage = Math.ceil(
+        this.dadosHistorico.length / this.limiteItensPagina
+      );
+      return totalPage;
+    },
+    gerarRegistroPorPagina() {
+      let registrosPorPagina = [];
+      let totalPage = this.totalPage;
+      let qtdRegistrosAnteriores =
+        this.paginaAtual * this.limiteItensPagina -
+        this.limiteItensPagina;
+      let qtdRegistroExibicao =
+        qtdRegistrosAnteriores + this.limiteItensPagina;
+      if (this.paginaAtual <= totalPage) {
+        for (let i = qtdRegistrosAnteriores; i < qtdRegistroExibicao; i++) {
+          if (this.dadosHistorico[i] != null) {
+            registrosPorPagina.push(this.dadosHistorico[i]);
+          }
+        }
+      }
+      return registrosPorPagina;
+    },
   },
   beforeMount(){
     consultProcessosApi.buscarAcoesPorUsuario().then(response => {
@@ -51,24 +107,46 @@ export default {
   methods: {
     formatarId(id){
       return ("0000000" + id.toString().slice(-7))
+    },
+     navegacaoPagina(tipo) {
+        tipo == "p"
+          ? this.paginaAtual++
+          : this.paginaAtual--;
     }
   },
 };
 </script>
 <style scoped>
+p{
+  margin:0px;
+}
+.his-bl-block{
+  padding-bottom: 100px;
+}
 .his-bl-titulo {
+  padding-top: 65px;
   margin: 0 auto;
   width: 300px;
   font-size: 1.5em;
   font-weight: bold;
-  margin-top: 65px;
   margin-bottom: 68px;
+  animation: fadeOut 0.3s;
+}
+@keyframes fadeOut {
+  from {
+    opacity: 0;
+    padding-top: 50px;
+  }
+  to {
+    opacity: 1;
+    /* margin-top: 17px; */
+  }
 }
 .his-bl-table {
   display: flex;
 }
 table {
-  width: 1162px;
+  width: 662px;
   margin: 0 auto;
 }
 thead {
@@ -80,14 +158,104 @@ td {
   border: 1px solid black;
   border-collapse: collapse;
   border-color: #a8b2c0;
-  padding: 10px;
+  padding: 6px;
   font-size: 0.9em;
   text-align: center;
 }
 th {
   text-align: center;
-  height: 73px;
+  height: 32px;
   background-color: #1d375c;
   color: white;
 }
+
+/*_____paginação_____ */
+.rel-bl1-page {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin: 0 auto 10px auto;
+  max-width: 662px; 
+}
+.rel-bl1-page div:nth-child(1) {
+ margin-right: 20px;
+}
+.rel-bl1-page-selec {
+  display: flex;
+  align-items: center;
+}
+.rel-bl1-page-selec-input {
+  width: 51px;
+  height: 31px;
+  font-size: 1.2em;
+  text-align: center;
+}
+.rel-bl1-page-selec > p {
+  font-size: 1.2em;
+  margin-left: 10px;
+}
+.rel-bl1-page-direc-bottom p {
+  font-size: 1.2em;
+  margin-left: 10px;
+}
+
+.page-direct-disable {
+  background-color: #edf0f2 !important;
+  pointer-events: none;
+  cursor: default;
+}
+.rel-bl1-page-direc {
+  display: flex;
+  width: 86px;
+  justify-content: space-between;
+}
+.rel-bl1-page-direc-bottom {
+  display: flex;
+  margin-top: 34px;
+  max-width: 1480px;
+  justify-content: flex-end;
+}
+.rel-bl1-page-direc-bottom-itens {
+  display: flex;
+  justify-content: space-between;
+  width: 86px;
+}
+.rel-bl1-page-direc-bottom-selec {
+  display: flex;
+  align-items: center;
+  margin-right: 40px;
+}
+.rel-bl1-page-direc-a {
+  height: 33px;
+  width: 33px;
+  background-color: #1d375c;
+  border-radius: 20px 0px 0px 20px;
+  cursor: pointer;
+}
+.rel-bl1-page-direc-a p {
+  color: #cacdcf;
+  font-weight: bold;
+  margin-top: 4px;
+  margin-left: 13px;
+}
+.rel-bl1-page-direc-p {
+  height: 33px;
+  width: 33px;
+  background-color: #1d375c;
+  border-radius: 0px 20px 20px 0px;
+  cursor: pointer;
+}
+.rel-bl1-page-direc-p p {
+  color: #cacdcf;
+  font-weight: bold;
+  margin-top: 4px;
+  margin-left: 13px;
+}
+.rel-bl2-page-selec > p {
+  font-size: 1.2em;
+  margin-left: 10px;
+}
+
+/*_______paginacão fim____*/
+
 </style>

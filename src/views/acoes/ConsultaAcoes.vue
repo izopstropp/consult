@@ -172,7 +172,7 @@
         <a-button @click="consultar" class="consulta-form-btn">Consultar</a-button>
       </div>
       <div>
-        <p>Essa primeira Consulta tem um valor de R$10,00</p>
+        <p>Essa primeira Consulta tem um valor de R$15,00</p>
       </div>
     </div>
     <notifications

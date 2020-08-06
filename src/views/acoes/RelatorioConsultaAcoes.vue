@@ -74,19 +74,19 @@
           <template v-for="(reg, index) in gerarRegistroPorPagina">
             <!-- <tr v-for="(item,index) in reg" :key="index"> -->
             <tr :key="index">
-              <td width="40">{{ reg.UF }}</td>
-              <td width="40">{{ reg.Justica }}</td>
-              <td width="40">{{ reg.NPU }}</td>
-              <td width="40">{{ reg.Forum }}</td>
-              <td width="40">{{ reg.Cidade }}</td>
-              <td width="40">{{ reg.Vara }}</td>
-              <td width="40">{{ formatacaoParte(reg.Partes,2) }}</td>
-              <td width="40">{{ formatacaoParte(reg.Partes,1) }}</td>
-              <td width="40">{{ reg.TipoAcao }}</td>
-              <td width="40">{{ reg.ValorAcao.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) }}</td>
-              <td width="40">{{ formatacaoData(reg.DataDistribuicao) }}</td>
-              <td width="40">{{ reg.AdvogadoAutor }}</td>
-              <td width="40">{{ reg.AdvogadoReu }}</td>
+              <td>{{ reg.UF }}</td>
+              <td>{{ reg.Justica }}</td>
+              <td>{{ reg.NPU }}</td>
+              <td>{{ reg.Forum }}</td>
+              <td>{{ reg.Cidade }}</td>
+              <td>{{ reg.Vara }}</td>
+              <td>{{ formatacaoParte(reg.Partes,2) }}</td>
+              <td>{{ formatacaoParte(reg.Partes,1) }}</td>
+              <td>{{ reg.TipoAcao }}</td>
+              <td>{{ reg.ValorAcao.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) }}</td>
+              <td>{{ formatacaoData(reg.DataDistribuicao) }}</td>
+              <td>{{ reg.AdvogadoAutor }}</td>
+              <td>{{ reg.AdvogadoReu }}</td>
             </tr>
           </template>
         </table>
@@ -127,6 +127,7 @@
   </div>
 </template>
 <script>
+import { SET_PROCESSO_DETALHADOS } from "../../store/actions"
 export default {
   name: "RelatorioConsultaAcoes",
   props: ["consultaId", "pag"],
@@ -188,6 +189,9 @@ export default {
       }
     }
   },
+   destroyed() {
+    this.$store.dispatch(SET_PROCESSO_DETALHADOS, [] );
+  },
   methods: {
     navegacaoPagina(tipo) {
       let direcao =
@@ -218,7 +222,7 @@ p {
   width: 294px;
 }
 .rel-bl {
-  max-width: 1220px;
+  max-width: 1120px;
   margin: 65px auto;
   animation: fadeOut 0.3s;
 }
@@ -255,7 +259,7 @@ p {
 }
 .rel-bl1-titulo {
   margin-bottom: 15px;
-  font-size: 1.5em;
+  font-size: 1.1em;
   font-weight: bold;
 }
 .rel-bl1-filtro {
@@ -371,7 +375,7 @@ p {
   max-width: 1362px;
 }
 .rel-bl2-titulo {
-  font-size: 1.5em;
+  font-size: 1.2em;
   margin-bottom: 13px;
 }
 table {
@@ -389,12 +393,11 @@ th {
   padding: 10px
 }
 td {
-  height: 60px;
   border: 1px solid #a8b2c0;
   text-align: center;
-  padding: 4px;
+  font-size: 0.7em;
 }
 td:first-child + td {
-  width: 170px;
+  /* width: 110px; */
 }
 </style>
