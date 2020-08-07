@@ -4,6 +4,7 @@
     <table>
       <thead>
         <th>Nº Identificação</th>
+        <th>Apelido</th>
         <th>Data do Cadastro</th>
         <th style="width: 200px">Filtros em Monitoramento</th>
         <th style="width: 200px">Valor Monitoramento</th>
@@ -11,39 +12,48 @@
       <tbody>
         <tr>
           <td>00006567</td>
-          <td>07/06/2020</td>
+          <td>Ricardo Eletro</td>
+          <td>03/07/2020</td>
           <td>
             <div class="filtro-monitoramento">
               <div>
                 <strong>Termo:</strong> Ricardo Eletro
               </div>
               <div>
-                <strong>Justiça:</strong>Estadual, Federal
+                <strong>Justiça:</strong>Estadual; Federal; Trabalhista
               </div>
               <div>
-                <strong>Partes:</strong> Réu
+                <strong>Partes:</strong> Réu; Autor
+              </div>
+              <div>
+                <strong>UF:</strong> SP; BA; RJ
               </div>
             </div>
           </td>
-          <td>R$ 470,00</td>
+          <td>R$ 350,00</td>
         </tr>
+
         <tr>
-          <td>00006567</td>
-          <td>07/06/2020</td>
+          <td>00006568</td>
+          <td>Americanas</td>
+          <td>03/07/2020</td>
           <td>
             <div class="filtro-monitoramento">
               <div>
-                <strong>Termo:</strong> Ricardo Eletro
+                <strong>Termo:</strong> Lojas Americanas
               </div>
               <div>
-                <strong>Justiça:</strong>Estadual, Federal
+                <strong>Justiça:</strong>Estadual; Federal; Trabalhista
               </div>
               <div>
-                <strong>Partes:</strong> Réu
+                <strong>Partes:</strong> Réu; Autor
+              </div>
+              <div>
+                <strong>UF:</strong> SP; SC; PE; BA
               </div>
             </div>
           </td>
-          <td>R$ 470,00</td>
+          <td>R$ 400,00</td>
         </tr>
       </tbody>
     </table>

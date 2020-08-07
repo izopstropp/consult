@@ -14,7 +14,7 @@
             ]"
           >
             Alerta Jurídico
-            <span class="qtdAlertaJuridico">1</span>
+            <span class="qtdAlertaJuridico">2</span>
           </a-button>
         </div>
         <div class="btn-acao">

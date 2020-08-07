@@ -29,19 +29,19 @@
         <th>Lower Bound</th>
         <th>Upper Bound</th>
         <th>Qtde Processos
-            <!-- <img
-                    @click="[exibirtooltipTable = !exibirtooltipTable, exibirCorpoTooltip = false]"
-                    src="../../assets/icons/08.png"
-                    alt="info"
-                    style="cursor:pointer"
-                  />
-                  <div class="tooltipTable">
-                    <div :class="[exibirtooltipTable ? 'tooltipAberto' : '', 'tooltip']">
-                      <div :class="[exibirCorpoTooltip ? 'exibirTextoToltip':'','tooltipTexto']">
-                        <p class="tooltipTitulo">Processos identificados na base Kurier que não possuem evidência de terem sido sentenciados</p>
-                      </div>
-                    </div>
-                  </div> -->
+            <img
+              @click="[exibirtooltipTable = !exibirtooltipTable, exibirCorpoTooltip = false]"
+              src="../../assets/icons/incon-info-negativo.png"
+              alt="info"
+              style="cursor:pointer; width:15px"
+            />
+            <div class="tooltipTable">
+              <div :class="[exibirtooltipTable ? 'tooltipAberto' : '', 'tooltip']">
+                <div :class="[exibirCorpoTooltip ? 'exibirTextoToltip':'','tooltipTexto']">
+                  <p class="tooltipTitulo">Processos identificados na base Kurier que não possuem evidência de terem sido sentenciados</p>
+                </div>
+              </div>
+            </div>
         </th>
       </thead>
       <tbody>
@@ -88,8 +88,8 @@ export default {
       },
       msgRetornoRequest:"",
       realizandoRequisicao: false,
-      exibirtooltipTable: true,
-      exibirCorpoTooltip: true,
+      exibirtooltipTable: false,
+      exibirCorpoTooltip: false,
     };
   },
   watch: {

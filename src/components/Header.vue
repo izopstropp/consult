@@ -103,7 +103,7 @@ p {
   opacity: 1;
 }
 .menu-direito-rapido div:nth-child(1) p {
-  height: 35px;
+  height: 33px;
 }
 
 .linkFastStyle {
