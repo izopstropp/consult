@@ -197,8 +197,10 @@ import tooltip from "@/components/ToolTip.vue";
 import { SET_RESULT_VOLUMETRIA } from "../../store/actions";
 import { SET_PARAMETROS_CONSULT_VOLUMETRIA } from "../../store/actions";
 import { SET_STATUS_PESQUISA } from "../../store/actions";
+import {DO_VALIDAR_SECAO} from "../../store/actions"
 import { MapperVolumetriaToModel } from "../../mapper/MapearVolumetriaToModel.js";
 import LoadCircle from "../../components/Load/LoadCircle.vue";
+
 
 export default {
   name: "consulta-acoes",
@@ -235,7 +237,9 @@ export default {
       realizandoRequisicaoFiltro: false,
     };
   },
-
+  beforeMount() {
+    this.$store.dispatch(DO_VALIDAR_SECAO)
+  },
   mounted() {
     this.cleanInput();
     this.$store.dispatch(SET_STATUS_PESQUISA, false);

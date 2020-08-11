@@ -1,5 +1,6 @@
 export const DO_LOGIN = "doLogin";
 export const DO_LOGOUT = "doLogout";
+export const DO_VALIDAR_SECAO = "doValidarSessao"
 
 export const SET_PARAMETROS_CONSULT_VOLUMETRIA =
   "guardarParametrosPesquisaVolumetria";

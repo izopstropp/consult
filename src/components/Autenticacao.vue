@@ -148,7 +148,6 @@ export default {
             if (response.status == 200) {
               this.realizandoRequisicao = false
               this.$store.dispatch(DO_LOGIN, response.data);
-              console.log(response.data)
               this.$router.push({name: "selecaoTipoConsulta"});
             } else if (response.status == 404) {
               this.realizandoRequisicao = false
