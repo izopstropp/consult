@@ -39,6 +39,7 @@ export default {
     },
     [DO_VALIDAR_SECAO]({state}){
       let dataAtualAcrescidoHora = new Date()
+      console.log(state.expires)
       dataAtualAcrescidoHora.setHours(dataAtualAcrescidoHora.getHours() + 3 )
       let tempoFaltante = new Date(state.expires) - dataAtualAcrescidoHora
       if (tempoFaltante < 1780000){

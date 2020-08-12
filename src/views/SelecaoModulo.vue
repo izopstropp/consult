@@ -1,53 +1,40 @@
 <template>
   <div class="container-selecao">
     <div v-if="paginaCarregada" class="container-selecao-item">
+      <img style="width:380px; margin: 0 auto; display:flex; margin-bottom:40px;" src="../assets/logo-soluções-color.png" alt="">
       <div class="selecao-titulo">
-        <p>Qual opção você deseja consultar?</p>
+        <p>Selecione uma opção:</p>
       </div>
       <div class="selecao-botao">
         <div class="btn-acao">
-          <a-button
-            @click="ativarBotao(3)"
-            style="border-right:none; border-bottom:none; border-radius: 5px 0px 0px 0px !important;"
-            :class="[
-              btnAlertaJuridicoAtivado ? 'color-backgroud-azul' : '',
-            ]"
+          <router-link
+            tag="a-button"
+            :to="{name:'alerta-juridico'}"
           >
             Alerta Jurídico
             <span class="qtdAlertaJuridico">2</span>
-          </a-button>
+          </router-link>
         </div>
         <div class="btn-acao">
-          <a-button
-            @click="ativarBotao(4)"
-            style="border-bottom: none; border-radius: 0px 5px 0px 0px !important;"
-            :class="[
-              btnPassivoJuridicoAtivado ? 'color-backgroud-azul' : ''
-            ]"
-          >Passivo Jurídico</a-button>
+          <router-link
+            tag="a-button"
+            :to="{name:'passivo-juridico'}"
+          >Passivo Jurídico</router-link>
         </div>
         <div class="btn-acao">
-          <a-button
-            @click="ativarBotao(1)"
-            style="border-right:none; border-radius: 0px 0px 0px 5px !important;"
-            :class="[
-              btnAcaoAtivado ? 'color-backgroud-azul' : ''
-            ]"
-          >Ações</a-button>
+          <router-link tag="a-button" :to="{ name: 'consulta-acoes' }"
+          >Ações</router-link>
         </div>
         <div class="btn-acao">
-          <a-button
-            @click="ativarBotao(2)"
-            style="border-radius: 0px 0px 5px 0px !important;"
-            :class="[
-              btnPreditivoAtivado ? 'color-backgroud-azul' : '',
-            ]"
-          >Preditivo</a-button>
+          <router-link
+            tag="a-button"
+            :to="{name:'consulta-preditivo'}"
+          >Preditivo</router-link>
         </div>
       </div>
-      <div class="selecao-confirma">
+      <!-- <div class="selecao-confirma">
         <router-link class="btn-selecao-confirmar" :to="{ name: nameRouterLink }">Confirmar</router-link>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -55,45 +42,16 @@
 export default {
   data() {
     return {
-      btnAcaoAtivado: true,
-      btnPreditivoAtivado: false,
-      btnAlertaJuridicoAtivado: false,
-      btnPassivoJuridicoAtivado: false,
       nameRouterLink: "consulta-acoes",
       paginaCarregada: false,
+
     };
   },
   mounted() {
     this.paginaCarregada = true;
   },
   methods: {
-    ativarBotao(btn) {
-      if (btn === 1) {
-        this.btnAcaoAtivado = true;
-        this.btnPreditivoAtivado = false;
-        this.btnAlertaJuridicoAtivado = false;
-        this.btnPassivoJuridicoAtivado = false;
-        this.nameRouterLink = "consulta-acoes";
-      } else if (btn === 2) {
-        this.btnAcaoAtivado = false;
-        this.btnPreditivoAtivado = true;
-        this.btnAlertaJuridicoAtivado = false;
-        this.btnPassivoJuridicoAtivado = false;
-        this.nameRouterLink = "consulta-preditivo";
-      } else if (btn === 3) {
-        this.btnAcaoAtivado = false;
-        this.btnPreditivoAtivado = false;
-        this.btnAlertaJuridicoAtivado = true;
-        this.btnPassivoJuridicoAtivado = false;
-        this.nameRouterLink = "alerta-juridico";
-      } else if (btn === 4) {
-        this.btnAcaoAtivado = false;
-        this.btnPreditivoAtivado = false;
-        this.btnAlertaJuridicoAtivado = false;
-        this.btnPassivoJuridicoAtivado = true;
-        this.nameRouterLink = "passivo-juridico";
-      }
-    },
+    
   },
 };
 </script>
@@ -102,14 +60,14 @@ p {
   margin: 0;
 }
 .container-selecao-item {
-  margin: 230px auto auto auto;
-  max-width: 500px;
+  margin: 100px auto auto auto;
+  max-width: 659px;
   animation: fadeOut 0.8s;
 }
 @keyframes fadeOut {
   from {
     opacity: 0;
-    margin-top: 216px;
+    margin-top: 80px;
   }
   to {
     opacity: 1;
@@ -117,31 +75,37 @@ p {
   }
 }
 .selecao-titulo {
-  margin-bottom: 52px;
+  margin-bottom: 12px;
 }
 .selecao-titulo > p {
-  text-align: center;
-  font-size: 1.5em;
-  font-weight: bold;
+  /* text-align: center; */
+  font-size: 2em;
+
 }
 .selecao-botao {
   display: flex;
-  max-width: 314px;
   flex-wrap: wrap;
   margin: 0 auto;
-  /* background-color: #001a3f; */
-  border-color: #aaaaaa;
+  max-width: 659px;
+  /* border-color: #aaaaaa; */
+}
+.btn-acao{
+  padding:10px;
+}
+.btn-acao:hover{
+transform: scale3d(1.3);
+}
+.btn-acao .ant-btn:hover{
+  background-color:#001a3f;
+  color: white;
+  
+}
+.btn-acao button{
+  height: 180px
 }
 .btn-acao .ant-btn {
   font-size: 0.9em;
-  border-color: #aaaaaa;
-}
-.esconder-bordar-direita {
-  border-right: none;
-  border-radius: 5px 0px 0px 5px !important;
-}
-.esconder-bordar-esquerda {
-  border-left: none;
+  width: 144px;
 }
 .selecao-confirma {
   margin-top: 38px;
@@ -167,10 +131,6 @@ p {
 .color-backgroud-azul {
   background-color: #001a3f;
   color: #cfd5dc;
-}
-.ant-btn {
-  border-color: #aaaaaa;
-  border-radius: 0px;
 }
 .btn-selecao-confirmar:active {
   background-color: #052f6b;

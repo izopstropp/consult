@@ -2,34 +2,52 @@
   <div class="his-bl">
     <div class="his-bl-block">
       <div class="his-bl-titulo">HISTÓRICO DE CONSULTAS</div>
-       <div class="rel-bl1-page">
-          <div class="rel-bl1-page-selec">
-            <a-input
-              class="rel-bl1-page-selec-input"
-              :value="this.paginaAtual"
-            />
-            <p>/{{ totalPage }}</p>
-          </div>
-          <div class="rel-bl1-page-direc">
-            <div
-              @click="navegacaoPagina('a')"
-              :class="[
-                this.paginaAtual <= '1' ? 'page-direct-disable' : '',
-                'rel-bl1-page-direc-a',
-              ]"
-            >
-              <p>&lt;</p>
+       <div class="rel-bl1">
+          <div class="rel-bl1-filtro">
+            <div>
+              <label for="data">Data</label>
+               <a-month-picker
+                format="MM/YYYY"
+                class="consulta-form-calender-item"
+                placeholder="Mês / Ano"
+                v-model="dataConsulta"
+                defaultValue=""
+              />
             </div>
-            <div
-              @click="navegacaoPagina('p')"
-              :class="[
-                this.paginaAtual >= totalPage
-                  ? 'page-direct-disable'
-                  : '',
-                'rel-bl1-page-direc-p',
-              ]"
-            >
-              <p>&gt;</p>
+            <div>
+              <label for="data">Tipo Consulta</label>
+              <a-input v-model="tipoAcao"/>
+            </div>
+          </div>
+          <div class="rel-bl1-page">
+            <div class="rel-bl1-page-selec">
+              <a-input
+                class="rel-bl1-page-selec-input"
+                :value="this.paginaAtual"
+              />
+              <p>/{{ totalPage }}</p>
+            </div>
+            <div class="rel-bl1-page-direc">
+              <div
+                @click="navegacaoPagina('a')"
+                :class="[
+                  this.paginaAtual <= '1' ? 'page-direct-disable' : '',
+                  'rel-bl1-page-direc-a',
+                ]"
+              >
+                <p>&lt;</p>
+              </div>
+              <div
+                @click="navegacaoPagina('p')"
+                :class="[
+                  this.paginaAtual >= totalPage
+                    ? 'page-direct-disable'
+                    : '',
+                  'rel-bl1-page-direc-p',
+                ]"
+              >
+                <p>&gt;</p>
+              </div>
             </div>
           </div>
         </div>
@@ -66,15 +84,37 @@ export default {
     return {
       dadosHistorico: [],
       paginaAtual:1,
-      limiteItensPagina:15
+      limiteItensPagina:15,
+      tipoAcao:'',
+      dataConsulta:''
     };
   },
   computed: {
      totalPage() {
       let totalPage = Math.ceil(
-        this.dadosHistorico.length / this.limiteItensPagina
+        this.consultasFiltradas.length / this.limiteItensPagina
       );
       return totalPage;
+    },
+    consultasFiltradas(){
+      let valorDataFiltro = this.formatarDataFiltro
+      return this.dadosHistorico.
+      filter(x=>x.TipoConsulta.toLowerCase().includes(this.tipoAcao.toLowerCase()) && x.DataCriacao.includes(valorDataFiltro))
+    },
+    formatarDataFiltro(){
+      if(this.dataConsulta == ""){ 
+        return ""
+      }
+      var d = new Date(this.dataConsulta);
+      if(d.getFullYear() == "1969")
+      return ""
+      let mes=parseInt(d.getMonth())+ 1
+      if(mes <= 9){
+        mes = "0"+mes
+      }
+      let resultDataFormat = mes +'/'+ d.getFullYear()
+      
+      return resultDataFormat
     },
     gerarRegistroPorPagina() {
       let registrosPorPagina = [];
@@ -86,8 +126,8 @@ export default {
         qtdRegistrosAnteriores + this.limiteItensPagina;
       if (this.paginaAtual <= totalPage) {
         for (let i = qtdRegistrosAnteriores; i < qtdRegistroExibicao; i++) {
-          if (this.dadosHistorico[i] != null) {
-            registrosPorPagina.push(this.dadosHistorico[i]);
+          if (this.consultasFiltradas[i] != null) {
+            registrosPorPagina.push(this.consultasFiltradas[i]);
           }
         }
       }
@@ -144,9 +184,11 @@ p{
 }
 .his-bl-table {
   display: flex;
+  max-width: 862px;
+  margin: 0 auto;
 }
 table {
-  width: 662px;
+  width: 100%;
   margin: 0 auto;
 }
 thead {
@@ -170,16 +212,28 @@ th {
 }
 
 /*_____paginação_____ */
-.rel-bl1-page {
+.rel-bl1 {
   display: flex;
-  justify-content: flex-end;
+  flex-wrap: wrap;
+  justify-content: space-between;
   align-items: center;
   margin: 0 auto 10px auto;
-  max-width: 662px; 
+  max-width: 862px; 
 }
-.rel-bl1-page div:nth-child(1) {
- margin-right: 20px;
+.rel-bl1-filtro{
+  display: flex;
+  justify-content: space-between;
+  width: 400px
 }
+.rel-bl1-filtro div{
+  width :190px
+}
+.rel-bl1-page{
+  display: flex;
+  justify-content: space-between;
+  width: 200px
+}
+
 .rel-bl1-page-selec {
   display: flex;
   align-items: center;

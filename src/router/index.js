@@ -40,7 +40,7 @@ const routes = [
         name: "consulta-acoes",
         component: ConsultaAcoes,
         // beforeEnter: (to, from, next) => {
-        //   auth.commit("test")
+        //   auth.dispatch("doValidarSessao")
         //   next()
         // }
       },

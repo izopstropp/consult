@@ -31,8 +31,8 @@
           <td>{{item.termoMonitorado}}</td>
           <td>{{item.dataAlerta}}</td>
           <td
-            v-if="item.dadosObtidos"
-            :class="[!item.dadosObtidos ? 'color-red':'text-align-left padding-left-20']"
+            v-if="item.resumoVisualizado"
+            :class="[!item.resumoVisualizado ? 'color-red':'text-align-left padding-left-20']"
           >
             {{item.descricaoFake.qtdProcesso}}
             <br />
@@ -42,14 +42,14 @@
             <br />
             {{item.descricaoFake.UF}}
           </td>
-          <td v-else :class="[!item.dadosObtidos ? 'link-alert-open':'text-align-left padding-left-20']">
+          <td v-else :class="[!item.resumoVisualizado ? 'link-alert-open':'text-align-left padding-left-20']">
             <p
-              @click="[item.descricaoAlerta=item.descricaoFake, item.dadosObtidos = true]"
+              @click="[item.descricaoAlerta=item.descricaoFake, item.resumoVisualizado = true]"
             >{{item.descricaoAlerta}}</p>
           </td>
           <td style="width:90px">
-            <!-- <a-checkbox v-model="item.obterDados" v-if="!item.dadosObtidos"></a-checkbox> -->
-            <a-checkbox v-model="item.obterDados"></a-checkbox>
+            <!-- <a-checkbox v-model="item.dadosObtidos" v-if="!item.resumoVisualizado"></a-checkbox> -->
+            <a-checkbox v-model="item.dadosObtidos"></a-checkbox>
           </td>
         </tr>
       </tbody>
@@ -124,9 +124,8 @@ export default {
             UF: "UF: 2 SP; 1 RJ",
           },
           // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
+          resumoVisualizado: false,
           dadosObtidos: false,
-          obterDados: false,
-          novoItem: false,
         },
         {
           termoMonitorado: "Americanas",
@@ -139,9 +138,8 @@ export default {
             UF: "UF: 1 SP",
           },
           // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
+          resumoVisualizado: false,
           dadosObtidos: false,
-          obterDados: false,
-          novoItem: false,
         },
         {
           termoMonitorado: "Ricardo Eletro",
@@ -154,9 +152,8 @@ export default {
             UF: "UF: 4 SP; 5 BA",
           },
           // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          dadosObtidos: true,
-          obterDados: false,
-          novoItem: false,
+          resumoVisualizado: true,
+          dadosObtidos: false,
         },
         {
           termoMonitorado: "americanas",
@@ -169,9 +166,8 @@ export default {
             UF: "UF: 2 SP;1 RJ",
           },
           // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          dadosObtidos: true,
-          obterDados: false,
-          novoItem: false,
+          resumoVisualizado: true,
+          dadosObtidos: false,
         },
         {
           termoMonitorado: "Ricardo Eletro",
@@ -184,9 +180,8 @@ export default {
             UF: "UF: 2 RJ",
           },
           // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          dadosObtidos: true,
-          obterDados: false,
-          novoItem: false,
+          resumoVisualizado: true,
+          dadosObtidos: false,
         },
         {
           termoMonitorado: "Americanas",
@@ -199,9 +194,8 @@ export default {
             UF: "UF: 1 SC",
           },
           // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          dadosObtidos: true,
-          obterDados: false,
-          novoItem: false,
+          resumoVisualizado: true,
+          dadosObtidos: false,
         },
         {
           termoMonitorado: "Americanas",
@@ -214,9 +208,8 @@ export default {
             UF: "UF: 4 PE; 1 SC",
           },
           // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          dadosObtidos: true,
-          obterDados: false,
-          novoItem: false,
+          resumoVisualizado: true,
+          dadosObtidos: false,
         },
         {
           termoMonitorado: "Ricardo Eletro",
@@ -229,9 +222,8 @@ export default {
             UF: "UF: 3 SP",
           },
           // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          dadosObtidos: true,
-          obterDados: false,
-          novoItem: false,
+          resumoVisualizado: true,
+          dadosObtidos: false,
         },
         {
           termoMonitorado: "Ricardo Eletro",
@@ -244,9 +236,8 @@ export default {
             UF: "UF: 1 SP; 2 BA",
           },
           // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          dadosObtidos: true,
-          obterDados: false,
-          novoItem: false,
+          resumoVisualizado: true,
+          dadosObtidos: false,
         },
         {
           termoMonitorado: "Americanas",
@@ -259,9 +250,8 @@ export default {
             UF: "UF: 9 SP; 1 PE",
           },
           // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          dadosObtidos: true,
-          obterDados: false,
-          novoItem: false,
+          resumoVisualizado: true,
+          dadosObtidos: false,
         },
         {
           termoMonitorado: "Ricardo Eletro",
@@ -274,9 +264,8 @@ export default {
             UF: "UF: 5 BA",
           },
           // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          dadosObtidos: true,
-          obterDados: false,
-          novoItem: false,
+          resumoVisualizado: true,
+          dadosObtidos: false,
         },
         {
           termoMonitorado: "Americanas",
@@ -289,9 +278,8 @@ export default {
             UF: "UF: 3 SP",
           },
           // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          dadosObtidos: true,
-          obterDados: false,
-          novoItem: false,
+          resumoVisualizado: true,
+          dadosObtidos: false,
         },
         {
           termoMonitorado: "Americanas",
@@ -304,9 +292,8 @@ export default {
             UF: "UF: 1 BA",
           },
           // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          dadosObtidos: true,
-          obterDados: false,
-          novoItem: false,
+          resumoVisualizado: true,
+          dadosObtidos: false,
         },
         {
           termoMonitorado: "americanas",
@@ -319,16 +306,15 @@ export default {
             UF: "UF: 1 BA",
           },
           // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          dadosObtidos: true,
-          obterDados: false,
-          novoItem: false,
+          resumoVisualizado: true,
+          dadosObtidos: false,
         },
       ],
     };
   },
   computed: {
     qtdDadosNaoObtidos() {
-      return this.listaAlerta.filter((x) => x.dadosObtidos === false).length;
+      return this.listaAlerta.filter((x) => x.resumoVisualizado === false).length;
     },
     totalPage() {
       let totalPage = Math.ceil(
@@ -357,7 +343,7 @@ export default {
   watch: {
     selecinarTodos: {
       handler() {
-        this.listaAlerta.map((y) => (y.obterDados = this.selecinarTodos));
+        this.listaAlerta.map((y) => (y.dadosObtidos = this.selecinarTodos));
       },
     },
   },
@@ -376,9 +362,8 @@ export default {
           termoMonitorado: "NOVO",
           dataAlerta: "12/01/2010",
           descricaoAlerta: "NOVO",
+          resumoVisualizado: false,
           dadosObtidos: false,
-          obterDados: false,
-          novoItem: false,
         },
       ];
 

@@ -1,12 +1,12 @@
 <template>
   <div class="container">
-    <div class="menu">
+    <div :class="[this.$route.path == '/modulo' ? '':'bg-blue','menu']">
       <div class="menu-itens">
         <div class="menu-logokurier">
           <img style="width:150px;" src="../assets/logo-soluções-negativo.png" alt="logo kurier" />
         </div>
         <div class="menu-direito-rapido">
-          <div :class="[this.$route.path != '/modulo' ? 'animacao-menu':'']">
+          <div :class="[!pageMenuModulo ? 'animacao-menu':'']">
             <router-link
               class="linkFastStyle"
               tag="p"
@@ -21,8 +21,8 @@
             <router-link class="linkFastStyle" tag="p" :to="{name: 'consulta-preditivo'}">Preditivo</router-link>
           </div>
           <div class="menu-esquerdo" @click="iterarMenuUsuario">
-            <img style="width:35px" src="../assets/icons/07.png" alt="perfil usuário" />
-            <div class="menu-esquerdo-usuario">
+            <img style="width:35px" :src="require(`../assets/icons/${pageMenuModulo ? '07':'07'}.png`)" alt="perfil usuário" />
+            <div :class="[pageMenuModulo ? 'font-color-blue':'font-color-white','menu-esquerdo-usuario']">
               <p>{{$store.getters.nomeUsuario.toLowerCase()}}</p>
             </div>
             <div>
@@ -62,6 +62,12 @@ export default {
     return {
       nomeClassAbrirMenuUsuario: "",
     };
+  },
+  computed: {
+    pageMenuModulo(){
+      if(this.$route.path == '/modulo') return true
+      return false
+    }
   },
   methods: {
     iterarMenuUsuario() {
@@ -123,6 +129,8 @@ img {
 .menu {
   max-width: 100vw;
   height: 56px;
+}
+.bg-blue{
   background-color: #001a3f;
 }
 .menu-itens {
@@ -204,10 +212,15 @@ img {
   margin-top: 9px;
 }
 .menu-esquerdo-usuario > p {
-  color: #dee2e7;
   margin: 0;
   margin-left: 15px;
   font-size: 1em;
+}
+.font-color-white{
+  color: #dee2e7;
+}
+.font-color-blue{
+  color: #001a3f;
 }
 .menu-esquerdo-seta {
   margin-left: 10px;
