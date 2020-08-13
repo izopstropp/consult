@@ -87,15 +87,23 @@ export default {
 p {
   margin: 0px;
 }
+
 .menu-direito-rapido {
   display: flex;
   align-items: center;
-  width: 550px;
+  max-width: 590px;
   justify-content: space-between;
+}
+@media screen and (max-width:700px){
+  .menu-direito-rapido {
+  display: flex;
+  align-items: center;
+  max-width: 550px;
+  }
 }
 .menu-direito-rapido div:nth-child(1) {
   margin-top: 8px;
-  max-width: 490px;
+  width: 590px;
   padding-left: 400px;
   overflow: hidden;
   display: flex;
@@ -105,8 +113,13 @@ p {
 }
 .menu-direito-rapido div:nth-child(1).animacao-menu {
   padding-left: 0px;
-  color: red;
   opacity: 1;
+}
+@media screen and (max-width: 900px){
+
+  .menu-direito-rapido div:nth-child(1).animacao-menu {
+    display: none;
+  }
 }
 .menu-direito-rapido div:nth-child(1) p {
   height: 33px;

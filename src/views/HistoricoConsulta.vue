@@ -163,6 +163,11 @@ p{
 .his-bl-block{
   padding-bottom: 100px;
 }
+@media screen and (max-width: 700px) {
+  .his-bl-block{
+    padding: 30px;
+  }
+}
 .his-bl-titulo {
   padding-top: 65px;
   margin: 0 auto;

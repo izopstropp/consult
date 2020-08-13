@@ -78,6 +78,11 @@ p {
   max-width: 1000px;
   animation: fadeOut 0.3s;
 }
+@media screen and (max-width:700px) {
+  .mc-container {
+    padding: 30px;
+  }
+}
 @keyframes fadeOut {
   from {
     opacity: 0;

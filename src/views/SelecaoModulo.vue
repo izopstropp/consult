@@ -7,29 +7,77 @@
       </div>
       <div class="selecao-botao">
         <div class="btn-acao">
+          <div @mouseover="alertaJuridicoAtivado = true" @mouseleave="alertaJuridicoAtivado = false">
           <router-link
             tag="a-button"
             :to="{name:'alerta-juridico'}"
           >
-            Alerta Jurídico
-            <span class="qtdAlertaJuridico">2</span>
+            <div class="botao-imagem-info">
+              <div>
+                <img v-if="!alertaJuridicoAtivado" src="../assets/icons/alerta-juridico.png" alt="">
+                <img v-else src="../assets/icons/alerta-juridico-branco.png" alt="">
+                <span class="qtdAlertaJuridico">2</span>
+              </div>
+              <div>
+                <p>Alerta Jurídico</p>
+              </div>
+            </div>
           </router-link>
+          </div>
         </div>
         <div class="btn-acao">
+          <div @mouseover="passivoJuridicoAtivado = true" @mouseleave="passivoJuridicoAtivado = false">
           <router-link
             tag="a-button"
             :to="{name:'passivo-juridico'}"
-          >Passivo Jurídico</router-link>
+          >
+            <div class="botao-imagem-info">
+              <div>
+                <img v-if="!passivoJuridicoAtivado" src="../assets/icons/passivo-juridico.png" alt="">
+                <img v-else src="../assets/icons/passivo-juridico-branco.png" alt="">
+              </div>
+              <div>
+                <p>Passivo Jurídico</p>
+              </div>
+            </div>
+          </router-link>
+          </div>
         </div>
         <div class="btn-acao">
-          <router-link tag="a-button" :to="{ name: 'consulta-acoes' }"
-          >Ações</router-link>
+          <div @mouseover="acoesAtivado = true" @mouseleave="acoesAtivado = false">
+          <router-link
+            tag="a-button"
+            :to="{name:'consulta-acoes'}"
+          >
+            <div class="botao-imagem-info">
+              <div>
+                <img v-if="!acoesAtivado" src="../assets/icons/acoes.png" alt="">
+                <img v-else src="../assets/icons/acoes-branco.png" alt="">
+              </div>
+              <div>
+                <p>Ações</p>
+              </div>
+            </div>
+          </router-link>
+          </div>
         </div>
         <div class="btn-acao">
+          <div @mouseover="preditivoAtivado = true" @mouseleave="preditivoAtivado = false">
           <router-link
             tag="a-button"
             :to="{name:'consulta-preditivo'}"
-          >Preditivo</router-link>
+          >
+            <div class="botao-imagem-info">
+              <div>
+                <img v-if="!preditivoAtivado" src="../assets/icons/preditivo.png" alt="">
+                <img v-else src="../assets/icons/preditivo-branco.png" alt="">
+              </div>
+              <div>
+                <p>Preditivo</p>
+              </div>
+            </div>
+          </router-link>
+          </div>
         </div>
       </div>
       <!-- <div class="selecao-confirma">
@@ -44,6 +92,10 @@ export default {
     return {
       nameRouterLink: "consulta-acoes",
       paginaCarregada: false,
+      alertaJuridicoAtivado: false,
+      passivoJuridicoAtivado: false,
+      acoesAtivado:false,
+      preditivoAtivado:false,
 
     };
   },
@@ -62,7 +114,7 @@ p {
 .container-selecao-item {
   margin: 100px auto auto auto;
   max-width: 659px;
-  animation: fadeOut 0.8s;
+  animation: fadeOut 0.9s;
 }
 @keyframes fadeOut {
   from {
@@ -77,6 +129,12 @@ p {
 .selecao-titulo {
   margin-bottom: 12px;
 }
+@media screen and (max-width:700px){
+  .selecao-titulo {
+    display: flex;
+    justify-content: center;
+  }
+}
 .selecao-titulo > p {
   /* text-align: center; */
   font-size: 2em;
@@ -87,21 +145,45 @@ p {
   flex-wrap: wrap;
   margin: 0 auto;
   max-width: 659px;
+  justify-content: center;
   /* border-color: #aaaaaa; */
+}
+
+@media screen and (max-width: 700px){
+  .selecao-botao {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    max-width: 409px;
+    justify-content: center;
+    /* border-color: #aaaaaa; */
+  }
 }
 .btn-acao{
   padding:10px;
 }
-.btn-acao:hover{
-transform: scale3d(1.3);
+
+.botao-imagem-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 150px;
+  position: relativo;
 }
+.botao-imagem-info img{
+  padding-top: 40px;
+  width: 53px
+}
+
 .btn-acao .ant-btn:hover{
-  background-color:#001a3f;
+  background-color:#001a3f !important;
   color: white;
   
 }
 .btn-acao button{
-  height: 180px
+  height: 180px;
+  background-color: rgba(194, 190, 190, 0.253);
+  border: none;
 }
 .btn-acao .ant-btn {
   font-size: 0.9em;
@@ -141,5 +223,8 @@ transform: scale3d(1.3);
   color: white;
   margin-left: 5px;
   border-radius: 2px;
+  position: absolute;
+  top: 60px;
+  right: 50px
 }
 </style>

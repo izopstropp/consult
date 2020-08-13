@@ -176,6 +176,11 @@ p {
   margin: 0 auto;
   /* position: relative; */
 }
+@media screen and (max-width:700px) {
+  .his-bl {
+    padding: 30px;
+  }
+}
 @keyframes fadeOut {
   from {
     opacity: 0;
@@ -197,8 +202,18 @@ p {
 .his-bl-form {
   display: flex;
   margin: 0 auto;
-  width: 700px;
+  max-width: 700px;
   justify-content: space-between;
+}
+@media screen and (max-width:700px) {
+  .his-bl-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 0 auto;
+  max-width: 700px;
+  justify-content: space-between;
+}
 }
 .btn-consulta:active {
   background-color: rgb(3, 51, 119);

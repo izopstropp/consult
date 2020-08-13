@@ -387,6 +387,11 @@ p {
   max-width: 1000px;
   animation: fadeOut 0.3s;
 }
+@media screen and (max-width: 700px) {
+  .aj-container{
+    padding: 30px;
+  }
+}
 @keyframes fadeOut {
   from {
     opacity: 0;
@@ -408,6 +413,7 @@ p {
   justify-content: space-between;
   align-items: flex-end;
   margin-bottom: 40px;
+  flex-wrap: wrap;
 }
 .aj-filtro {
   width: 300px;
@@ -477,6 +483,7 @@ td {
   justify-content: space-between;
   margin-top: 20px;
   margin-bottom: 100px;
+  flex-wrap: wrap;
 }
 .rel-bl1-page {
   display: flex;
