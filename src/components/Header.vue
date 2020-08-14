@@ -21,7 +21,7 @@
             <router-link class="linkFastStyle" tag="p" :to="{name: 'consulta-preditivo'}">Preditivo</router-link>
           </div>
           <div class="menu-esquerdo" @click="iterarMenuUsuario">
-            <img style="width:35px" :src="require(`../assets/icons/${pageMenuModulo ? '07':'07'}.png`)" alt="perfil usuário" />
+            <img style="width:35px" :src="require(`../assets/icons/${pageMenuModulo ? 'perfil':'perfil-branco'}.png`)" alt="perfil usuário" />
             <div :class="[pageMenuModulo ? 'font-color-blue':'font-color-white','menu-esquerdo-usuario']">
               <p>{{$store.getters.nomeUsuario.toLowerCase()}}</p>
             </div>
