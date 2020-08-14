@@ -2,6 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
+import store from '@/store/index.js'
 import SelecaoTipoConsulta from "../views/SelecaoModulo.vue";
 import ConsultaAcoes from "../views/acoes/ConsultaAcoes";
 import RelatorioConsultaAcoes from "../views/acoes/RelatorioConsultaAcoes.vue";
@@ -34,51 +35,72 @@ const routes = [
         path: "/modulo",
         name: "selecaoTipoConsulta",
         component: SelecaoTipoConsulta,
+       
       },
       {
         path: "/consulta-acoes",
         name: "consulta-acoes",
         component: ConsultaAcoes,
-        // beforeEnter: (to, from, next) => {
-        //   auth.dispatch("doValidarSessao")
-        //   next()
-        // }
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: "/volumetria",
         name: "ResultadoConsultaAcoes",
         component: Volumetria,
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: "/volumetria/:consultaId/:pag",
         name: "RelatorioConsultaAcoes",
         component: RelatorioConsultaAcoes,
         props: true,
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: "/historico",
         name: "historico",
         component: HistoricoConsulta,
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: "/consulta-preditivo",
         name: "consulta-preditivo",
         component: ConsultaPreditivo,
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: "/passivo-juridico",
         name: "passivo-juridico",
         component: PassivoJuridico,
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: "/alerta-juridico",
         name: "alerta-juridico",
         component: AlertaJuridico,
+        meta: {
+          requiresAuth: true
+        }
       },
       {
         path: "/alerta-juridico/monitorados",
         name: "monitoramento-cadastrado",
         component: monitoramentoCadastrado,
+        meta: {
+          requiresAuth: true
+        }
       },
     ],
   },
@@ -98,10 +120,24 @@ const routes = [
   },
 ];
 
+
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
   routes,
 });
+
+router.beforeEach((to, from, next) => {
+  
+  if (to.matched.some(record => record.meta.requiresAuth)) {
+    if (store.getters.autenticado) {
+      next()
+    } else {
+      next({ path: '/' })
+    }
+  } else {
+    next()
+  }
+})
 
 export default router;

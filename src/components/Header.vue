@@ -23,10 +23,10 @@
           <div class="menu-esquerdo" @click="iterarMenuUsuario">
             <img style="width:35px" :src="require(`../assets/icons/${pageMenuModulo ? 'perfil':'perfil-branco'}.png`)" alt="perfil usuário" />
             <div :class="[pageMenuModulo ? 'font-color-blue':'font-color-white','menu-esquerdo-usuario']">
-              <p>{{$store.getters.nomeUsuario.toLowerCase()}}</p>
+              <p>{{$store.getters.nomeUsuario}}</p>
             </div>
             <div>
-              <img class="menu-esquerdo-seta" src="../assets/setaMenuLateral.png" alt="seta" />
+              <img class="menu-esquerdo-seta" :src="require(`../assets/${pageMenuModulo ? 'setaMenuLateralAzul':'setaMenuLateral'}.png`)" alt="seta" />
             </div>
             <div class="menu-itens-esquerdo-usuario" :class="nomeClassAbrirMenuUsuario">
               <ul>

@@ -123,7 +123,6 @@ export default {
             this.realizandoRequisicao = false;
             if(response.data.Success == true){
               let result = response.data.Content;
-              console.log(result)
               this.resultRequestEvjd.evjd = result.evjd.toLocaleString(
                 "pt-BR", { style: "currency", currency: "BRL" }
               );
