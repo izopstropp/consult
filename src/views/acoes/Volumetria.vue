@@ -30,6 +30,7 @@
 
     <div v-show="exibirContainerFiltro" :class="[solicitarVolume ? 'blur-container' : '', 'container-filtro']">
       <div class="filtro-resumo">
+        <p class="filtro-nome-pesquisado">{{(this.$store.getters.getParametrosPesquisa.nome).toUpperCase()}}<p>
         <img v-if="screenMobile" @click="exibirFiltro = false" style="width:25px; height:25px; cursor:pointer" src="../../assets/icons/icon-menu.png" alt="menu" />
         <div class="resumo-justica">
           <div class="result">
@@ -905,6 +906,11 @@ a {
 /* --- fim modal -- */
 
 /* --- container filtro --- */
+.filtro-nome-pesquisado{
+  font-size: 1.3em;
+  color:rgba(0, 0, 0, 0.603);
+  font-weight: bold;
+}
 .container-filtro {
   margin: 0;
   border: 1px solid #c3c3c3;

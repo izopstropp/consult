@@ -112,14 +112,14 @@ p {
   margin: 0;
 }
 .container-selecao-item {
-  margin: 100px auto auto auto;
+  margin: 80px auto auto auto;
   max-width: 659px;
   animation: fadeOut 0.9s;
 }
 @keyframes fadeOut {
   from {
     opacity: 0;
-    margin-top: 80px;
+    margin-top: 60px;
   }
   to {
     opacity: 1;
@@ -176,7 +176,7 @@ p {
 }
 
 .btn-acao .ant-btn:hover{
-  background-color:#001a3f !important;
+  background-color:#022350dc !important;
   color: white;
   
 }
@@ -208,6 +208,7 @@ p {
   width: 157px;
   height: 43px;
   color: #1a1919a9;
+  transition: none !important;
 }
 
 .color-backgroud-azul {
