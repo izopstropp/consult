@@ -34,18 +34,18 @@
             v-if="item.resumoVisualizado"
             :class="[!item.resumoVisualizado ? 'color-red':'text-align-left padding-left-20']"
           >
-            {{item.descricaoFake.qtdProcesso}}
+            Foram encontrados {{item.volumetria.qtdProcesso}} novo(s) processo(s).
             <br />
-            {{item.descricaoFake.justica}}
+            Justiça: {{item.volumetria.justica.reduce((acc,cur) =>acc + cur.qtd +" "+cur.nome +", ","")}}
             <br />
-            {{item.descricaoFake.partes}}
+            Partes: {{item.volumetria.partes.reduce((acc,cur) =>acc + cur.qtd +" "+cur.nome +", ","")}}
             <br />
-            {{item.descricaoFake.UF}}
+            UF: {{item.volumetria.UF.reduce((acc,cur) =>acc + cur.qtd +" "+cur.sigla +", ","")}}
           </td>
           <td v-else :class="[!item.resumoVisualizado ? 'link-alert-open':'text-align-left padding-left-20']">
             <p
               @click="[item.descricaoAlerta=item.descricaoFake, item.resumoVisualizado = true]"
-            >{{item.descricaoAlerta}}</p>
+            >Acesse Aqui</p>
           </td>
           <td style="width:90px">
             <!-- <a-checkbox v-model="item.dadosObtidos" v-if="!item.resumoVisualizado"></a-checkbox> -->
@@ -116,199 +116,43 @@ export default {
         {
           termoMonitorado: "Ricardo Eletro",
           dataAlerta: "03/08/2020",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 3 novos processos.",
-            justica: "Justiça: 2 Estadual; 1 Federal",
-            partes: "Partes: 1 Réu; 2 Autor",
-            UF: "UF: 2 SP; 1 RJ",
+          volumetria: {
+            qtdProcesso: "3",
+            justica:[
+              {
+                nome:"estadual",
+                qtd:2
+              },
+              {
+                nome:"federal",
+                qtd:1
+              }
+            ],
+            partes:[
+              {
+                nome:"réu",
+                qtd:1
+              },
+              {
+                nome:"autor",
+                qtd:2
+              },
+              
+            ],
+            UF:[
+              {
+                sigla:"SP",
+                qtd: 2
+              },
+              {
+                sigla:"RJ",
+                qtd: 1
+              }
+            ] 
           },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
           resumoVisualizado: false,
           dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Americanas",
-          dataAlerta: "29/07/2020",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 1 novo processo.",
-            justica: "Justiça: 1 Trabalhista",
-            partes: "Partes: 1 Réu",
-            UF: "UF: 1 SP",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: false,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Ricardo Eletro",
-          dataAlerta: "27/07/2020",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 9 novos processos.",
-            justica: "Justiça: 2 Estadual; 3 Federal; 4 Trabalhista",
-            partes: "Partes: 9 Réu;",
-            UF: "UF: 4 SP; 5 BA",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "americanas",
-          dataAlerta: "12/01/2010",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 3 novos processos.",
-            justica: "Justiça: 2 Estadual; 1 Federal",
-            partes: "Partes: 1 Réu; 2 Autor",
-            UF: "UF: 2 SP;1 RJ",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Ricardo Eletro",
-          dataAlerta: "24/07/2010",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 2 novos processos.",
-            justica: "Justiça: 1 Estadual; 1 Trabalhista",
-            partes: "Partes: 1 Réu; 1 Autor",
-            UF: "UF: 2 RJ",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Americanas",
-          dataAlerta: "23/07/2010",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foi encontrado 1 novo processo.",
-            justica: "Justiça: 1 Trabalhista",
-            partes: "Partes: 1 Réu",
-            UF: "UF: 1 SC",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Americanas",
-          dataAlerta: "21/07/2010",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 5 novos processos.",
-            justica: "Justiça: 3 Federal; 2 Trabalhista",
-            partes: "Partes: 5 Réu",
-            UF: "UF: 4 PE; 1 SC",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Ricardo Eletro",
-          dataAlerta: "20/07/2010",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 3 novos processos.",
-            justica: "Justiça: 1 Estadual; 2 Federal",
-            partes: "Partes: 2 Réu; 1 Autor",
-            UF: "UF: 3 SP",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Ricardo Eletro",
-          dataAlerta: "16/07/2020",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 3 novos processos.",
-            justica: "Justiça: 1 Estadual; 2 Trabalhista",
-            partes: "Partes: 3 Réu",
-            UF: "UF: 1 SP; 2 BA",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Americanas",
-          dataAlerta: "15/07/2020",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 10 novos processos.",
-            justica: "Justiça: 7 Estadual; 1 Federal; 2 Trabalhista",
-            partes: "Partes: 8 Réu; 2 Autor",
-            UF: "UF: 9 SP; 1 PE",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Ricardo Eletro",
-          dataAlerta: "13/07/2010",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 5 novos processos.",
-            justica: "Justiça:  5 Estadual",
-            partes: "Partes: 1 Réu",
-            UF: "UF: 5 BA",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Americanas",
-          dataAlerta: "09/07/2010",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 3 novos processos.",
-            justica: "Justiça: 1 Estadual, 2 Federal",
-            partes: "Partes: 2 Réu; 1 Autor",
-            UF: "UF: 3 SP",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Americanas",
-          dataAlerta: "08/07/2010",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foi encontrado 1 novo processo.",
-            justica: "Justiça: 1 Trabalhista",
-            partes: "Partes: 1 Réu",
-            UF: "UF: 1 BA",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "americanas",
-          dataAlerta: "12/01/2010",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foi encontrado 1 novo processo.",
-            justica: "Justiça: 1 Estadual",
-            partes: "Partes: 1 Réu",
-            UF: "UF: 1 BA",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
+        }
       ],
     };
   },
