@@ -1,12 +1,12 @@
 <template>
   <div class="container">
-    <div class="menu">
+    <div :class="[this.$route.path == '/modulo' ? '':'bg-blue','menu']">
       <div class="menu-itens">
         <div class="menu-logokurier">
           <img style="width:150px;" src="../assets/logo-soluções-negativo.png" alt="logo kurier" />
         </div>
         <div class="menu-direito-rapido">
-          <div :class="[this.$route.path != '/modulo' ? 'animacao-menu':'']">
+          <div :class="[!pageMenuModulo ? 'animacao-menu':'']">
             <router-link
               class="linkFastStyle"
               tag="p"
@@ -21,9 +21,15 @@
             <router-link class="linkFastStyle" tag="p" :to="{name: 'consulta-preditivo'}">Preditivo</router-link>
           </div>
           <div class="menu-esquerdo" @click="iterarMenuUsuario">
+<<<<<<< HEAD
             <img style="width:35px" src="../assets/icons/07.png" alt="perfil usuário" />
             <div class="menu-esquerdo-usuario">
               <p>felipe.silva</p>
+=======
+            <img style="width:35px" :src="require(`../assets/icons/${pageMenuModulo ? 'perfil':'perfil-branco'}.png`)" alt="perfil usuário" />
+            <div :class="[pageMenuModulo ? 'font-color-blue':'font-color-white','menu-esquerdo-usuario']">
+              <p>{{$store.getters.nomeUsuario.toLowerCase()}}</p>
+>>>>>>> 347922ea373438fb1627c505bf29cdeb1dd516ac
             </div>
             <div>
               <img class="menu-esquerdo-seta" src="../assets/setaMenuLateral.png" alt="seta" />
@@ -63,6 +69,12 @@ export default {
       nomeClassAbrirMenuUsuario: "",
     };
   },
+  computed: {
+    pageMenuModulo(){
+      if(this.$route.path == '/modulo') return true
+      return false
+    }
+  },
   methods: {
     iterarMenuUsuario() {
       this.nomeClassAbrirMenuUsuario =
@@ -81,15 +93,23 @@ export default {
 p {
   margin: 0px;
 }
+
 .menu-direito-rapido {
   display: flex;
   align-items: center;
-  width: 550px;
+  max-width: 590px;
   justify-content: space-between;
+}
+@media screen and (max-width:700px){
+  .menu-direito-rapido {
+  display: flex;
+  align-items: center;
+  max-width: 550px;
+  }
 }
 .menu-direito-rapido div:nth-child(1) {
   margin-top: 8px;
-  max-width: 490px;
+  width: 590px;
   padding-left: 400px;
   overflow: hidden;
   display: flex;
@@ -99,11 +119,16 @@ p {
 }
 .menu-direito-rapido div:nth-child(1).animacao-menu {
   padding-left: 0px;
-  color: red;
   opacity: 1;
 }
+@media screen and (max-width: 900px){
+
+  .menu-direito-rapido div:nth-child(1).animacao-menu {
+    display: none;
+  }
+}
 .menu-direito-rapido div:nth-child(1) p {
-  height: 35px;
+  height: 33px;
 }
 
 .linkFastStyle {
@@ -123,6 +148,8 @@ img {
 .menu {
   max-width: 100vw;
   height: 56px;
+}
+.bg-blue{
   background-color: #001a3f;
 }
 .menu-itens {
@@ -204,10 +231,15 @@ img {
   margin-top: 9px;
 }
 .menu-esquerdo-usuario > p {
-  color: #dee2e7;
   margin: 0;
   margin-left: 15px;
   font-size: 1em;
+}
+.font-color-white{
+  color: #dee2e7;
+}
+.font-color-blue{
+  color: #001a3f;
 }
 .menu-esquerdo-seta {
   margin-left: 10px;

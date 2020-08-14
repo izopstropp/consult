@@ -45,7 +45,7 @@
               <img
                 @click="mostrarSenha = !mostrarSenha"
                 class="login-olho-senha"
-                src="../assets/olhosenha.png"
+                src="../assets/icons/visualizar.png"
                 alt="visualizar senha"
               />
             </div>
@@ -148,7 +148,6 @@ export default {
             if (response.status == 200) {
               this.realizandoRequisicao = false
               this.$store.dispatch(DO_LOGIN, response.data);
-              console.log(response.data)
               this.$router.push({name: "selecaoTipoConsulta"});
             } else if (response.status == 404) {
               this.realizandoRequisicao = false
@@ -258,11 +257,11 @@ img {
 .login-olho-senha {
   cursor: pointer;
   position: absolute;
-  width: 30px;
+  width: 20px;
   margin:0px;
   z-index: 1;
   right:10px;
-  top:26px
+  top:25px
 }
 .login-grupo-label {
   max-width: 340px;

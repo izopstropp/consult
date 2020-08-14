@@ -36,8 +36,8 @@
       </div>
     </div>
     <div class="grid-processo">
-      <p>Listagem dos Processos</p>
       <div class="his-bl-table">
+        <p>Listagem dos Processos</p>
         <table>
           <thead>
             <tr>
@@ -171,6 +171,11 @@ a {
   max-width: 1480px;
   animation: fadeOut 0.3s;
 }
+@media screen and (max-width:700px) {
+  .container {
+    padding: 30px;
+  }
+}
 @keyframes fadeOut {
   from {
     opacity: 0;
@@ -230,18 +235,19 @@ textarea {
   text-align: center;
 }
 .grid-processo p {
-  text-align: center;
-  margin-left: -520px;
   margin-bottom: 5px;
   font-size: 0.9em;
   font-weight: bold;
+  max-width: 665px;
+  margin: 0 auto;
 }
 .his-bl-table {
   display: flex;
+  flex-direction: column;
 }
 
 table {
-  width: 665px;
+  max-width: 665px;
   margin: 0 auto;
 }
 table,
@@ -259,6 +265,9 @@ th:nth-child(1) {
 }
 th:nth-child(2) {
   width: 200px;
+}
+th:nth-child(3) {
+  width: 100px;
 }
 th {
   text-align: center;

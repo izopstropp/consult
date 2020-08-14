@@ -131,7 +131,7 @@
             'pesquisa-preditivo',
           ]"
           >
-            <a-checkbox @click="preditivo = !preditivo">Adicionar o Preditivo</a-checkbox>
+            <a-checkbox v-model="preditivo" @change='qtdSolicitarPreditivo++'>Adicionar o Preditivo</a-checkbox>
           </div>
           <div class="consulta-form-filtro-btn-block-item">
             <div
@@ -213,9 +213,9 @@
                   Descrição
                   <img
                     @click="[exibirtooltipTable = !exibirtooltipTable, exibirCorpoTooltip = false]"
-                    src="../../assets/icons/08.png"
+                    src="../../assets/icons/incon-info-color.png"
                     alt="info"
-                    style="cursor:pointer"
+                    style="cursor:pointer; width:15px;"
                   />
                   <div class="tooltipTable">
                     <div :class="[exibirtooltipTable ? 'tooltipAberto' : '', 'tooltip']">
@@ -419,7 +419,8 @@ export default {
       exibirFiltro:false,
       solicitandoVolumetriaDetalheProcessos: false,
       VolumetriaDetalhada:false,
-      ConsultaDetalhesProcessosId:""
+      ConsultaDetalhesProcessosId:"",
+      qtdSolicitarPreditivo:0
     };
   },
 
@@ -521,9 +522,9 @@ export default {
         }
       }
     },
-    preditivo:{
+    qtdSolicitarPreditivo:{
       handler(){
-        this.validarSolicitacaoAcoes()
+        this.validarCheckPreditivo()
       }
     }
     
@@ -698,9 +699,27 @@ export default {
         setTimeout(() => {
           this.indicarQtdPreditivo = false;
         }, 4200);
+        this.preditivo = false;
         return false;
       }
       return true;
+    },
+    validarCheckPreditivo() {
+      if (this.totalVolumetriaConsumo.QtdProcessos >= 50) {
+        this.preditivo = false;
+        this.$notify({
+          group: "general",
+          title: "Somente é possível adquirir Preditivo de até 50 processos.",
+          duration: 2000,
+          speed: 700
+        });
+        setTimeout(() => {
+          this.indicarQtdPreditivo = true;
+        }, 3000);
+        setTimeout(() => {
+          this.indicarQtdPreditivo = false;
+        }, 4200);
+      }
     },
     exibirAvisoOpcaoInvalido() {
       this.$notify({

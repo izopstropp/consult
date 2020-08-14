@@ -11,6 +11,8 @@ import Volumetria from "../views/acoes/Volumetria";
 import PassivoJuridico from "../views/passivoJuridico/PassivoJuridico";
 import AlertaJuridico from "../views/alertaJuridico/ConsultaAlertaJuridico";
 import monitoramentoCadastrado from "../views/alertaJuridico/MonitoramentoCadastrado";
+// import auth from "../store/Modules/auth.js"
+
 
 Vue.use(VueRouter);
 
@@ -37,6 +39,10 @@ const routes = [
         path: "/consulta-acoes",
         name: "consulta-acoes",
         component: ConsultaAcoes,
+        // beforeEnter: (to, from, next) => {
+        //   auth.dispatch("doValidarSessao")
+        //   next()
+        // }
       },
       {
         path: "/volumetria",
