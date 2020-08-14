@@ -35,6 +35,9 @@ const routes = [
         path: "/modulo",
         name: "selecaoTipoConsulta",
         component: SelecaoTipoConsulta,
+        meta: {
+          requiresAuth: true
+        }
        
       },
       {

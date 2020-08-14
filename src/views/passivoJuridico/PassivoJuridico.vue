@@ -26,8 +26,8 @@
     <table :class="[resultRequestEvjd.evjd ? 'exibirTable' : '']">
       <thead>
         <th>Passivo Jurídico</th>
-        <th>Lower Bound</th>
-        <th>Upper Bound</th>
+        <th>Passivo Mínimo"</th>
+        <th>Passivo Máximo</th>
         <th>Qtde Processos
             <img
               @click="[exibirtooltipTable = !exibirtooltipTable, exibirCorpoTooltip = false]"
