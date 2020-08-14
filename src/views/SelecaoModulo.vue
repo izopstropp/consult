@@ -1,7 +1,7 @@
 <template>
   <div class="container-selecao">
     <div v-if="paginaCarregada" class="container-selecao-item">
-      <img style="width:380px; margin: 0 auto; display:flex; margin-bottom:40px;" src="../assets/logo-soluções-color.png" alt="">
+      <img style="width:300px; margin: 0 auto; display:flex; margin-bottom:40px;" src="../assets/logo-soluções-color.png" alt="">
       <div class="selecao-titulo">
         <p>Selecione uma opção:</p>
       </div>
@@ -137,7 +137,9 @@ p {
 }
 .selecao-titulo > p {
   /* text-align: center; */
-  font-size: 2em;
+  font-size: 1.6em;
+  font-weight: bold;
+  opacity: 0.9;
 
 }
 .selecao-botao {
@@ -145,7 +147,7 @@ p {
   flex-wrap: wrap;
   margin: 0 auto;
   max-width: 659px;
-  justify-content: center;
+  justify-content: space-between;
   /* border-color: #aaaaaa; */
 }
 
@@ -167,12 +169,12 @@ p {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 150px;
+  height: 130px;
   position: relativo;
 }
 .botao-imagem-info img{
   padding-top: 40px;
-  width: 53px
+  width: 43px
 }
 
 .btn-acao .ant-btn:hover{
@@ -181,13 +183,13 @@ p {
   
 }
 .btn-acao button{
-  height: 180px;
+  height: 160px;
   background-color: rgba(194, 190, 190, 0.253);
   border: none;
 }
 .btn-acao .ant-btn {
   font-size: 0.9em;
-  width: 144px;
+  width: 124px;
 }
 .selecao-confirma {
   margin-top: 38px;
@@ -222,10 +224,9 @@ p {
   width: 15px;
   background-color: rgba(187, 7, 7, 0.657);
   color: white;
-  margin-left: 5px;
   border-radius: 2px;
   position: absolute;
-  top: 60px;
-  right: 50px
+  top: 58px;
+  right: 40px
 }
 </style>
