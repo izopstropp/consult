@@ -1,7 +1,7 @@
 <template>
   <div class="container-selecao">
     <div v-if="paginaCarregada" class="container-selecao-item">
-      <img style="width:300px; margin: 0 auto; display:flex; margin-bottom:40px;" src="../assets/logo-soluções-color.png" alt="">
+      <img style="width:250px; margin: 0 auto; display:flex; margin-bottom:40px;" src="../assets/logo-soluções-color.png" alt="">
       <div class="selecao-titulo">
         <p>Selecione uma opção:</p>
       </div>
@@ -113,7 +113,7 @@ p {
 }
 .container-selecao-item {
   margin: 80px auto auto auto;
-  max-width: 659px;
+  max-width: 576px;
   animation: fadeOut 0.9s;
 }
 @keyframes fadeOut {
@@ -137,7 +137,7 @@ p {
 }
 .selecao-titulo > p {
   /* text-align: center; */
-  font-size: 1.6em;
+  font-size: 1.3em;
   font-weight: bold;
   opacity: 0.9;
 
@@ -146,7 +146,7 @@ p {
   display: flex;
   flex-wrap: wrap;
   margin: 0 auto;
-  max-width: 659px;
+  max-width: 576px;
   justify-content: space-between;
   /* border-color: #aaaaaa; */
 }
