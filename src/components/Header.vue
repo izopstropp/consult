@@ -21,15 +21,15 @@
             <router-link class="linkFastStyle" tag="p" :to="{name: 'consulta-preditivo'}">Preditivo</router-link>
           </div>
           <div class="menu-esquerdo" @click="iterarMenuUsuario">
-<<<<<<< HEAD
-            <img style="width:35px" src="../assets/icons/07.png" alt="perfil usuário" />
-            <div class="menu-esquerdo-usuario">
+            <img
+              style="width:35px"
+              :src="require(`../assets/icons/${pageMenuModulo ? 'perfil':'perfil-branco'}.png`)"
+              alt="perfil usuário"
+            />
+            <div
+              :class="[pageMenuModulo ? 'font-color-blue':'font-color-white','menu-esquerdo-usuario']"
+            >
               <p>felipe.silva</p>
-=======
-            <img style="width:35px" :src="require(`../assets/icons/${pageMenuModulo ? 'perfil':'perfil-branco'}.png`)" alt="perfil usuário" />
-            <div :class="[pageMenuModulo ? 'font-color-blue':'font-color-white','menu-esquerdo-usuario']">
-              <p>{{$store.getters.nomeUsuario.toLowerCase()}}</p>
->>>>>>> 347922ea373438fb1627c505bf29cdeb1dd516ac
             </div>
             <div>
               <img class="menu-esquerdo-seta" src="../assets/setaMenuLateral.png" alt="seta" />
@@ -70,10 +70,10 @@ export default {
     };
   },
   computed: {
-    pageMenuModulo(){
-      if(this.$route.path == '/modulo') return true
-      return false
-    }
+    pageMenuModulo() {
+      if (this.$route.path == "/modulo") return true;
+      return false;
+    },
   },
   methods: {
     iterarMenuUsuario() {
@@ -100,11 +100,11 @@ p {
   max-width: 590px;
   justify-content: space-between;
 }
-@media screen and (max-width:700px){
+@media screen and (max-width: 700px) {
   .menu-direito-rapido {
-  display: flex;
-  align-items: center;
-  max-width: 550px;
+    display: flex;
+    align-items: center;
+    max-width: 550px;
   }
 }
 .menu-direito-rapido div:nth-child(1) {
@@ -121,8 +121,7 @@ p {
   padding-left: 0px;
   opacity: 1;
 }
-@media screen and (max-width: 900px){
-
+@media screen and (max-width: 900px) {
   .menu-direito-rapido div:nth-child(1).animacao-menu {
     display: none;
   }
@@ -149,7 +148,7 @@ img {
   max-width: 100vw;
   height: 56px;
 }
-.bg-blue{
+.bg-blue {
   background-color: #001a3f;
 }
 .menu-itens {
@@ -235,10 +234,10 @@ img {
   margin-left: 15px;
   font-size: 1em;
 }
-.font-color-white{
+.font-color-white {
   color: #dee2e7;
 }
-.font-color-blue{
+.font-color-blue {
   color: #001a3f;
 }
 .menu-esquerdo-seta {
