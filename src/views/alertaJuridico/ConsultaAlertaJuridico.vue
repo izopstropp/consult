@@ -6,25 +6,23 @@
         <p>Filtrar pelo termo:</p>
         <a-input class="aj-filtro"></a-input>
       </div>
-      <div>
-        <a-button class="ant-btn">Obter dados selecionados</a-button>
-      </div>
     </div>
     <div class="aj-bl2">
       <p>
         Você possui
         <span class="color-red">{{qtdDadosNaoObtidos}}</span> novo(s) alerta(s)!
       </p>
-      <p>
-        <a-checkbox v-model="selecinarTodos">Selecionar todos</a-checkbox>
-      </p>
+      <!-- <p>
+        
+      </p> -->
     </div>
     <table>
       <thead>
         <th>Termo Monitorado</th>
         <th>Data do Alerta</th>
         <th style="width: 290px">Descrição do Alerta</th>
-        <th>Obter Dados</th>
+        <th style="width: 30px"></th>
+        <th>Obter Dados <a-checkbox class='check-obter-todos' v-model="selecionarTodos"></a-checkbox></th>
       </thead>
       <tbody>
         <tr v-for="(item, index) in gerarRegistroPorPagina" :key="index">
@@ -47,15 +45,16 @@
               @click="[item.descricaoAlerta=item.descricaoFake, item.resumoVisualizado = true]"
             >Acesse Aqui</p>
           </td>
+          <td></td>
           <td style="width:90px">
             <!-- <a-checkbox v-model="item.dadosObtidos" v-if="!item.resumoVisualizado"></a-checkbox> -->
-            <a-checkbox v-model="item.dadosObtidos"></a-checkbox>
+            <a-checkbox v-model="item.obterDados"></a-checkbox>
           </td>
         </tr>
       </tbody>
     </table>
     <p style="display: flex; justify-content: flex-end; margin-top: 10px">
-      <a-checkbox v-model="selecinarTodos">Selecionar todos</a-checkbox>
+      <a-checkbox v-model="selecionarTodos">Selecionar todos</a-checkbox>
     </p>
     <div class="rel-bl1">
       <div>
@@ -96,7 +95,7 @@
           </div>
         </div>
         <div>
-          <a-button class="ant-btn">Obter dados selecionados</a-button>
+          <a-button :disabled="dadosSelecionados.length > 0 ? false : true">Obter dados selecionados</a-button>
         </div>
       </div>
     </div>
@@ -107,7 +106,7 @@ export default {
   name: "alertaMonitoramento",
   data() {
     return {
-      selecinarTodos: false,
+      selecionarTodos: false,
       paginacao: {
         limiteItensPagina: 7,
         paginaAtual: 1,
@@ -152,6 +151,7 @@ export default {
           },
           resumoVisualizado: false,
           dadosObtidos: false,
+          obterDados:false
         },
          {
           termoMonitorado: "Americanas",
@@ -179,6 +179,7 @@ export default {
           },
           resumoVisualizado: false,
           dadosObtidos: false,
+          obterDados:false
         }
         ,
          {
@@ -219,6 +220,7 @@ export default {
           },
           resumoVisualizado: true,
           dadosObtidos: false,
+          obterDados:false
         },
          {
           termoMonitorado: "Ricardo Eletro",
@@ -254,6 +256,7 @@ export default {
           },
           resumoVisualizado: true,
           dadosObtidos: false,
+          obterDados:false
         },
          {
           termoMonitorado: "Americanas",
@@ -281,6 +284,7 @@ export default {
           },
           resumoVisualizado: true,
           dadosObtidos: false,
+          obterDados:false
         },
         {
           termoMonitorado: "Americanas",
@@ -316,6 +320,7 @@ export default {
           },
           resumoVisualizado: true,
           dadosObtidos: false,
+          obterDados:false
         },
          {
           termoMonitorado: "Ricardo Eletro",
@@ -352,6 +357,7 @@ export default {
           },
           resumoVisualizado: true,
           dadosObtidos: false,
+          obterDados:false
         },
          {
           termoMonitorado: "Ricardo Eletro",
@@ -388,6 +394,7 @@ export default {
           },
           resumoVisualizado: true,
           dadosObtidos: false,
+          obterDados:false
         },
         {
           termoMonitorado: "Americanas",
@@ -432,6 +439,7 @@ export default {
           },
           resumoVisualizado: true,
           dadosObtidos: false,
+          obterDados:false
         },
         {
           termoMonitorado: "Ricardo Eletro",
@@ -459,6 +467,7 @@ export default {
           },
           resumoVisualizado: true,
           dadosObtidos: false,
+          obterDados:false
         },
          {
           termoMonitorado: "Americanas",
@@ -494,6 +503,7 @@ export default {
           },
           resumoVisualizado: true,
           dadosObtidos: false,
+          obterDados:false
         },
          {
           termoMonitorado: "Americanas",
@@ -521,6 +531,7 @@ export default {
           },
           resumoVisualizado: true,
           dadosObtidos: false,
+          obterDados:false
         },
         {
           termoMonitorado: "Americanas",
@@ -548,11 +559,15 @@ export default {
           },
           resumoVisualizado: true,
           dadosObtidos: false,
+          obterDados:false
         }
       ],
     };
   },
   computed: {
+    dadosSelecionados(){
+      return this.listaAlerta.filter(x=> x.obterDados === true)
+    },
     qtdDadosNaoObtidos() {
       return this.listaAlerta.filter((x) => x.resumoVisualizado === false).length;
     },
@@ -581,9 +596,9 @@ export default {
     },
   },
   watch: {
-    selecinarTodos: {
+    selecionarTodos: {
       handler() {
-        this.listaAlerta.map((y) => (y.dadosObtidos = this.selecinarTodos));
+        this.listaAlerta.map((y) => (y.obterDados = this.selecionarTodos));
       },
     },
   },
@@ -653,9 +668,9 @@ p {
 }
 .aj-bl1 {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-end;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
 }
 .aj-filtro {
@@ -676,13 +691,19 @@ p {
   color: #c1c8d1;
   border: none;
 }
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
 
 .ant-btn:active {
   background-color: #001a3f81;
 }
 .aj-bl2 {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-bottom: 4px;
 }
 .color-red {
@@ -691,7 +712,7 @@ p {
   font-weight: bold;
 }
 .link-alert-open{
-  color: rgba(31, 29, 29, 0.863);
+  color: rgba(70, 68, 68, 0.863);
   text-decoration: underline;
   font-weight: bold;
   cursor: pointer;
@@ -702,6 +723,7 @@ p {
 .padding-left-20 {
   padding-left: 20px;
 }
+/* TABLE */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -721,6 +743,21 @@ th {
 td {
   height: 60px;
 }
+table th:nth-last-child(2),td:nth-last-child(2){
+  border-top:hidden;
+  background-color: white;
+}
+table th:nth-last-child(1){
+  width: 140px;
+
+}
+tr:last-child td:nth-last-child(2){
+  border-bottom:hidden;
+}
+.check-obter-todos{
+  margin-left:6px;
+}
+/* FIM-TABLE */
 .rel-bl1 {
   display: flex;
   justify-content: space-between;

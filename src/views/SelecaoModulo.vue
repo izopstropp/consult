@@ -178,9 +178,11 @@ p {
 }
 
 .btn-acao .ant-btn:hover{
-  background-color:#022350dc !important;
+  background-color: #022350 !important;
+  opacity: 0.9;
+
   color: white;
-   -webkit-box-shadow: 9px 9px 5px -2px rgba(0, 0, 0, 0.39);
+  -webkit-box-shadow: 9px 9px 5px -2px rgba(0, 0, 0, 0.39);
   -moz-box-shadow: 9px 9px 5px -2px rgba(0, 0, 0, 0.39);
   box-shadow: 9px 9px 5px -2px rgba(0, 0, 0, 0.39);
   
