@@ -22,39 +22,39 @@
         <th>Data do Alerta</th>
         <th style="width: 290px">Descrição do Alerta</th>
         <th style="width: 30px"></th>
-        <th>Obter Dados <a-checkbox class='check-obter-todos' v-model="selecionarTodos"></a-checkbox></th>
+        <th>Obter Dados <a-checkbox class='check-obter-todos' @click="selecionarTodosAlertas"></a-checkbox></th>
       </thead>
       <tbody>
         <tr v-for="(item, index) in gerarRegistroPorPagina" :key="index">
-          <td>{{item.termoMonitorado}}</td>
-          <td>{{item.dataAlerta}}</td>
+          <td>{{item.TermoMonitorado}}</td>
+          <td>{{item.DataAlerta}}</td>
           <td
-            v-if="item.resumoVisualizado"
-            :class="[!item.resumoVisualizado ? 'color-red':'text-align-left padding-left-20']"
+            v-if="item.ResumoVisualizado || item.DadosObtidos"
+            class="text-align-left padding-left-20"
           >
-            Foram encontrados <strong>{{item.volumetria.qtdProcesso}}</strong> novo(s) processo(s).
+            Foram encontrados <strong>{{item.Volumetria.QtdProcesso}}</strong> novo(s) processo(s).
             <br />
-            <strong>Justiça:</strong> {{item.volumetria.justica.reduce((acc,cur) =>acc + cur.qtd +" "+fomatarCampoExibicao(cur.nome) +", ","")}}
+            <strong>Justiça:</strong> {{item.Volumetria.Justica.reduce((acc,cur) =>acc + cur.Qtd +" "+fomatarCampoExibicao(cur.Nome) +", ","").slice(0, -2)}}
             <br />
-            <strong>Partes:</strong> {{item.volumetria.partes.reduce((acc,cur) =>acc + cur.qtd +" "+ fomatarCampoExibicao(cur.nome) +", ","")}}
+            <strong>Partes:</strong> {{item.Volumetria.Partes.reduce((acc,cur) =>acc + cur.Qtd +" "+ fomatarCampoExibicao(cur.Nome) +", ","").slice(0, -2)}}
             <br />
-            <strong>UF:</strong> {{item.volumetria.UF.reduce((acc,cur) =>acc + cur.qtd +" "+cur.sigla +", ","")}}
+            <strong>UF:</strong> {{item.Volumetria.UF.reduce((acc,cur) =>acc + cur.Qtd +" "+cur.Nome +", ","").slice(0, -2)}}
           </td>
-          <td v-else :class="[!item.resumoVisualizado ? 'link-alert-open':'text-align-left padding-left-20']">
+          <td v-else :class="[!item.ResumoVisualizado ? 'link-alert-open':'text-align-left padding-left-20']">
             <p
-              @click="[item.descricaoAlerta=item.descricaoFake, item.resumoVisualizado = true]"
+              @click="[item.ResumoVisualizado = true, confirmarVisualizacaoResumo(item.AlertaId)]"
             >Acesse Aqui</p>
           </td>
           <td></td>
           <td style="width:90px">
             <!-- <a-checkbox v-model="item.dadosObtidos" v-if="!item.resumoVisualizado"></a-checkbox> -->
-            <a-checkbox v-model="item.obterDados"></a-checkbox>
+            <a-checkbox v-model="item.ObterDados"></a-checkbox>
           </td>
         </tr>
       </tbody>
     </table>
     <p style="display: flex; justify-content: flex-end; margin-top: 10px">
-      <a-checkbox v-model="selecionarTodos">Selecionar todos</a-checkbox>
+      <a-checkbox @click="selecionarTodosAlertas">Selecionar todos</a-checkbox>
     </p>
     <div class="rel-bl1">
       <div>
@@ -95,15 +95,17 @@
           </div>
         </div>
         <div>
-          <a-button :disabled="dadosSelecionados.length > 0 ? false : true">Obter dados selecionados</a-button>
+          <a-button @click="solicitarDadosAlerta" :disabled="dadosSelecionados.length > 0 ? false : true">Obter dados selecionados</a-button>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import alertaJuridicoApi from "../../api/consultAlertaJuridico.js"
 export default {
   name: "alertaMonitoramento",
+  
   data() {
     return {
       selecionarTodos: false,
@@ -111,465 +113,17 @@ export default {
         limiteItensPagina: 7,
         paginaAtual: 1,
       },
-      listaAlerta: [
-        {
-          termoMonitorado: "Ricardo Eletro",
-          dataAlerta: "03/08/2020",
-          volumetria: {
-            qtdProcesso: "3",
-            justica:[
-              {
-                nome:"estadual",
-                qtd:2
-              },
-              {
-                nome:"federal",
-                qtd:1
-              }
-            ],
-            partes:[
-              {
-                nome:"réu",
-                qtd:1
-              },
-              {
-                nome:"autor",
-                qtd:2
-              },
-              
-            ],
-            UF:[
-              {
-                sigla:"SP",
-                qtd: 2
-              },
-              {
-                sigla:"RJ",
-                qtd: 1
-              }
-            ] 
-          },
-          resumoVisualizado: false,
-          dadosObtidos: false,
-          obterDados:false
-        },
-         {
-          termoMonitorado: "Americanas",
-          dataAlerta: "29/07/2020",
-          volumetria: {
-            qtdProcesso: "1",
-            justica:[
-              {
-                nome:"estadual",
-                qtd:1
-              }
-            ],
-            partes:[
-              {
-                nome:"réu",
-                qtd:1
-              }   
-            ],
-            UF:[
-              {
-                sigla:"SP",
-                qtd: 1
-              }
-            ] 
-          },
-          resumoVisualizado: false,
-          dadosObtidos: false,
-          obterDados:false
-        }
-        ,
-         {
-          termoMonitorado: "Ricardo Eletro",
-          dataAlerta: "27/07/2020",
-          volumetria: {
-            qtdProcesso: "9",
-            justica:[
-              {
-                nome:"estadual",
-                qtd:2
-              },
-              {
-                nome:"federal",
-                qtd:3
-              },
-              {
-                nome:"trabalhista",
-                qtd:4
-              }
-            ],
-            partes:[
-              {
-                nome:"réu",
-                qtd:1
-              }   
-            ],
-            UF:[
-              {
-                sigla:"SP",
-                qtd: 4
-              },
-               {
-                sigla:"BA",
-                qtd: 5
-              }
-            ] 
-          },
-          resumoVisualizado: true,
-          dadosObtidos: false,
-          obterDados:false
-        },
-         {
-          termoMonitorado: "Ricardo Eletro",
-          dataAlerta: "24/07/2010",
-          volumetria: {
-            qtdProcesso: "2",
-            justica:[
-              {
-                nome:"estadual",
-                qtd:1
-              },
-              {
-                nome:"trabalhista",
-                qtd:1
-              }
-            ],
-            partes:[
-              {
-                nome:"réu",
-                qtd:1
-              },
-              {
-                nome:"autor",
-                qtd:1
-              }  
-            ],
-            UF:[
-              {
-                sigla:"RJ",
-                qtd: 2
-              },
-            ] 
-          },
-          resumoVisualizado: true,
-          dadosObtidos: false,
-          obterDados:false
-        },
-         {
-          termoMonitorado: "Americanas",
-          dataAlerta: "23/07/2010",
-          volumetria: {
-            qtdProcesso: "1",
-            justica:[
-              {
-                nome:"trabalhista",
-                qtd:1
-              }
-            ],
-            partes:[
-              {
-                nome:"réu",
-                qtd:1
-              }           
-            ],
-            UF:[
-              {
-                sigla:"SC",
-                qtd: 1
-              },
-            ] 
-          },
-          resumoVisualizado: true,
-          dadosObtidos: false,
-          obterDados:false
-        },
-        {
-          termoMonitorado: "Americanas",
-          dataAlerta: "21/07/2010",
-          volumetria: {
-            qtdProcesso: "5",
-            justica:[
-              {
-                nome:"federal",
-                qtd:3
-              },
-              {
-                nome:"trabalhista",
-                qtd:2
-              }
-            ],
-            partes:[
-              {
-                nome:"réu",
-                qtd:5
-              }           
-            ],
-            UF:[
-              {
-                sigla:"PE",
-                qtd: 4
-              },
-              {
-                sigla:"SC",
-                qtd: 1
-              },
-            ] 
-          },
-          resumoVisualizado: true,
-          dadosObtidos: false,
-          obterDados:false
-        },
-         {
-          termoMonitorado: "Ricardo Eletro",
-          dataAlerta: "20/07/2010",
-          volumetria: {
-            qtdProcesso: "3",
-            justica:[
-              {
-                nome:"estadual",
-                qtd:1
-              },
-              {
-                nome:"federal",
-                qtd:2
-              }
-            ],
-            partes:[
-              {
-                nome:"réu",
-                qtd:2
-              },
-              {
-                nome:"autor",
-                qtd:1
-              }   
-
-            ],
-            UF:[
-              {
-                sigla:"SP",
-                qtd: 3
-              },
-            ] 
-          },
-          resumoVisualizado: true,
-          dadosObtidos: false,
-          obterDados:false
-        },
-         {
-          termoMonitorado: "Ricardo Eletro",
-          dataAlerta: "16/07/2020",
-          volumetria: {
-            qtdProcesso: "3",
-            justica:[
-              {
-                nome:"estadual",
-                qtd:1
-              },
-              {
-                nome:"trabalhista",
-                qtd:2
-              }
-            ],
-            partes:[
-              {
-                nome:"réu",
-                qtd:3
-              }
-            ],
-            UF:[
-              {
-                sigla:"SP",
-                qtd: 1
-              },
-              {
-                sigla:"BA",
-                qtd: 2
-              },
-              
-            ] 
-          },
-          resumoVisualizado: true,
-          dadosObtidos: false,
-          obterDados:false
-        },
-        {
-          termoMonitorado: "Americanas",
-          dataAlerta: "15/07/2020",
-          volumetria: {
-            qtdProcesso: "10",
-            justica:[
-              {
-                nome:"estadual",
-                qtd:7
-              },
-              {
-                nome:"federal",
-                qtd:1
-              },
-              {
-                nome:"trabalhista",
-                qtd:2
-              }
-            ],
-            partes:[
-              {
-                nome:"réu",
-                qtd:8
-              },
-              {
-                nome:"autor",
-                qtd:2
-              }
-            ],
-            UF:[
-              {
-                sigla:"SP",
-                qtd: 9
-              },
-              {
-                sigla:"PE",
-                qtd: 1
-              },
-              
-            ] 
-          },
-          resumoVisualizado: true,
-          dadosObtidos: false,
-          obterDados:false
-        },
-        {
-          termoMonitorado: "Ricardo Eletro",
-          dataAlerta: "13/07/2020",
-          volumetria: {
-            qtdProcesso: "5",
-            justica:[
-              {
-                nome:"estadual",
-                qtd:5
-              }
-            ],
-            partes:[
-              {
-                nome:"réu",
-                qtd:5
-              }
-            ],
-            UF:[
-              {
-                sigla:"BA",
-                qtd: 5
-              }
-            ] 
-          },
-          resumoVisualizado: true,
-          dadosObtidos: false,
-          obterDados:false
-        },
-         {
-          termoMonitorado: "Americanas",
-          dataAlerta: "09/07/2020",
-          volumetria: {
-            qtdProcesso: "3",
-            justica:[
-              {
-                nome:"estadual",
-                qtd:1
-              },
-              {
-                nome:"federal",
-                qtd:2
-              }
-            ],
-            partes:[
-              {
-                nome:"réu",
-                qtd:2
-              },
-              {
-                nome:"autor",
-                qtd:2
-              }
-            ],
-            UF:[
-              {
-                sigla:"SP",
-                qtd: 3
-              }
-            ] 
-          },
-          resumoVisualizado: true,
-          dadosObtidos: false,
-          obterDados:false
-        },
-         {
-          termoMonitorado: "Americanas",
-          dataAlerta: "08/07/2010",
-          volumetria: {
-            qtdProcesso: "3",
-            justica:[
-              {
-                nome:"trabalhista",
-                qtd:1
-              }
-            ],
-            partes:[
-              {
-                nome:"réu",
-                qtd:1
-              }
-            ],
-            UF:[
-              {
-                sigla:"BA",
-                qtd: 1
-              }
-            ] 
-          },
-          resumoVisualizado: true,
-          dadosObtidos: false,
-          obterDados:false
-        },
-        {
-          termoMonitorado: "Americanas",
-          dataAlerta: "06/07/2010",
-          volumetria: {
-            qtdProcesso: "1",
-            justica:[
-              {
-                nome:"estadual",
-                qtd:1
-              }
-            ],
-            partes:[
-              {
-                nome:"réu",
-                qtd:1
-              }
-            ],
-            UF:[
-              {
-                sigla:"BA",
-                qtd: 1
-              }
-            ] 
-          },
-          resumoVisualizado: true,
-          dadosObtidos: false,
-          obterDados:false
-        }
-      ],
+      listaAlerta:[]
+     
     };
   },
+
   computed: {
     dadosSelecionados(){
-      return this.listaAlerta.filter(x=> x.obterDados === true)
+      return this.listaAlerta.filter(x=> x.ObterDados === true)
     },
     qtdDadosNaoObtidos() {
-      return this.listaAlerta.filter((x) => x.resumoVisualizado === false).length;
+      return this.listaAlerta.filter((x) => x.ResumoVisualizado === false && x.DadosObtidos === false).length;
     },
     totalPage() {
       let totalPage = Math.ceil(
@@ -595,15 +149,43 @@ export default {
       return registrosPorPagina;
     },
   },
-  watch: {
-    selecionarTodos: {
-      handler() {
-        this.listaAlerta.map((y) => (y.obterDados = this.selecionarTodos));
-      },
-    },
+  // watch: {
+  //   selecionarTodos: {
+  //     handler() {
+  //       this.listaAlerta.map((y) => (y.ObterDados = this.selecionarTodos));
+  //     },
+  //   },
+  // },
+  mounted() {
+    this.carregarAlertasJuridico();
   },
-
+  
   methods: {
+    selecionarTodosAlertas(){
+      this.selecionarTodos = !this.selecionarTodos
+      this.listaAlerta.map((y) => (y.ObterDados = this.selecionarTodos));
+    },
+    solicitarDadosAlerta(){
+       alertaJuridicoApi.solicitarDadosAlerta(this.dadosSelecionados.map(x=> x.AlertaId)).then(response => {
+        if(response.status == 200){
+          // console.log()
+        }
+      })
+    },
+    confirmarVisualizacaoResumo(alertaId){
+      alertaJuridicoApi.confirmarVisualizacaoResumo(alertaId).then(response => {
+        if(response.status == 200){
+          // console.log()
+        }
+      })
+    },
+    carregarAlertasJuridico(){
+      alertaJuridicoApi.buscarAlertasPorUsuario().then(response =>{
+        if(response.status == 200){
+          this.listaAlerta = response.data.Content
+        }
+      })
+    },
     navegacaoPagina(tipo) {
       if (tipo == "p") {
         this.paginacao.paginaAtual++;
