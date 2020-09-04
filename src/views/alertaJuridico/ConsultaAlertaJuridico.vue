@@ -4,7 +4,7 @@
     <div class="aj-bl1">
       <div>
         <p>Filtrar pelo termo:</p>
-        <a-input class="aj-filtro"></a-input>
+        <a-input v-model="termoFiltro" class="aj-filtro"></a-input>
       </div>
     </div>
     <div class="aj-bl2">
@@ -22,12 +22,12 @@
         <th>Data do Alerta</th>
         <th style="width: 290px">Descrição do Alerta</th>
         <th style="width: 30px"></th>
-        <th>Obter Dados <a-checkbox class='check-obter-todos' @click="selecionarTodosAlertas"></a-checkbox></th>
+        <th>Obter Dados <a-checkbox v-model="selecionarTodos" class='check-obter-todos' @click="selecionarTodosAlertas"></a-checkbox></th>
       </thead>
       <tbody>
         <tr v-for="(item, index) in gerarRegistroPorPagina" :key="index">
           <td>{{item.TermoMonitorado}}</td>
-          <td>{{item.DataAlerta}}</td>
+          <td>{{formatacaoData(item.DataAlerta)}}</td>
           <td
             v-if="item.ResumoVisualizado || item.DadosObtidos"
             class="text-align-left padding-left-20"
@@ -54,7 +54,7 @@
       </tbody>
     </table>
     <p style="display: flex; justify-content: flex-end; margin-top: 10px">
-      <a-checkbox @click="selecionarTodosAlertas">Selecionar todos</a-checkbox>
+      <a-checkbox v-model="selecionarTodos" @click="selecionarTodosAlertas">Selecionar todos</a-checkbox>
     </p>
     <div class="rel-bl1">
       <div>
@@ -113,12 +113,16 @@ export default {
         limiteItensPagina: 7,
         paginaAtual: 1,
       },
-      listaAlerta:[]
+      listaAlerta:[],
+      termoFiltro:""
      
     };
   },
 
   computed: {
+    processosDetalhadosFiltrados(){
+       return this.listaAlerta.filter(x => x.TermoMonitorado.toString().toLowerCase().includes(this.termoFiltro.toLowerCase()))
+    },
     dadosSelecionados(){
       return this.listaAlerta.filter(x=> x.ObterDados === true)
     },
@@ -127,7 +131,7 @@ export default {
     },
     totalPage() {
       let totalPage = Math.ceil(
-        this.listaAlerta.length / this.paginacao.limiteItensPagina
+        this.processosDetalhadosFiltrados.length / this.paginacao.limiteItensPagina
       );
       return totalPage;
     },
@@ -141,8 +145,8 @@ export default {
         qtdRegistrosAnteriores + this.paginacao.limiteItensPagina;
       if (this.paginacao.paginaAtual <= totalPage) {
         for (let i = qtdRegistrosAnteriores; i < qtdRegistroExibicao; i++) {
-          if (this.listaAlerta[i] != null) {
-            registrosPorPagina.push(this.listaAlerta[i]);
+          if (this.processosDetalhadosFiltrados[i] != null) {
+            registrosPorPagina.push(this.processosDetalhadosFiltrados[i]);
           }
         }
       }
@@ -156,11 +160,15 @@ export default {
   //     },
   //   },
   // },
-  mounted() {
+  beforeMount() {
     this.carregarAlertasJuridico();
   },
   
   methods: {
+    formatacaoData(data){
+      var d = new Date(data);
+      return d.toLocaleDateString();
+    },
     selecionarTodosAlertas(){
       this.selecionarTodos = !this.selecionarTodos
       this.listaAlerta.map((y) => (y.ObterDados = this.selecionarTodos));
@@ -168,7 +176,11 @@ export default {
     solicitarDadosAlerta(){
        alertaJuridicoApi.solicitarDadosAlerta(this.dadosSelecionados.map(x=> x.AlertaId)).then(response => {
         if(response.status == 200){
-          // console.log()
+          let alertasId= this.dadosSelecionados.map(x=> x.AlertaId)
+          
+           alertasId.map(x => this.listaAlerta.filter(y => y.AlertaId == x ).map(h=> h.DadosObtidos = true))
+      
+          
         }
       })
     },
