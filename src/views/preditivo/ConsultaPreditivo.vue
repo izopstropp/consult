@@ -150,7 +150,6 @@ export default {
 
       // console.log(qtdEspecial);
       if (npusValidados.length == this.qtdProcessos) {
-        console.log(npusValidados.length + " = " + this.qtdProcessos);
         return true;
       }
       return false;

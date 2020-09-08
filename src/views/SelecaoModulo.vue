@@ -173,13 +173,18 @@ p {
   position: relativo;
 }
 .botao-imagem-info img{
-  padding-top: 40px;
+  padding-top: 30px;
   width: 43px
 }
 
 .btn-acao .ant-btn:hover{
-  background-color:#022350dc !important;
+  background-color: #022350 !important;
+  opacity: 0.9;
+
   color: white;
+  -webkit-box-shadow: 9px 9px 5px -2px rgba(0, 0, 0, 0.39);
+  -moz-box-shadow: 9px 9px 5px -2px rgba(0, 0, 0, 0.39);
+  box-shadow: 9px 9px 5px -2px rgba(0, 0, 0, 0.39);
   
 }
 .btn-acao button{
@@ -222,11 +227,11 @@ p {
 }
 .qtdAlertaJuridico {
   width: 15px;
-  background-color: rgba(187, 7, 7, 0.657);
+  background-color: rgba(187, 7, 7, 0.829);
   color: white;
   border-radius: 2px;
   position: absolute;
-  top: 58px;
+  top: 48px;
   right: 40px
 }
 </style>

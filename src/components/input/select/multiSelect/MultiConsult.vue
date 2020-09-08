@@ -163,7 +163,6 @@ export default {
             this.permitirZeroSelecionado === false &&
             qtdSelecionas == 1
           ) {
-            console.log("entrei aqui");
             this.$emit("clickInvalido");
           }
         }

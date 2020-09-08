@@ -357,7 +357,6 @@ export default {
         .replace(".", "")
         .replace(".", "")
         .replace("/", "");
-      console.log(this.parametrosConsulta.documento);
       if (this.dataDistIni && this.dataDistFim) {
         this.parametrosConsulta.dataDistribuicaoInicio = this.tratarData(
           this.dataDistIni,
@@ -375,7 +374,6 @@ export default {
           .buscarProcessosVolumetria(this.parametrosConsulta)
           .then((response) => {
             if (response.status == 200) {
-              console.log(response.data.Content);
               let dadosModel = MapperVolumetriaToModel.MapearToModel(
                 response.data.Content
               );

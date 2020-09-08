@@ -18,16 +18,6 @@ export default {
     nomeUsuario:(state)=>{
       return state.usuario;
     },
-    // sessaoUsuarioSistema:(state) => {
-     
-      
-    //   return tempoFaltante
-    // //   if (tempoFaltante < 1780000){
-    // //     return false;
-    // //   }
-    // //   return true;
-    // }
-    
   },
   actions: {
     [DO_LOGIN]({ commit }, payload) {
@@ -39,7 +29,6 @@ export default {
     },
     [DO_VALIDAR_SECAO]({state}){
       let dataAtualAcrescidoHora = new Date()
-      console.log(state.expires)
       dataAtualAcrescidoHora.setHours(dataAtualAcrescidoHora.getHours() + 3 )
       let tempoFaltante = new Date(state.expires) - dataAtualAcrescidoHora
       if (tempoFaltante < 1780000){

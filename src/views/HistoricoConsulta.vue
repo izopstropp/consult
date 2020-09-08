@@ -136,7 +136,6 @@ export default {
   },
   beforeMount(){
     consultProcessosApi.buscarAcoesPorUsuario().then(response => {
-      console.log(response)
       if(response.status == 200){
         this.dadosHistorico = response.data.Result.Content
         // this.dadosHistorico.response.data.Content

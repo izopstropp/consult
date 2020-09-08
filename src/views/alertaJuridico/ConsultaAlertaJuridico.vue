@@ -4,10 +4,7 @@
     <div class="aj-bl1">
       <div>
         <p>Filtrar pelo termo:</p>
-        <a-input class="aj-filtro"></a-input>
-      </div>
-      <div>
-        <a-button class="ant-btn">Obter dados selecionados</a-button>
+        <a-input v-model="termoFiltro" class="aj-filtro"></a-input>
       </div>
     </div>
     <div class="aj-bl2">
@@ -15,47 +12,49 @@
         Você possui
         <span class="color-red">{{qtdDadosNaoObtidos}}</span> novo(s) alerta(s)!
       </p>
-      <p>
-        <a-checkbox v-model="selecinarTodos">Selecionar todos</a-checkbox>
-      </p>
+      <!-- <p>
+        
+      </p> -->
     </div>
     <table>
       <thead>
         <th>Termo Monitorado</th>
         <th>Data do Alerta</th>
         <th style="width: 290px">Descrição do Alerta</th>
-        <th>Obter Dados</th>
+        <th style="width: 30px"></th>
+        <th>Obter Dados <a-checkbox v-model="selecionarTodos" class='check-obter-todos' @click="selecionarTodosAlertas"></a-checkbox></th>
       </thead>
       <tbody>
         <tr v-for="(item, index) in gerarRegistroPorPagina" :key="index">
-          <td>{{item.termoMonitorado}}</td>
-          <td>{{item.dataAlerta}}</td>
+          <td>{{item.TermoMonitorado}}</td>
+          <td>{{formatacaoData(item.DataAlerta)}}</td>
           <td
-            v-if="item.resumoVisualizado"
-            :class="[!item.resumoVisualizado ? 'color-red':'text-align-left padding-left-20']"
+            v-if="item.ResumoVisualizado || item.DadosObtidos"
+            class="text-align-left padding-left-20"
           >
-            {{item.descricaoFake.qtdProcesso}}
+            Foram encontrados <strong>{{item.Volumetria.QtdProcesso}}</strong> novo(s) processo(s).
             <br />
-            {{item.descricaoFake.justica}}
+            <strong>Justiça:</strong> {{item.Volumetria.Justica.reduce((acc,cur) =>acc + cur.Qtd +" "+fomatarCampoExibicao(cur.Nome) +", ","").slice(0, -2)}}
             <br />
-            {{item.descricaoFake.partes}}
+            <strong>Partes:</strong> {{item.Volumetria.Partes.reduce((acc,cur) =>acc + cur.Qtd +" "+ fomatarCampoExibicao(cur.Nome) +", ","").slice(0, -2)}}
             <br />
-            {{item.descricaoFake.UF}}
+            <strong>UF:</strong> {{item.Volumetria.UF.reduce((acc,cur) =>acc + cur.Qtd +" "+cur.Nome +", ","").slice(0, -2)}}
           </td>
-          <td v-else :class="[!item.resumoVisualizado ? 'link-alert-open':'text-align-left padding-left-20']">
+          <td v-else :class="[!item.ResumoVisualizado ? 'link-alert-open':'text-align-left padding-left-20']">
             <p
-              @click="[item.descricaoAlerta=item.descricaoFake, item.resumoVisualizado = true]"
-            >{{item.descricaoAlerta}}</p>
+              @click="[item.ResumoVisualizado = true, confirmarVisualizacaoResumo(item.AlertaId)]"
+            >Acesse Aqui</p>
           </td>
+          <td></td>
           <td style="width:90px">
             <!-- <a-checkbox v-model="item.dadosObtidos" v-if="!item.resumoVisualizado"></a-checkbox> -->
-            <a-checkbox v-model="item.dadosObtidos"></a-checkbox>
+            <a-checkbox v-model="item.ObterDados"></a-checkbox>
           </td>
         </tr>
       </tbody>
     </table>
     <p style="display: flex; justify-content: flex-end; margin-top: 10px">
-      <a-checkbox v-model="selecinarTodos">Selecionar todos</a-checkbox>
+      <a-checkbox v-model="selecionarTodos" @click="selecionarTodosAlertas">Selecionar todos</a-checkbox>
     </p>
     <div class="rel-bl1">
       <div>
@@ -96,229 +95,43 @@
           </div>
         </div>
         <div>
-          <a-button class="ant-btn">Obter dados selecionados</a-button>
+          <a-button @click="solicitarDadosAlerta" :disabled="dadosSelecionados.length > 0 ? false : true">Obter dados selecionados</a-button>
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import alertaJuridicoApi from "../../api/consultAlertaJuridico.js"
 export default {
   name: "alertaMonitoramento",
+  
   data() {
     return {
-      selecinarTodos: false,
+      selecionarTodos: false,
       paginacao: {
         limiteItensPagina: 7,
         paginaAtual: 1,
       },
-      listaAlerta: [
-        {
-          termoMonitorado: "Ricardo Eletro",
-          dataAlerta: "03/08/2020",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 3 novos processos.",
-            justica: "Justiça: 2 Estadual; 1 Federal",
-            partes: "Partes: 1 Réu; 2 Autor",
-            UF: "UF: 2 SP; 1 RJ",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: false,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Americanas",
-          dataAlerta: "29/07/2020",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 1 novo processo.",
-            justica: "Justiça: 1 Trabalhista",
-            partes: "Partes: 1 Réu",
-            UF: "UF: 1 SP",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: false,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Ricardo Eletro",
-          dataAlerta: "27/07/2020",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 9 novos processos.",
-            justica: "Justiça: 2 Estadual; 3 Federal; 4 Trabalhista",
-            partes: "Partes: 9 Réu;",
-            UF: "UF: 4 SP; 5 BA",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "americanas",
-          dataAlerta: "12/01/2010",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 3 novos processos.",
-            justica: "Justiça: 2 Estadual; 1 Federal",
-            partes: "Partes: 1 Réu; 2 Autor",
-            UF: "UF: 2 SP;1 RJ",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Ricardo Eletro",
-          dataAlerta: "24/07/2010",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 2 novos processos.",
-            justica: "Justiça: 1 Estadual; 1 Trabalhista",
-            partes: "Partes: 1 Réu; 1 Autor",
-            UF: "UF: 2 RJ",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Americanas",
-          dataAlerta: "23/07/2010",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foi encontrado 1 novo processo.",
-            justica: "Justiça: 1 Trabalhista",
-            partes: "Partes: 1 Réu",
-            UF: "UF: 1 SC",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Americanas",
-          dataAlerta: "21/07/2010",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 5 novos processos.",
-            justica: "Justiça: 3 Federal; 2 Trabalhista",
-            partes: "Partes: 5 Réu",
-            UF: "UF: 4 PE; 1 SC",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Ricardo Eletro",
-          dataAlerta: "20/07/2010",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 3 novos processos.",
-            justica: "Justiça: 1 Estadual; 2 Federal",
-            partes: "Partes: 2 Réu; 1 Autor",
-            UF: "UF: 3 SP",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Ricardo Eletro",
-          dataAlerta: "16/07/2020",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 3 novos processos.",
-            justica: "Justiça: 1 Estadual; 2 Trabalhista",
-            partes: "Partes: 3 Réu",
-            UF: "UF: 1 SP; 2 BA",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Americanas",
-          dataAlerta: "15/07/2020",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 10 novos processos.",
-            justica: "Justiça: 7 Estadual; 1 Federal; 2 Trabalhista",
-            partes: "Partes: 8 Réu; 2 Autor",
-            UF: "UF: 9 SP; 1 PE",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Ricardo Eletro",
-          dataAlerta: "13/07/2010",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 5 novos processos.",
-            justica: "Justiça:  5 Estadual",
-            partes: "Partes: 1 Réu",
-            UF: "UF: 5 BA",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Americanas",
-          dataAlerta: "09/07/2010",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foram encontrados 3 novos processos.",
-            justica: "Justiça: 1 Estadual, 2 Federal",
-            partes: "Partes: 2 Réu; 1 Autor",
-            UF: "UF: 3 SP",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "Americanas",
-          dataAlerta: "08/07/2010",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foi encontrado 1 novo processo.",
-            justica: "Justiça: 1 Trabalhista",
-            partes: "Partes: 1 Réu",
-            UF: "UF: 1 BA",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-        {
-          termoMonitorado: "americanas",
-          dataAlerta: "12/01/2010",
-          descricaoAlerta: "Acesse Aqui",
-          descricaoFake: {
-            qtdProcesso: "Foi encontrado 1 novo processo.",
-            justica: "Justiça: 1 Estadual",
-            partes: "Partes: 1 Réu",
-            UF: "UF: 1 BA",
-          },
-          // "Foram encontrados 1 novo processo. Justiça: 1 Trabalhista. Partes: 1 Réu. UF: 1 SP",
-          resumoVisualizado: true,
-          dadosObtidos: false,
-        },
-      ],
+      listaAlerta:[],
+      termoFiltro:""
+     
     };
   },
+
   computed: {
+    processosDetalhadosFiltrados(){
+       return this.listaAlerta.filter(x => x.TermoMonitorado.toString().toLowerCase().includes(this.termoFiltro.toLowerCase()))
+    },
+    dadosSelecionados(){
+      return this.listaAlerta.filter(x=> x.ObterDados === true)
+    },
     qtdDadosNaoObtidos() {
-      return this.listaAlerta.filter((x) => x.resumoVisualizado === false).length;
+      return this.listaAlerta.filter((x) => x.ResumoVisualizado === false && x.DadosObtidos === false).length;
     },
     totalPage() {
       let totalPage = Math.ceil(
-        this.listaAlerta.length / this.paginacao.limiteItensPagina
+        this.processosDetalhadosFiltrados.length / this.paginacao.limiteItensPagina
       );
       return totalPage;
     },
@@ -332,29 +145,68 @@ export default {
         qtdRegistrosAnteriores + this.paginacao.limiteItensPagina;
       if (this.paginacao.paginaAtual <= totalPage) {
         for (let i = qtdRegistrosAnteriores; i < qtdRegistroExibicao; i++) {
-          if (this.listaAlerta[i] != null) {
-            registrosPorPagina.push(this.listaAlerta[i]);
+          if (this.processosDetalhadosFiltrados[i] != null) {
+            registrosPorPagina.push(this.processosDetalhadosFiltrados[i]);
           }
         }
       }
       return registrosPorPagina;
     },
   },
-  watch: {
-    selecinarTodos: {
-      handler() {
-        this.listaAlerta.map((y) => (y.dadosObtidos = this.selecinarTodos));
-      },
-    },
+  // watch: {
+  //   selecionarTodos: {
+  //     handler() {
+  //       this.listaAlerta.map((y) => (y.ObterDados = this.selecionarTodos));
+  //     },
+  //   },
+  // },
+  beforeMount() {
+    this.carregarAlertasJuridico();
   },
-
+  
   methods: {
+    formatacaoData(data){
+      var d = new Date(data);
+      return d.toLocaleDateString();
+    },
+    selecionarTodosAlertas(){
+      this.selecionarTodos = !this.selecionarTodos
+      this.listaAlerta.map((y) => (y.ObterDados = this.selecionarTodos));
+    },
+    solicitarDadosAlerta(){
+       alertaJuridicoApi.solicitarDadosAlerta(this.dadosSelecionados.map(x=> x.AlertaId)).then(response => {
+        if(response.status == 200){
+          let alertasId= this.dadosSelecionados.map(x=> x.AlertaId)
+          
+           alertasId.map(x => this.listaAlerta.filter(y => y.AlertaId == x ).map(h=> h.DadosObtidos = true))
+      
+          
+        }
+      })
+    },
+    confirmarVisualizacaoResumo(alertaId){
+      alertaJuridicoApi.confirmarVisualizacaoResumo(alertaId).then(response => {
+        if(response.status == 200){
+          // console.log()
+        }
+      })
+    },
+    carregarAlertasJuridico(){
+      alertaJuridicoApi.buscarAlertasPorUsuario().then(response =>{
+        if(response.status == 200){
+          this.listaAlerta = response.data.Content
+        }
+      })
+    },
     navegacaoPagina(tipo) {
       if (tipo == "p") {
         this.paginacao.paginaAtual++;
       } else {
         this.paginacao.paginaAtual--;
       }
+    },
+    fomatarCampoExibicao(string){
+       return string.charAt(0).toUpperCase() + string.slice(1);
     },
     test() {
       let listaAlerta2 = [
@@ -410,9 +262,9 @@ p {
 }
 .aj-bl1 {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-end;
-  margin-bottom: 40px;
+  margin-bottom: 20px;
   flex-wrap: wrap;
 }
 .aj-filtro {
@@ -433,13 +285,19 @@ p {
   color: #c1c8d1;
   border: none;
 }
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
 
 .ant-btn:active {
   background-color: #001a3f81;
 }
 .aj-bl2 {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin-bottom: 4px;
 }
 .color-red {
@@ -448,7 +306,7 @@ p {
   font-weight: bold;
 }
 .link-alert-open{
-  color: rgba(31, 29, 29, 0.863);
+  color: rgba(70, 68, 68, 0.863);
   text-decoration: underline;
   font-weight: bold;
   cursor: pointer;
@@ -459,6 +317,7 @@ p {
 .padding-left-20 {
   padding-left: 20px;
 }
+/* TABLE */
 table {
   width: 100%;
   border-collapse: collapse;
@@ -478,6 +337,21 @@ th {
 td {
   height: 60px;
 }
+table th:nth-last-child(2),td:nth-last-child(2){
+  border-top:hidden;
+  background-color: white;
+}
+table th:nth-last-child(1){
+  width: 140px;
+
+}
+tr:last-child td:nth-last-child(2){
+  border-bottom:hidden;
+}
+.check-obter-todos{
+  margin-left:6px;
+}
+/* FIM-TABLE */
 .rel-bl1 {
   display: flex;
   justify-content: space-between;

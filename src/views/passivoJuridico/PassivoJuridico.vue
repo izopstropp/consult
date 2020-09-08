@@ -26,8 +26,8 @@
     <table :class="[resultRequestEvjd.evjd ? 'exibirTable' : '']">
       <thead>
         <th>Passivo Jurídico</th>
-        <th>Lower Bound</th>
-        <th>Upper Bound</th>
+        <th>Passivo Mínimo"</th>
+        <th>Passivo Máximo</th>
         <th>Qtde Processos
             <img
               @click="[exibirtooltipTable = !exibirtooltipTable, exibirCorpoTooltip = false]"
@@ -123,7 +123,6 @@ export default {
             this.realizandoRequisicao = false;
             if(response.data.Success == true){
               let result = response.data.Content;
-              console.log(result)
               this.resultRequestEvjd.evjd = result.evjd.toLocaleString(
                 "pt-BR", { style: "currency", currency: "BRL" }
               );
