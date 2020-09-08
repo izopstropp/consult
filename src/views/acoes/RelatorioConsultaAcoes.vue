@@ -9,7 +9,7 @@
         <div class="rel-bl1-filtro-input">
           <div class="rel-col-input">
             <label for="nomeParte">Réu/Autor</label>
-            <a-input class="wtam294" name="nomeParte" v-model="nomeParte"/>
+            <a-input class="wtam294" name="nomeParte" v-model="nomeParte" />
           </div>
           <div class="rel-col-input">
             <label for="nomeParte">Tipo Ação</label>
@@ -19,10 +19,7 @@
         </div>
         <div class="rel-bl1-page">
           <div class="rel-bl1-page-selec">
-            <a-input
-              class="rel-bl1-page-selec-input"
-              :value="this.$route.params.pag"
-            />
+            <a-input class="rel-bl1-page-selec-input" :value="this.$route.params.pag" />
             <p>/{{ totalPage }}</p>
           </div>
           <div class="rel-bl1-page-direc">
@@ -93,10 +90,7 @@
 
         <div class="rel-bl1-page-direc-bottom">
           <div class="rel-bl1-page-direc-bottom-selec">
-            <a-input
-              class="rel-bl1-page-selec-input"
-              :value="this.$route.params.pag"
-            />
+            <a-input class="rel-bl1-page-selec-input" :value="this.$route.params.pag" />
             <p>/{{ totalPage }}</p>
           </div>
           <div class="rel-bl1-page-direc-bottom-itens">
@@ -127,36 +121,46 @@
   </div>
 </template>
 <script>
-import { SET_PROCESSO_DETALHADOS } from "../../store/actions"
+import { SET_PROCESSO_DETALHADOS } from "../../store/actions";
 export default {
   name: "RelatorioConsultaAcoes",
   props: ["consultaId", "pag"],
   data() {
     return {
-      registrosVolumetria:  this.$store.getters.getProcessosDetalhados,
+      registrosVolumetria: this.$store.getters.getProcessosDetalhados,
       paginacao: {
         limiteItensPagina: 9,
       },
-      nomeParte:"",
-      tipoAcao:""
+      nomeParte: "",
+      tipoAcao: "",
     };
   },
 
   computed: {
-    processosDetalhadosFiltrados(){
-       return this.registrosVolumetria.filter(p => p.Partes.map(x=> x.Nome).toString().toLowerCase().includes(this.nomeParte.toLowerCase()) && p.TipoAcao.toString().toLowerCase().includes(this.tipoAcao.toLowerCase()))
+    processosDetalhadosFiltrados() {
+      return this.registrosVolumetria.filter(
+        (p) =>
+          p.Partes.map((x) => x.Nome)
+            .toString()
+            .toLowerCase()
+            .includes(this.nomeParte.toLowerCase()) &&
+          p.TipoAcao.toString()
+            .toLowerCase()
+            .includes(this.tipoAcao.toLowerCase())
+      );
     },
-    numeracaoConsultaFormatada(){
-      return ("0000000" + this.consultaId ).slice(-7)
+    numeracaoConsultaFormatada() {
+      return ("0000000" + this.consultaId).slice(-7);
     },
     totalPage() {
       let totalPage = Math.ceil(
-        this.processosDetalhadosFiltrados.length / this.paginacao.limiteItensPagina
+        this.processosDetalhadosFiltrados.length /
+          this.paginacao.limiteItensPagina
       );
       return totalPage;
     },
     gerarRegistroPorPagina() {
-      let registrosPorPagina = [];      
+      let registrosPorPagina = [];
       let totalPage = this.totalPage;
       let qtdRegistrosAnteriores =
         this.$route.params.pag * this.paginacao.limiteItensPagina -
@@ -174,23 +178,23 @@ export default {
     },
   },
   watch: {
-    nomeParte:{
+    nomeParte: {
       handler() {
-       this.$router.push({
-        path: `/volumetria/${this.consultaId}/1`,
-      })
-      }
+        this.$router.push({
+          path: `/volumetria/${this.consultaId}/1`,
+        });
+      },
     },
-    tipoAcao:{
+    tipoAcao: {
       handler() {
-       this.$router.push({
-        path: `/volumetria/${this.consultaId}/1`,
-      })
-      }
-    }
+        this.$router.push({
+          path: `/volumetria/${this.consultaId}/1`,
+        });
+      },
+    },
   },
-   destroyed() {
-    this.$store.dispatch(SET_PROCESSO_DETALHADOS, [] );
+  destroyed() {
+    this.$store.dispatch(SET_PROCESSO_DETALHADOS, []);
   },
   methods: {
     navegacaoPagina(tipo) {
@@ -202,15 +206,18 @@ export default {
         path: `/volumetria/${this.consultaId}/${direcao}`,
       });
     },
-    formatacaoData(data){
+    formatacaoData(data) {
       var d = new Date(data);
       return d.toLocaleDateString();
     },
-    formatacaoParte(parte,tipo){
-      var resultParte = parte.filter(x=> x.TipoParte == tipo).map(p=> p.Nome).reduce((acc,el)=> acc+= " | "+el,"")
+    formatacaoParte(parte, tipo) {
+      var resultParte = parte
+        .filter((x) => x.TipoParte == tipo)
+        .map((p) => p.Nome)
+        .reduce((acc, el) => (acc += " | " + el), "");
       return resultParte.substring(2, resultParte.length);
-        // return parte.filter(x=> x.TipoParte == tipo).map(x=> x.Nome).reduce((acc,el)=> acc+= " | "+el)
-    }
+      // return parte.filter(x=> x.TipoParte == tipo).map(x=> x.Nome).reduce((acc,el)=> acc+= " | "+el)
+    },
   },
 };
 </script>
@@ -222,7 +229,7 @@ p {
   width: 294px;
 }
 .rel-bl {
-  max-width: 1120px;
+  max-width: 100%;
   margin: 65px auto;
   animation: fadeOut 0.3s;
 }
@@ -254,7 +261,7 @@ p {
 }
 .rel-bl1 {
   margin: 0 auto;
-  max-width: 1362px;
+  max-width: calc(100% - 100px);
   margin-bottom: 29px;
 }
 .rel-bl1-titulo {
@@ -264,7 +271,7 @@ p {
 }
 .rel-bl1-filtro {
   display: flex;
-  max-width: 1480px;
+  max-width: 100%;
   flex-wrap: wrap;
   justify-content: space-between;
 }
@@ -372,7 +379,7 @@ p {
 }
 .rel-bl2 {
   margin: 0 auto;
-  max-width: 1362px;
+  max-width: calc(100% - 100px);
 }
 .rel-bl2-titulo {
   font-size: 1.2em;
@@ -389,8 +396,8 @@ th {
   font-size: 0.9em;
   text-align: center;
   border: 1px solid #a8b2c0;
-  
-  padding: 10px
+
+  padding: 10px;
 }
 td {
   border: 1px solid #a8b2c0;

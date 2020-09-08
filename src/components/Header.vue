@@ -21,7 +21,6 @@
             <router-link class="linkFastStyle" tag="p" :to="{name: 'consulta-preditivo'}">Preditivo</router-link>
           </div>
           <div class="menu-esquerdo" @click="iterarMenuUsuario">
-<<<<<<< HEAD
             <img
               style="width:35px"
               :src="require(`../assets/icons/${pageMenuModulo ? 'perfil':'perfil-branco'}.png`)"
@@ -30,15 +29,14 @@
             <div
               :class="[pageMenuModulo ? 'font-color-blue':'font-color-white','menu-esquerdo-usuario']"
             >
-              <p>felipe.silva</p>
-=======
-            <img style="width:35px" :src="require(`../assets/icons/${pageMenuModulo ? 'perfil':'perfil-branco'}.png`)" alt="perfil usuário" />
-            <div :class="[pageMenuModulo ? 'font-color-blue':'font-color-white','menu-esquerdo-usuario']">
               <p>{{$store.getters.nomeUsuario}}</p>
->>>>>>> 85ae523320d02310de5073544f39a7a145d7c3a0
             </div>
             <div>
-              <img class="menu-esquerdo-seta" :src="require(`../assets/${pageMenuModulo ? 'setaMenuLateralAzul':'setaMenuLateral'}.png`)" alt="seta" />
+              <img
+                class="menu-esquerdo-seta"
+                :src="require(`../assets/${pageMenuModulo ? 'setaMenuLateralAzul':'setaMenuLateral'}.png`)"
+                alt="seta"
+              />
             </div>
             <div class="menu-itens-esquerdo-usuario" :class="nomeClassAbrirMenuUsuario">
               <ul>

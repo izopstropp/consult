@@ -2,7 +2,7 @@ import Vue from "vue";
 import VueRouter from "vue-router";
 import Home from "../views/Home.vue";
 import Login from "../views/Login.vue";
-import store from '@/store/index.js'
+import store from "@/store/index.js";
 import SelecaoTipoConsulta from "../views/SelecaoModulo.vue";
 import ConsultaAcoes from "../views/acoes/ConsultaAcoes";
 import RelatorioConsultaAcoes from "../views/acoes/RelatorioConsultaAcoes.vue";
@@ -13,7 +13,6 @@ import PassivoJuridico from "../views/passivoJuridico/PassivoJuridico";
 import AlertaJuridico from "../views/alertaJuridico/ConsultaAlertaJuridico";
 import monitoramentoCadastrado from "../views/alertaJuridico/MonitoramentoCadastrado";
 // import auth from "../store/Modules/auth.js"
-
 
 Vue.use(VueRouter);
 
@@ -36,25 +35,24 @@ const routes = [
         name: "selecaoTipoConsulta",
         component: SelecaoTipoConsulta,
         meta: {
-          requiresAuth: true
-        }
-       
+          requiresAuth: true,
+        },
       },
       {
         path: "/consulta-acoes",
         name: "consulta-acoes",
         component: ConsultaAcoes,
         meta: {
-          requiresAuth: true
-        }
+          requiresAuth: true,
+        },
       },
       {
         path: "/volumetria",
         name: "ResultadoConsultaAcoes",
         component: Volumetria,
         meta: {
-          requiresAuth: true
-        }
+          requiresAuth: true,
+        },
       },
       {
         path: "/volumetria/:consultaId/:pag",
@@ -62,48 +60,48 @@ const routes = [
         component: RelatorioConsultaAcoes,
         props: true,
         meta: {
-          requiresAuth: true
-        }
+          requiresAuth: true,
+        },
       },
       {
         path: "/historico",
         name: "historico",
         component: HistoricoConsulta,
         meta: {
-          requiresAuth: true
-        }
+          requiresAuth: true,
+        },
       },
       {
         path: "/consulta-preditivo",
         name: "consulta-preditivo",
         component: ConsultaPreditivo,
         meta: {
-          requiresAuth: true
-        }
+          requiresAuth: true,
+        },
       },
       {
         path: "/passivo-juridico",
         name: "passivo-juridico",
         component: PassivoJuridico,
         meta: {
-          requiresAuth: true
-        }
+          requiresAuth: true,
+        },
       },
       {
         path: "/alerta-juridico",
         name: "alerta-juridico",
         component: AlertaJuridico,
         meta: {
-          requiresAuth: true
-        }
+          requiresAuth: true,
+        },
       },
       {
         path: "/alerta-juridico/monitorados",
         name: "monitoramento-cadastrado",
         component: monitoramentoCadastrado,
         meta: {
-          requiresAuth: true
-        }
+          requiresAuth: true,
+        },
       },
     ],
   },
@@ -123,7 +121,6 @@ const routes = [
   },
 ];
 
-
 const router = new VueRouter({
   mode: "history",
   base: process.env.BASE_URL,
@@ -131,16 +128,15 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-  
-  if (to.matched.some(record => record.meta.requiresAuth)) {
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
     if (store.getters.autenticado) {
-      next()
+      next();
     } else {
-      next({ path: '/' })
+      next({ path: "/" });
     }
   } else {
-    next()
+    next();
   }
-})
+});
 
 export default router;
