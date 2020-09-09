@@ -23,7 +23,7 @@
                 <span v-if="qtdNovosAlertasJuridicos > 0" class="qtdAlertaJuridico">{{qtdNovosAlertasJuridicos}}</span>
               </div>
               <div>
-                <p>Alerta Jurídico</p>
+                <p>Alerta Jurídico</p> 
               </div>
             </div>
           </router-link>
