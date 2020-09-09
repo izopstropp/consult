@@ -20,7 +20,7 @@
               <div>
                 <img v-if="!alertaJuridicoAtivado" src="../assets/icons/alerta-juridico.png" alt />
                 <img v-else src="../assets/icons/alerta-juridico-branco.png" alt />
-                <span class="qtdAlertaJuridico">2</span>
+                <span v-if="qtdNovosAlertasJuridicos > 0" class="qtdAlertaJuridico">{{qtdNovosAlertasJuridicos}}</span>
               </div>
               <div>
                 <p>Alerta Jurídico</p>
@@ -83,6 +83,7 @@
   </div>
 </template>
 <script>
+import alertaJuridicoApi from "../api/consultAlertaJuridico.js"
 export default {
   data() {
     return {
@@ -92,12 +93,22 @@ export default {
       passivoJuridicoAtivado: false,
       acoesAtivado: false,
       preditivoAtivado: false,
+      qtdNovosAlertasJuridicos: 0
     };
   },
   mounted() {
     this.paginaCarregada = true;
+    this.carregarQtdNovosAlertasJuridicos()
   },
-  methods: {},
+  methods: {
+    carregarQtdNovosAlertasJuridicos(){
+       alertaJuridicoApi.solicitarQtdNovosAlertas().then(response => {
+        if(response.status == 200){
+          this.qtdNovosAlertasJuridicos =  response.data.Content
+        }
+      })
+    }
+  },
 };
 </script>
 <style scoped>

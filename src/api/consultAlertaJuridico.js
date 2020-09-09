@@ -36,5 +36,13 @@ export default {
             responseType:"json",
             data:dados
         })
+    },
+    solicitarQtdNovosAlertas(dados){
+        return instanceAxios({
+            method:"get",
+            baseURL,
+            url:"/AlertaUsuario/QtdNovosAlertas",
+            responseType:"json",
+        })
     }
 }
