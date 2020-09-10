@@ -171,9 +171,6 @@
       <div>
         <a-button @click="consultar" class="consulta-form-btn">Consultar</a-button>
       </div>
-      <div>
-        <p>Essa primeira Consulta tem um valor de R$15,00</p>
-      </div>
     </div>
     <notifications
       classes="style-notification-large"
@@ -443,7 +440,7 @@ export default {
 <style scoped>
 p {
   margin: 0;
-  font-size: 0.8em;
+  font-size: 1em;
 }
 .container-Consulta {
 }
@@ -540,7 +537,7 @@ p {
 }
 .consulta-form-checkbox {
   margin-bottom: 8px;
-  font-size: 0.8em;
+  font-size: 1em;
 }
 .tam-input-340 {
   width: 340px;

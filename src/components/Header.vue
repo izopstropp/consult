@@ -3,7 +3,7 @@
     <div :class="[this.$route.path == '/modulo' ? '':'bg-blue','menu']">
       <div class="menu-itens">
         <div class="menu-logokurier">
-          <img style="width:150px;" src="../assets/logo-soluções-negativo.png" alt="logo kurier" />
+          <img src="../assets/logo-soluções-negativo.png" alt="logo kurier" />
         </div>
         <div class="menu-direito-rapido">
           <div :class="[!pageMenuModulo ? 'animacao-menu':'']">
@@ -145,9 +145,6 @@ p {
   text-decoration: underline;
 }
 
-img {
-  width: 20px;
-}
 .menu {
   max-width: 100vw;
   height: 56px;
@@ -229,9 +226,7 @@ img {
   }
 }
 .menu-logokurier img {
-  width: 120px;
-  height: 38px;
-  margin-top: 9px;
+  width: 150px;
 }
 .menu-esquerdo-usuario > p {
   margin: 0;
