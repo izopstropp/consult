@@ -103,6 +103,7 @@
 </template>
 <script>
 import alertaJuridicoApi from "../../api/consultAlertaJuridico.js"
+
 export default {
   name: "alertaMonitoramento",
   

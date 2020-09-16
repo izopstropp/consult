@@ -52,22 +52,38 @@
           </div>
         </div>
       <div class="his-bl-table">
-        <table>
+        <table v-if="gerarRegistroPorPagina.length">
           <thead>
+            <th></th>
             <th>Nº Identificação</th>
             <th>Data</th>
             <th>Tipo de consulta</th>
             <th>Valor</th>
+            
           </thead>
           <tbody>
-            <template v-for="(item, index) in this.gerarRegistroPorPagina">
-              <tr :key="index">
+              <tr :key="index" v-for="(item, index) in gerarRegistroPorPagina">
+                <td class="btn-detalhe" @click="exibirDetalheConsulta(item)"><p :class="[item.exibirDetalhe ? 'item-exib-detalhe-ativo':'','item-exib-detalhe']">+</p>
+                  <div style="border:none" :class="[item.exibirDetalhe ? 'model-detalhe-aberto':'','modal-detalhe']">
+                    <p class="modal-detalhe-titulo" v-if="item.exibirDetalhe">Detalhes da Consulta</p>
+                    <div class="modal-detalhe-container" v-if="item.exibirDetalhe">
+                        <p><strong>Termo pesquisado:</strong> {{item.DetalheConsulta.Nome}}</p>
+                        <p v-if="item.DetalheConsulta.Sigla"><strong>Sigla</strong>: {{item.DetalheConsulta.Sigla}}</p>
+                        <p v-if="item.DetalheConsulta.Documento"><strong>Numero Documento:</strong> {{documentoFormatado(item.DetalheConsulta.Documento)}}</p>
+                        <p v-if="item.DetalheConsulta.TipoPessoa"><strong>Tipo Pessoa:</strong> {{item.DetalheConsulta.TipoPessoa.replace(/;/g, ",")}}</p>
+                        <p v-if="item.DetalheConsulta.TipoParte"><strong>Tipo Parte:</strong> {{item.DetalheConsulta.TipoParte.replace(/;/g, ",")}}</p>
+                        <p v-if="item.DetalheConsulta.Justica"><strong>Justiça:</strong> {{item.DetalheConsulta.Justica.replace(/;/g, ",")}}</p>
+                        <p v-if="item.DetalheConsulta.UF"><strong>UF:</strong> {{item.DetalheConsulta.UF.replace(/;/g, ",")}}</p>
+                        <p v-if="item.DetalheConsulta.DataDistribuicaoInicio"><strong>Data Distribuicao:</strong> {{formatacaoData(item.DetalheConsulta.DataDistribuicaoInicio)}} - {{formatacaoData(item.DetalheConsulta.DataDistribuicaoFim)}}</p>
+                    </div>
+                  </div>
+                </td>
                 <td>{{ formatarId(item.ID) }}</td>
                 <td>{{ item.DataCriacao }}</td>
                 <td>{{ item.TipoConsulta }}</td>
                 <td>{{ item.ValorConsulta.toLocaleString("pt-BR", { style: "currency", currency: "BRL" }) }}</td>
               </tr>
-            </template>
+            <!-- </template> -->
           </tbody>
         </table>
       </div>
@@ -76,6 +92,7 @@
 </template>
 <script>
 import consultProcessosApi from "../api/consultProcessosApi.js";
+import Vue from "vue";
 
 export default {
   name: "HistoricoConsulta",
@@ -134,16 +151,35 @@ export default {
       return registrosPorPagina;
     },
   },
+
   beforeMount(){
     consultProcessosApi.buscarAcoesPorUsuario().then(response => {
       if(response.status == 200){
         this.dadosHistorico = response.data.Result.Content
+        
+        this.dadosHistorico.map(x=>Vue.set(x,'exibirDetalhe',false))
         // this.dadosHistorico.response.data.Content
       }
 
     })
   },
   methods: {
+    documentoFormatado(numeroDocumento){
+      if(numeroDocumento){
+        if(numeroDocumento.length == 14){
+        return numeroDocumento.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})/, "$1.$2.$3/$4-$5")
+        }else{
+          return numeroDocumento.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, "$1.$2.$3-$4");
+        }
+      }
+    },
+    formatacaoData(data){
+      var d = new Date(data);
+      return d.toLocaleDateString();
+    },
+    fomatarCampoExibicao(string){
+       return string.charAt(0).toUpperCase() + string.slice(1);
+    },
     formatarId(id){
       return ("0000000" + id.toString().slice(-7))
     },
@@ -151,6 +187,13 @@ export default {
         tipo == "p"
           ? this.paginaAtual++
           : this.paginaAtual--;
+    },
+    exibirDetalheConsulta(item){
+      // alert(item.ID)
+      let statusDetalhe = item.exibirDetalhe;
+      this.dadosHistorico.map(x => x.exibirDetalhe = false)
+      item.exibirDetalhe = !statusDetalhe;
+      console.log(item)
     }
   },
 };
@@ -194,6 +237,7 @@ p{
 table {
   width: 100%;
   margin: 0 auto;
+  position: relative;
 }
 thead {
   font-size: 1.3em;
@@ -213,6 +257,56 @@ th {
   height: 32px;
   background-color: #1d375c;
   color: white;
+}
+
+tr{
+  position: relative;
+}
+.item-exib-detalhe{
+  font-size: 1.2em;
+  color: #1d375c;
+  transition: all 0.3s ease;
+}
+.item-exib-detalhe-ativo{
+  transform: rotate(45deg) scale(1.5);
+}
+.modal-detalhe-container{
+  display:flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  text-align: left;
+  margin: 0 auto;
+  max-width: 700px;
+  margin-bottom: 10px;
+}
+.modal-detalhe-container div p{
+}
+.modal-detalhe{
+  width: 100%;
+  height: 0px;
+  left: 0;
+  position: absolute;
+  background: white;
+  z-index: 20;
+  margin-top: 9px;
+  transition: all 0.2s ease-in;
+  opacity: 0;
+}
+.modal-detalhe-titulo{
+  color:rgba(0, 0, 0, 0.65);
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.model-detalhe-aberto{
+  height: 100px;
+  opacity: 1;
+}
+.modal-detalhe-campo{
+
+}
+.btn-detalhe{
+  cursor: pointer;
 }
 
 /*_____paginação_____ */
